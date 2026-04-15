@@ -81,46 +81,50 @@ window.addEventListener('scroll', () => {
 const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
 
-hamburger.addEventListener('click', () => {
-  mobileMenu.classList.toggle('open');
-});
-document.querySelectorAll('.mobile-link').forEach(l => {
-  l.addEventListener('click', () => mobileMenu.classList.remove('open'));
-});
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.mobile-link').forEach(l => {
+    l.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+}
 
 // ========================
 // TYPEWRITER
 // ========================
-const phrases = [
-  'Building AI Systems That Don\'t Fail in Production.',
-  'MLOps · Multi-Agent · Real-time Intelligence.',
-  'Designing Scalable AI Pipelines.',
-  'Full-Stack Developer. AI Engineer.'
-];
-let pIdx = 0, cIdx = 0, deleting = false;
 const tw = document.getElementById('typewriter');
+if (tw) {
+  const phrases = [
+    'Building AI Systems That Don\'t Fail in Production.',
+    'MLOps · Multi-Agent · Real-time Intelligence.',
+    'Designing Scalable AI Pipelines.',
+    'Full-Stack Developer. AI Engineer.'
+  ];
+  let pIdx = 0, cIdx = 0, deleting = false;
 
-function typewriter() {
-  const current = phrases[pIdx];
-  if (!deleting) {
-    tw.textContent = current.slice(0, cIdx + 1);
-    cIdx++;
-    if (cIdx === current.length) {
-      deleting = true;
-      setTimeout(typewriter, 1600);
-      return;
+  function typewriter() {
+    const current = phrases[pIdx];
+    if (!deleting) {
+      tw.textContent = current.slice(0, cIdx + 1);
+      cIdx++;
+      if (cIdx === current.length) {
+        deleting = true;
+        setTimeout(typewriter, 1600);
+        return;
+      }
+    } else {
+      tw.textContent = current.slice(0, cIdx - 1);
+      cIdx--;
+      if (cIdx === 0) {
+        deleting = false;
+        pIdx = (pIdx + 1) % phrases.length;
+      }
     }
-  } else {
-    tw.textContent = current.slice(0, cIdx - 1);
-    cIdx--;
-    if (cIdx === 0) {
-      deleting = false;
-      pIdx = (pIdx + 1) % phrases.length;
-    }
+    setTimeout(typewriter, deleting ? 40 : 65);
   }
-  setTimeout(typewriter, deleting ? 40 : 65);
+  setTimeout(typewriter, 800);
 }
-setTimeout(typewriter, 800);
 
 // ========================
 // COUNTER ANIMATION

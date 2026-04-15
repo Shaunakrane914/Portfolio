@@ -157,6 +157,28 @@
 .overview-text p strong { color: var(--text); }
 .overview-text p:last-child { margin-bottom: 0; }
 
+.overview-text ul {
+  list-style: none;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.overview-text li {
+  font-size: 0.92rem;
+  color: var(--dim);
+  display: flex;
+  gap: 12px;
+  line-height: 1.6;
+}
+.overview-text li::before {
+  content: "→";
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.overview-text li strong { color: var(--text); }
+
 .tech-stack-card {
   background: var(--bg2);
   border: 1px solid rgba(0,229,255,0.12);

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Waste Optimization — Sodexo x Shaunak Rane</title>
+  <meta name="description" content="Food Waste Management & Optimization System: A collaboration with Sodexo to reduce wastage in large-scale kitchens using data-driven analysis."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="project-page.css"/>
+</head>
+<body>
+  <canvas id="neural-canvas"></canvas>
+
+  <nav id="navbar" class="solid">
+    <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
+    <a href="index.html#work" class="nav-back">← All Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="proj-hero" style="--accent-clr:#10b981;">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-meta">
+        <span class="proj-label">04 // Data Analysis · Optimization</span>
+        <span class="proj-year">2025 – 2026</span>
+      </div>
+      <h1 class="proj-hero-title">Food Waste <span style="color:var(--accent-clr)">Optimization</span> System</h1>
+      <p class="proj-hero-sub">Collaborated with <strong>Sodexo</strong> to design and implement a data-driven management system aimed at reducing food wastage in large-scale corporate and institutional kitchens.</p>
+      <div class="proj-hero-metrics">
+        <div class="hm-card" style="--m-clr:#10b981"><span class="hm-val" style="color:#10b981">Data</span><span class="hm-lbl">Driven Heuristics</span></div>
+        <div class="hm-card" style="--m-clr:#10b981"><span class="hm-val" style="color:#10b981">Real-time</span><span class="hm-lbl">Consumption Tracking</span></div>
+        <div class="hm-card" style="--m-clr:#10b981"><span class="hm-val" style="color:#10b981">Pattern</span><span class="hm-lbl">Detection Engine</span></div>
+        <div class="hm-card" style="--m-clr:#10b981"><span class="hm-val" style="color:#10b981">Zero</span><span class="hm-lbl">Manual Estimation</span></div>
+      </div>
+      <div class="proj-hero-cta">
+        <a href="index.html#work" class="btn-main" style="background:#10b981">View Project Card</a>
+        <a href="index.html#contact" class="btn-ghost">Discuss Impact</a>
+      </div>
+    </div>
+    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(16,185,129,0.1), transparent 60%)"></div>
+  </header>
+
+  <main class="proj-main">
+
+    <!-- OVERVIEW -->
+    <section class="proj-section">
+      <div class="ps-label">Overview</div>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>Large-scale food service operations face a major challenge: <strong>demand uncertainty</strong>. Overproduction, poor inventory visibility, and a lack of data-driven decision-making lead to significant daily food wastage and increased operational costs.</p>
+          <p>In collaboration with <strong>Sodexo</strong>, this project focused on building a system that replaces manual estimation with data-driven optimization. By analyzing meal preparation quantities vs. actual consumption, the system identifies high-waste items and suggests portion adjustments, directly contributing to both sustainability and cost efficiency.</p>
+        </div>
+        <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
+          <h3>Key Objectives</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">📉</span><span>Reduce waste via prediction</span></div>
+            <div class="ts-item"><span class="ts-icon">🍱</span><span>Optimize meal planning</span></div>
+            <div class="ts-item"><span class="ts-icon">⏱️</span><span>Real-time tracking</span></div>
+            <div class="ts-item"><span class="ts-icon">👨‍🍳</span><span>Manager Decision Support</span></div>
+            <div class="ts-item"><span class="ts-icon">🌱</span><span>Sustainability Impact</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="proj-section">
+      <div class="ps-label">⚙️ System Architecture</div>
+      <h2 class="ps-title">Data-to-Decision Pipeline</h2>
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-node input-node">
+            <div class="an-icon">📥</div>
+            <div class="an-title">Data Collection</div>
+            <div class="an-sub">Prep qty · Consumption · Inventory</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#10b981">
+            <div class="an-icon">🐍</div>
+            <div class="an-title">Processing Layer</div>
+            <div class="an-sub">Flask/FastAPI · Ingestion · Cleaning</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#10b981">
+            <div class="an-icon">🧠</div>
+            <div class="an-title">Analysis Engine</div>
+            <div class="an-sub">Waste calculation · Pattern detection</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#10b981">
+            <div class="an-icon">⚖️</div>
+            <div class="an-title">Optimization</div>
+            <div class="an-sub">Portion correction · Rule-based logic</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node output-node" style="--node-clr:#10b981">
+            <div class="an-icon">📊</div>
+            <div class="an-title">Output Layer</div>
+            <div class="an-sub">Dashboards · Waste reports · Insights</div>
+          </div>
+        </div>
+        <div class="arch-secondary">
+          <div class="as-box">
+            <span class="as-icon">🔍</span>
+            <div>
+              <strong>Feature Engineering</strong>
+              <p>The system calculates <em>Waste Ratios</em> (prepared - consumed / prepared) and correlates them with meal types, days, and ingredient patterns to find recurring inefficiencies.</p>
+            </div>
+          </div>
+          <div class="as-box">
+            <span class="as-icon">💡</span>
+            <div>
+              <strong>Intelligence Layer</strong>
+              <p>Uses data-driven heuristics to identify over-prepared dishes and suggests dynamic portion control based on historical demand variability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="proj-section">
+      <div class="ps-label">Data Flow</div>
+      <h2 class="ps-title">The Optimization Lifecycle</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num" style="color:#10b981;border-color:rgba(16,185,129,0.3)">01</div>
+          <div class="fs-content">
+            <h3>Input Data Ingestion</h3>
+            <p>Kitchen logs (manual or semi-automated) capture ingredient usage per dish and daily consumption metrics across different meal types.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#10b981;border-color:rgba(16,185,129,0.3)">02</div>
+          <div class="fs-content">
+            <h3>Normalization & Aggregation</h3>
+            <p>Raw data is cleaned and aggregated by meal type, day, and ingredient to provide a consistent baseline for analysis.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#10b981;border-color:rgba(16,185,129,0.3)">03</div>
+          <div class="fs-content">
+            <h3>Pattern Analysis</h3>
+            <p>The engine identifies high-waste items, demand fluctuations, and peak vs. low consumption periods using statistical heuristics.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#10b981;border-color:rgba(16,185,129,0.3)">04</div>
+          <div class="fs-content">
+            <h3>Recommendation Engine</h3>
+            <p>The system generates actionable recommendations: portion adjustments, inventory corrections, and menu-level optimizations for kitchen managers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="proj-section">
+      <div class="ps-label">Challenges & Solutions</div>
+      <h2 class="ps-title">Solving Real-World Messiness</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card" style="--cc-clr:#10b981">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Inaccurate Manual Data Entry</h3>
+            <p>Human error in logging quantities can lead to incorrect optimization recommendations and skewed waste ratios.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Validation & Historical Benchmarking</h3>
+            <p>Implemented validation checks and <strong>historical trend analysis</strong> to flag anomalies in data entry before they affect the optimization logic.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#10b981">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Unpredictable Demand Spikes</h3>
+            <p>Sudden events or holidays cause spikes that standard patterns can't predict, leading to potential stockouts or waste.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Recommendation Thresholds</h3>
+            <p>Instead of hard rules, the system uses <strong>recommendation thresholds</strong> that allow managers to override logic based on external context.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#10b981">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>System Scalability</h3>
+            <p>Handling large-scale kitchen data across multiple locations requires efficient processing to maintain real-time updates.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Modular Backend & Caching</h3>
+            <p>Designed a <strong>modular backend architecture</strong> with efficient aggregation queries and caching for repeated analytical lookups.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="proj-section">
+      <div class="ps-label">Impact & Learning</div>
+      <h2 class="ps-title">Real-World Outcomes</h2>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>This project demonstrated that even simple analytics can create <strong>huge impact</strong> when applied to real operational constraints. By focusing on system design rather than just coding, we enabled:</p>
+          <ul>
+            <li><strong>Sustainability:</strong> Direct reduction in food waste and environmental footprint.</li>
+            <li><strong>Cost Efficiency:</strong> Better inventory utilization and reduced procurement costs.</li>
+            <li><strong>Operational Efficiency:</strong> Faster decision-making and reduced manual workload for kitchen staff.</li>
+          </ul>
+        </div>
+        <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
+          <h3>Key Learnings</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span>Real-world systems are non-deterministic</span></div>
+            <div class="ts-item"><span>Data quality > model complexity</span></div>
+            <div class="ts-item"><span>Focus on system design over raw code</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="proj-footer">
+    <a href="index.html" class="footer-back">← Back to Portfolio</a>
+    <div class="proj-footer-nav">
+      <span>Next Project:</span>
+      <a href="aegis.html">Project Aegis →</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
