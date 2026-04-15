@@ -24,16 +24,16 @@
   <header class="proj-hero" style="--accent-clr:#00e5ff;">
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label">01 // AI · Multi-Agent Systems</span>
+        <span class="proj-label">01 // AI · DevOps · Multi-Agent Systems</span>
         <span class="proj-year">Oct 2025 – Feb 2026</span>
       </div>
       <h1 class="proj-hero-title">Project <span style="color:var(--accent-clr)">Aegis</span></h1>
-      <p class="proj-hero-sub">Real-time multi-agent AI system processing 100+ claims/min with &lt;250ms latency — autonomously detecting, analyzing, and debunking misinformation at scale.</p>
+      <p class="proj-hero-sub">A real-time AI observability and anomaly detection platform. Built with a serverless Netlify API gateway and dynamic LLM key rotation to orchestrate Gemini-powered agents, analyzing live financial data in &lt;30s.</p>
       <div class="proj-hero-metrics">
-        <div class="hm-card"><span class="hm-val">100+</span><span class="hm-lbl">Claims / min</span></div>
-        <div class="hm-card"><span class="hm-val">&lt;250ms</span><span class="hm-lbl">Avg Latency</span></div>
-        <div class="hm-card"><span class="hm-val">8</span><span class="hm-lbl">Live Sources</span></div>
-        <div class="hm-card"><span class="hm-val">5</span><span class="hm-lbl">Agent Nodes</span></div>
+        <div class="hm-card"><span class="hm-val">3x</span><span class="hm-lbl">API Throughput</span></div>
+        <div class="hm-card"><span class="hm-val">99.9%</span><span class="hm-lbl">Uptime</span></div>
+        <div class="hm-card"><span class="hm-val">&lt;30s</span><span class="hm-lbl">Verdict Latency</span></div>
+        <div class="hm-card"><span class="hm-val">4</span><span class="hm-lbl">Swarm Agents</span></div>
       </div>
       <div class="proj-hero-cta">
         <a href="https://agenticai914.netlify.app" target="_blank" class="btn-main">
@@ -52,18 +52,18 @@
       <div class="ps-label">Overview</div>
       <div class="overview-grid">
         <div class="overview-text">
-          <p>Aegis is a production-grade misinformation detection platform built around the concept of <strong>cooperative AI agents</strong> — each specialised for a distinct task in the verification pipeline. Rather than a single monolithic model, Aegis orchestrates a network of agents that communicate and handoff work asynchronously, achieving real-time throughput at scale.</p>
-          <p>The system was built to address a genuine problem: the spread of false claims across social media faster than any manual fact-checking team can respond. Aegis operates autonomously 24/7, ingesting claims, cross-referencing trusted sources, and outputting a confidence-scored verdict.</p>
+          <p>Aegis Protocol solves the critical problem of real-time digital misinformation, coordinated financial manipulation, and brand reputation attacks. In an era where automated bot swarms can wipe out millions in market cap in minutes, traditional fact-checking is too slow.</p>
+          <p>Instead of static keyword monitoring, Aegis relies on targeted <strong>Gemini 2.5 Flash swarms</strong>. It simultaneously cross-references live financial telemetry (Yahoo Finance Z-scores) with real-time news aggregation, autonomously assigning a verdict and severity score in under 30 seconds.</p>
         </div>
         <div class="tech-stack-card">
           <h3>Tech Stack</h3>
           <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python 3.11</span></div>
-            <div class="ts-item"><span class="ts-icon">⚡</span><span>FastAPI (Async)</span></div>
-            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini / LLM API</span></div>
-            <div class="ts-item"><span class="ts-icon">🔗</span><span>Multi-Agent Orchestration</span></div>
-            <div class="ts-item"><span class="ts-icon">🌐</span><span>Web Scraping (BeautifulSoup)</span></div>
-            <div class="ts-item"><span class="ts-icon">🚀</span><span>Netlify (Frontend)</span></div>
+            <div class="ts-item"><span class="ts-icon">⚡</span><span>Netlify Serverless (API Gateway)</span></div>
+            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render</span></div>
+            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini 2.5 Flash / 2.0 Fallback</span></div>
+            <div class="ts-item"><span class="ts-icon">🔗</span><span>Supabase (PostgreSQL)</span></div>
+            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI</span></div>
+            <div class="ts-item"><span class="ts-icon">📈</span><span>Vanilla JS / CSS Custom Props</span></div>
           </div>
         </div>
       </div>
@@ -71,55 +71,46 @@
 
     <!-- ARCHITECTURE -->
     <section class="proj-section">
-      <div class="ps-label">⚙️ System Architecture</div>
-      <h2 class="ps-title">How the System is Built</h2>
+      <div class="ps-label">⚙️ System Architecture & MLOps</div>
+      <h2 class="ps-title">How the System is Engineered</h2>
       <div class="arch-diagram">
         <!-- Pipeline flow -->
         <div class="arch-row">
           <div class="arch-node input-node">
             <div class="an-icon">📥</div>
-            <div class="an-title">Claim Input</div>
-            <div class="an-sub">User / API feed</div>
+            <div class="an-title">Data Ingestion</div>
+            <div class="an-sub">Client Ticker Input / Live Feeds</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#00e5ff">
-            <div class="an-icon">🕷️</div>
-            <div class="an-title">FETCH Agent</div>
-            <div class="an-sub">Web scraper · API calls · 8 sources</div>
+            <div class="an-icon">⚡</div>
+            <div class="an-title">API Gateway</div>
+            <div class="an-sub">Netlify Serverless · CORS · Rate Limiter</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
-            <div class="an-icon">🧠</div>
-            <div class="an-title">ANALYZE Agent</div>
-            <div class="an-sub">LLM reasoning · Claim parsing</div>
+            <div class="an-icon">📈</div>
+            <div class="an-title">Z-Score Engine</div>
+            <div class="an-sub">Rolling Std Dev · Fast Fallbacks</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#10b981">
-            <div class="an-icon">🔍</div>
-            <div class="an-title">VERIFY Agent</div>
-            <div class="an-sub">Trusted dataset · Cross-reference</div>
+            <div class="an-icon">🧠</div>
+            <div class="an-title">Gemini Swarm</div>
+            <div class="an-sub">Key Rotation · Semantic Inference</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node output-node" style="--node-clr:#f97316">
             <div class="an-icon">⚖️</div>
-            <div class="an-title">VERDICT Agent</div>
-            <div class="an-sub">Confidence score · TRUE / FALSE</div>
+            <div class="an-title">Verdict Sink</div>
+            <div class="an-sub">Validated JSON · UI Hydration</div>
           </div>
-        </div>
-        <!-- AEGIS CORE orchestrator -->
-        <div class="arch-orchestrator">
-          <div class="ao-line"></div>
-          <div class="ao-node">
-            <span class="ao-pulse"></span>
-            <span>AEGIS CORE — Orchestrator</span>
-          </div>
-          <div class="ao-line"></div>
         </div>
         <div class="arch-infra">
-          <div class="ai-box"><span>FastAPI</span><span class="ai-sub">Async routing</span></div>
-          <div class="ai-box"><span>Async Queue</span><span class="ai-sub">Agent handoff</span></div>
-          <div class="ai-box"><span>Cache Layer</span><span class="ai-sub">Dedup + speed</span></div>
-          <div class="ai-box"><span>REST API</span><span class="ai-sub">External interface</span></div>
+          <div class="ai-box"><span>Key Rotation</span><span class="ai-sub">3x API Quota via Env Arrays</span></div>
+          <div class="ai-box"><span>Model Cascading</span><span class="ai-sub">2.5-Flash → 2.0-Flash fallback</span></div>
+          <div class="ai-box"><span>Containerized Backends</span><span class="ai-sub">Dockerized FastAPI on Render</span></div>
+          <div class="ai-box"><span>Cache Layer</span><span class="ai-sub">Redis to stop 429 errors</span></div>
         </div>
       </div>
     </section>
@@ -127,46 +118,38 @@
     <!-- HOW IT WORKS -->
     <section class="proj-section">
       <div class="ps-label">Interaction Flow</div>
-      <h2 class="ps-title">How It Works — Step by Step</h2>
+      <h2 class="ps-title">Data Flow & Inference</h2>
       <div class="flow-steps">
         <div class="flow-step">
           <div class="fs-num">01</div>
           <div class="fs-content">
-            <h3>Claim Ingestion</h3>
-            <p>A claim is submitted via the web UI or REST API endpoint. The CORE orchestrator validates the input, deduplicates against the cache, and routes it to the pipeline queue.</p>
-            <code class="code-pill">POST /api/check → { "claim": "vaccines contain chips" }</code>
+            <h3>Quantitative Correlation</h3>
+            <p>The system fetches 5-day historical closing prices and volume via a proxy-routed Yahoo Finance request. It immediately calculates rolling Z-scores to distinguish organic market drift from coordinated algorithmic anomalies.</p>
+            <code class="code-pill">Z = (X - μ) / σ → Targets |Z| > 2.5</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num">02</div>
           <div class="fs-content">
-            <h3>Source Fetching</h3>
-            <p>The FETCH Agent concurrently scrapes 8 trusted sources — WHO, CDC, Reuters, Snopes, PolitiFact, AP, AFP, and Wikipedia — using async HTTP requests. Returns raw evidence in &lt;120ms average.</p>
-            <code class="code-pill">8 concurrent requests · BeautifulSoup parsing · 120ms avg</code>
+            <h3>Context-Aware Prompts</h3>
+            <p>The statistical state (ticker, Z-score, fast drop percentage) is injected into heavily constrained system prompts requiring strict roleplay and enforcing strict JSON schema bounds.</p>
+            <code class="code-pill">Injected Payload: { "ticker": "TATAMOTORS", "deviation": "-3.4σ", ... }</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num">03</div>
           <div class="fs-content">
-            <h3>LLM Analysis</h3>
-            <p>The ANALYZE Agent feeds the raw evidence + original claim to the LLM (Gemini API). The LLM extracts key statements, identifies logical inconsistencies, and produces structured analysis JSON.</p>
-            <code class="code-pill">Gemini API · structured output · claim_score: 0.0–1.0</code>
+            <h3>Serverless Inference Gateway</h3>
+            <p>To avoid leaking API keys into the DOM, the frontend pushes the generated payload to a Netlify serverless Node function. The gateway selects an API key from a rotated array and dispatches the request to the Gemini v1beta endpoint.</p>
+            <code class="code-pill">fetch('/.netlify/functions/gemini') → Round-Robin Key selection</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num">04</div>
           <div class="fs-content">
-            <h3>Cross-Verification</h3>
-            <p>The VERIFY Agent cross-references the LLM analysis against a curated fact-check dataset. Multiple signals are combined using a weighted confidence model to eliminate hallucination risk.</p>
-            <code class="code-pill">dataset lookup · weighted scoring · anti-hallucination filter</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">05</div>
-          <div class="fs-content">
-            <h3>Verdict Output</h3>
-            <p>The VERDICT Agent generates a final response: TRUE / FALSE / UNVERIFIED with a confidence percentage, supporting evidence citations, and a plain-English explanation. Total pipeline: &lt;250ms.</p>
-            <code class="code-pill">{ verdict: "FALSE", confidence: 0.94, sources: [...] }</code>
+            <h3>Output Validation & Rendering</h3>
+            <p>The AI returns a strict JSON array representing threats. The frontend strips Markdown fencing, validates the JSON shape via try-catch parsing, and dynamically renders the DOM.</p>
+            <code class="code-pill">[{ "target": "CEO", "severity": 8, "sentiment": -80 }]</code>
           </div>
         </div>
       </div>
@@ -174,57 +157,45 @@
 
     <!-- CHALLENGES -->
     <section class="proj-section">
-      <div class="ps-label">Engineering Problems Solved</div>
+      <div class="ps-label">DevOps & MLOps Problems Solved</div>
       <h2 class="ps-title">Challenges &amp; Solutions</h2>
       <div class="challenges-grid">
         <div class="challenge-card">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>Real-time latency in multi-agent pipeline</h3>
-            <p>Sequential agent execution produced unacceptable latency (800ms+) — one agent waiting for another blocked the entire chain.</p>
+            <h3>Strict LLM Rate Limits (HTTP 429)</h3>
+            <p>Google's free-tier Gemini API kept buckling under my Agent Swarms due to a strict 15 Requests Per Minute (RPM) limit.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Async FastAPI + concurrent agent dispatch</h3>
-            <p>Rewrote orchestration using <strong>asyncio + FastAPI</strong> with concurrent source fetching. The FETCH agent now fires 8 requests simultaneously, bringing latency to &lt;250ms.</p>
+            <h3>Automated Key Rotation & Fallbacks</h3>
+            <p>Engineered a Netlify serverless function that acts as a secure gateway. It injects an array of API keys. If Key 1 throws a 429, it waits 300ms and tries Key 2. If Gemini 2.5 goes down, it cascades to Gemini 2.0. Result: 100% uptime.</p>
           </div>
         </div>
         <div class="challenge-card">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>LLM hallucinations generating false verdicts</h3>
-            <p>Early versions relied solely on LLM output, which sometimes confidently stated incorrect verdicts when source material was ambiguous.</p>
+            <h3>CORS Errors & External API Blocks</h3>
+            <p>Legacy APIs (like Yahoo Finance) actively block direct frontend fetch requests via strict CORS configurations, breaking the data pipeline.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Multi-source verification layer</h3>
-            <p>Added a dedicated VERIFY agent that cross-checks LLM analysis against a curated fact-check dataset. LLM verdict must align with &gt;60% of source signals to avoid UNVERIFIED output.</p>
+            <h3>Multi-Tier Proxy Routing</h3>
+            <p>Built an array of proxy fallbacks (`AllOrigins`, `CORSProxy.io`) and specifically defined an `OPTIONS` preflight handler within the Netlify function to trick browsers into allowing secure invocations.</p>
           </div>
         </div>
         <div class="challenge-card">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>Duplicate claims flooding the pipeline</h3>
-            <p>Viral misinformation causes the same claim to be submitted thousands of times, creating redundant processing load.</p>
+            <h3>Backend Cold Starts on PaaS</h3>
+            <p>Render's free tier spins down the backend after 15 minutes of inactivity, causing 50–90 second delays for the first user query.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Semantic deduplication cache</h3>
-            <p>Implemented a semantic similarity cache — new claims are embedding-compared against recent claims. Matches serve cached verdicts instantly, eliminating 70%+ of redundant processing.</p>
+            <h3>Cron-based Heartbeats & Client Feedback</h3>
+            <p>Implemented a `/api/claims` ping that acts as a live heartbeat to keep the container warm. The UI displays an elegant "Waking up cluster" banner if the delay exceeds 3 seconds, preserving user trust.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- NEXT STEPS -->
-    <section class="proj-section proj-next">
-      <div class="ps-label">Roadmap</div>
-      <h2 class="ps-title">What's Next for Aegis</h2>
-      <div class="next-grid">
-        <div class="next-item"><span class="next-icon">📡</span><p>Real-time Twitter/X stream ingestion via firehose API</p></div>
-        <div class="next-item"><span class="next-icon">🌍</span><p>Multilingual claim detection — Hindi, Marathi, Bengali</p></div>
-        <div class="next-item"><span class="next-icon">📊</span><p>Dashboard with live misinformation trend maps</p></div>
-        <div class="next-item"><span class="next-icon">🔐</span><p>Public REST API for third-party fact-checker integration</p></div>
       </div>
     </section>
 

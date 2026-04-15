@@ -1137,45 +1137,43 @@ footer {
   border-radius: 100px;
 }
 
-/* ---- FOOD UI ---- */
-.food-ui-table { display: flex; flex-direction: column; gap: 0; }
-.fut-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 5px 8px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 4px 4px 0 0;
-  font-family: var(--mono);
-  font-size: 0.55rem;
-  color: var(--dim);
-  border: 1px solid var(--border);
-}
-.fut-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 6px 8px;
-  font-size: 0.65rem;
-  border: 1px solid var(--border);
-  border-top: none;
-  transition: background 0.2s;
-}
-.fut-row:hover { background: rgba(255,255,255,0.03); }
-.status-ok   { color: #10b981; font-family: var(--mono); font-size: 0.6rem; }
-.status-warn { color: #f59e0b; font-family: var(--mono); font-size: 0.6rem; }
-.status-crit { color: #ef4444; font-family: var(--mono); font-size: 0.6rem; }
-.food-ui-bom {
+/* ---- GRIDIUM UI ---- */
+.gridium-ui-net {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 10px;
-  background: rgba(249,115,22,0.06);
-  border: 1px solid rgba(249,115,22,0.15);
-  border-radius: 6px;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+}
+.gu-node {
   font-family: var(--mono);
   font-size: 0.6rem;
-  color: var(--dim);
-  margin-top: 4px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
 }
+.gu-node.central {
+  background: rgba(249,115,22,0.1);
+  border-color: rgba(249,115,22,0.3);
+  color: #f97316;
+  text-align: center;
+  font-weight: 700;
+}
+.gu-node-group {
+  display: flex;
+  gap: 6px;
+}
+.gu-node-group .gu-node { flex: 1; text-align: center; color: var(--dim); }
+.gu-zk-proof {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  color: #10b981;
+  background: rgba(16,185,129,0.1);
+  padding: 5px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+.hash { opacity: 0.7; }
 
 /* ============================================================
    RESPONSIVE — Tablet (≤1024px)

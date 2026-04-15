@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gridium Protocol — Shaunak Rane</title>
+  <meta name="description" content="Gridium Protocol: A decentralized energy microgrid AMM managed by a PyTorch DDPG reinforcement learning agent, utilizing zk-SNARKs for privacy."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="project-page.css"/>
+</head>
+<body>
+  <canvas id="neural-canvas"></canvas>
+
+  <nav id="navbar" class="solid">
+    <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
+    <a href="index.html#work" class="nav-back">← All Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="proj-hero" style="--accent-clr:#f97316;">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-meta">
+        <span class="proj-label" style="color:#f97316">03 // Web3 · DePIN · Applied RL</span>
+        <span class="proj-year">2025</span>
+      </div>
+      <h1 class="proj-hero-title">Gridium <span style="color:var(--accent-clr)">Protocol</span></h1>
+      <p class="proj-hero-sub">A Decentralized Physical Infrastructure Network (DePIN) prototype. Gridium solves the decentralized energy trilemma by integrating an EVM AMM with a PyTorch Deep Deterministic Policy Gradient (DDPG) agent for autonomous grid management, verified via zk-SNARKs.</p>
+      <div class="proj-hero-metrics">
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">500ms</span><span class="hm-lbl">Physics Tick Rate</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">zk-SNARK</span><span class="hm-lbl">Groth16 Proofs</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">DDPG</span><span class="hm-lbl">Actor-Critic RL</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">Zero</span><span class="hm-lbl">Privacy Leakage</span></div>
+      </div>
+      <div class="proj-hero-cta">
+        <a href="https://gridiumprotocol.netlify.app" target="_blank" class="btn-main" style="background:#f97316">
+          <span class="live-dot" style="background:#000"></span> Live Demo
+        </a>
+        <a href="https://github.com/Shaunakrane914" target="_blank" class="btn-ghost">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.1), transparent 60%)"></div>
+  </header>
+
+  <main class="proj-main">
+
+    <!-- OVERVIEW -->
+    <section class="proj-section">
+      <div class="ps-label">Overview</div>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>Traditional power grids are monolithic and brittle. As residential solar panels and batteries proliferate, the legacy grid struggles. Prosumers sell surplus energy back to utilities at wholesale pennies, but unmanaged peer-to-peer trading causes grid instability and severe physical privacy risks (ledgers revealing home occupancy).</p>
+          <p>Gridium operates at the intersection of AI, cryptography, and DeFi. It utilizes an Automated Market Maker (AMM) for instant energy liquidity, governed dynamically by an RL agent acting as an autonomous grid operator, ensuring trades are mathematically verified on-chain without exposing raw telemetry data.</p>
+        </div>
+        <div class="tech-stack-card" style="border-color:rgba(249,115,22,0.15)">
+          <h3>Tech Stack & MLOps</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI (Engine)</span></div>
+            <div class="ts-item"><span class="ts-icon">🤖</span><span>PyTorch (DDPG Agent)</span></div>
+            <div class="ts-item"><span class="ts-icon">🟢</span><span>Node.js / Socket.io (Gateway)</span></div>
+            <div class="ts-item"><span class="ts-icon">🔐</span><span>SnarkJS / Circom (zk-SNARKs)</span></div>
+            <div class="ts-item"><span class="ts-icon">🌐</span><span>React Three Fiber (Command Center)</span></div>
+            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render PaaS</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="proj-section">
+      <div class="ps-label">⚙️ System Architecture</div>
+      <h2 class="ps-title">How the DePIN is Built</h2>
+      
+      <!-- Generated Diagram Image -->
+      <img src="gridium_architecture_1776259790273.png" alt="Gridium Pipeline Architecture" style="width:100%; border-radius:12px; margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1);">
+
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-node input-node">
+            <div class="an-icon">⚡</div>
+            <div class="an-title">RL Engine (Python)</div>
+            <div class="an-sub">PyTorch DDPG · Physics Sim</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#f97316">
+            <div class="an-icon">🌐</div>
+            <div class="an-title">Gateway (Node)</div>
+            <div class="an-sub">Socket.io Fan-out · snarkJS proofs</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#00e5ff">
+            <div class="an-icon">🖥️</div>
+            <div class="an-title">Command Center</div>
+            <div class="an-sub">React Three Fiber · Zustand State</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node output-node" style="--node-clr:#10b981">
+            <div class="an-icon">⛓️</div>
+            <div class="an-title">Blockchain (EVM)</div>
+            <div class="an-sub">Solidity AMM · Groth16 Verifier</div>
+          </div>
+        </div>
+        <div class="arch-secondary">
+          <div class="as-box">
+            <span class="as-icon">🤖</span>
+            <div>
+              <strong>DDPG Reinforcement Learning</strong>
+              <p>Actor-critic model handling continuous state adjustments (swap fees) to balance grid load and AMM depth without crashing the physical network.</p>
+            </div>
+          </div>
+          <div class="as-box">
+            <span class="as-icon">🔒</span>
+            <div>
+              <strong>ZK Architecture</strong>
+              <p>Circuits compiled via circom. Outputting .wasm artifacts so the Node gateway computes Groth16 proofs representing off-chain node generation deltas, verified on-chain via Solidity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="proj-section">
+      <div class="ps-label">Data Flow</div>
+      <h2 class="ps-title">Inference & Settlement Pipeline</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">01</div>
+          <div class="fs-content">
+            <h3>Physics Engine Tick (500ms)</h3>
+            <p>At tick t, the Python Engine builds an Observation State containing grid load, generation, energy reserves, and battery SoC. The DDPG Actor network outputs a continuous swap fee modifier to stabilize the system.</p>
+            <code class="code-pill">PyTorch Inference: S_t → DDPG Actor → A_t (Swap Fee)</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">02</div>
+          <div class="fs-content">
+            <h3>Gateway State Broadcast</h3>
+            <p>The Node.js Gateway polls the AI engine via REST (`/tick`) and broadcasts the high-frequency state via WebSockets to connected React frontends utilizing Zustand for 60fps 3D rendering.</p>
+            <code class="code-pill">FastAPI → Gateway → Socket.io Fan-out</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">03</div>
+          <div class="fs-content">
+            <h3>Off-Chain ZK Proof Generation</h3>
+            <p>When a prosumer trades energy, physical telemetry is NOT broadcasted. The Node Gateway securely computes a Groth16 zk-SNARK proof asserting mathematical relationships (e.g. Generation > Load) without exposing localized load data.</p>
+            <code class="code-pill">snarkjs.groth16.fullProve(signals, wasm, zkey)</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">04</div>
+          <div class="fs-content">
+            <h3>On-Chain verifiable AMM Settlement</h3>
+            <p>The cryptographically generated proof is submitted to the EVM blockchain. The `SurplusVerifier` smart contract validates the proof on-chain in milliseconds. If valid, the trade settles against the `AegisAMM` using the x*y=k invariant.</p>
+            <code class="code-pill">Verifier.sol → require(verifyProof(a,b,c,input)) → AMM Swap</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="proj-section">
+      <div class="ps-label">DevOps & MLOps Problems Solved</div>
+      <h2 class="ps-title">Challenges &amp; Solutions</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Event Loop Blocking during ZK Proofs</h3>
+            <p>Generating Groth16 proofs in Node.js is CPU-intensive. Initially, proof generation halted the v8 event loop, causing massive latency spikes (lagging WebSockets under load).</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Decoupled Computation Architecture</h3>
+            <p>Offloaded the PyTorch RL inference to a distinct containerized FastAPI microservice. The Gateway acts purely as a router, and ZK execution is parallelized utilizing Node `worker_threads` to keep the Socket.io tick running cleanly.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Discrete Action Spaces in Financial Systems</h3>
+            <p>Initial attempts using a DQN (Discrete Q-Network) failed. Discretized fee "buckets" (e.g. 1%, 2%, 3%) caused severe market shocks, creating arbitrage loops that drained the AMM.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Continuous Control via DDPG</h3>
+            <p>Deployed Deep Deterministic Policy Gradients (DDPG) — an actor-critic algorithm that natively supports continuous action spaces. The agent acts like a steering wheel rather than a simple switch, executing granular fee adjustments.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>WebSocket Avalanches & Thundering Herds</h3>
+            <p>If the Render backend restarted due to an ML OOM error, thousands of frontend clients attempted to reconnect simultaneously, causing a DDoS loop against the WebSocket Gateway.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Exponential Backoff with Jitter</h3>
+            <p>Implemented a resilient reconnection algorithm on the React client. Clients wait progressively longer (2s, 4s, 8s) combined with randomized jitter, naturally smoothing out the spike to allow the Node server to recover.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="proj-footer">
+    <a href="index.html" class="footer-back">← Back to Portfolio</a>
+    <div class="proj-footer-nav">
+      <span>Start Over:</span>
+      <a href="aegis.html">Project Aegis →</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
