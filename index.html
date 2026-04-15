@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShaunakRane._</title>
+  <meta name="description" content="Shaunak Rane — AI & ML Engineer. Building intelligent systems that matter." />
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- AMBIENT BACKGROUND -->
+  <canvas id="neural-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-brand">ShaunakRane<span class="accent">._</span></div>
+    <ul class="nav-links">
+      <li><a href="#home"    data-section="home"><span class="nav-num">01</span><span class="nav-slash">// home</span></a></li>
+      <li><a href="#expertise" data-section="expertise"><span class="nav-num">02</span><span class="nav-slash">// expertise</span></a></li>
+      <li><a href="#work"   data-section="work"><span class="nav-num">03</span><span class="nav-slash">// work</span></a></li>
+      <li><a href="#experience" data-section="experience"><span class="nav-num">04</span><span class="nav-slash">// experience</span></a></li>
+      <li><a href="#contact" data-section="contact"><span class="nav-num">05</span><span class="nav-slash">// contact</span></a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#home" class="mobile-link"><span class="nav-num">01</span> // home</a>
+    <a href="#expertise" class="mobile-link"><span class="nav-num">02</span> // expertise</a>
+    <a href="#work" class="mobile-link"><span class="nav-num">03</span> // work</a>
+    <a href="#experience" class="mobile-link"><span class="nav-num">04</span> // experience</a>
+    <a href="#contact" class="mobile-link"><span class="nav-num">05</span> // contact</a>
+  </div>
+
+  <!-- ======================== HERO ======================== -->
+  <section id="home">
+    <!-- Floating 3D shapes + glowing sun -->
+    <div class="hero-scene">
+      <div class="sun-orb"></div>
+      <div class="geo geo-1"></div>
+      <div class="geo geo-2"></div>
+      <div class="geo geo-3"></div>
+      <div class="sun-light"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">SHAUNAK<br/><span class="hero-name-outline">RANE</span></h1>
+      <p class="hero-tagline"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
+      <div class="hero-cta">
+        <a href="#work" class="btn-main" id="btn-see-work">See my work</a>
+        <a href="#contact" class="btn-ghost" id="btn-contact">Let's talk</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ======================== EXPERTISE ======================== -->
+  <section id="expertise">
+    <div class="section-header">
+      <span class="section-label">02 // expertise</span>
+      <h2 class="section-title">What I <span class="underline-accent">Build</span></h2>
+    </div>
+    <div class="expertise-grid">
+      <div class="exp-card" id="exp-ai">
+        <div class="exp-icon">🧠</div>
+        <h3>AI &amp; Multi-Agent Systems</h3>
+        <p>Designing autonomous AI pipelines that orchestrate multiple agents to solve complex real-world problems at scale.</p>
+        <div class="exp-bar" style="--bar-color: #00e5ff;"></div>
+      </div>
+      <div class="exp-card" id="exp-ml">
+        <div class="exp-icon">📊</div>
+        <h3>Machine Learning</h3>
+        <p>Building and integrating predictive ML models — from data preprocessing to deployment in production web apps.</p>
+        <div class="exp-bar" style="--bar-color: #a855f7;"></div>
+      </div>
+      <div class="exp-card" id="exp-backend">
+        <div class="exp-icon">⚙️</div>
+        <h3>Backend Engineering</h3>
+        <p>Architecting robust Flask and FastAPI backends with automated workflows, inventory logic, and RESTful APIs.</p>
+        <div class="exp-bar" style="--bar-color: #f97316;"></div>
+      </div>
+      <div class="exp-card" id="exp-web">
+        <div class="exp-icon">🌐</div>
+        <h3>Full-Stack Web Dev</h3>
+        <p>Building mobile-first, responsive web applications that bring ML models to real users with clean frontends.</p>
+        <div class="exp-bar" style="--bar-color: #10b981;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== WORK ======================== -->
+  <section id="work">
+    <div class="section-header">
+      <span class="section-label">03 // work</span>
+      <h2 class="section-title">Featured <span class="underline-purple">Projects</span></h2>
+    </div>
+
+    <!-- Project 1 — Aegis -->
+    <div class="project-featured" id="proj-aegis">
+      <div class="pf-info">
+        <div class="pf-meta">
+          <span class="pf-num">01</span>
+          <span class="pf-domain">AI · Multi-Agent Systems</span>
+          <span class="pf-year">2025 – 2026</span>
+        </div>
+        <h3 class="pf-title">Project <span class="accent">Aegis</span></h3>
+        <p class="pf-desc">A real-time, multi-agent AI system engineered to autonomously detect, analyze, and debunk misinformation. Built with advanced AI orchestration, agentic workflows, and real-time data processing pipelines.</p>
+        <div class="pf-metrics">
+          <div class="metric"><span class="metric-val">100+</span><span class="metric-label">claims/min</span></div>
+          <div class="metric"><span class="metric-val">&lt;250ms</span><span class="metric-label">latency</span></div>
+          <div class="metric"><span class="metric-val">8</span><span class="metric-label">live sources</span></div>
+        </div>
+        <div class="pf-tags">
+          <span>Multi-Agent AI</span>
+          <span>Agentic Workflows</span>
+          <span>Real-time Processing</span>
+          <span>Python</span>
+        </div>
+        <div class="pf-links">
+          <a href="https://agentai100.netlify.app" target="_blank" class="link-live" id="aegis-live">
+            <span class="live-dot"></span> Live Demo
+          </a>
+          <a href="https://github.com/Shaunakrane914" target="_blank" class="link-code" id="aegis-code">GitHub ↗</a>
+          <a href="aegis.html" class="link-deep">Deep Dive →</a>
+        </div>
+      </div>
+      <div class="pf-visual">
+        <div class="browser-mockup tilt-left">
+          <div class="bm-bar">
+            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
+            <div class="bm-url">agentai100.netlify.app</div>
+          </div>
+          <div class="bm-body aegis-ui">
+            <div class="ui-header">
+              <span class="ui-logo-text accent">AEGIS</span>
+              <span class="ui-badge">● LIVE</span>
+            </div>
+            <div class="ui-claim-row">
+              <div class="ui-claim-card">
+                <div class="ui-claim-label">Claim Detected</div>
+                <div class="ui-claim-text">"Vaccines contain microchips..."</div>
+                <div class="ui-verdict false">✕ FALSE</div>
+              </div>
+            </div>
+            <div class="ui-agents">
+              <div class="ui-agent a-fetch">FETCH</div>
+              <div class="ui-agent-arrow">→</div>
+              <div class="ui-agent a-analyze">ANALYZE</div>
+              <div class="ui-agent-arrow">→</div>
+              <div class="ui-agent a-verify">VERIFY</div>
+            </div>
+            <div class="ui-sources">
+              <div class="ui-src">✓ WHO.int</div>
+              <div class="ui-src">✓ CDC.gov</div>
+              <div class="ui-src">✓ Reuters Fact Check</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 — Yield AI -->
+    <div class="project-featured proj-alt" id="proj-yield">
+      <div class="pf-visual">
+        <div class="browser-mockup tilt-right">
+          <div class="bm-bar">
+            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
+            <div class="bm-url">gridiumprotocol.netlify.app</div>
+          </div>
+          <div class="bm-body yield-ui">
+            <div class="ui-header">
+              <span class="ui-logo-text" style="color:#a855f7">KrushiMitra</span>
+              <span class="ui-badge" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7">ODISHA</span>
+            </div>
+            <div class="yield-ui-chart">
+              <div class="yuc-bar" style="--h:55%;--c:#a855f7"><span>Wheat</span></div>
+              <div class="yuc-bar" style="--h:82%;--c:#a855f7"><span>Rice</span></div>
+              <div class="yuc-bar" style="--h:48%;--c:#a855f7"><span>Corn</span></div>
+              <div class="yuc-bar" style="--h:74%;--c:#a855f7"><span>Gram</span></div>
+              <div class="yuc-bar" style="--h:91%;--c:#a855f7"><span>Soy</span></div>
+            </div>
+            <div class="yield-ui-pred">
+              <span>AI Prediction</span>
+              <span style="color:#10b981;font-weight:700">4.2T/acre ↑12%</span>
+            </div>
+            <div class="yield-ui-inputs">
+              <div class="yui-tag">Soil: Clay Loam</div>
+              <div class="yui-tag">Rain: 850mm</div>
+              <div class="yui-tag">Season: Kharif</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-meta">
+          <span class="pf-num">02</span>
+          <span class="pf-domain">ML · Full-Stack Web</span>
+          <span class="pf-year">2025 – 2026</span>
+        </div>
+        <h3 class="pf-title">Yield AI <span class="accent-purple">(KrushiMitra)</span></h3>
+        <p class="pf-desc">A mobile-first, responsive web application delivering AI-powered crop yield predictions for farmers in Odisha. Integrates predictive ML models into a user-friendly frontend to solve real-world agricultural challenges.</p>
+        <div class="pf-metrics">
+          <div class="metric"><span class="metric-val">87%</span><span class="metric-label">accuracy</span></div>
+          <div class="metric"><span class="metric-val">12</span><span class="metric-label">crop types</span></div>
+          <div class="metric"><span class="metric-val">&lt;1s</span><span class="metric-label">prediction</span></div>
+        </div>
+        <div class="pf-tags">
+          <span>ML Predictions</span>
+          <span>Mobile-First</span>
+          <span>AgriTech</span>
+          <span>Flask</span>
+        </div>
+        <div class="pf-links">
+          <a href="https://gridiumprotocol.netlify.app" target="_blank" class="link-live" id="yield-live">
+            <span class="live-dot"></span> Live Demo
+          </a>
+          <a href="https://github.com/Shaunakrane914" target="_blank" class="link-code" id="yield-code">GitHub ↗</a>
+          <a href="yield.html" class="link-deep">Deep Dive →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3 — Food Management -->
+    <div class="project-featured" id="proj-food">
+      <div class="pf-info">
+        <div class="pf-meta">
+          <span class="pf-num">03</span>
+          <span class="pf-domain">Backend · Automation</span>
+          <span class="pf-year">2025 – 2026</span>
+        </div>
+        <h3 class="pf-title">Food <span class="accent-orange">Management</span> System</h3>
+        <p class="pf-desc">A robust, full-stack Flask application automating complex kitchen and inventory workflows. Architected backend logic for automated menu generation, real-time inventory tracking, and BOM calculations to reduce food waste.</p>
+        <div class="pf-metrics">
+          <div class="metric"><span class="metric-val">200+</span><span class="metric-label">ingredients</span></div>
+          <div class="metric"><span class="metric-val">50+</span><span class="metric-label">menu items</span></div>
+          <div class="metric"><span class="metric-val">~3hrs</span><span class="metric-label">saved/day</span></div>
+        </div>
+        <div class="pf-tags">
+          <span>Flask Full-Stack</span>
+          <span>Automation</span>
+          <span>BOM Calculation</span>
+          <span>Python</span>
+        </div>
+        <div class="pf-links">
+          <a href="https://github.com/Shaunakrane914" target="_blank" class="link-code" id="food-code">GitHub ↗</a>
+          <a href="food.html" class="link-deep">Deep Dive →</a>
+        </div>
+      </div>
+      <div class="pf-visual">
+        <div class="browser-mockup tilt-left">
+          <div class="bm-bar">
+            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
+            <div class="bm-url">food-management-system</div>
+          </div>
+          <div class="bm-body food-ui">
+            <div class="ui-header">
+              <span class="ui-logo-text" style="color:#f97316">FoodSys</span>
+              <span class="ui-badge" style="background:rgba(249,115,22,0.12);border-color:rgba(249,115,22,0.3);color:#f97316">KITCHEN MGMT</span>
+            </div>
+            <div class="food-ui-table">
+              <div class="fut-header">
+                <span>Item</span><span>Stock</span><span>Status</span>
+              </div>
+              <div class="fut-row">
+                <span>Tomatoes</span><span>48 kg</span><span class="status-ok">✓ OK</span>
+              </div>
+              <div class="fut-row">
+                <span>Onions</span><span>12 kg</span><span class="status-warn">⚠ Low</span>
+              </div>
+              <div class="fut-row">
+                <span>Oil</span><span>30 L</span><span class="status-ok">✓ OK</span>
+              </div>
+              <div class="fut-row">
+                <span>Flour</span><span>3 kg</span><span class="status-crit">✕ Reorder</span>
+              </div>
+            </div>
+            <div class="food-ui-bom">
+              <span>Auto BOM Generated</span>
+              <span style="color:#10b981">↓ Menu Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================== EXPERIENCE ======================== -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-label">04 // experience</span>
+      <h2 class="section-title">Skills &amp; <span class="underline-green">Stack</span></h2>
+    </div>
+    <div class="skills-layout">
+      <div class="skills-col">
+        <div class="skill-block" id="sk-ai">
+          <h3><span class="sk-icon">🧠</span> AI / ML</h3>
+          <div class="sk-tags">
+            <span>Python</span><span>Multi-Agent Systems</span><span>LLMs</span>
+            <span>Agentic AI</span><span>Predictive Models</span><span>Data Science</span>
+          </div>
+        </div>
+        <div class="skill-block" id="sk-be">
+          <h3><span class="sk-icon">⚙️</span> Backend</h3>
+          <div class="sk-tags">
+            <span>Flask</span><span>FastAPI</span><span>REST APIs</span>
+            <span>SQL</span><span>NoSQL</span><span>Java</span>
+          </div>
+        </div>
+      </div>
+      <div class="skills-col">
+        <div class="skill-block" id="sk-fe">
+          <h3><span class="sk-icon">🎨</span> Frontend</h3>
+          <div class="sk-tags">
+            <span>HTML/CSS</span><span>JavaScript</span><span>Responsive Design</span>
+            <span>Mobile-First</span>
+          </div>
+        </div>
+        <div class="skill-block" id="sk-tools">
+          <h3><span class="sk-icon">🛠️</span> Tools &amp; Platforms</h3>
+          <div class="sk-tags">
+            <span>Git &amp; GitHub</span><span>Netlify</span><span>Streamlit</span>
+            <span>Automation</span><span>Real-time Systems</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-card" id="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div>
+          <h3>Universal AI University</h3>
+          <p>Karjat, Maharashtra</p>
+          <span class="edu-role">AI &amp; ML Undergraduate</span>
+        </div>
+        <div class="edu-stats">
+          <div><span class="big-num" data-target="3">0</span><span class="big-label">AI Projects</span></div>
+          <div><span class="big-num" data-target="2">0</span><span class="big-label">Live Products</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== CONTACT ======================== -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <span class="section-label">05 // contact</span>
+      <h2 class="contact-heading">Let's <span class="underline-accent">build</span> something<br/>that <span class="underline-purple">matters.</span></h2>
+      <p class="contact-sub">Open to internships, collaborations, and exciting AI/ML projects.</p>
+      <div class="contact-links">
+        <a href="mailto:shaunakrane914@gmail.com" class="clink email" id="clink-email">
+          <span class="clink-icon">✉</span>
+          <span>shaunakrane914@gmail.com</span>
+        </a>
+        <a href="https://github.com/Shaunakrane914" target="_blank" class="clink github" id="clink-github">
+          <span class="clink-icon">⌥</span>
+          <span>github.com/Shaunakrane914</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>ShaunakRane<span class="accent">._</span></span>
+    <span class="footer-copy">© 2026 — Built with precision &amp; purpose.</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Management System — Shaunak Rane</title>
+  <meta name="description" content="Food Management System: Flask-based kitchen automation with BOM calculation, inventory tracking, and auto menu generation."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="project-page.css"/>
+</head>
+<body>
+  <canvas id="neural-canvas"></canvas>
+
+  <nav id="navbar" class="solid">
+    <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
+    <a href="index.html#work" class="nav-back">← All Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="proj-hero" style="--accent-clr:#f97316;">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-meta">
+        <span class="proj-label">03 // Backend · Automation</span>
+        <span class="proj-year">2025 – 2026</span>
+      </div>
+      <h1 class="proj-hero-title">Food <span style="color:var(--accent-clr)">Management</span> System</h1>
+      <p class="proj-hero-sub">Full-stack Flask application automating kitchen inventory, BOM calculation, and menu generation — saving ~3 hours of manual work per day for kitchen operations teams.</p>
+      <div class="proj-hero-metrics">
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">200+</span><span class="hm-lbl">Ingredients Tracked</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">50+</span><span class="hm-lbl">Menu Items</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">~3hrs</span><span class="hm-lbl">Saved / Day</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">Auto</span><span class="hm-lbl">BOM Generator</span></div>
+      </div>
+      <div class="proj-hero-cta">
+        <a href="https://github.com/Shaunakrane914" target="_blank" class="btn-main" style="background:#f97316">GitHub ↗</a>
+        <a href="index.html#work" class="btn-ghost">← Back</a>
+      </div>
+    </div>
+    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.1), transparent 60%)"></div>
+  </header>
+
+  <main class="proj-main">
+
+    <!-- OVERVIEW -->
+    <section class="proj-section">
+      <div class="ps-label">Overview</div>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>Restaurant and canteen kitchens lose significant time to manual inventory tracking — staff physically count stock, manually calculate ingredient requirements for each dish (BOM), and re-enter data across spreadsheets. This system eliminates that entirely.</p>
+          <p>The Food Management System provides a <strong>unified web interface</strong> where kitchen staff log usage, the backend automatically deducts from inventory, generates Bill of Materials for any menu combination, and fires low-stock alerts — all in real time. What took 3 hours of spreadsheet work now happens automatically on each order entry.</p>
+        </div>
+        <div class="tech-stack-card" style="border-color:rgba(249,115,22,0.15)">
+          <h3>Tech Stack</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python 3.11</span></div>
+            <div class="ts-item"><span class="ts-icon">🌶️</span><span>Flask (Full-Stack)</span></div>
+            <div class="ts-item"><span class="ts-icon">🗄️</span><span>SQLite / SQLAlchemy ORM</span></div>
+            <div class="ts-item"><span class="ts-icon">🔗</span><span>Jinja2 Templates</span></div>
+            <div class="ts-item"><span class="ts-icon">⚙️</span><span>BOM Calculation Engine</span></div>
+            <div class="ts-item"><span class="ts-icon">📧</span><span>Alert System (Low Stock)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="proj-section">
+      <div class="ps-label">⚙️ System Architecture</div>
+      <h2 class="ps-title">How the System is Built</h2>
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-node input-node">
+            <div class="an-icon">👨‍🍳</div>
+            <div class="an-title">Kitchen Staff</div>
+            <div class="an-sub">Web UI input · Order entry</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#f97316">
+            <div class="an-icon">🌐</div>
+            <div class="an-title">Flask Web App</div>
+            <div class="an-sub">Routes · Jinja2 views · REST API</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#f97316">
+            <div class="an-icon">⚙️</div>
+            <div class="an-title">BOM Engine</div>
+            <div class="an-sub">Recipe lookup · Qty calculation</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#f97316">
+            <div class="an-icon">🗄️</div>
+            <div class="an-title">Inventory DB</div>
+            <div class="an-sub">SQLite · Real-time deduction</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node output-node" style="--node-clr:#10b981">
+            <div class="an-icon">📊</div>
+            <div class="an-title">Reports &amp; Alerts</div>
+            <div class="an-sub">Low-stock · BOM report · Menu</div>
+          </div>
+        </div>
+        <div class="arch-secondary">
+          <div class="as-box">
+            <span class="as-icon">📋</span>
+            <div>
+              <strong>BOM Calculation Logic</strong>
+              <p>Each menu item maps to a recipe with ingredient quantities. On order entry: BOM Engine multiplies quantities × servings, checks inventory, deducts atomically, flags shortfalls before the order is confirmed.</p>
+            </div>
+          </div>
+          <div class="as-box">
+            <span class="as-icon">🔔</span>
+            <div>
+              <strong>Auto Menu Generator</strong>
+              <p>Given current inventory levels, the system calculates which menu items can actually be prepared (and how many servings). Eliminates "we ran out of X" surprises mid-service.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="proj-section">
+      <div class="ps-label">Interaction Flow</div>
+      <h2 class="ps-title">How It Works — Step by Step</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">01</div>
+          <div class="fs-content">
+            <h3>Inventory Registration</h3>
+            <p>Kitchen manager registers each ingredient with unit type, current stock, and reorder threshold. Items are categorised (Dairy, Produce, Dry Goods, etc.) for organised reporting.</p>
+            <code class="code-pill">POST /inventory/add · { item, qty, unit, threshold, category }</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">02</div>
+          <div class="fs-content">
+            <h3>Recipe / BOM Definition</h3>
+            <p>Each menu item has a recipe attached — a structured list of ingredients and quantities per serving. The BOM Engine stores these as recipe-to-ingredient mappings in the database.</p>
+            <code class="code-pill">Butter Chicken → { chicken: 250g, cream: 50ml, spices: 15g, ... }</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">03</div>
+          <div class="fs-content">
+            <h3>Order Entry &amp; BOM Calculation</h3>
+            <p>Staff enter an order (e.g., "20 × Butter Chicken"). The BOM Engine instantly calculates total ingredient requirements, checks current inventory atomically, and either confirms or raises a shortfall alert.</p>
+            <code class="code-pill">20 × recipe_bom → deduct inventory → shortfall check → confirm</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">04</div>
+          <div class="fs-content">
+            <h3>Auto Menu Generation</h3>
+            <p>The system scans current inventory against all recipe BOMs and outputs a "possible menu" — items that can be prepared today, with maximum servings per item. Reorders are auto-flagged to the purchase list.</p>
+            <code class="code-pill">GET /menu/possible → [{ item, max_servings, status }]</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">05</div>
+          <div class="fs-content">
+            <h3>Reports &amp; Low-Stock Alerts</h3>
+            <p>End-of-day reports show consumption per item, remaining stock, and items that crossed reorder thresholds. Alerts are displayed in the dashboard and can trigger notifications to the purchase team.</p>
+            <code class="code-pill">Daily report · reorder list · waste tracking · cost summary</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="proj-section">
+      <div class="ps-label">Engineering Problems Solved</div>
+      <h2 class="ps-title">Challenges &amp; Solutions</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Inventory race conditions on concurrent orders</h3>
+            <p>When two staff members enter orders simultaneously, both reads could show sufficient stock — then both deductions leave inventory negative.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Atomic transactions with SQLAlchemy locking</h3>
+            <p>Wrapped inventory deductions in <strong>atomic DB transactions with row-level locking</strong>. The second concurrent order is queued until the first commits, then re-evaluated against updated stock. Zero oversell errors in testing.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Complex BOM for composite recipes</h3>
+            <p>Some dishes use sub-recipes (e.g., "Gravy Base" is itself a recipe used in 12 dishes). A flat ingredient lookup fails to resolve these nested dependencies.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Recursive BOM resolver</h3>
+            <p>Built a recursive tree-resolver that expands sub-recipes into leaf ingredients before calculating totals. Handles arbitrary nesting depth and correctly aggregates repeated ingredients from multiple branches.</p>
+          </div>
+        </div>
+        <div class="challenge-card" style="--cc-clr:#f97316">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Manual reorder process wasted staff time</h3>
+            <p>Kitchen managers had to manually scan through 200+ ingredient rows to find what needed reordering — a 45-minute daily task.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Threshold-triggered purchase list</h3>
+            <p>Every inventory write triggers a threshold check. Items below reorder point are auto-added to a live "Purchase Required" list, updated in real time. The 45-minute task now takes zero effort — the list is always current.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="proj-footer">
+    <a href="index.html" class="footer-back">← Back to Portfolio</a>
+    <div class="proj-footer-nav">
+      <span>Start Over:</span>
+      <a href="aegis.html">Project Aegis →</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

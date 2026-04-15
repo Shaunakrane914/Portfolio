@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Aegis — Shaunak Rane</title>
+  <meta name="description" content="Project Aegis: Real-time multi-agent AI system for misinformation detection. Architecture, how it works, challenges solved."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="project-page.css"/>
+</head>
+<body>
+  <canvas id="neural-canvas"></canvas>
+
+  <nav id="navbar" class="solid">
+    <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
+    <a href="index.html#work" class="nav-back">← All Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="proj-hero" style="--accent-clr:#00e5ff;">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-meta">
+        <span class="proj-label">01 // AI · Multi-Agent Systems</span>
+        <span class="proj-year">Oct 2025 – Feb 2026</span>
+      </div>
+      <h1 class="proj-hero-title">Project <span style="color:var(--accent-clr)">Aegis</span></h1>
+      <p class="proj-hero-sub">Real-time multi-agent AI system processing 100+ claims/min with &lt;250ms latency — autonomously detecting, analyzing, and debunking misinformation at scale.</p>
+      <div class="proj-hero-metrics">
+        <div class="hm-card"><span class="hm-val">100+</span><span class="hm-lbl">Claims / min</span></div>
+        <div class="hm-card"><span class="hm-val">&lt;250ms</span><span class="hm-lbl">Avg Latency</span></div>
+        <div class="hm-card"><span class="hm-val">8</span><span class="hm-lbl">Live Sources</span></div>
+        <div class="hm-card"><span class="hm-val">5</span><span class="hm-lbl">Agent Nodes</span></div>
+      </div>
+      <div class="proj-hero-cta">
+        <a href="https://agentai100.netlify.app" target="_blank" class="btn-main">
+          <span class="live-dot" style="background:#000"></span> Live Demo
+        </a>
+        <a href="https://github.com/Shaunakrane914" target="_blank" class="btn-ghost">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(0,229,255,0.12), transparent 60%)"></div>
+  </header>
+
+  <main class="proj-main">
+
+    <!-- OVERVIEW -->
+    <section class="proj-section">
+      <div class="ps-label">Overview</div>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>Aegis is a production-grade misinformation detection platform built around the concept of <strong>cooperative AI agents</strong> — each specialised for a distinct task in the verification pipeline. Rather than a single monolithic model, Aegis orchestrates a network of agents that communicate and handoff work asynchronously, achieving real-time throughput at scale.</p>
+          <p>The system was built to address a genuine problem: the spread of false claims across social media faster than any manual fact-checking team can respond. Aegis operates autonomously 24/7, ingesting claims, cross-referencing trusted sources, and outputting a confidence-scored verdict.</p>
+        </div>
+        <div class="tech-stack-card">
+          <h3>Tech Stack</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python 3.11</span></div>
+            <div class="ts-item"><span class="ts-icon">⚡</span><span>FastAPI (Async)</span></div>
+            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini / LLM API</span></div>
+            <div class="ts-item"><span class="ts-icon">🔗</span><span>Multi-Agent Orchestration</span></div>
+            <div class="ts-item"><span class="ts-icon">🌐</span><span>Web Scraping (BeautifulSoup)</span></div>
+            <div class="ts-item"><span class="ts-icon">🚀</span><span>Netlify (Frontend)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="proj-section">
+      <div class="ps-label">⚙️ System Architecture</div>
+      <h2 class="ps-title">How the System is Built</h2>
+      <div class="arch-diagram">
+        <!-- Pipeline flow -->
+        <div class="arch-row">
+          <div class="arch-node input-node">
+            <div class="an-icon">📥</div>
+            <div class="an-title">Claim Input</div>
+            <div class="an-sub">User / API feed</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#00e5ff">
+            <div class="an-icon">🕷️</div>
+            <div class="an-title">FETCH Agent</div>
+            <div class="an-sub">Web scraper · API calls · 8 sources</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#a855f7">
+            <div class="an-icon">🧠</div>
+            <div class="an-title">ANALYZE Agent</div>
+            <div class="an-sub">LLM reasoning · Claim parsing</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#10b981">
+            <div class="an-icon">🔍</div>
+            <div class="an-title">VERIFY Agent</div>
+            <div class="an-sub">Trusted dataset · Cross-reference</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node output-node" style="--node-clr:#f97316">
+            <div class="an-icon">⚖️</div>
+            <div class="an-title">VERDICT Agent</div>
+            <div class="an-sub">Confidence score · TRUE / FALSE</div>
+          </div>
+        </div>
+        <!-- AEGIS CORE orchestrator -->
+        <div class="arch-orchestrator">
+          <div class="ao-line"></div>
+          <div class="ao-node">
+            <span class="ao-pulse"></span>
+            <span>AEGIS CORE — Orchestrator</span>
+          </div>
+          <div class="ao-line"></div>
+        </div>
+        <div class="arch-infra">
+          <div class="ai-box"><span>FastAPI</span><span class="ai-sub">Async routing</span></div>
+          <div class="ai-box"><span>Async Queue</span><span class="ai-sub">Agent handoff</span></div>
+          <div class="ai-box"><span>Cache Layer</span><span class="ai-sub">Dedup + speed</span></div>
+          <div class="ai-box"><span>REST API</span><span class="ai-sub">External interface</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="proj-section">
+      <div class="ps-label">Interaction Flow</div>
+      <h2 class="ps-title">How It Works — Step by Step</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num">01</div>
+          <div class="fs-content">
+            <h3>Claim Ingestion</h3>
+            <p>A claim is submitted via the web UI or REST API endpoint. The CORE orchestrator validates the input, deduplicates against the cache, and routes it to the pipeline queue.</p>
+            <code class="code-pill">POST /api/check → { "claim": "vaccines contain chips" }</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">02</div>
+          <div class="fs-content">
+            <h3>Source Fetching</h3>
+            <p>The FETCH Agent concurrently scrapes 8 trusted sources — WHO, CDC, Reuters, Snopes, PolitiFact, AP, AFP, and Wikipedia — using async HTTP requests. Returns raw evidence in &lt;120ms average.</p>
+            <code class="code-pill">8 concurrent requests · BeautifulSoup parsing · 120ms avg</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">03</div>
+          <div class="fs-content">
+            <h3>LLM Analysis</h3>
+            <p>The ANALYZE Agent feeds the raw evidence + original claim to the LLM (Gemini API). The LLM extracts key statements, identifies logical inconsistencies, and produces structured analysis JSON.</p>
+            <code class="code-pill">Gemini API · structured output · claim_score: 0.0–1.0</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">04</div>
+          <div class="fs-content">
+            <h3>Cross-Verification</h3>
+            <p>The VERIFY Agent cross-references the LLM analysis against a curated fact-check dataset. Multiple signals are combined using a weighted confidence model to eliminate hallucination risk.</p>
+            <code class="code-pill">dataset lookup · weighted scoring · anti-hallucination filter</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">05</div>
+          <div class="fs-content">
+            <h3>Verdict Output</h3>
+            <p>The VERDICT Agent generates a final response: TRUE / FALSE / UNVERIFIED with a confidence percentage, supporting evidence citations, and a plain-English explanation. Total pipeline: &lt;250ms.</p>
+            <code class="code-pill">{ verdict: "FALSE", confidence: 0.94, sources: [...] }</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="proj-section">
+      <div class="ps-label">Engineering Problems Solved</div>
+      <h2 class="ps-title">Challenges &amp; Solutions</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Real-time latency in multi-agent pipeline</h3>
+            <p>Sequential agent execution produced unacceptable latency (800ms+) — one agent waiting for another blocked the entire chain.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Async FastAPI + concurrent agent dispatch</h3>
+            <p>Rewrote orchestration using <strong>asyncio + FastAPI</strong> with concurrent source fetching. The FETCH agent now fires 8 requests simultaneously, bringing latency to &lt;250ms.</p>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>LLM hallucinations generating false verdicts</h3>
+            <p>Early versions relied solely on LLM output, which sometimes confidently stated incorrect verdicts when source material was ambiguous.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Multi-source verification layer</h3>
+            <p>Added a dedicated VERIFY agent that cross-checks LLM analysis against a curated fact-check dataset. LLM verdict must align with &gt;60% of source signals to avoid UNVERIFIED output.</p>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Problem</span>
+            <h3>Duplicate claims flooding the pipeline</h3>
+            <p>Viral misinformation causes the same claim to be submitted thousands of times, creating redundant processing load.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Solution</span>
+            <h3>Semantic deduplication cache</h3>
+            <p>Implemented a semantic similarity cache — new claims are embedding-compared against recent claims. Matches serve cached verdicts instantly, eliminating 70%+ of redundant processing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <section class="proj-section proj-next">
+      <div class="ps-label">Roadmap</div>
+      <h2 class="ps-title">What's Next for Aegis</h2>
+      <div class="next-grid">
+        <div class="next-item"><span class="next-icon">📡</span><p>Real-time Twitter/X stream ingestion via firehose API</p></div>
+        <div class="next-item"><span class="next-icon">🌍</span><p>Multilingual claim detection — Hindi, Marathi, Bengali</p></div>
+        <div class="next-item"><span class="next-icon">📊</span><p>Dashboard with live misinformation trend maps</p></div>
+        <div class="next-item"><span class="next-icon">🔐</span><p>Public REST API for third-party fact-checker integration</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="proj-footer">
+    <a href="index.html" class="footer-back">← Back to Portfolio</a>
+    <div class="proj-footer-nav">
+      <span>Next Project:</span>
+      <a href="yield.html">Yield AI →</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
