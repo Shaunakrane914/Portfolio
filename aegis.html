@@ -28,7 +28,7 @@
         <span class="proj-year">Oct 2025 – Feb 2026</span>
       </div>
       <h1 class="proj-hero-title">Project <span style="color:var(--accent-clr)">Aegis</span></h1>
-      <p class="proj-hero-sub">A real-time AI observability and anomaly detection platform. Built with a serverless Netlify API gateway and dynamic LLM key rotation to orchestrate Gemini-powered agents, analyzing live financial data in &lt;30s.</p>
+      <p class="proj-hero-sub">A real-time agentic threat intelligence platform for misinformation, coordinated market manipulation, and reputation attacks. Uses a Gemini Flash swarm with strict JSON outputs, correlating rolling Z-score anomalies from live market data with multi-source news context to render severity-scored verdicts in &lt;30s. Built with resilient gateway routing, multi-key rotation, and model failover.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card"><span class="hm-val">3x</span><span class="hm-lbl">API Throughput</span></div>
         <div class="hm-card"><span class="hm-val">99.9%</span><span class="hm-lbl">Uptime</span></div>
@@ -39,7 +39,7 @@
         <a href="https://agenticai914.netlify.app" target="_blank" class="btn-main">
           <span class="live-dot" style="background:#000"></span> Live Demo
         </a>
-        <a href="https://github.com/Shaunakrane914" target="_blank" class="btn-ghost">GitHub ↗</a>
+        <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" class="btn-ghost">GitHub ↗</a>
       </div>
     </div>
     <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(0,229,255,0.12), transparent 60%)"></div>
@@ -58,7 +58,7 @@
         <div class="tech-stack-card">
           <h3>Tech Stack</h3>
           <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">⚡</span><span>Netlify Serverless (API Gateway)</span></div>
+            <div class="ts-item"><span class="ts-icon">⚡</span><span>Serverless Node Gateway (API Proxy)</span></div>
             <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render</span></div>
             <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini 2.5 Flash / 2.0 Fallback</span></div>
             <div class="ts-item"><span class="ts-icon">🔗</span><span>Supabase (PostgreSQL)</span></div>
@@ -85,7 +85,7 @@
           <div class="arch-node" style="--node-clr:#00e5ff">
             <div class="an-icon">⚡</div>
             <div class="an-title">API Gateway</div>
-            <div class="an-sub">Netlify Serverless · CORS · Rate Limiter</div>
+            <div class="an-sub">Serverless Proxy · CORS · Rate Limiter</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
@@ -140,8 +140,8 @@
           <div class="fs-num">03</div>
           <div class="fs-content">
             <h3>Serverless Inference Gateway</h3>
-            <p>To avoid leaking API keys into the DOM, the frontend pushes the generated payload to a Netlify serverless Node function. The gateway selects an API key from a rotated array and dispatches the request to the Gemini v1beta endpoint.</p>
-            <code class="code-pill">fetch('/.netlify/functions/gemini') → Round-Robin Key selection</code>
+            <p>To avoid leaking API keys into the DOM, the frontend pushes the generated payload to a serverless Node gateway. The gateway selects an API key from a rotated array and dispatches the request to the Gemini v1beta endpoint.</p>
+            <code class="code-pill">Gateway Request → Round-Robin Key selection</code>
           </div>
         </div>
         <div class="flow-step">
@@ -168,8 +168,8 @@
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Automated Key Rotation & Fallbacks</h3>
-            <p>Engineered a Netlify serverless function that acts as a secure gateway. It injects an array of API keys. If Key 1 throws a 429, it waits 300ms and tries Key 2. If Gemini 2.5 goes down, it cascades to Gemini 2.0. Result: 100% uptime.</p>
+            <h3>Automated Key Rotation &amp; Fallbacks</h3>
+            <p>Engineered a serverless gateway that injects an array of API keys. If Key 1 throws a 429, it waits 300ms and tries Key 2. If Gemini 2.5 goes down, it cascades to Gemini 2.0. Result: 100% uptime.</p>
           </div>
         </div>
         <div class="challenge-card">
@@ -181,7 +181,7 @@
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
             <h3>Multi-Tier Proxy Routing</h3>
-            <p>Built an array of proxy fallbacks (`AllOrigins`, `CORSProxy.io`) and specifically defined an `OPTIONS` preflight handler within the Netlify function to trick browsers into allowing secure invocations.</p>
+            <p>Built an array of proxy fallbacks (`AllOrigins`, `CORSProxy.io`) and specifically defined an `OPTIONS` preflight handler within the gateway to ensure secure browser invocations.</p>
           </div>
         </div>
         <div class="challenge-card">
