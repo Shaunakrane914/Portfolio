@@ -523,6 +523,22 @@
 .project-figure {
   margin: 0 0 32px;
 }
+.ps-intro {
+  max-width: 780px;
+  margin: -6px 0 28px;
+  color: var(--dim);
+  font-size: 0.94rem;
+  line-height: 1.8;
+}
+.project-figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 24px;
+}
+.project-figure-grid .project-figure {
+  min-width: 0;
+  margin-bottom: 0;
+}
 .project-figure img {
   display: block;
   width: 100%;
@@ -640,6 +656,7 @@
   /* Main */
   .proj-main { padding: 0 20px 60px; }
   .proj-section { padding: 48px 0; }
+  .project-figure-grid { grid-template-columns: minmax(0,1fr); }
 
   /* Architecture: scroll horizontally */
   .arch-row {

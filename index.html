@@ -108,11 +108,43 @@
       <h2 class="section-title">Featured <span class="underline-purple">Projects</span></h2>
     </div>
 
-    <!-- Project 1 - Industrial Compressor CBM -->
-    <div class="project-featured project-priority" id="proj-compressor">
+    <!-- Project 1 - TopoFlow -->
+    <div class="project-featured proj-alt project-priority" id="proj-topoflow">
+      <div class="pf-visual pf-visual-image topoflow-hero">
+        <img src="assets/topoflow-pore-network-hero.webp" alt="Conceptual micro-CT sandstone pore network with graph nodes and edges tracing connected flow paths" loading="lazy" />
+        <div class="topoflow-visual-label"><span>Concept visual</span><strong>Micro-CT pores → graph topology</strong></div>
+      </div>
       <div class="pf-info">
         <div class="pf-meta">
           <span class="pf-num">01</span>
+          <span class="pf-domain">Graph ML · Scientific Computing</span>
+          <span class="pf-year">2026</span>
+        </div>
+        <h3 class="pf-title">TopoFlow <span class="accent-purple">GNN</span></h3>
+        <p class="pf-desc">A GraphSAGE permeability predictor for pore networks extracted from micro-CT data. The research compares learned topology against Kozeny-Carman physics and uses pore heterogeneity to choose the appropriate regime instead of claiming one model always wins.</p>
+        <div class="pf-metrics">
+          <div class="metric"><span class="metric-val">1,231</span><span class="metric-label">Samples</span></div>
+          <div class="metric"><span class="metric-val">5</span><span class="metric-label">Rock Formations</span></div>
+          <div class="metric"><span class="metric-val">46.2%</span><span class="metric-label">Best MSE Reduction</span></div>
+        </div>
+        <div class="pf-tags">
+          <span>PyTorch Geometric</span>
+          <span>GraphSAGE</span>
+          <span>FastAPI</span>
+          <span>PoreSpy</span>
+        </div>
+        <div class="pf-links">
+          <a href="https://github.com/Shaunakrane914/Flow" target="_blank" rel="noopener noreferrer" class="link-code">GitHub ↗</a>
+          <a href="topoflow.html" class="link-deep">Read Case Study →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 - Industrial Compressor CBM -->
+    <div class="project-featured project-priority" id="proj-compressor">
+      <div class="pf-info">
+        <div class="pf-meta">
+          <span class="pf-num">02</span>
           <span class="pf-domain">Industrial AI · Internship</span>
           <span class="pf-year">2026</span>
         </div>
@@ -134,62 +166,15 @@
           <a href="compressor-cbm.html" class="link-deep">Read Case Study →</a>
         </div>
       </div>
-      <div class="pf-visual">
-        <div class="browser-mockup tilt-left">
-          <div class="bm-bar">
-            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
-            <div class="bm-url">de-identified engineering view</div>
-          </div>
-          <div class="bm-body compressor-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text accent">CBM / PHYSICS</span>
-              <span class="ui-badge">SHADOW VALIDATION</span>
-            </div>
-            <div class="compressor-score-row">
-              <div><span>Fouling evidence</span><strong>Candidate B</strong></div>
-              <div><span>Forecast policy</span><strong class="status-hold">Held</strong></div>
-            </div>
-            <div class="compressor-trace" aria-hidden="true">
-              <span style="--v:22%"></span><span style="--v:30%"></span><span style="--v:36%"></span>
-              <span style="--v:46%"></span><span style="--v:58%"></span><span style="--v:68%"></span>
-              <span class="recovery" style="--v:26%"></span><span style="--v:34%"></span><span style="--v:42%"></span>
-            </div>
-            <div class="compressor-gates">
-              <span>Thermodynamics ✓</span><span>Event provenance ✓</span><span>Claim boundary ✓</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 2 - TopoFlow -->
-    <div class="project-featured proj-alt project-priority" id="proj-topoflow">
-      <div class="pf-visual pf-visual-image">
-        <img src="assets/topoflow-regime-classification.png" alt="TopoFlow benchmark separating physics-favored and GNN-favored pore regimes" loading="lazy" />
-      </div>
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">02</span>
-          <span class="pf-domain">Graph ML · Scientific Computing</span>
-          <span class="pf-year">2026</span>
-        </div>
-        <h3 class="pf-title">TopoFlow <span class="accent-purple">GNN</span></h3>
-        <p class="pf-desc">A GraphSAGE permeability predictor for pore networks extracted from micro-CT data. The research compares learned topology against Kozeny-Carman physics and uses pore heterogeneity to choose the appropriate regime instead of claiming one model always wins.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">1,231</span><span class="metric-label">Samples</span></div>
-          <div class="metric"><span class="metric-val">5</span><span class="metric-label">Rock Formations</span></div>
-          <div class="metric"><span class="metric-val">46.2%</span><span class="metric-label">Best MSE Reduction</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>PyTorch Geometric</span>
-          <span>GraphSAGE</span>
-          <span>FastAPI</span>
-          <span>PoreSpy</span>
-        </div>
-        <div class="pf-links">
-          <a href="https://github.com/Shaunakrane914/Flow" target="_blank" rel="noopener noreferrer" class="link-code">GitHub ↗</a>
-          <a href="topoflow.html" class="link-deep">Read Case Study →</a>
-        </div>
+      <div class="pf-visual pf-visual-evidence">
+        <figure class="evidence-panel">
+          <img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling index history with watch and high thresholds, recorded references, and independent recovery boundaries" loading="lazy" />
+          <figcaption><span>Fouling</span><strong>Candidate B and recovery evidence</strong></figcaption>
+        </figure>
+        <figure class="evidence-panel">
+          <img src="assets/compressor-surge-review-index.png" alt="Plant-specific daily surge-review index with moderate and strong engineering review floors" loading="lazy" />
+          <figcaption><span>Instability review</span><strong>Candidate ranking, not confirmed surge</strong></figcaption>
+        </figure>
       </div>
     </div>
 
@@ -255,7 +240,7 @@
     </div>
 
     <!-- Project 4 - Gridium Protocol -->
-    <div class="project-featured" id="proj-food">
+    <div class="project-featured" id="proj-gridium">
       <div class="pf-info">
         <div class="pf-meta">
           <span class="pf-num">04</span>
@@ -279,7 +264,7 @@
           <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener noreferrer" class="link-live" id="gridium-live">
             <span class="live-dot"></span> Live Demo
           </a>
-          <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="link-code" id="food-code">GitHub ↗</a>
+          <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="link-code" id="gridium-code">GitHub ↗</a>
           <a href="gridium.html" class="link-deep">Deep Dive →</a>
         </div>
       </div>
@@ -310,70 +295,11 @@
       </div>
     </div>
 
-    <!-- Project 5 - Yield AI -->
-    <div class="project-featured proj-alt" id="proj-yield">
-      <div class="pf-visual">
-        <div class="browser-mockup tilt-right">
-          <div class="bm-bar">
-            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
-            <div class="bm-url">Coming soon</div>
-          </div>
-          <div class="bm-body yield-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text" style="color:#a855f7">KrushiMitra</span>
-              <span class="ui-badge" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7">ODISHA</span>
-            </div>
-            <div class="yield-ui-chart">
-              <div class="yuc-bar" style="--h:55%;--c:#a855f7"><span>Wheat</span></div>
-              <div class="yuc-bar" style="--h:82%;--c:#a855f7"><span>Rice</span></div>
-              <div class="yuc-bar" style="--h:48%;--c:#a855f7"><span>Corn</span></div>
-              <div class="yuc-bar" style="--h:74%;--c:#a855f7"><span>Gram</span></div>
-              <div class="yuc-bar" style="--h:91%;--c:#a855f7"><span>Soy</span></div>
-            </div>
-            <div class="yield-ui-pred">
-              <span>AI Prediction</span>
-              <span style="color:#10b981;font-weight:700">4.2T/acre ↑12%</span>
-            </div>
-            <div class="yield-ui-inputs">
-              <div class="yui-tag">Soil: Clay Loam</div>
-              <div class="yui-tag">Rain: 850mm</div>
-              <div class="yui-tag">Season: Kharif</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">05</span>
-          <span class="pf-domain">ML · Full-Stack Web</span>
-          <span class="pf-year">2025 – 2026</span>
-        </div>
-        <h3 class="pf-title">Yield AI <span class="accent-purple">(KrushiMitra)</span></h3>
-        <p class="pf-desc">A mobile-first React and FastAPI prototype for exploring crop-yield scenarios across Odisha districts. The current public build focuses on accessible inputs, confidence-range presentation, and service architecture; model validation remains future work.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">Prototype</span><span class="metric-label">Model Status</span></div>
-          <div class="metric"><span class="metric-val">React</span><span class="metric-label">Mobile UI</span></div>
-          <div class="metric"><span class="metric-val">FastAPI</span><span class="metric-label">Service Layer</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>Scenario UX</span>
-          <span>Mobile-First</span>
-          <span>AgriTech</span>
-          <span>FastAPI</span>
-        </div>
-        <div class="pf-links">
-          <span class="project-status">Prototype · No Live Demo</span>
-          <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" rel="noopener noreferrer" class="link-code" id="yield-code">GitHub ↗</a>
-          <a href="yield.html" class="link-deep">Deep Dive →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 6 - Food Operations -->
+    <!-- Project 5 - Food Operations -->
     <div class="project-featured" id="proj-sodexo">
       <div class="pf-info">
         <div class="pf-meta">
-          <span class="pf-num">06</span>
+          <span class="pf-num">05</span>
           <span class="pf-domain">Optimization · Data Analysis</span>
           <span class="pf-year">2025 – 2026</span>
         </div>
@@ -422,6 +348,65 @@
               Reduce "Butter Chicken" prep qty by 15% for Wednesday dinner service based on 4-week consumption pattern.
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 6 - Yield AI -->
+    <div class="project-featured proj-alt" id="proj-yield">
+      <div class="pf-visual">
+        <div class="browser-mockup tilt-right">
+          <div class="bm-bar">
+            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
+            <div class="bm-url">Coming soon</div>
+          </div>
+          <div class="bm-body yield-ui">
+            <div class="ui-header">
+              <span class="ui-logo-text" style="color:#a855f7">KrushiMitra</span>
+              <span class="ui-badge" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7">ODISHA</span>
+            </div>
+            <div class="yield-ui-chart">
+              <div class="yuc-bar" style="--h:55%;--c:#a855f7"><span>Wheat</span></div>
+              <div class="yuc-bar" style="--h:82%;--c:#a855f7"><span>Rice</span></div>
+              <div class="yuc-bar" style="--h:48%;--c:#a855f7"><span>Corn</span></div>
+              <div class="yuc-bar" style="--h:74%;--c:#a855f7"><span>Gram</span></div>
+              <div class="yuc-bar" style="--h:91%;--c:#a855f7"><span>Soy</span></div>
+            </div>
+            <div class="yield-ui-pred">
+              <span>AI Prediction</span>
+              <span style="color:#10b981;font-weight:700">4.2T/acre ↑12%</span>
+            </div>
+            <div class="yield-ui-inputs">
+              <div class="yui-tag">Soil: Clay Loam</div>
+              <div class="yui-tag">Rain: 850mm</div>
+              <div class="yui-tag">Season: Kharif</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pf-info">
+        <div class="pf-meta">
+          <span class="pf-num">06</span>
+          <span class="pf-domain">ML · Full-Stack Web</span>
+          <span class="pf-year">2025 – 2026</span>
+        </div>
+        <h3 class="pf-title">Yield AI <span class="accent-purple">(KrushiMitra)</span></h3>
+        <p class="pf-desc">A mobile-first React and FastAPI prototype for exploring crop-yield scenarios across Odisha districts. The current public build focuses on accessible inputs, confidence-range presentation, and service architecture; model validation remains future work.</p>
+        <div class="pf-metrics">
+          <div class="metric"><span class="metric-val">Prototype</span><span class="metric-label">Model Status</span></div>
+          <div class="metric"><span class="metric-val">React</span><span class="metric-label">Mobile UI</span></div>
+          <div class="metric"><span class="metric-val">FastAPI</span><span class="metric-label">Service Layer</span></div>
+        </div>
+        <div class="pf-tags">
+          <span>Scenario UX</span>
+          <span>Mobile-First</span>
+          <span>AgriTech</span>
+          <span>FastAPI</span>
+        </div>
+        <div class="pf-links">
+          <span class="project-status">Prototype · No Live Demo</span>
+          <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" rel="noopener noreferrer" class="link-code" id="yield-code">GitHub ↗</a>
+          <a href="yield.html" class="link-deep">Deep Dive →</a>
         </div>
       </div>
     </div>
