@@ -28,18 +28,18 @@
         <span class="proj-year">2025</span>
       </div>
       <h1 class="proj-hero-title">Gridium <span style="color:var(--accent-clr)">Protocol</span></h1>
-      <p class="proj-hero-sub">A Decentralized Physical Infrastructure Network (DePIN) prototype. Gridium solves the decentralized energy trilemma by integrating an EVM AMM with a PyTorch Deep Deterministic Policy Gradient (DDPG) agent for autonomous grid management, verified via zk-SNARKs.</p>
+      <p class="proj-hero-sub">A team-built DePIN microgrid prototype integrating a simulated 15-node energy network, an EVM AMM, a PyTorch Deep Deterministic Policy Gradient (DDPG) agent, and a Groth16 proof flow.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">500ms</span><span class="hm-lbl">Physics Tick Rate</span></div>
         <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">zk-SNARK</span><span class="hm-lbl">Groth16 Proofs</span></div>
         <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">DDPG</span><span class="hm-lbl">Actor-Critic RL</span></div>
-        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">Zero</span><span class="hm-lbl">Privacy Leakage</span></div>
+        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">15</span><span class="hm-lbl">Simulated Nodes</span></div>
       </div>
       <div class="proj-hero-cta">
-        <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" class="btn-main" style="background:#f97316">
+        <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-main" style="background:#f97316">
           <span class="live-dot" style="background:#000"></span> Live Demo
         </a>
-        <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" class="btn-ghost">GitHub ↗</a>
+        <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="btn-ghost">GitHub ↗</a>
       </div>
     </div>
     <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.1), transparent 60%)"></div>
@@ -53,7 +53,8 @@
       <div class="overview-grid">
         <div class="overview-text">
           <p>Traditional power grids are monolithic and brittle. As residential solar panels and batteries proliferate, the legacy grid struggles. Prosumers sell surplus energy back to utilities at wholesale pennies, but unmanaged peer-to-peer trading causes grid instability and severe physical privacy risks (ledgers revealing home occupancy).</p>
-          <p>Gridium operates at the intersection of AI, cryptography, and DeFi. It utilizes an Automated Market Maker (AMM) for instant energy liquidity, governed dynamically by an RL agent acting as an autonomous grid operator, ensuring trades are mathematically verified on-chain without exposing raw telemetry data.</p>
+          <p>Gridium operates at the intersection of AI, cryptography, and DeFi. It uses an Automated Market Maker for simulated energy liquidity, a continuous-control RL agent for fee adjustment, and a proof-of-surplus flow that demonstrates how raw telemetry could remain off-chain.</p>
+          <p><strong>Team contribution:</strong> I focused on the Python AI engine, backend integration, and 3D visualization. Yash Pandit led smart contracts and zero-knowledge implementation; Sanket Deka worked on frontend and UI/UX.</p>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(249,115,22,0.15)">
           <h3>Tech Stack & MLOps</h3>
@@ -74,9 +75,6 @@
       <div class="ps-label">⚙️ System Architecture</div>
       <h2 class="ps-title">How the DePIN is Built</h2>
       
-      <!-- Generated Diagram Image -->
-      <img src="gridium_architecture_1776259790273.png" alt="Gridium Pipeline Architecture" style="width:100%; border-radius:12px; margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.1);">
-
       <div class="arch-diagram">
         <div class="arch-row">
           <div class="arch-node input-node">
@@ -195,7 +193,7 @@
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
             <h3>WebSocket Avalanches & Thundering Herds</h3>
-            <p>If the Render backend restarted due to an ML OOM error, thousands of frontend clients attempted to reconnect simultaneously, causing a DDoS loop against the WebSocket Gateway.</p>
+            <p>A backend restart can cause every connected frontend client to retry at the same moment, amplifying load while the WebSocket gateway is still recovering.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>

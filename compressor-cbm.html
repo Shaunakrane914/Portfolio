@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Industrial Compressor CBM - Shaunak Rane</title>
+  <meta name="description" content="A de-identified case study of a three-plant, physics-grounded compressor condition-monitoring internship project." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="project-page.css" />
+</head>
+<body>
+  <canvas id="neural-canvas"></canvas>
+
+  <nav id="navbar" class="solid">
+    <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
+    <a href="index.html#work" class="nav-back">← All Projects</a>
+  </nav>
+
+  <header class="proj-hero" style="--accent-clr:#00e5ff;">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-meta">
+        <span class="proj-label">01 // Industrial AI · Internship</span>
+        <span class="proj-year">2026 · Private Project</span>
+      </div>
+      <h1 class="proj-hero-title">Compressor <span style="color:var(--accent-clr)">Condition Monitoring</span></h1>
+      <p class="proj-hero-sub">A physics-grounded, three-plant condition-monitoring program that turns reconciled historian data into explainable fouling evidence, plant-specific instability review queues, and carefully gated operator diagnostics.</p>
+      <div class="proj-hero-metrics">
+        <div class="hm-card"><span class="hm-val">3</span><span class="hm-lbl">Plant-Specific Contracts</span></div>
+        <div class="hm-card"><span class="hm-val">4,000+</span><span class="hm-lbl">Longest Daily History</span></div>
+        <div class="hm-card"><span class="hm-val">3,879</span><span class="hm-lbl">Reproduced DFI Rows</span></div>
+        <div class="hm-card"><span class="hm-val">17/17</span><span class="hm-lbl">Latest Validation Checks</span></div>
+      </div>
+      <div class="proj-hero-cta">
+        <span class="project-status">Private source · De-identified case study</span>
+        <a href="#decisions" class="btn-ghost">See Engineering Decisions</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="proj-main">
+    <section class="proj-section">
+      <div class="ps-label">Overview</div>
+      <div class="overview-grid">
+        <div class="overview-text">
+          <p>The original brief sounded simple: show compressor degradation and predict maintenance. The difficult part was deciding <strong>which conclusions the data could actually support</strong>. I worked across reconciled thermodynamics, auxiliary mechanical channels, maintenance references, Excel lineage, research scripts, APIs, and operator-facing views.</p>
+          <p>Instead of optimizing a single opaque score, I built an evidence hierarchy. Fouling uses variables with direct thermodynamic meaning. Surge-oriented work uses different evidence contracts for each plant. Forecasts, thresholds, and maintenance resets are promoted only when their validation gates pass.</p>
+          <ul>
+            <li><strong>My role:</strong> research design, data forensics, feature engineering, validation, backend integration, and dashboard implementation.</li>
+            <li><strong>Scientific boundary:</strong> daily historian exports can rank review candidates; they do not confirm aerodynamic surge without controller, map, or high-frequency evidence.</li>
+            <li><strong>Privacy boundary:</strong> this page contains aggregate methodology only. Raw plant data, operational tags, and internal source artifacts are not published.</li>
+          </ul>
+        </div>
+        <aside class="tech-stack-card">
+          <h3>Stack &amp; Methods</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">PY</span><span>Python / pandas / NumPy</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>Scikit-learn / statsmodels</span></div>
+            <div class="ts-item"><span class="ts-icon">API</span><span>Flask REST services</span></div>
+            <div class="ts-item"><span class="ts-icon">QA</span><span>pytest / frozen hashes</span></div>
+            <div class="ts-item"><span class="ts-icon">WEB</span><span>HTML / CSS / JavaScript</span></div>
+            <div class="ts-item"><span class="ts-icon">ENG</span><span>Thermodynamic reconciliation</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">System Architecture</div>
+      <h2 class="ps-title">From Historian Data to Reviewable Evidence</h2>
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <div class="arch-node input-node">
+            <div class="an-icon">01</div>
+            <div class="an-title">Historian Exports</div>
+            <div class="an-sub">Process · mechanical · maintenance context</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#00e5ff">
+            <div class="an-icon">02</div>
+            <div class="an-title">Reconciliation</div>
+            <div class="an-sub">Thermodynamic variables · quality gates</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#a855f7">
+            <div class="an-icon">03</div>
+            <div class="an-title">Evidence Engines</div>
+            <div class="an-sub">DFI · review queues · event context</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node" style="--node-clr:#f97316">
+            <div class="an-icon">04</div>
+            <div class="an-title">Promotion Gates</div>
+            <div class="an-sub">Holdout · causality · regression tests</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node output-node" style="--node-clr:#10b981">
+            <div class="an-icon">05</div>
+            <div class="an-title">Operator UI</div>
+            <div class="an-sub">Trace · evidence · limitations · actions</div>
+          </div>
+        </div>
+        <div class="arch-secondary">
+          <div class="as-box">
+            <span class="as-icon">DFI</span>
+            <div>
+              <strong>Physics-grounded fouling</strong>
+              <p>Plant 2 Candidate B combines reconciled polytropic-efficiency loss and temperature-rise penalties across all four stages, with prior-only operating envelopes and fixed development scaling.</p>
+            </div>
+          </div>
+          <div class="as-box">
+            <span class="as-icon">QA</span>
+            <div>
+              <strong>Claims are part of the code contract</strong>
+              <p>Forecast enablement, maintenance labels, threshold use, and surge wording are protected by configuration, frozen artifacts, validators, and regression tests.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section" id="decisions">
+      <div class="ps-label">Research Decisions</div>
+      <h2 class="ps-title">The Most Useful Results Were Not Always Promotions</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num">01</div>
+          <div class="fs-content">
+            <h3>Rebuilt Plant 2 fouling from first principles</h3>
+            <p>Audited each reconciled variable for monotonic degradation, stability, noise, and maintenance recovery. The selected shadow formulation reproduced 3,879 historical rows with maximum absolute difference below 1e-10.</p>
+            <code class="code-pill">Candidate B = stage efficiency loss + temperature-rise penalty</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">02</div>
+          <div class="fs-content">
+            <h3>Rejected forecasts that looked plausible but failed gates</h3>
+            <p>Rolling-origin tests covered classical, tree-based, physics-guided, and KNN approaches. Holt damped trend remained the numerical winner, but the evidence was too weak for maintenance decisions because the holdout contained only one effective maintenance event.</p>
+            <code class="code-pill">Decision: preserve monitoring; keep forecast policy disabled</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">03</div>
+          <div class="fs-content">
+            <h3>Separated anomaly context from surge confirmation</h3>
+            <p>A full historian audit found different observability at each plant. I replaced one shared detector with three plant-specific review contracts and renamed the continuous context layer so it did not imply physical distance to an OEM surge line.</p>
+            <code class="code-pill">Review candidate ≠ confirmed surge event</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">04</div>
+          <div class="fs-content">
+            <h3>Cross-verified newly supplied wash-oil histories</h3>
+            <p>Causal 21-day baselines, multi-wheel consensus, persistent restoration, and independent DFI recovery identified three complete dosing cycles. Only one cycle had sufficient thermodynamic corroboration, so it was promoted as event context without triggering an automatic DFI reset.</p>
+            <code class="code-pill">3 complete cycles → 1 corroborated context event → 0 automatic resets</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">Plant-Specific Evidence</div>
+      <h2 class="ps-title">One Platform, Three Scientific Contracts</h2>
+      <div class="evidence-table-wrap">
+        <table class="evidence-table">
+          <thead>
+            <tr>
+              <th>Plant</th>
+              <th>Available evidence</th>
+              <th>Legitimate output</th>
+              <th>Claim boundary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Plant 1</td>
+              <td>Flow, pressure ratio, speed, four vibration channels, two thrust probes</td>
+              <td>Mechanical-aerodynamic review ranking</td>
+              <td>Engineering review only</td>
+            </tr>
+            <tr>
+              <td>Plant 2</td>
+              <td>Stage flow and pressure, twelve compressor vibration channels, four displacement probes</td>
+              <td>Stage-consensus review ranking</td>
+              <td>Units and repaired lineage remain explicit</td>
+            </tr>
+            <tr>
+              <td>Plant 3</td>
+              <td>Flow, pressure, temperature, power</td>
+              <td>Thermodynamic operating excursion</td>
+              <td>No mechanical surge claim</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">Engineering Outcomes</div>
+      <h2 class="ps-title">What This Project Demonstrates</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Risk</span>
+            <h3>Optimizing against unreliable labels</h3>
+            <p>Maintenance dates, thermodynamic recovery boundaries, and index responses did not consistently align.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Response</span>
+            <h3>Separated three layers of truth</h3>
+            <p>Recorded references, physical recoveries, and verified maintenance methods are retained independently, preventing label noise from silently steering the model.</p>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Risk</span>
+            <h3>One model across unlike plants</h3>
+            <p>Sensor availability, units, operating ranges, and mechanical coverage differ materially.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Response</span>
+            <h3>Plant-specific contracts</h3>
+            <p>No shared cross-plant threshold is allowed. Each output is named and scored according to the evidence that plant can actually provide.</p>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Risk</span>
+            <h3>A polished graph can overstate certainty</h3>
+            <p>Forecast and anomaly curves can look authoritative even when validation evidence is sparse.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Response</span>
+            <h3>UI-level scientific boundaries</h3>
+            <p>Research-only labels, disabled decision coupling, rejection reasons, and evidence details remain visible next to the visualization.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section proj-next">
+      <div class="ps-label">Current Status</div>
+      <h2 class="ps-title">A validated shadow platform, not a claim machine</h2>
+      <div class="next-grid">
+        <div class="next-item"><span class="next-icon">01</span><p>Candidate B remains the preferred Plant 2 shadow fouling formulation.</p></div>
+        <div class="next-item"><span class="next-icon">02</span><p>Forecasting remains separated from alerts and blocked from maintenance decisions.</p></div>
+        <div class="next-item"><span class="next-icon">03</span><p>Surge-oriented outputs rank evidence for review and never confirm aerodynamic surge.</p></div>
+        <div class="next-item"><span class="next-icon">04</span><p>New maintenance evidence can improve provenance without automatically rewriting model state.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="proj-footer">
+    <a href="index.html#work" class="footer-back">← Back to Portfolio</a>
+    <div class="proj-footer-nav">
+      <span>Next Project:</span>
+      <a href="topoflow.html">TopoFlow GNN →</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

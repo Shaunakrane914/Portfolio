@@ -96,10 +96,10 @@ if (hamburger && mobileMenu) {
 const tw = document.getElementById('typewriter');
 if (tw) {
   const phrases = [
-    'Building AI Systems That Don\'t Fail in Production.',
-    'MLOps · Multi-Agent · Real-time Intelligence.',
-    'Designing Scalable AI Pipelines.',
-    'Full-Stack Developer. AI Engineer.'
+    'Building ML systems that earn their claims.',
+    'Physics-informed AI · Graph ML · Evaluation.',
+    'From research evidence to usable software.',
+    'Applied ML engineer. Open-source learner.'
   ];
   let pIdx = 0, cIdx = 0, deleting = false;
 

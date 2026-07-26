@@ -310,6 +310,14 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
   gap: 16px;
   flex-wrap: wrap;
 }
+.hero-proof {
+  max-width: 680px;
+  margin-top: 20px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.7;
+}
 .btn-main {
   display: inline-flex;
   align-items: center;
@@ -446,6 +454,7 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
   transform: translateY(-4px);
   border-color: rgba(255,255,255,0.15);
 }
+.project-priority { border-color: rgba(0,229,255,0.16); }
 .proj-alt { grid-template-columns: 420px 1fr; }
 .proj-alt .pf-visual { order: -1; }
 
@@ -551,6 +560,18 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
   transition: border-color 0.2s, opacity 0.2s;
 }
 .link-deep:hover { border-color: var(--cyan); opacity: 0.8; }
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 1.2;
+}
 
 /* Metrics row */
 .pf-metrics {
@@ -586,6 +607,18 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
   min-height: 340px;
   background: var(--bg3);
   border-left: 1px solid var(--border);
+}
+.pf-visual-image {
+  padding: 0;
+  background: #11141b;
+}
+.pf-visual-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+  object-position: center;
 }
 .proj-alt .pf-visual { border-left: none; border-right: 1px solid var(--border); }
 .pf-food .pf-visual  { border-left: 1px solid var(--border); }
@@ -770,6 +803,53 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
 /* ============================================================
    EXPERIENCE / SKILLS
 ============================================================ */
+.experience-ledger {
+  display: grid;
+  gap: 1px;
+  margin-bottom: 32px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--border);
+}
+.experience-entry {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px 32px;
+  background: var(--bg2);
+}
+.experience-when {
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+.experience-entry h3 {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+.experience-entry p {
+  max-width: 760px;
+  color: var(--dim);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+.experience-evidence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.experience-evidence span {
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+}
 .skills-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -944,6 +1024,7 @@ footer {
   background: var(--bg3);
   overflow: visible;
 }
+.pf-visual.pf-visual-image { padding: 0; overflow: hidden; }
 .proj-alt .pf-visual { border-right: 1px solid var(--border); }
 
 .browser-mockup {
@@ -1235,6 +1316,68 @@ footer {
   letter-spacing: 0.04em;
 }
 
+/* ---- COMPRESSOR CBM UI ---- */
+.compressor-ui {
+  min-height: 220px;
+  justify-content: space-between;
+}
+.compressor-score-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.compressor-score-row > div {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+}
+.compressor-score-row span,
+.compressor-score-row strong { display: block; }
+.compressor-score-row span {
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.5rem;
+}
+.compressor-score-row strong {
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 0.72rem;
+}
+.compressor-score-row .status-hold { color: #fbbf24; }
+.compressor-trace {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 74px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,229,255,0.25);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 100% 24px;
+}
+.compressor-trace span {
+  flex: 1;
+  height: var(--v);
+  min-height: 5px;
+  background: var(--cyan);
+  border-radius: 2px 2px 0 0;
+  opacity: 0.8;
+}
+.compressor-trace .recovery { background: var(--green); }
+.compressor-gates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.compressor-gates span {
+  padding: 3px 6px;
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 4px;
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 0.5rem;
+}
+
 /* ============================================================
    RESPONSIVE — Tablet (≤1024px)
 ============================================================ */
@@ -1327,6 +1470,8 @@ footer {
 
   /* Browser mockup — shrink and remove tilt on mobile */
   .pf-visual { min-height: 220px; padding: 20px 16px; }
+  .pf-visual.pf-visual-image { padding: 0; }
+  .pf-visual-image img { min-height: 220px; }
   .browser-mockup {
     width: 100%;
     max-width: 320px;
@@ -1336,6 +1481,11 @@ footer {
 
   /* ---- Skills ---- */
   .skills-layout { grid-template-columns: 1fr; gap: 16px; }
+  .experience-entry {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 24px;
+  }
   .skills-col { gap: 16px; }
   .skill-block { padding: 24px; }
   .skill-block h3 { font-size: 0.95rem; }
@@ -1398,8 +1548,10 @@ footer {
 
   /* Browser mockup hidden on very small screens — too cramped */
   .pf-visual { min-height: 180px; }
+  .pf-visual-image img { min-height: 180px; }
   .browser-mockup { max-width: 280px; }
   .bm-body { padding: 10px; gap: 8px; }
+  .compressor-score-row { grid-template-columns: 1fr; }
 
   /* Expertise card */
   .exp-card { padding: 20px; }
@@ -1427,4 +1579,3 @@ footer {
   /* Mobile menu links */
   .mobile-link { font-size: 1rem; }
 }
-

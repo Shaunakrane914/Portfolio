@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yield AI (KrushiMitra) — Shaunak Rane</title>
-  <meta name="description" content="Yield AI: ML-powered crop yield prediction for Odisha farmers. Architecture, model design, and impact."/>
+  <title>KrushiMitra Prototype - Shaunak Rane</title>
+  <meta name="description" content="KrushiMitra is a mobile-first React and FastAPI prototype for exploring crop-yield scenarios in Odisha."/>
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -24,22 +24,20 @@
   <header class="proj-hero" style="--accent-clr:#a855f7;">
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label">02 // ML · Full-Stack Web</span>
+        <span class="proj-label">05 // Product Prototype · Full-Stack Web</span>
         <span class="proj-year">Nov 2025 – Feb 2026</span>
       </div>
       <h1 class="proj-hero-title">Yield AI <span style="color:var(--accent-clr); font-size:0.7em;">(KrushiMitra)</span></h1>
-      <p class="proj-hero-sub">AI-powered crop yield prediction platform built for farmers in Odisha — 87% model accuracy, 12 crop types, sub-second predictions delivered through a mobile-first web app.</p>
+      <p class="proj-hero-sub">A mobile-first crop-yield scenario prototype for Odisha farmers. The public build demonstrates an accessible React interface and FastAPI service boundary; its prediction output is illustrative while a validated dataset and benchmark remain future work.</p>
       <div class="proj-hero-metrics">
-        <div class="hm-card" style="--m-clr:#a855f7"><span class="hm-val" style="color:#a855f7">87%</span><span class="hm-lbl">Model Accuracy</span></div>
-        <div class="hm-card" style="--m-clr:#a855f7"><span class="hm-val" style="color:#a855f7">12</span><span class="hm-lbl">Crop Types</span></div>
-        <div class="hm-card" style="--m-clr:#a855f7"><span class="hm-val" style="color:#a855f7">&lt;1s</span><span class="hm-lbl">Prediction Time</span></div>
-        <div class="hm-card" style="--m-clr:#a855f7"><span class="hm-val" style="color:#a855f7">5</span><span class="hm-lbl">Input Features</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">React</span><span class="hm-lbl">Responsive Interface</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">FastAPI</span><span class="hm-lbl">Service Boundary</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Prototype</span><span class="hm-lbl">Current Model Status</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Pending</span><span class="hm-lbl">External Validation</span></div>
       </div>
       <div class="proj-hero-cta">
-        <a class="btn-main" style="background:#a855f7">
-          <span class="live-dot" style="background:#000"></span> Live Demo (Not available)
-        </a>
-        <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" class="btn-ghost">GitHub ↗</a>
+        <span class="project-status">Prototype · No live demo</span>
+        <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" rel="noopener noreferrer" class="btn-ghost">GitHub ↗</a>
       </div>
     </div>
     <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(168,85,247,0.12), transparent 60%)"></div>
@@ -52,18 +50,17 @@
       <div class="ps-label">Overview</div>
       <div class="overview-grid">
         <div class="overview-text">
-          <p>KrushiMitra ("friend of the farmer" in Odia) addresses a critical gap in Indian agriculture — most crop yield prediction tools are designed for large-scale commercial farms or require expensive sensors. This platform brings <strong>accessible, data-driven crop predictions</strong> to smallholder farmers in Odisha using nothing more than a phone and basic seasonal knowledge.</p>
-          <p>Farmers enter soil type, rainfall, season, district, and crop type. Within a second, a trained ML model returns a predicted yield in tonnes per acre — along with a comparison to regional averages and actionable recommendations.</p>
+          <p>KrushiMitra explores how a farmer-facing yield tool could collect district, crop, rainfall, and temperature context without demanding specialist hardware or a desktop workflow.</p>
+          <p>The strongest part of the current project is the <strong>product and service architecture</strong>: a mobile React interface, typed components, and a FastAPI backend prepared for a future validated model. The repository currently uses mock prediction behavior, so this case study intentionally makes no accuracy or agronomic-impact claim.</p>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(168,85,247,0.15)">
           <h3>Tech Stack</h3>
           <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python 3.11</span></div>
-            <div class="ts-item"><span class="ts-icon">🌶️</span><span>Flask (REST Backend)</span></div>
-            <div class="ts-item"><span class="ts-icon">🤖</span><span>Scikit-learn (Random Forest)</span></div>
-            <div class="ts-item"><span class="ts-icon">🐼</span><span>Pandas / NumPy</span></div>
-            <div class="ts-item"><span class="ts-icon">📱</span><span>Mobile-First HTML/CSS/JS</span></div>
-            <div class="ts-item"><span class="ts-icon">🚀</span><span>Netlify (Frontend)</span></div>
+            <div class="ts-item"><span class="ts-icon">TS</span><span>React / TypeScript / Vite</span></div>
+            <div class="ts-item"><span class="ts-icon">UI</span><span>Radix UI / Tailwind CSS</span></div>
+            <div class="ts-item"><span class="ts-icon">API</span><span>Python / FastAPI</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>Scikit-learn / XGBoost ready</span></div>
+            <div class="ts-item"><span class="ts-icon">DB</span><span>PyMySQL integration</span></div>
           </div>
         </div>
       </div>
@@ -83,14 +80,14 @@
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
             <div class="an-icon">🌐</div>
-            <div class="an-title">Flask API</div>
-            <div class="an-sub">Input validation · Feature engineering</div>
+            <div class="an-title">FastAPI Service</div>
+            <div class="an-sub">Validation · routing · response contract</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
             <div class="an-icon">🤖</div>
-            <div class="an-title">ML Model</div>
-            <div class="an-sub">Random Forest · Trained on Odisha dataset</div>
+            <div class="an-title">Scenario Adapter</div>
+            <div class="an-sub">Mock output · model interface boundary</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node output-node" style="--node-clr:#10b981">
@@ -103,15 +100,15 @@
           <div class="as-box">
             <span class="as-icon">📦</span>
             <div>
-              <strong>Training Data Pipeline</strong>
-              <p>Historical Odisha crop yield records → Feature extraction (soil pH, NDVI, rainfall zones) → Model training → Serialised .pkl</p>
+              <strong>Validation Work Still Required</strong>
+              <p>Curated historical records → leakage-safe temporal split → baseline comparison → calibrated uncertainty → agronomic review.</p>
             </div>
           </div>
           <div class="as-box">
             <span class="as-icon">📱</span>
             <div>
               <strong>Mobile-First Frontend</strong>
-              <p>Progressive form UX → Fetch API call → Rendered prediction card. Works on 2G with minimal JS payload.</p>
+              <p>Typed form state → API request → response card with a predicted range, historical comparison, and explanatory factors.</p>
             </div>
           </div>
         </div>
@@ -128,31 +125,31 @@
           <div class="fs-content">
             <h3>Farmer Fills Input Form</h3>
             <p>The farmer selects their district, soil type (Clay Loam, Sandy, Black, Red), crop (Rice, Wheat, Maize, etc.), expected rainfall range, and growing season (Kharif / Rabi / Zaid). Designed for low-literacy environments with visual icons.</p>
-            <code class="code-pill">5 features · dropdown-first UX · works on 2G</code>
+            <code class="code-pill">District · crop · rainfall · temperature · seasonal context</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">02</div>
           <div class="fs-content">
-            <h3>Feature Engineering on the Backend</h3>
-            <p>Flask receives the form POST, encodes categorical features (soil type → numerical), normalises rainfall values, and constructs the feature vector expected by the trained model.</p>
-            <code class="code-pill">One-hot encoding · MinMaxScaler · feature vector [5 dims]</code>
+            <h3>Validate a typed request</h3>
+            <p>FastAPI receives the scenario, validates numeric ranges and categorical inputs, and converts the frontend payload into a stable service contract.</p>
+            <code class="code-pill">React form → Pydantic schema → scenario service</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">03</div>
           <div class="fs-content">
-            <h3>Random Forest Prediction</h3>
-            <p>The serialised Random Forest model (trained on 6 years of Odisha Agricultural Department records) predicts yield in tonnes/acre. The model ensemble of 100 decision trees outputs both a point prediction and a confidence interval.</p>
-            <code class="code-pill">RandomForestRegressor · 100 estimators · R² = 0.87</code>
+            <h3>Return an illustrative scenario</h3>
+            <p>The current public implementation uses mock prediction logic to exercise the end-to-end interaction. It is an interface prototype, not a validated agricultural model.</p>
+            <code class="code-pill">Current status: product prototype · benchmark pending</code>
           </div>
         </div>
         <div class="flow-step">
           <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">04</div>
           <div class="fs-content">
             <h3>Contextualised Output</h3>
-            <p>The prediction is enriched with district-level average yield data, a percentage deviation, and a recommendation (e.g., "12% above district average — consider intercropping with legumes"). All returned as a clean JSON response.</p>
-            <code class="code-pill">{ yield: 4.2, avg: 3.7, delta: "+12%", tips: [...] }</code>
+            <p>The response design groups the estimated range, historical comparison, and key factors so a future validated model can explain its output without changing the user flow.</p>
+            <code class="code-pill">{ estimate, range, comparison, factors, model_status }</code>
           </div>
         </div>
       </div>
@@ -166,37 +163,37 @@
         <div class="challenge-card" style="--cc-clr:#a855f7">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>Sparse and inconsistent agricultural data</h3>
-            <p>Odisha crop yield records had missing values, inconsistent units (quintal vs kg vs tonne), and varying district names across years, making raw data unusable.</p>
+            <h3>Prediction claims arrived before validation</h3>
+            <p>The interface made it easy to present model-like output before a trustworthy dataset, temporal evaluation, and calibrated uncertainty were in place.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Custom ETL pipeline + data normalisation</h3>
-            <p>Built a pandas-based ETL pipeline that standardised units, mapped district name variants, and imputed missing values using district-level medians. Increased usable records by 40%.</p>
+            <h3>Made model status explicit</h3>
+            <p>The portfolio and case study now label the project as a prototype. A future promotion requires a documented dataset, reproducible baselines, and out-of-time validation.</p>
           </div>
         </div>
         <div class="challenge-card" style="--cc-clr:#a855f7">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>Low smartphone penetration in target user base</h3>
-            <p>Many Odisha farmers use entry-level Android devices with slow internet. A typical React SPA would be unusable on these devices.</p>
+            <h3>Complex inputs for a broad audience</h3>
+            <p>Weather and crop context can quickly become an intimidating form, especially on a small screen.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Progressively enhanced mobile-first frontend</h3>
-            <p>Built with vanilla HTML/CSS/JS — zero framework dependencies, total JS payload under 12kb. Form state preserved in localStorage so network drops don't lose input.</p>
+            <h3>Mobile-first component flow</h3>
+            <p>Used React, TypeScript, Radix primitives, and constrained controls to keep the scenario workflow responsive and understandable.</p>
           </div>
         </div>
         <div class="challenge-card" style="--cc-clr:#a855f7">
           <div class="cc-problem">
             <span class="cc-badge problem">Problem</span>
-            <h3>Model overfitting on district-level data</h3>
-            <p>Initial models trained per-district overfitted to small sample sizes and generalised poorly to unseen seasons.</p>
+            <h3>A future model must generalize across time</h3>
+            <p>Random splitting would overstate performance when weather patterns and agricultural practices drift across seasons.</p>
           </div>
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
-            <h3>Unified model with district as a feature</h3>
-            <p>Switched to a single statewide model with district encoded as a categorical feature, using cross-validation across years. R² improved from 0.61 to 0.87.</p>
+            <h3>Define a temporal benchmark first</h3>
+            <p>The next research milestone is an out-of-time comparison against district and crop baselines, followed by uncertainty calibration and domain review.</p>
           </div>
         </div>
       </div>
