@@ -418,7 +418,15 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
 #exp-backend:hover { border-color: rgba(249,115,22,0.3); }
 #exp-web:hover { border-color: rgba(16,185,129,0.3); }
 
-.exp-icon { font-size: 2.2rem; margin-bottom: 18px; }
+.exp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 18px;
+}
+.exp-icon svg { display: block; }
 .exp-card h3 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -994,7 +1002,16 @@ section#home { max-width: 100%; padding-left: 0; padding-right: 0; }
   transition: color 0.2s;
 }
 .clink:hover { color: var(--cyan); }
-.clink-icon { font-size: 1.1rem; }
+.clink-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.clink-icon svg { display: block; }
+.clink.linkedin:hover { color: #0a66c2; }
 
 /* ============================================================
    FOOTER
@@ -1674,7 +1691,7 @@ footer {
 
   /* Expertise card */
   .exp-card { padding: 20px; }
-  .exp-icon { font-size: 1.8rem; margin-bottom: 12px; }
+  .exp-icon { width: 32px; height: 32px; margin-bottom: 12px; }
   .exp-card h3 { font-size: 1rem; }
 
   /* Skill block */
