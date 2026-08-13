@@ -1,574 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shaunak Rane | Applied AI & ML Engineer</title>
-  <meta name="description" content="Applied AI and ML engineer building physics-informed models, graph learning systems, agentic applications, and reliable full-stack ML products." />
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Shaunak Rane builds evidence-led machine-learning systems for physical and operational data." />
+  <meta name="theme-color" content="#050706" />
+  <title>Shaunak Rane | Evidence Observatory</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="observatory.css" />
 </head>
 <body>
+  <a class="skip-link" href="#scene-stage">Skip to portfolio scenes</a>
 
-  <!-- AMBIENT BACKGROUND -->
-  <canvas id="neural-canvas"></canvas>
+  <canvas id="observatory-canvas" aria-hidden="true"></canvas>
+  <div class="canvas-fallback" aria-hidden="true"></div>
+  <div class="screen-noise" aria-hidden="true"></div>
 
-  <!-- NAV -->
-  <nav id="navbar">
-    <div class="nav-brand">ShaunakRane<span class="accent">._</span></div>
-    <ul class="nav-links">
-      <li><a href="#home"    data-section="home"><span class="nav-num">01</span><span class="nav-slash">// home</span></a></li>
-      <li><a href="#expertise" data-section="expertise"><span class="nav-num">02</span><span class="nav-slash">// expertise</span></a></li>
-      <li><a href="#work"   data-section="work"><span class="nav-num">03</span><span class="nav-slash">// work</span></a></li>
-      <li><a href="#experience" data-section="experience"><span class="nav-num">04</span><span class="nav-slash">// experience</span></a></li>
-      <li><a href="#contact" data-section="contact"><span class="nav-num">05</span><span class="nav-slash">// contact</span></a></li>
-    </ul>
-    <button class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
+  <header class="observatory-header">
+    <button class="brand-lockup" type="button" data-scene-jump="0" aria-label="Return to introduction">
+      <strong>SR</strong>
+      <span>Evidence Observatory</span>
     </button>
+    <div class="system-status" aria-label="Availability status">
+      <span class="live-pulse" aria-hidden="true"></span>
+      Open to 2027 engineering programs
+    </div>
+    <nav class="header-actions" aria-label="External links">
+      <a href="Shaunak_Rane_MLH_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      <a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">GitHub</a>
+      <button class="archive-trigger" type="button" data-open-archive>Archive <span aria-hidden="true">+</span></button>
+    </nav>
+  </header>
+
+  <main class="scene-stage" id="scene-stage" tabindex="-1">
+    <section class="scene-panel scene-panel-intro is-active" data-scene-panel="0" aria-labelledby="scene-title-0">
+      <p class="scene-coordinate">00 / Origin</p>
+      <h1 id="scene-title-0">Shaunak<br />Rane</h1>
+      <p class="intro-role">Applied machine-learning engineer</p>
+      <p class="scene-lead">I build systems that make uncertain data inspectable: from compressor thermodynamics and pore-network graphs to structured agent workflows.</p>
+      <div class="intro-actions">
+        <button class="primary-action" type="button" data-next-scene>Enter the observatory <span aria-hidden="true">&#8594;</span></button>
+        <a class="quiet-action" href="mailto:shaunakrane914@gmail.com">Start a conversation <span aria-hidden="true">&#8599;</span></a>
+      </div>
+      <div class="intro-legend" aria-label="Research principles">
+        <span><i class="legend-green"></i>Physical evidence</span>
+        <span><i class="legend-blue"></i>Learned structure</span>
+        <span><i class="legend-orange"></i>Human review</span>
+      </div>
+    </section>
+
+    <section class="scene-panel scene-panel-compressor" data-scene-panel="1" aria-labelledby="scene-title-1" aria-hidden="true">
+      <p class="scene-coordinate">01 / Industrial intelligence</p>
+      <div class="scene-status"><span>Private internship study</span><span>3 plant contracts</span></div>
+      <h2 id="scene-title-1">Compressor<br />evidence system</h2>
+      <p class="scene-lead">A condition-monitoring platform that separates what the thermodynamics support from what a polished forecast merely suggests.</p>
+      <div class="metric-strip" aria-label="Compressor project metrics">
+        <div><strong>4,000+</strong><span>longest daily history</span></div>
+        <div><strong>3,879</strong><span>DFI rows reproduced</span></div>
+        <div><strong>17/17</strong><span>regression checks</span></div>
+      </div>
+      <div class="scene-actions">
+        <button class="primary-action" type="button" data-open-evidence="compressor">Inspect evidence <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="compressor-cbm.html">Full field report <span aria-hidden="true">&#8594;</span></a>
+      </div>
+      <p class="scene-footnote">Selected decision: forecasting remains independent of maintenance alerts after all candidates failed frozen validation gates.</p>
+    </section>
+
+    <section class="scene-panel scene-panel-topoflow" data-scene-panel="2" aria-labelledby="scene-title-2" aria-hidden="true">
+      <p class="scene-coordinate">02 / Graph intelligence</p>
+      <div class="scene-status"><span>GraphSAGE</span><span>Physics benchmark</span></div>
+      <h2 id="scene-title-2">TopoFlow<br />pore network</h2>
+      <p class="scene-lead">A permeability study where the topology is learned, the classical baseline stays visible, and pore heterogeneity decides which model deserves trust.</p>
+      <div class="metric-strip" aria-label="TopoFlow project metrics">
+        <div><strong>1,231</strong><span>graph samples</span></div>
+        <div><strong>5</strong><span>rock families</span></div>
+        <div><strong>46.2%</strong><span>best R2 improvement</span></div>
+      </div>
+      <div class="scene-actions">
+        <button class="primary-action" type="button" data-open-evidence="topoflow">Inspect topology <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="topoflow.html">Research case study <span aria-hidden="true">&#8594;</span></a>
+      </div>
+      <p class="scene-footnote">Research position: learned topology helps in heterogeneous media; it is not a universal replacement for physics.</p>
+    </section>
+
+    <section class="scene-panel scene-panel-aegis" data-scene-panel="3" aria-labelledby="scene-title-3" aria-hidden="true">
+      <p class="scene-coordinate">03 / Agent systems</p>
+      <div class="scene-status"><span>Structured Gemini flow</span><span>FastAPI</span></div>
+      <h2 id="scene-title-3">Aegis<br />signal review</h2>
+      <p class="scene-lead">A threat-intelligence prototype that joins rolling market anomalies with constrained model outputs, fallback behavior, and a human verification state.</p>
+      <div class="signal-readout" aria-label="Illustrative Aegis evidence contract">
+        <div><span>Market signal</span><strong>Elevated</strong></div>
+        <div><span>Source agreement</span><strong>3 / 4</strong></div>
+        <div><span>Review state</span><strong>Human required</strong></div>
+      </div>
+      <div class="scene-actions">
+        <button class="primary-action" type="button" data-open-evidence="aegis">Open signal contract <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="aegis.html">System case study <span aria-hidden="true">&#8594;</span></a>
+      </div>
+    </section>
+
+    <section class="scene-panel scene-panel-profile" data-scene-panel="4" aria-labelledby="scene-title-4" aria-hidden="true">
+      <p class="scene-coordinate">04 / Trajectory</p>
+      <h2 id="scene-title-4">What I bring<br />to a team</h2>
+      <p class="scene-lead">I move comfortably between investigation and implementation: data forensics, ML evaluation, APIs, Docker, responsive interfaces, and the documentation that keeps claims honest.</p>
+      <div class="trajectory" aria-label="Internship timeline">
+        <article><time>2026</time><div><strong>AI Intern</strong><span>Industrial ML, causal validation, Docker services and operator diagnostics.</span></div></article>
+        <article><time>2025</time><div><strong>Software Intern</strong><span>Food optimization, BOM, inventory, cost and attendance workflows.</span></div></article>
+        <article><time>Now</time><div><strong>Open-source preparation</strong><span>Backend engineering, graph ML and scientific software.</span></div></article>
+      </div>
+      <div class="scene-actions">
+        <button class="primary-action" type="button" data-open-archive>Explore project archive <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com <span aria-hidden="true">&#8599;</span></a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="scene-rail" aria-label="Portfolio scenes">
+    <button type="button" class="is-current" data-scene-jump="0" aria-current="step"><span>00</span><strong>Origin</strong></button>
+    <button type="button" data-scene-jump="1"><span>01</span><strong>Compressor</strong></button>
+    <button type="button" data-scene-jump="2"><span>02</span><strong>TopoFlow</strong></button>
+    <button type="button" data-scene-jump="3"><span>03</span><strong>Aegis</strong></button>
+    <button type="button" data-scene-jump="4"><span>04</span><strong>Profile</strong></button>
   </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#home" class="mobile-link"><span class="nav-num">01</span> // home</a>
-    <a href="#expertise" class="mobile-link"><span class="nav-num">02</span> // expertise</a>
-    <a href="#work" class="mobile-link"><span class="nav-num">03</span> // work</a>
-    <a href="#experience" class="mobile-link"><span class="nav-num">04</span> // experience</a>
-    <a href="#contact" class="mobile-link"><span class="nav-num">05</span> // contact</a>
+  <div class="scene-instructions" aria-hidden="true">
+    <span>Scroll</span><i></i><span>Arrow keys</span><i></i><span>Drag scene</span>
   </div>
 
-  <!-- ======================== HERO ======================== -->
-  <section id="home">
-    <!-- Floating 3D shapes + glowing sun -->
-    <div class="hero-scene">
-      <div class="sun-orb"></div>
-      <div class="geo geo-1"></div>
-      <div class="geo geo-2"></div>
-      <div class="geo geo-3"></div>
-      <div class="sun-light"></div>
-    </div>
-    <div class="hero-inner">
-      <p class="hero-greeting">Applied AI / ML Engineer</p>
-      <h1 class="hero-name">SHAUNAK<br/><span class="hero-name-outline">RANE</span></h1>
-      <p class="hero-tagline"><span id="typewriter"></span><span class="cursor-blink">|</span></p>
-      <div class="hero-cta">
-        <a href="#work" class="btn-main" id="btn-see-work">See my work</a>
-        <a href="#contact" class="btn-ghost" id="btn-contact">Let's talk</a>
-        <a href="Shaunak_Rane_MLH_Resume.pdf" class="btn-ghost" id="btn-resume" target="_blank" rel="noopener">Resume</a>
-      </div>
-      <p class="hero-proof">Physics-informed ML · Graph learning · Agentic systems · Production-minded validation</p>
-    </div>
-    <div class="scroll-indicator">
-      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
-      <span>scroll</span>
-    </div>
-  </section>
+  <div class="telemetry" aria-hidden="true">
+    <span id="telemetry-scene">ORIGIN</span>
+    <span id="telemetry-coordinates">X 00.0 / Y 02.0 / Z 12.0</span>
+    <span id="telemetry-fps">RENDER READY</span>
+  </div>
+  <div class="scene-announcer" id="scene-announcer" aria-live="polite"></div>
 
-  <!-- ======================== EXPERTISE ======================== -->
-  <section id="expertise">
-    <div class="section-header">
-      <span class="section-label">02 // expertise</span>
-      <h2 class="section-title">What I <span class="underline-accent">Build</span></h2>
+  <dialog class="evidence-dialog" id="evidence-dialog" aria-labelledby="evidence-dialog-title">
+    <div class="dialog-shell">
+      <header class="dialog-header">
+        <div><span id="evidence-dialog-index">FIELD REPORT</span><h2 id="evidence-dialog-title">Evidence</h2></div>
+        <button type="button" class="icon-button" data-close-evidence aria-label="Close evidence view">&#215;</button>
+      </header>
+      <div class="dialog-body" id="evidence-dialog-body"></div>
     </div>
-    <div class="expertise-grid">
-      <div class="exp-card" id="exp-ai">
-        <div class="exp-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 0 6h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1 0-6h1V6a4 4 0 0 1 4-4z"/>
-            <circle cx="9" cy="9" r="1" fill="#00e5ff" stroke="none"/>
-            <circle cx="15" cy="9" r="1" fill="#00e5ff" stroke="none"/>
-            <path d="M9 14s1 1.5 3 1.5 3-1.5 3-1.5"/>
-          </svg>
-        </div>
-        <h3>Applied AI Systems</h3>
-        <p>Turning domain constraints into testable ML systems, from physics-grounded condition monitoring to graph learning and agentic workflows.</p>
-        <div class="exp-bar" style="--bar-color: #00e5ff;"></div>
-      </div>
-      <div class="exp-card" id="exp-ml">
-        <div class="exp-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </div>
-        <h3>ML Research &amp; Evaluation</h3>
-        <p>Designing causal validation, leakage-safe benchmarks, interpretable baselines, and promotion gates before models reach an interface.</p>
-        <div class="exp-bar" style="--bar-color: #a855f7;"></div>
-      </div>
-      <div class="exp-card" id="exp-backend">
-        <div class="exp-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-            <line x1="6" y1="6" x2="6.01" y2="6"/>
-            <line x1="6" y1="18" x2="6.01" y2="18"/>
-          </svg>
-        </div>
-        <h3>Backend Engineering</h3>
-        <p>Architecting Flask and FastAPI services, reproducible data pipelines, REST APIs, and regression-tested analytical workflows.</p>
-        <div class="exp-bar" style="--bar-color: #f97316;"></div>
-      </div>
-      <div class="exp-card" id="exp-web">
-        <div class="exp-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M3 9h18"/>
-            <path d="M9 21V9"/>
-          </svg>
-        </div>
-        <h3>ML Product Interfaces</h3>
-        <p>Building responsive interfaces that explain model evidence, limitations, and decisions instead of presenting opaque scores.</p>
-        <div class="exp-bar" style="--bar-color: #10b981;"></div>
-      </div>
-    </div>
-  </section>
+  </dialog>
 
-  <!-- ======================== WORK ======================== -->
-  <section id="work">
-    <div class="section-header">
-      <span class="section-label">03 // work</span>
-      <h2 class="section-title">Featured <span class="underline-purple">Projects</span></h2>
+  <dialog class="archive-dialog" id="archive-dialog" aria-labelledby="archive-title">
+    <div class="dialog-shell archive-shell">
+      <header class="dialog-header">
+        <div><span>PROJECT INDEX / 06 SYSTEMS</span><h2 id="archive-title">Archive</h2></div>
+        <button type="button" class="icon-button" data-close-archive aria-label="Close project archive">&#215;</button>
+      </header>
+      <div class="archive-grid">
+        <a href="compressor-cbm.html"><span>01 / Industrial AI</span><strong>Compressor condition monitoring</strong><p>Physics-grounded degradation evidence and plant-specific instability review.</p><b>&#8594;</b></a>
+        <a href="topoflow.html"><span>02 / Graph ML</span><strong>TopoFlow GNN</strong><p>Pore-network permeability with a visible physics benchmark.</p><b>&#8594;</b></a>
+        <a href="aegis.html"><span>03 / Agent systems</span><strong>Project Aegis</strong><p>Structured threat-intelligence review and protected model orchestration.</p><b>&#8594;</b></a>
+        <a href="gridium.html"><span>04 / Energy systems</span><strong>Gridium Protocol</strong><p>DDPG control, WebSockets, EVM settlement and proof flow.</p><b>&#8594;</b></a>
+        <a href="sodexo.html"><span>05 / Operations</span><strong>Food optimization</strong><p>Menus, BOM, inventory, cost and attendance workflows.</p><b>&#8594;</b></a>
+        <a href="yield.html"><span>06 / Agricultural ML</span><strong>Yield AI</strong><p>Accessible crop-yield scenarios across Odisha districts.</p><b>&#8594;</b></a>
+      </div>
+      <footer class="archive-footer">
+        <div><span>Core stack</span><strong>Python / FastAPI / Flask / PyTorch / Docker / React / SQL</strong></div>
+        <div><span>Profiles</span><a href="Shaunak_Rane_MLH_Resume.pdf" target="_blank" rel="noopener">Resume &#8599;</a><a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">GitHub &#8599;</a><a href="https://linkedin.com/in/shaunak-rane" target="_blank" rel="noopener">LinkedIn &#8599;</a></div>
+      </footer>
     </div>
+  </dialog>
 
-    <!-- Project 1 - TopoFlow -->
-    <div class="project-featured proj-alt project-priority" id="proj-topoflow">
-      <div class="pf-visual pf-visual-image topoflow-hero">
-        <img src="assets/topoflow-pore-network-hero.webp" alt="Conceptual micro-CT sandstone pore network with graph nodes and edges tracing connected flow paths" loading="lazy" />
-        <div class="topoflow-visual-label"><span>Concept visual</span><strong>Micro-CT pores → graph topology</strong></div>
+  <template id="evidence-compressor">
+    <div class="evidence-layout evidence-layout-compressor">
+      <div class="evidence-narrative">
+        <p class="evidence-kicker">Candidate B / Plant 2</p>
+        <h3>A signal is useful only when its physics and limits remain visible.</h3>
+        <p>Candidate B combines reconciled efficiency loss and temperature-rise penalties. Maintenance references and independently detected recoveries stay separate instead of being forced into one truth label.</p>
+        <dl><div><dt>Input</dt><dd>Reconciled stage thermodynamics</dd></div><div><dt>Output</dt><dd>Explainable shadow fouling index</dd></div><div><dt>Boundary</dt><dd>Forecast not coupled to alerts</dd></div></dl>
+        <a href="compressor-cbm.html">Read complete field report &#8594;</a>
       </div>
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">01</span>
-          <span class="pf-domain">Graph ML · Scientific Computing</span>
-          <span class="pf-year">2026</span>
-        </div>
-        <h3 class="pf-title">TopoFlow <span class="accent-purple">GNN</span></h3>
-        <p class="pf-desc">A GraphSAGE permeability predictor for pore networks extracted from micro-CT data. The research compares learned topology against Kozeny-Carman physics and uses pore heterogeneity to choose the appropriate regime instead of claiming one model always wins.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">1,231</span><span class="metric-label">Samples</span></div>
-          <div class="metric"><span class="metric-val">5</span><span class="metric-label">Rock Formations</span></div>
-          <div class="metric"><span class="metric-val">46.2%</span><span class="metric-label">Best MSE Reduction</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>PyTorch Geometric</span>
-          <span>GraphSAGE</span>
-          <span>FastAPI</span>
-          <span>PoreSpy</span>
-        </div>
-        <div class="pf-links">
-          <a href="https://github.com/Shaunakrane914/Flow" target="_blank" rel="noopener noreferrer" class="link-code">GitHub ↗</a>
-          <a href="topoflow.html" class="link-deep">Read Case Study →</a>
-        </div>
+      <div class="evidence-media-stack">
+        <figure><img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling history and evidence thresholds" /><figcaption>Continuous fouling evidence with maintenance and recovery context.</figcaption></figure>
+        <figure><img src="assets/compressor-surge-review-index.png" alt="Plant-specific instability review index" /><figcaption>Daily review ranking. It does not claim confirmed aerodynamic surge.</figcaption></figure>
       </div>
     </div>
+  </template>
 
-    <!-- Project 2 - Industrial Compressor CBM -->
-    <div class="project-featured project-priority" id="proj-compressor">
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">02</span>
-          <span class="pf-domain">Industrial AI · Internship</span>
-          <span class="pf-year">2026</span>
-        </div>
-        <h3 class="pf-title">Compressor <span class="accent">Condition Monitoring</span></h3>
-        <p class="pf-desc">A private, three-plant condition-monitoring program for centrifugal compressors. I built physics-grounded fouling indicators, plant-specific instability review queues, causal maintenance-event logic, and operator-facing diagnostics while keeping unsupported forecasting and surge claims behind explicit scientific gates.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">3</span><span class="metric-label">Plant Contracts</span></div>
-          <div class="metric"><span class="metric-val">4,000+</span><span class="metric-label">Daily Records</span></div>
-          <div class="metric"><span class="metric-val">17/17</span><span class="metric-label">Latest Validation Checks</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>Physics-Informed ML</span>
-          <span>Time-Series Validation</span>
-          <span>Flask</span>
-          <span>Industrial Analytics</span>
-        </div>
-        <div class="pf-links">
-          <span class="project-status" aria-label="Private internship project">Private Internship Work</span>
-          <a href="compressor-cbm.html" class="link-deep">Read Case Study →</a>
-        </div>
+  <template id="evidence-topoflow">
+    <div class="evidence-layout evidence-layout-topoflow">
+      <div class="evidence-narrative">
+        <p class="evidence-kicker">Topology / Permeability</p>
+        <h3>The research asks where graph learning earns its complexity.</h3>
+        <p>Pore networks become graphs, GraphSAGE learns topological relationships, and Kozeny-Carman remains the visible classical comparator.</p>
+        <dl><div><dt>Samples</dt><dd>1,231 pore networks</dd></div><div><dt>Families</dt><dd>5 rock types</dd></div><div><dt>Best result</dt><dd>46.2% R2 improvement</dd></div></dl>
+        <a href="topoflow.html">Read complete case study &#8594;</a>
       </div>
-      <div class="pf-visual pf-visual-evidence">
-        <figure class="evidence-panel">
-          <img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling index history with watch and high thresholds, recorded references, and independent recovery boundaries" loading="lazy" />
-          <figcaption><span>Fouling</span><strong>Candidate B and recovery evidence</strong></figcaption>
-        </figure>
-        <figure class="evidence-panel">
-          <img src="assets/compressor-surge-review-index.png" alt="Plant-specific daily surge-review index with moderate and strong engineering review floors" loading="lazy" />
-          <figcaption><span>Instability review</span><strong>Candidate ranking, not confirmed surge</strong></figcaption>
-        </figure>
+      <div class="evidence-media-stack">
+        <figure class="figure-large"><img src="assets/topoflow-pore-network-hero.webp" alt="Graph representation of a sandstone pore network" /><figcaption>Micro-CT pore topology represented as a learnable graph.</figcaption></figure>
+        <div class="evidence-pair"><figure><img src="assets/topoflow-regime-classification.png" alt="TopoFlow regime classification plot" /><figcaption>Regime selection.</figcaption></figure><figure><img src="assets/topoflow-savonnieres-benchmark.png" alt="TopoFlow Savonnieres benchmark" /><figcaption>Physics benchmark.</figcaption></figure></div>
       </div>
     </div>
+  </template>
 
-    <!-- Project 3 - Aegis -->
-    <div class="project-featured" id="proj-aegis">
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">03</span>
-          <span class="pf-domain">AI · Multi-Agent Systems</span>
-          <span class="pf-year">2025 – 2026</span>
-        </div>
-        <h3 class="pf-title">Project <span class="accent">Aegis</span></h3>
-        <p class="pf-desc">An agentic threat-intelligence prototype that combines rolling market anomaly signals with structured Gemini workflows. I built the backend and orchestration path, including schema-constrained outputs, proxy routing, API-key isolation, and model fallback behavior.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">67</span><span class="metric-label">Repository Commits</span></div>
-          <div class="metric"><span class="metric-val">4</span><span class="metric-label">Agent Workflows</span></div>
-          <div class="metric"><span class="metric-val">2</span><span class="metric-label">Model Fallbacks</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>Serverless MLOps</span>
-          <span>FastAPI</span>
-          <span>Gemini SWARM</span>
-          <span>API Gateway</span>
-        </div>
-        <div class="pf-links">
-          <a href="https://agenticai914.netlify.app" target="_blank" rel="noopener noreferrer" class="link-live" id="aegis-live">
-            <span class="live-dot"></span> Live Demo
-          </a>
-          <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" rel="noopener noreferrer" class="link-code" id="aegis-code">GitHub ↗</a>
-          <a href="aegis.html" class="link-deep">Deep Dive →</a>
-        </div>
+  <template id="evidence-aegis">
+    <div class="evidence-layout evidence-layout-aegis">
+      <div class="evidence-narrative">
+        <p class="evidence-kicker">Agent contract / Review 07</p>
+        <h3>The interface is designed around verification, not conversation.</h3>
+        <p>Market signals, source agreement, structured model fields, and fallback state arrive in one inspectable response contract.</p>
+        <dl><div><dt>Service</dt><dd>FastAPI orchestration</dd></div><div><dt>Model output</dt><dd>Schema constrained</dd></div><div><dt>Decision</dt><dd>Human verification required</dd></div></dl>
+        <a href="aegis.html">Read system case study &#8594;</a>
       </div>
-      <div class="pf-visual">
-        <div class="browser-mockup tilt-left">
-          <div class="bm-bar">
-            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
-            <div class="bm-url">aegis.ai/dashboard</div>
-          </div>
-          <div class="bm-body aegis-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text">AEGIS // <span class="accent">OBSERVABILITY</span></span>
-              <span class="ui-badge">SWARM ACTIVE</span>
-            </div>
-            <div class="ui-claim-card">
-              <div class="ui-claim-label">🚨 ANOMALY DETECTED // TATAMOTORS.NS</div>
-              <div class="ui-claim-text">Z-Score Deviation: -3.4σ (Abnormal Volume Spike)</div>
-              <div class="ui-verdict false">MANIPULATION DETECTED</div>
-            </div>
-            <div class="ui-agents">
-              <span class="ui-agent a-fetch">PROXY // SUCCESS</span>
-              <span class="ui-agent-arrow">→</span>
-              <span class="ui-agent a-analyze">LLM // 2.5-FLASH</span>
-              <span class="ui-agent-arrow">→</span>
-              <span class="ui-agent a-verify">VERDICT // REDDIT BOT NET</span>
-            </div>
-            <div class="ui-sources">
-              <span class="ui-src">✓ Key Rotation: GEMINI_KEY_2 (Active)</span>
-              <span class="ui-src">✓ Cached Hit (Redis) - 45ms</span>
-            </div>
-          </div>
-        </div>
+      <div class="contract-terminal" aria-label="Illustrative Aegis JSON response">
+        <div class="terminal-bar"><span>AEGIS_RESPONSE.JSON</span><span>VALID</span></div>
+        <pre>{
+  "market_signal": "elevated",
+  "source_agreement": 0.75,
+  "model_confidence": 0.82,
+  "review_state": "human_required",
+  "fallback_used": false,
+  "claims": [
+    "price_dislocation",
+    "source_divergence"
+  ]
+}</pre>
       </div>
     </div>
+  </template>
 
-    <!-- Project 4 - Gridium Protocol -->
-    <div class="project-featured" id="proj-gridium">
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">04</span>
-          <span class="pf-domain">Web3 · AI</span>
-          <span class="pf-year">2025</span>
-        </div>
-        <h3 class="pf-title">Gridium <span class="accent-orange">Protocol</span></h3>
-        <p class="pf-desc">A team-built DePIN microgrid prototype combining a simulated 15-node energy network, continuous-control DDPG agent, WebSocket command center, EVM settlement, and Groth16 proof flow. My contribution focused on the Python AI engine, backend integration, and 3D visualization.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">500ms</span><span class="metric-label">Physics Tick Rate</span></div>
-          <div class="metric"><span class="metric-val">zk-SNARK</span><span class="metric-label">Off-chain Proofs</span></div>
-          <div class="metric"><span class="metric-val">15</span><span class="metric-label">Simulated Nodes</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>PyTorch DDPG</span>
-          <span>FastAPI</span>
-          <span>Groth16 ZK</span>
-          <span>React (Three.js)</span>
-        </div>
-        <div class="pf-links">
-          <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener noreferrer" class="link-live" id="gridium-live">
-            <span class="live-dot"></span> Live Demo
-          </a>
-          <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="link-code" id="gridium-code">GitHub ↗</a>
-          <a href="gridium.html" class="link-deep">Deep Dive →</a>
-        </div>
-      </div>
-      <div class="pf-visual">
-        <!-- Browser Mockup -->
-        <div class="browser-mockup tilt-left">
-          <div class="bm-bar">
-            <div class="bm-dot red"></div>
-            <div class="bm-dot yellow"></div>
-            <div class="bm-dot green"></div>
-            <div class="bm-url">live-ai-1-7tcy.vercel.app</div>
-          </div>
-          <div class="bm-body gridium-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text" style="color:#f97316">NODE 15</span>
-              <span class="ui-badge" style="background:rgba(249,115,22,0.12);border-color:rgba(249,115,22,0.3);color:#f97316">SURPLUS</span>
-            </div>
-            <div class="gridium-ui-net">
-              <div class="gu-node central">RL AGENT (DDPG)</div>
-              <div class="gu-node-group">
-                <div class="gu-node">Imbalance: -1.2MWh</div>
-                <div class="gu-node">Swap Fee: 0.85%</div>
-              </div>
-            </div>
-            <div class="gu-zk-proof">zk-SNARK: <span class="hash">0x8f2a...c399</span> → VERIFIED</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 5 - Food Operations -->
-    <div class="project-featured" id="proj-sodexo">
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">05</span>
-          <span class="pf-domain">Optimization · Data Analysis</span>
-          <span class="pf-year">2025 – 2026</span>
-        </div>
-        <h3 class="pf-title">Food Waste <span class="accent">Optimization</span></h3>
-        <p class="pf-desc">An internship prototype for institutional kitchen operations, connecting menu planning, bill-of-materials calculations, inventory, and meal-attendance forecasting in one FastAPI workflow. The case study focuses on the system and decision flow rather than claiming unverified waste savings.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">2</span><span class="metric-label">Data Stores</span></div>
-          <div class="metric"><span class="metric-val">BOM</span><span class="metric-label">Inventory Logic</span></div>
-          <div class="metric"><span class="metric-val">RF</span><span class="metric-label">Pax Predictor</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>Python (Flask)</span>
-          <span>Data Analysis</span>
-          <span>Optimization</span>
-          <span>Sodexo Internship</span>
-        </div>
-        <div class="pf-links">
-          <a href="sodexo.html" class="link-deep">Deep Dive →</a>
-        </div>
-      </div>
-      <div class="pf-visual">
-        <div class="browser-mockup tilt-left">
-          <div class="bm-bar">
-            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
-            <div class="bm-url">institutional food operations prototype</div>
-          </div>
-          <div class="bm-body sodexo-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text" style="color:#10b981">WASTE_MONITOR_V1</span>
-              <span class="ui-badge" style="background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:#10b981">OPTIMIZING</span>
-            </div>
-            <div class="ui-waste-card">
-              <div class="ui-waste-label">DAILY WASTE RATIO // TREND</div>
-              <div class="ui-waste-stats">
-                <div class="ui-waste-val">12.4% <span style="font-size:0.6rem;color:#ef4444">↓3.2%</span></div>
-                <div class="ui-waste-chart">
-                  <div class="uwc-bar" style="height:18px;opacity:0.4"></div>
-                  <div class="uwc-bar" style="height:14px;opacity:0.6"></div>
-                  <div class="uwc-bar" style="height:10px;opacity:0.8"></div>
-                  <div class="uwc-bar" style="height:8px"></div>
-                </div>
-              </div>
-            </div>
-            <div class="ui-recommendation">
-              <span class="ui-rec-title">SYSTEM RECOMMENDATION:</span>
-              Reduce "Butter Chicken" prep qty by 15% for Wednesday dinner service based on 4-week consumption pattern.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 6 - Yield AI -->
-    <div class="project-featured proj-alt" id="proj-yield">
-      <div class="pf-visual">
-        <div class="browser-mockup tilt-right">
-          <div class="bm-bar">
-            <span class="bm-dot red"></span><span class="bm-dot yellow"></span><span class="bm-dot green"></span>
-            <div class="bm-url">Coming soon</div>
-          </div>
-          <div class="bm-body yield-ui">
-            <div class="ui-header">
-              <span class="ui-logo-text" style="color:#a855f7">KrushiMitra</span>
-              <span class="ui-badge" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.3);color:#a855f7">ODISHA</span>
-            </div>
-            <div class="yield-ui-chart">
-              <div class="yuc-bar" style="--h:55%;--c:#a855f7"><span>Wheat</span></div>
-              <div class="yuc-bar" style="--h:82%;--c:#a855f7"><span>Rice</span></div>
-              <div class="yuc-bar" style="--h:48%;--c:#a855f7"><span>Corn</span></div>
-              <div class="yuc-bar" style="--h:74%;--c:#a855f7"><span>Gram</span></div>
-              <div class="yuc-bar" style="--h:91%;--c:#a855f7"><span>Soy</span></div>
-            </div>
-            <div class="yield-ui-pred">
-              <span>AI Prediction</span>
-              <span style="color:#10b981;font-weight:700">4.2T/acre ↑12%</span>
-            </div>
-            <div class="yield-ui-inputs">
-              <div class="yui-tag">Soil: Clay Loam</div>
-              <div class="yui-tag">Rain: 850mm</div>
-              <div class="yui-tag">Season: Kharif</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="pf-info">
-        <div class="pf-meta">
-          <span class="pf-num">06</span>
-          <span class="pf-domain">ML · Full-Stack Web</span>
-          <span class="pf-year">2025 – 2026</span>
-        </div>
-        <h3 class="pf-title">Yield AI <span class="accent-purple">(KrushiMitra)</span></h3>
-        <p class="pf-desc">A mobile-first React and FastAPI prototype for exploring crop-yield scenarios across Odisha districts. The current public build focuses on accessible inputs, confidence-range presentation, and service architecture; model validation remains future work.</p>
-        <div class="pf-metrics">
-          <div class="metric"><span class="metric-val">Prototype</span><span class="metric-label">Model Status</span></div>
-          <div class="metric"><span class="metric-val">React</span><span class="metric-label">Mobile UI</span></div>
-          <div class="metric"><span class="metric-val">FastAPI</span><span class="metric-label">Service Layer</span></div>
-        </div>
-        <div class="pf-tags">
-          <span>Scenario UX</span>
-          <span>Mobile-First</span>
-          <span>AgriTech</span>
-          <span>FastAPI</span>
-        </div>
-        <div class="pf-links">
-          <span class="project-status">Prototype · No Live Demo</span>
-          <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" rel="noopener noreferrer" class="link-code" id="yield-code">GitHub ↗</a>
-          <a href="yield.html" class="link-deep">Deep Dive →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================== EXPERIENCE ======================== -->
-  <section id="experience">
-    <div class="section-header">
-      <span class="section-label">04 // experience</span>
-      <h2 class="section-title">Experience &amp; <span class="underline-green">Stack</span></h2>
-    </div>
-    <div class="experience-ledger" aria-label="Selected experience">
-      <article class="experience-entry">
-        <div class="experience-when">2026 · AI Intern</div>
-        <div>
-          <h3>Univitt Technologies · Data Science &amp; ML</h3>
-          <p>Built and validated a private condition-monitoring platform for centrifugal compressors across three plants. The work spans data science, thermodynamic feature engineering, ML evaluation, causal time-series analysis, Docker-based service workflows, operator diagnostics, and regression-tested Flask APIs.</p>
-          <div class="experience-evidence">
-            <span>Physics-grounded DFI</span>
-            <span>ML validation</span>
-            <span>Docker</span>
-          </div>
-        </div>
-      </article>
-      <article class="experience-entry">
-        <div class="experience-when">2025 · Software Intern</div>
-        <div>
-          <h3>Univitt Technologies · Sodexo Canteen System</h3>
-          <p>Built a food-optimization and cost-management program for a Sodexo canteen, connecting menu generation, bill-of-materials calculations, inventory and cost workflows, and meal-attendance forecasting through FastAPI and SQL.</p>
-          <div class="experience-evidence">
-            <span>FastAPI</span>
-            <span>Cost management</span>
-            <span>SQL data modeling</span>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div class="skills-layout">
-      <div class="skills-col">
-        <div class="skill-block" id="sk-ai">
-          <h3>
-            <span class="sk-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </span> AI / ML
-          </h3>
-          <div class="sk-tags">
-            <span>Python</span><span>PyTorch</span><span>PyTorch Geometric</span>
-            <span>Scikit-learn</span><span>Time-Series Validation</span><span>LLM Workflows</span>
-          </div>
-        </div>
-        <div class="skill-block" id="sk-be">
-          <h3>
-            <span class="sk-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-            </span> Backend
-          </h3>
-          <div class="sk-tags">
-            <span>Flask</span><span>FastAPI</span><span>REST APIs</span>
-            <span>SQL</span><span>WebSockets</span><span>Java</span>
-          </div>
-        </div>
-      </div>
-      <div class="skills-col">
-        <div class="skill-block" id="sk-fe">
-          <h3>
-            <span class="sk-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </span> Frontend
-          </h3>
-          <div class="sk-tags">
-            <span>HTML/CSS</span><span>JavaScript</span><span>React</span>
-            <span>TypeScript</span><span>Data Visualization</span>
-          </div>
-        </div>
-        <div class="skill-block" id="sk-tools">
-          <h3>
-            <span class="sk-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            </span> Tools &amp; Platforms
-          </h3>
-          <div class="sk-tags">
-            <span>Git &amp; GitHub</span><span>Docker</span><span>Supabase</span>
-            <span>pytest</span><span>Reproducible Research</span>
-          </div>
-        </div>
-      </div>
-      <div class="edu-card" id="edu-card">
-        <div class="edu-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
-        <div>
-          <h3>Universal AI University</h3>
-          <p>Karjat, Maharashtra</p>
-          <span class="edu-role">AI &amp; ML Undergraduate</span>
-        </div>
-        <div class="edu-stats">
-          <div><span class="big-num" data-target="6">0</span><span class="big-label">Case Studies</span></div>
-          <div><span class="big-num" data-target="2">0</span><span class="big-label">Live Products</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================== CONTACT ======================== -->
-  <section id="contact">
-    <div class="contact-wrap">
-      <span class="section-label">05 // contact</span>
-      <h2 class="contact-heading">Most interesting work starts<br/>with <span class="underline-accent">messy data</span> and a question<br/>that sounds <span class="underline-purple">simple.</span></h2>
-      <p class="contact-sub">Applying to the MLH Fellowship. Open to applied ML, backend engineering, and industrial data science roles.</p>
-      <div class="contact-links">
-        <a href="mailto:shaunakrane914@gmail.com" class="clink email" id="clink-email">
-          <span class="clink-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </span>
-          <span>shaunakrane914@gmail.com</span>
-        </a>
-        <a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener noreferrer" class="clink github" id="clink-github">
-          <span class="clink-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </span>
-          <span>github.com/Shaunakrane914</span>
-        </a>
-        <a href="https://linkedin.com/in/shaunak-rane" target="_blank" rel="noopener noreferrer" class="clink linkedin" id="clink-linkedin">
-          <span class="clink-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </span>
-          <span>linkedin.com/in/shaunak-rane</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <span>ShaunakRane<span class="accent">._</span></span>
-    <span class="footer-copy">© 2026 — Built with precision &amp; purpose.</span>
-  </footer>
-
-  <script src="script.js"></script>
+  <noscript><div class="noscript-message">This portfolio uses an interactive WebGL scene. JavaScript is required; the project reports remain available through the direct links above.</div></noscript>
+  <script type="module" src="observatory.js"></script>
 </body>
 </html>
