@@ -95,6 +95,31 @@ img {
   height: 100%;
 }
 
+.scene-transition-line {
+  position: fixed;
+  z-index: 48;
+  top: var(--header-height);
+  bottom: 52px;
+  left: -18vw;
+  width: 18vw;
+  border-right: 1px solid rgba(71, 230, 165, 0.9);
+  background: linear-gradient(90deg, transparent, rgba(71, 230, 165, 0.08));
+  opacity: 0;
+  pointer-events: none;
+  transform: skewX(-8deg);
+}
+
+body.is-scene-transitioning .scene-transition-line {
+  animation: scene-scan 620ms cubic-bezier(0.22, 0.8, 0.24, 1) both;
+}
+
+@keyframes scene-scan {
+  0% { left: -18vw; opacity: 0; }
+  12% { opacity: 1; }
+  86% { opacity: 0.62; }
+  100% { left: 108vw; opacity: 0; }
+}
+
 #observatory-canvas {
   z-index: 0;
   display: block;
@@ -236,16 +261,20 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(24px);
-  transition: opacity 420ms ease, transform 520ms ease, visibility 0s linear 520ms;
+  clip-path: inset(0 0 100% 0);
+  filter: blur(7px);
+  transform: translate3d(0, 32px, 0);
+  transition: opacity 240ms ease, transform 440ms cubic-bezier(0.18, 0.82, 0.24, 1), clip-path 480ms cubic-bezier(0.22, 0.76, 0.2, 1), filter 340ms ease, visibility 0s linear 480ms;
 }
 
 .scene-panel.is-active {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: none;
-  transition-delay: 180ms;
+  clip-path: inset(0 0 0 0);
+  filter: none;
+  transform: translate3d(0, 0, 0);
+  transition-delay: 120ms;
 }
 
 .scene-panel-intro {
@@ -267,6 +296,12 @@ img {
 .scene-panel-aegis {
   top: 12%;
   right: 7%;
+}
+
+.scene-panel-studio {
+  top: 8.5%;
+  right: 7%;
+  width: min(570px, calc(100vw - 180px));
 }
 
 .scene-panel-profile {
@@ -294,6 +329,10 @@ img {
 
 .scene-panel-aegis .scene-coordinate {
   color: var(--orange);
+}
+
+.scene-panel-studio .scene-coordinate {
+  color: var(--yellow);
 }
 
 .scene-panel h1,
@@ -380,6 +419,10 @@ img {
 
 .scene-panel-aegis .primary-action {
   background: var(--orange);
+}
+
+.scene-panel-studio .primary-action {
+  background: var(--yellow);
 }
 
 .primary-action:hover {
@@ -505,6 +548,62 @@ img {
   font-weight: 500;
 }
 
+.studio-code {
+  margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: rgba(3, 5, 4, 0.78);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+}
+
+.studio-code-bar,
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 34px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+}
+
+.studio-code-bar span:last-child,
+.terminal-bar span:last-child {
+  color: var(--green);
+}
+
+.studio-code pre {
+  margin: 0;
+  padding: 14px 16px 16px;
+  overflow-x: auto;
+  color: #cbd7d1;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  line-height: 1.65;
+}
+
+.code-keyword { color: var(--blue); }
+.code-number { color: var(--yellow); }
+
+.studio-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.studio-stack span {
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+}
+
 .trajectory {
   margin-top: 26px;
   border-top: 1px solid var(--line-strong);
@@ -568,7 +667,7 @@ img {
   text-align: left;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 160ms ease;
+  transition: color 150ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .scene-rail button::before {
@@ -590,6 +689,7 @@ img {
 .scene-rail button:hover,
 .scene-rail button.is-current {
   color: var(--ink);
+  transform: translateX(4px);
 }
 
 .scene-rail button:hover strong,
@@ -601,6 +701,75 @@ img {
 .scene-rail button.is-current::before {
   width: 21px;
   background: var(--green);
+}
+
+.evidence-layout-studio {
+  align-items: start;
+}
+
+.studio-inspector {
+  border: 1px solid var(--line-strong);
+  background: #070a08;
+}
+
+.architecture-flow {
+  display: grid;
+  gap: 0;
+  padding: 24px;
+}
+
+.architecture-flow > div {
+  display: grid;
+  grid-template-columns: 42px 110px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 76px;
+  border-bottom: 1px solid var(--line);
+}
+
+.architecture-flow > div:last-of-type {
+  border-bottom: 0;
+}
+
+.architecture-flow span,
+.architecture-flow small {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+}
+
+.architecture-flow strong {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.architecture-flow i {
+  width: 1px;
+  height: 20px;
+  margin-left: 20px;
+  background: var(--green);
+}
+
+.design-token-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.design-token-grid span {
+  min-height: 82px;
+  padding: 12px;
+  border-right: 1px solid var(--line);
+  box-shadow: inset 0 3px var(--token);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+}
+
+.design-token-grid span:last-child {
+  border-right: 0;
 }
 
 .scene-instructions {
@@ -997,13 +1166,16 @@ img {
 @media (max-width: 1100px) {
   .scene-panel-intro,
   .scene-panel-topoflow,
+  .scene-panel-studio,
   .scene-panel-profile {
     left: 10%;
   }
 
   .scene-panel-compressor,
-  .scene-panel-aegis {
+  .scene-panel-aegis,
+  .scene-panel-studio {
     right: 5%;
+    left: auto;
   }
 
   .scene-panel h1 {
@@ -1059,6 +1231,7 @@ img {
   .scene-panel-compressor,
   .scene-panel-topoflow,
   .scene-panel-aegis,
+  .scene-panel-studio,
   .scene-panel-profile {
     top: 8%;
     right: auto;
@@ -1084,7 +1257,7 @@ img {
     bottom: 0;
     left: 0;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 0;
     min-height: 68px;
     border-top: 1px solid var(--line);
@@ -1151,6 +1324,7 @@ img {
   .scene-panel-compressor,
   .scene-panel-topoflow,
   .scene-panel-aegis,
+  .scene-panel-studio,
   .scene-panel-profile {
     top: 5%;
     left: 18px;
@@ -1221,6 +1395,26 @@ img {
   .signal-readout,
   .trajectory {
     margin-top: 20px;
+  }
+
+  .studio-code pre {
+    font-size: 0.58rem;
+  }
+
+  .studio-stack {
+    display: none;
+  }
+
+  .architecture-flow > div {
+    grid-template-columns: 34px 1fr;
+  }
+
+  .architecture-flow small {
+    grid-column: 2;
+  }
+
+  .design-token-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .trajectory article {

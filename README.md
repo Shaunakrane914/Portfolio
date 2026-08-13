@@ -1,6 +1,6 @@
 # Shaunak Rane - Engineering Portfolio
 
-Evidence-led portfolio for applied ML, scientific computing, backend systems, and industrial analytics. The homepage is an interactive WebGL Evidence Observatory: five spatial scenes connect real project systems, engineering decisions, and inspectable evidence without collapsing the experience into a conventional scrolling resume.
+Evidence-led portfolio for applied ML, scientific computing, backend systems, and industrial analytics. The homepage is an interactive WebGL Evidence Observatory: six spatial scenes connect real project systems, engineering decisions, implementation craft, and inspectable evidence without collapsing the experience into a conventional scrolling resume.
 
 **Primary domain:** [shaunakrane.is-a.dev](https://shaunakrane.is-a.dev)
 
@@ -29,6 +29,7 @@ Open `http://127.0.0.1:8080`.
 
 - Use one continuous 3D evidence world instead of a conventional section stack.
 - Give the compressor, TopoFlow, and Aegis projects their own procedural scene language.
+- Expose real engineering craft through an interactive code-and-system-design studio.
 - Open real plots and system evidence in focused inspection overlays.
 - Keep claims traceable and state rejected approaches as part of the work.
 - Support wheel, arrow-key, pointer-drag, touch, scene-rail, and reduced-motion navigation.
@@ -47,7 +48,7 @@ Open `http://127.0.0.1:8080`.
 - `compressor-cbm.html` - de-identified industrial AI case study
 - `topoflow.html` - graph ML case study
 - `aegis.html`, `gridium.html`, `yield.html`, `sodexo.html` - existing project deep dives
-- `observatory.css`, `observatory.js` - full-screen portfolio experience and Three.js scene system
+- `observatory.css`, `observatory.js` - full-screen portfolio experience, damped camera motion, and procedural Three.js scene system
 - `style.css`, `project-page.css`, `script.js` - case-study presentation and interactions
 - `assets/vendor/three*.js` - pinned Three.js 0.185.1 runtime
 - `assets/` - project figures used by the case studies

@@ -18,6 +18,7 @@
   <canvas id="observatory-canvas" aria-hidden="true"></canvas>
   <div class="canvas-fallback" aria-hidden="true"></div>
   <div class="screen-noise" aria-hidden="true"></div>
+  <div class="scene-transition-line" aria-hidden="true"></div>
 
   <header class="observatory-header">
     <button class="brand-lockup" type="button" data-scene-jump="0" aria-label="Return to introduction">
@@ -102,9 +103,31 @@
       </div>
     </section>
 
-    <section class="scene-panel scene-panel-profile" data-scene-panel="4" aria-labelledby="scene-title-4" aria-hidden="true">
-      <p class="scene-coordinate">04 / Trajectory</p>
-      <h2 id="scene-title-4">What I bring<br />to a team</h2>
+    <section class="scene-panel scene-panel-studio" data-scene-panel="4" aria-labelledby="scene-title-4" aria-hidden="true">
+      <p class="scene-coordinate">04 / Engineering studio</p>
+      <div class="scene-status"><span>System design</span><span>Interaction engineering</span></div>
+      <h2 id="scene-title-4">Code with<br />a visible spine</h2>
+      <p class="scene-lead">The interface is part of the engineering: typed API contracts, deterministic state, responsive systems, accessible controls, and motion that explains spatial relationships.</p>
+      <div class="studio-code" aria-label="Code sample from the portfolio interaction system">
+        <div class="studio-code-bar"><span>observatory.js</span><span>ES module / WebGL</span></div>
+        <pre><code><span class="code-keyword">function</span> springVector(current, target, velocity, dt) {
+  velocity.addScaledVector(target.clone().sub(current), <span class="code-number">56</span> * dt);
+  velocity.multiplyScalar(Math.exp(-<span class="code-number">11</span> * dt));
+  current.addScaledVector(velocity, dt);
+}</code></pre>
+      </div>
+      <div class="studio-stack" aria-label="Engineering capabilities">
+        <span>Python</span><span>FastAPI</span><span>PyTorch</span><span>Three.js</span><span>Docker</span><span>SQL</span>
+      </div>
+      <div class="scene-actions">
+        <button class="primary-action" type="button" data-open-evidence="studio">Inspect the build <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">Read the code <span aria-hidden="true">&#8594;</span></a>
+      </div>
+    </section>
+
+    <section class="scene-panel scene-panel-profile" data-scene-panel="5" aria-labelledby="scene-title-5" aria-hidden="true">
+      <p class="scene-coordinate">05 / Trajectory</p>
+      <h2 id="scene-title-5">What I bring<br />to a team</h2>
       <p class="scene-lead">I move comfortably between investigation and implementation: data forensics, ML evaluation, APIs, Docker, responsive interfaces, and the documentation that keeps claims honest.</p>
       <div class="trajectory" aria-label="Internship timeline">
         <article><time>2026</time><div><strong>AI Intern</strong><span>Industrial ML, causal validation, Docker services and operator diagnostics.</span></div></article>
@@ -123,7 +146,8 @@
     <button type="button" data-scene-jump="1"><span>01</span><strong>Compressor</strong></button>
     <button type="button" data-scene-jump="2"><span>02</span><strong>TopoFlow</strong></button>
     <button type="button" data-scene-jump="3"><span>03</span><strong>Aegis</strong></button>
-    <button type="button" data-scene-jump="4"><span>04</span><strong>Profile</strong></button>
+    <button type="button" data-scene-jump="4"><span>04</span><strong>Studio</strong></button>
+    <button type="button" data-scene-jump="5"><span>05</span><strong>Profile</strong></button>
   </nav>
 
   <div class="scene-instructions" aria-hidden="true">
@@ -222,6 +246,34 @@
     "source_divergence"
   ]
 }</pre>
+      </div>
+    </div>
+  </template>
+
+  <template id="evidence-studio">
+    <div class="evidence-layout evidence-layout-studio">
+      <div class="evidence-narrative">
+        <p class="evidence-kicker">Implementation contract / 04</p>
+        <h3>Visual systems become credible when the behavior underneath is equally deliberate.</h3>
+        <p>This portfolio uses a pinned local Three.js build, one deterministic scene state, keyboard and touch navigation, reduced-motion support, semantic fallbacks, and responsive evidence views.</p>
+        <dl><div><dt>Rendering</dt><dd>Procedural WebGL geometry</dd></div><div><dt>Motion</dt><dd>Damped camera physics</dd></div><div><dt>Interface</dt><dd>Accessible native controls</dd></div></dl>
+        <a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">Inspect repositories &#8594;</a>
+      </div>
+      <div class="studio-inspector">
+        <div class="terminal-bar"><span>SYSTEM_ARCHITECTURE.TXT</span><span>6 SCENES</span></div>
+        <div class="architecture-flow" aria-label="Portfolio architecture">
+          <div><span>01</span><strong>Evidence</strong><small>Research artifacts and measured outcomes</small></div>
+          <i aria-hidden="true"></i>
+          <div><span>02</span><strong>Contract</strong><small>Typed APIs and deterministic state</small></div>
+          <i aria-hidden="true"></i>
+          <div><span>03</span><strong>Interface</strong><small>Responsive views and spatial interaction</small></div>
+        </div>
+        <div class="design-token-grid" aria-label="Interface design tokens">
+          <span style="--token:#47e6a5">Evidence</span>
+          <span style="--token:#668cff">Structure</span>
+          <span style="--token:#ff7448">Review</span>
+          <span style="--token:#e8f1ec">Signal</span>
+        </div>
       </div>
     </div>
   </template>
