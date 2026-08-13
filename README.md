@@ -1,8 +1,10 @@
-# Shaunak Rane - Applied AI Portfolio
+# Shaunak Rane - Engineering Portfolio
 
-Static portfolio for applied ML, scientific computing, agentic systems, and full-stack AI engineering work.
+Evidence-led portfolio for applied ML, scientific computing, backend systems, and industrial analytics. The homepage is an interactive WebGL Evidence Observatory: five spatial scenes connect real project systems, engineering decisions, and inspectable evidence without collapsing the experience into a conventional scrolling resume.
 
-**Live site:** [sr914.netlify.app](https://sr914.netlify.app)
+**Primary domain:** [shaunakrane.is-a.dev](https://shaunakrane.is-a.dev)
+
+**Netlify fallback:** [sr914.netlify.app](https://sr914.netlify.app)
 
 ## Featured case studies
 
@@ -23,6 +25,15 @@ python -m http.server 8080
 
 Open `http://127.0.0.1:8080`.
 
+## Design principles
+
+- Use one continuous 3D evidence world instead of a conventional section stack.
+- Give the compressor, TopoFlow, and Aegis projects their own procedural scene language.
+- Open real plots and system evidence in focused inspection overlays.
+- Keep claims traceable and state rejected approaches as part of the work.
+- Support wheel, arrow-key, pointer-drag, touch, scene-rail, and reduced-motion navigation.
+- Use project-specific color as information: green for industrial evidence, blue for graph research, and orange for agent systems.
+
 ## Content policy
 
 - Metrics must be traceable to a repository artifact, benchmark, test run, or de-identified validation report.
@@ -36,6 +47,8 @@ Open `http://127.0.0.1:8080`.
 - `compressor-cbm.html` - de-identified industrial AI case study
 - `topoflow.html` - graph ML case study
 - `aegis.html`, `gridium.html`, `yield.html`, `sodexo.html` - existing project deep dives
-- `style.css`, `project-page.css`, `script.js` - shared presentation and interactions
+- `observatory.css`, `observatory.js` - full-screen portfolio experience and Three.js scene system
+- `style.css`, `project-page.css`, `script.js` - case-study presentation and interactions
+- `assets/vendor/three*.js` - pinned Three.js 0.185.1 runtime
 - `assets/` - project figures used by the case studies
 - `Shaunak_Rane_MLH_Resume.pdf` - current one-page fellowship resume
