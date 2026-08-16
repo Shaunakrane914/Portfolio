@@ -55,6 +55,23 @@
         <div class="overview-text">
           <p>Large-scale food service operations face a major challenge: <strong>demand uncertainty</strong>. Overproduction, poor inventory visibility, and a lack of data-driven decision-making lead to significant daily food wastage and increased operational costs.</p>
           <p>Developed as an internship project for a Sodexo-oriented food-service workflow, the system replaces disconnected spreadsheets with a common operational path. It combines weekly menus, dish-to-ingredient mappings, inventory, BOM calculations, and a meal-attendance predictor.</p>
+          <p><strong>My contribution:</strong> Solo internship project &mdash; I designed the data model, built the FastAPI service layer, implemented the Random Forest pax predictor, and delivered the manager-facing dashboard UI.</p>
+        </div>
+        <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
+          <h3>Tech Stack</h3>
+          <div class="ts-items">
+            <div class="ts-item"><span class="ts-icon">PY</span><span>Python &middot; FastAPI &middot; Flask &mdash; service layer</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>scikit-learn &middot; Random Forest &mdash; pax predictor (&lt;100ms inference)</span></div>
+            <div class="ts-item"><span class="ts-icon">DA</span><span>pandas &mdash; BOM rollup for 7-day menu in &lt;500ms</span></div>
+            <div class="ts-item"><span class="ts-icon">DB</span><span>SQLite &rarr; PostgreSQL migration path</span></div>
+            <div class="ts-item"><span class="ts-icon">UI</span><span>HTML / CSS / JS &mdash; manager-facing dashboard</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="proj-section">
       <div class="ps-label">⚙️ System Architecture</div>
       <h2 class="ps-title">Data-to-Decision Pipeline</h2>
       <div class="arch-diagram">

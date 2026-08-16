@@ -107,7 +107,9 @@
             <span class="as-icon">🤖</span>
             <div>
               <strong>DDPG Reinforcement Learning</strong>
-              <p>Actor-critic for continuous fee control. Reward penalises grid imbalance (squared error) and rewards AMM liquidity depth + battery SoC kept between 20–80%. Ornstein-Uhlenbeck noise for exploration during training; Polyak averaging (soft updates) for stable target-network convergence.</p>
+              <p>Actor-critic for continuous fee control. Reward penalises grid imbalance (squared error) and rewards AMM liquidity depth + battery SoC kept between 20&ndash;80%. Ornstein-Uhlenbeck noise for exploration during training; Polyak averaging (soft updates) for stable target-network convergence.</p>
+              <p style="margin-top:8px"><strong>Why DDPG over DQN?</strong> DQN operates on discrete action bins; swap fee adjustments require floating-point granularity (e.g. 0.1% to 5.0%). DDPG handles continuous action spaces natively &mdash; essential for steering physical grid economics without discrete market shock.</p>
+              <code class="code-pill">State: [grid_load, generation, imbalance, energy_reserve, stable_reserve, price, battery_soc] &rarr; Action: [swap_fee_modifier]</code>
             </div>
           </div>
           <div class="as-box">
@@ -158,6 +160,17 @@
             <code class="code-pill">Verifier.sol → require(verifyProof(a,b,c,input)) → AMM Swap</code>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">System Performance</div>
+      <h2 class="ps-title">Runtime Constraints &amp; Throughput</h2>
+      <div class="arch-infra">
+        <div class="ai-box"><span>Physics tick rate</span><span class="ai-sub">500ms — DDPG inference + physics step must complete within window</span></div>
+        <div class="ai-box"><span>WebSocket fan-out</span><span class="ai-sub">Node.js gateway broadcasts full state to all clients post-tick via Socket.io</span></div>
+        <div class="ai-box"><span>ZK proof generation</span><span class="ai-sub">Groth16 via snarkjs — CPU-intensive; runs in gateway to keep frontend lightweight</span></div>
+        <div class="ai-box"><span>Simulated scale</span><span class="ai-sub">15 nodes &middot; 7-dim state vector &middot; 1 continuous action output</span></div>
       </div>
     </section>
 

@@ -29,7 +29,7 @@
         <span class="proj-year">Oct 2025 – Feb 2026</span>
       </div>
       <h1 class="proj-hero-title">Project <span style="color:var(--accent-clr)">Aegis</span></h1>
-      <p class="proj-hero-sub">An agentic threat-intelligence prototype that combines rolling market anomaly signals with schema-constrained Gemini workflows, serverless API-key isolation, and model fallback behavior.</p>
+      <p class="proj-hero-sub">A full-stack agentic intelligence platform: Yahoo Finance Z-score anomaly detection &rarr; 4 specialized Gemini 2.5 Flash agent workflows &rarr; schema-enforced JSON verdict &rarr; real-time DOM hydration. Stack: Vanilla JS SPA &middot; Netlify serverless gateway &middot; Dockerized FastAPI on Render &middot; Supabase PostgreSQL.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card"><span class="hm-val">Gemini</span><span class="hm-lbl">2.5 Flash primary model</span></div>
         <div class="hm-card"><span class="hm-val">3-key</span><span class="hm-lbl">API rotation pool</span></div>
@@ -66,12 +66,58 @@
         <div class="tech-stack-card">
           <h3>Tech Stack</h3>
           <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">⚡</span><span>Serverless Node Gateway (API Proxy)</span></div>
-            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render</span></div>
-            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini 2.5 Flash / 2.0 Fallback</span></div>
-            <div class="ts-item"><span class="ts-icon">🔗</span><span>Supabase (PostgreSQL)</span></div>
-            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI</span></div>
-            <div class="ts-item"><span class="ts-icon">📈</span><span>Vanilla JS / CSS Custom Props</span></div>
+            <div class="ts-item"><span class="ts-icon">⚡</span><span>Netlify Functions &mdash; serverless Node.js API gateway</span></div>
+            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render &mdash; containerized FastAPI + Uvicorn (4 workers)</span></div>
+            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini 2.5 Flash (primary) &rarr; 2.0 Flash (model fallback)</span></div>
+            <div class="ts-item"><span class="ts-icon">🔗</span><span>Supabase PostgreSQL &mdash; verdict + claim persistence</span></div>
+            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI &mdash; background polling + DB hydration</span></div>
+            <div class="ts-item"><span class="ts-icon">📈</span><span>Vanilla JS SPA &mdash; no framework, instant first-paint</span></div>
+            <div class="ts-item"><span class="ts-icon">📊</span><span>Yahoo Finance v8/finance/chart &mdash; live price data via CORS proxy</span></div>
+            <div class="ts-item"><span class="ts-icon">🔁</span><span>GitHub Actions &rarr; Netlify CI/CD &mdash; auto-deploy on main push</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY DECISIONS -->
+    <section class="proj-section">
+      <div class="ps-label">Engineering Decisions</div>
+      <h2 class="ps-title">Why This Architecture?</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num">01</div>
+          <div class="fs-content">
+            <h3>Vanilla JS over React &mdash; deliberate, not lazy</h3>
+            <p>The SPA pattern requires one view state. React would add 130+ KB of framework overhead for zero functional gain. Vanilla JS with CSS custom properties delivers instant first-paint and hardware-accelerated animations with no build step or bundler dependency.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">02</div>
+          <div class="fs-content">
+            <h3>Serverless gateway &mdash; API keys never reach the DOM</h3>
+            <p>Direct browser fetch would expose <code class="code-pill" style="display:inline;padding:2px 6px">AIzaSy...</code> keys in DevTools. The Netlify Function acts as a secure proxy: <code>GEMINI_KEY_1/2/3</code> are injected at build time via environment variables and never shipped in client-side JS bundles.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">03</div>
+          <div class="fs-content">
+            <h3>Z-score threshold |Z| &gt; 2.5 &mdash; why this number</h3>
+            <p>Two standard deviations flags ~4.6% of price moves as statistically anomalous. Calibrated against 5-day rolling windows on NIFTY/BSE tickers &mdash; narrow enough to catch coordinated manipulation, wide enough to ignore normal intraday volatility spikes.</p>
+            <code class="code-pill">Z = (X &minus; &mu;) / &sigma; &rarr; flag if |Z| &gt; 2.5</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">04</div>
+          <div class="fs-content">
+            <h3>Gemini Flash over Pro &mdash; latency is the product</h3>
+            <p>Threat intelligence is time-sensitive. Gemini Pro would add 3&ndash;8&times; latency for marginal reasoning gain on structured JSON tasks. Flash delivers near-instant token generation; the strict output schema compensates for reasoning delta. Sub-30-second total latency is the stated SLA.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">05</div>
+          <div class="fs-content">
+            <h3>JSON schema enforcement + regex fence cleanup</h3>
+            <p>LLMs occasionally wrap JSON in markdown fences (<code class="code-pill" style="display:inline;padding:2px 6px">```json</code>) despite strict prompting. The gateway strips fences with <code>.replace(/^```json/, '')</code> before <code>JSON.parse()</code>. A try-catch returns a controlled error state if parsing still fails &mdash; preventing DOM corruption from hallucination drift.</p>
           </div>
         </div>
       </div>
@@ -163,6 +209,37 @@
       </div>
     </section>
 
+    <!-- PERFORMANCE -->
+    <section class="proj-section">
+      <div class="ps-label">System Performance</div>
+      <h2 class="ps-title">Measured Behaviour Under Constraints</h2>
+      <div class="arch-infra">
+        <div class="ai-box"><span>Warm latency</span><span class="ai-sub">&lt; 30 seconds end-to-end threat analysis</span></div>
+        <div class="ai-box"><span>RPM capacity</span><span class="ai-sub">45 RPM via 3-key round-robin (3&times; free-tier limit)</span></div>
+        <div class="ai-box"><span>Cold start</span><span class="ai-sub">50&ndash;90s on Render free tier &mdash; heartbeat cron mitigates</span></div>
+        <div class="ai-box"><span>Response schema</span><span class="ai-sub">7 typed fields: title &middot; source &middot; summary &middot; type &middot; is_threat &middot; severity &middot; sentiment</span></div>
+      </div>
+      <div style="margin-top:28px">
+        <div class="ps-label" style="margin-bottom:16px">Deployment Pipeline</div>
+        <div class="arch-secondary">
+          <div class="as-box">
+            <span class="as-icon">🚀</span>
+            <div>
+              <strong>Frontend &amp; Gateway &mdash; Netlify CI/CD</strong>
+              <p>Push to <code>main</code> &rarr; GitHub Actions &rarr; Netlify builds static assets + Lambda functions &rarr; CDN edge deployment. <code>GEMINI_KEY_n</code> injected at build time via Netlify environment variables, never in the source tree.</p>
+            </div>
+          </div>
+          <div class="as-box">
+            <span class="as-icon">🐳</span>
+            <div>
+              <strong>Backend &mdash; Dockerized FastAPI on Render</strong>
+              <p>Python 3.11-slim base image; Uvicorn with 4 workers. <code>GEMINI_KEY_1/2/3</code> and Supabase credentials injected as Render service environment variables. Background cron hits <code>/api/claims</code> every 14 minutes to prevent free-tier spin-down.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CHALLENGES -->
     <section class="proj-section">
       <div class="ps-label">DevOps & MLOps Problems Solved</div>
@@ -204,6 +281,18 @@
             <p>Implemented a `/api/claims` ping that acts as a live heartbeat to keep the container warm. The UI displays an elegant "Waking up cluster" banner if the delay exceeds 3 seconds, preserving user trust.</p>
           </div>
         </div>
+        <div class="challenge-card">
+          <div class="cc-problem">
+            <span class="cc-badge problem">Limitation</span>
+            <h3>Simulated News Context &mdash; the RAG gap</h3>
+            <p>Gemini currently simulates real-time Twitter/Bloomberg scraping from its training data. For time-sensitive events after the training cutoff, threat signals may be incomplete or fabricated.</p>
+          </div>
+          <div class="cc-solution">
+            <span class="cc-badge solution">Roadmap</span>
+            <h3>RAG Pipeline &mdash; Firecrawl &rarr; Gemini</h3>
+            <p>Planned architecture: Firecrawl or Apify scrapes live article URLs &rarr; raw text is chunked &rarr; injected into Gemini context window before inference. This grounds the model in verified, real-time sources and eliminates hallucinated &ldquo;intelligence.&rdquo;</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -213,7 +302,7 @@
     <a href="index.html" class="footer-back">← Back to Portfolio</a>
     <div class="proj-footer-nav">
       <span>Next Project:</span>
-      <a href="yield.html">Yield AI →</a>
+      <a href="gridium.html">Gridium Protocol &rarr;</a>
     </div>
   </footer>
 
