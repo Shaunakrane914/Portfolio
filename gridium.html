@@ -55,7 +55,7 @@
         <div class="overview-text">
           <p>Traditional power grids are monolithic and brittle. As residential solar panels and batteries proliferate, the legacy grid struggles. Prosumers sell surplus energy back to utilities at wholesale pennies, but unmanaged peer-to-peer trading causes grid instability and severe physical privacy risks (ledgers revealing home occupancy).</p>
           <p>Gridium operates at the intersection of AI, cryptography, and DeFi. It uses an Automated Market Maker for simulated energy liquidity, a continuous-control RL agent for fee adjustment, and a proof-of-surplus flow that demonstrates how raw telemetry could remain off-chain.</p>
-          <p><strong>Team contribution:</strong> I focused on the Python AI engine, backend integration, and 3D visualization. Yash Pandit led smart contracts and zero-knowledge implementation; Sanket Deka worked on frontend and UI/UX.</p>
+          <p><strong>Team contribution:</strong> I focused on the Python AI engine, backend integration, and 3D visualization — specifically: the FastAPI tick loop, DDPG actor-critic implementation in PyTorch, and React Three Fiber visualization driven by Zustand state. Yash Pandit led smart contracts and zero-knowledge implementation; Sanket Deka worked on frontend and UI/UX.</p>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(249,115,22,0.15)">
           <h3>Tech Stack & MLOps</h3>
@@ -107,7 +107,7 @@
             <span class="as-icon">🤖</span>
             <div>
               <strong>DDPG Reinforcement Learning</strong>
-              <p>Actor-critic model handling continuous state adjustments (swap fees) to balance grid load and AMM depth without crashing the physical network.</p>
+              <p>Actor-critic for continuous fee control. Reward penalises grid imbalance (squared error) and rewards AMM liquidity depth + battery SoC kept between 20–80%. Ornstein-Uhlenbeck noise for exploration during training; Polyak averaging (soft updates) for stable target-network convergence.</p>
             </div>
           </div>
           <div class="as-box">

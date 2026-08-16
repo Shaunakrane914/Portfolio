@@ -31,9 +31,9 @@
       <p class="proj-hero-sub">A physics-grounded, three-plant condition-monitoring program that turns reconciled historian data into explainable fouling evidence, plant-specific instability review queues, and carefully gated operator diagnostics.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card"><span class="hm-val">3</span><span class="hm-lbl">Plant-Specific Contracts</span></div>
-        <div class="hm-card"><span class="hm-val">4,000+</span><span class="hm-lbl">Longest Daily History</span></div>
-        <div class="hm-card"><span class="hm-val">3,879</span><span class="hm-lbl">Reproduced DFI Rows</span></div>
-        <div class="hm-card"><span class="hm-val">17/17</span><span class="hm-lbl">Latest Validation Checks</span></div>
+        <div class="hm-card"><span class="hm-val">Flask</span><span class="hm-lbl">REST API + pytest suite</span></div>
+        <div class="hm-card"><span class="hm-val">17/17</span><span class="hm-lbl">Validation Gates Passed</span></div>
+        <div class="hm-card"><span class="hm-val">Holt</span><span class="hm-lbl">Damped trend — best forecast candidate</span></div>
       </div>
       <div class="proj-hero-cta">
         <span class="project-status">Private source · De-identified case study</span>
@@ -59,9 +59,9 @@
           <h3>Stack &amp; Methods</h3>
           <div class="ts-items">
             <div class="ts-item"><span class="ts-icon">PY</span><span>Python / pandas / NumPy</span></div>
-            <div class="ts-item"><span class="ts-icon">ML</span><span>Scikit-learn / statsmodels</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>Scikit-learn / statsmodels / Holt damped trend</span></div>
             <div class="ts-item"><span class="ts-icon">API</span><span>Flask REST services</span></div>
-            <div class="ts-item"><span class="ts-icon">QA</span><span>pytest / frozen hashes</span></div>
+            <div class="ts-item"><span class="ts-icon">QA</span><span>pytest / frozen hashes / rolling-origin CV</span></div>
             <div class="ts-item"><span class="ts-icon">WEB</span><span>HTML / CSS / JavaScript</span></div>
             <div class="ts-item"><span class="ts-icon">ENG</span><span>Thermodynamic reconciliation</span></div>
           </div>
@@ -263,7 +263,7 @@
       <h2 class="ps-title">A validated shadow platform, not a claim machine</h2>
       <div class="next-grid">
         <div class="next-item"><span class="next-icon">01</span><p>Candidate B remains the preferred Plant 2 shadow fouling formulation.</p></div>
-        <div class="next-item"><span class="next-icon">02</span><p>Forecasting remains separated from alerts and blocked from maintenance decisions.</p></div>
+        <div class="next-item"><span class="next-icon">02</span><p>Four candidates evaluated — classical, tree-based, physics-guided, KNN. Holt damped trend was the numerical winner but failed promotion: too few maintenance events in holdout to justify coupling forecasts to alerts.</p></div>
         <div class="next-item"><span class="next-icon">03</span><p>Surge-oriented outputs rank evidence for review and never confirm aerodynamic surge.</p></div>
         <div class="next-item"><span class="next-icon">04</span><p>New maintenance evidence can improve provenance without automatically rewriting model state.</p></div>
       </div>

@@ -31,10 +31,10 @@
       <h1 class="proj-hero-title">Food Waste <span style="color:var(--accent-clr)">Optimization</span> System</h1>
       <p class="proj-hero-sub">An internship prototype for institutional kitchen operations, connecting menu planning, bill-of-materials calculations, inventory, and meal-attendance forecasting in one FastAPI workflow.</p>
       <div class="proj-hero-metrics">
-        <div class="hm-card"><span class="hm-val" style="color:#10b981">2</span><span class="hm-lbl">Data Stores</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#10b981">BOM</span><span class="hm-lbl">Ingredient Planning</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#10b981">RF</span><span class="hm-lbl">Pax Predictor</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#10b981">FastAPI</span><span class="hm-lbl">Application Layer</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#10b981">FastAPI</span><span class="hm-lbl">Application backend</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#10b981">RF</span><span class="hm-lbl">Random Forest pax predictor</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#10b981">BOM</span><span class="hm-lbl">Menu → ingredient pipeline</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#10b981">SQLite</span><span class="hm-lbl">Inventory data store</span></div>
       </div>
       <div class="proj-hero-cta">
         <a href="index.html#work" class="btn-main" style="background:#10b981">View Project Card</a>
@@ -47,28 +47,14 @@
   <main class="proj-main" id="main-content">
 
     <!-- OVERVIEW -->
+
+    <!-- OVERVIEW -->
     <section class="proj-section">
       <div class="ps-label">Overview</div>
       <div class="overview-grid">
         <div class="overview-text">
           <p>Large-scale food service operations face a major challenge: <strong>demand uncertainty</strong>. Overproduction, poor inventory visibility, and a lack of data-driven decision-making lead to significant daily food wastage and increased operational costs.</p>
           <p>Developed as an internship project for a Sodexo-oriented food-service workflow, the system replaces disconnected spreadsheets with a common operational path. It combines weekly menus, dish-to-ingredient mappings, inventory, BOM calculations, and a meal-attendance predictor.</p>
-        </div>
-        <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
-          <h3>Key Objectives</h3>
-          <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">📉</span><span>Reduce waste via prediction</span></div>
-            <div class="ts-item"><span class="ts-icon">🍱</span><span>Optimize meal planning</span></div>
-            <div class="ts-item"><span class="ts-icon">⏱️</span><span>Real-time tracking</span></div>
-            <div class="ts-item"><span class="ts-icon">👨‍🍳</span><span>Manager Decision Support</span></div>
-            <div class="ts-item"><span class="ts-icon">🌱</span><span>Sustainability Impact</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ARCHITECTURE -->
-    <section class="proj-section">
       <div class="ps-label">⚙️ System Architecture</div>
       <h2 class="ps-title">Data-to-Decision Pipeline</h2>
       <div class="arch-diagram">
@@ -112,10 +98,10 @@
             </div>
           </div>
           <div class="as-box">
-            <span class="as-icon">💡</span>
+            <span class="as-icon">🌲</span>
             <div>
-              <strong>Intelligence Layer</strong>
-              <p>Uses data-driven heuristics to identify over-prepared dishes and suggests dynamic portion control based on historical demand variability.</p>
+              <strong>Random Forest Pax Predictor</strong>
+              <p>Features: day of week, meal type, historical attendance count, seasonal index. Output: predicted meal count used for portion planning and ingredient procurement. Prototype — trained on internship-period data; accuracy improves with longer history.</p>
             </div>
           </div>
         </div>

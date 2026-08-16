@@ -30,9 +30,9 @@
       <h1 class="proj-hero-title">TopoFlow <span style="color:var(--accent-clr)">GNN</span></h1>
       <p class="proj-hero-sub">A pore-network permeability system that compares GraphSAGE with Kozeny-Carman physics and selects the modeling regime from measured structural heterogeneity.</p>
       <div class="proj-hero-metrics">
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">1,231</span><span class="hm-lbl">Samples</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">PyG</span><span class="hm-lbl">PyTorch Geometric</span></div>
         <div class="hm-card"><span class="hm-val" style="color:#a855f7">5</span><span class="hm-lbl">Geological Formations</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">46.2%</span><span class="hm-lbl">Best MSE Reduction</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">46.2%</span><span class="hm-lbl">MSE reduction (Savonnières)</span></div>
         <div class="hm-card"><span class="hm-val" style="color:#a855f7">2</span><span class="hm-lbl">Modeling Regimes</span></div>
       </div>
       <div class="proj-hero-cta">
@@ -66,6 +66,36 @@
             <div class="ts-item"><span class="ts-icon">PHY</span><span>Kozeny-Carman baseline</span></div>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">Model Architecture</div>
+      <h2 class="ps-title">GraphSAGE Pipeline — Implementation Detail</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">01</div>
+          <div class="fs-content">
+            <h3>Pore network extraction — SNOW2 via PoreSpy</h3>
+            <p>Micro-CT voxel data is segmented and passed through the SNOW2 algorithm to extract pores (nodes) and throats (edges). Node features: equivalent pore radius, coordination number, shape factor. Edge features: throat radius and length.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">02</div>
+          <div class="fs-content">
+            <h3>GraphSAGE — 3 aggregation layers</h3>
+            <p>Mean aggregator, ReLU activation, dropout 0.3. Graph-level readout via global mean pooling. Trained against measured permeability (mD) using MSE loss with Adam optimizer.</p>
+            <code class="code-pill">PyTorch Geometric · GraphSAGE · global_mean_pool</code>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">03</div>
+          <div class="fs-content">
+            <h3>Regime selector — Cv threshold</h3>
+            <p>The coefficient of variation (Cv) of the pore-size distribution determines which model runs. High Cv (heterogeneous) → GraphSAGE. Low Cv (homogeneous) → Kozeny-Carman physics baseline. Threshold calibrated on formation-level test splits.</p>
+            <code class="code-pill">Cv = σ(r_pore) / μ(r_pore) &gt; threshold → GNN</code>
+          </div>
+        </div>
       </div>
     </section>
 

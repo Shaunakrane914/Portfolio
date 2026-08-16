@@ -31,10 +31,10 @@
       <h1 class="proj-hero-title">Yield AI <span style="color:var(--accent-clr); font-size:0.7em;">(KrushiMitra)</span></h1>
       <p class="proj-hero-sub">A mobile-first crop-yield scenario prototype for Odisha farmers. The public build demonstrates an accessible React interface and FastAPI service boundary; its prediction output is illustrative while a validated dataset and benchmark remain future work.</p>
       <div class="proj-hero-metrics">
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">React</span><span class="hm-lbl">Responsive Interface</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">FastAPI</span><span class="hm-lbl">Service Boundary</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Prototype</span><span class="hm-lbl">Current Model Status</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Pending</span><span class="hm-lbl">External Validation</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">React</span><span class="hm-lbl">TypeScript · typed form state</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Pydantic</span><span class="hm-lbl">Validated request schema</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">FastAPI</span><span class="hm-lbl">Scenario service boundary</span></div>
+        <div class="hm-card"><span class="hm-val" style="color:#a855f7">Prototype</span><span class="hm-lbl">Mock output · benchmark pending</span></div>
       </div>
       <div class="proj-hero-cta">
         <span class="project-status">Prototype · No live demo</span>
@@ -52,7 +52,7 @@
       <div class="overview-grid">
         <div class="overview-text">
           <p>KrushiMitra explores how a farmer-facing yield tool could collect district, crop, rainfall, and temperature context without demanding specialist hardware or a desktop workflow.</p>
-          <p>The strongest part of the current project is the <strong>product and service architecture</strong>: a mobile React interface, typed components, and a FastAPI backend prepared for a future validated model. The repository currently uses mock prediction behavior, so this case study intentionally makes no accuracy or agronomic-impact claim.</p>
+          <p>The engineering contribution is a <strong>production-ready service boundary</strong>: typed React form → Pydantic schema validation → FastAPI scenario service → structured response contract. A validated agricultural model can be swapped in at the adapter layer without changing the frontend or API contract. The repository currently uses mock prediction behavior, so this case study makes no accuracy or agronomic-impact claim.</p>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(168,85,247,0.15)">
           <h3>Tech Stack</h3>
