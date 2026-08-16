@@ -35,10 +35,10 @@ let webglReady = false;
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [0, 0, 0] },
-  { position: [14, 1.4, 11], look: [14, 0, 0] },
-  { position: [0, 1.2, -4.5], look: [0, 0, -16] },
   { position: [-14, 1.6, 10.5], look: [-14, 0, 0] },
   { position: [-12, 10.4, 1.5], look: [-12, 8, -10] },
+  { position: [14, 1.4, 11], look: [14, 0, 0] },
+  { position: [0, 1.2, -4.5], look: [0, 0, -16] },
   { position: [0, 10.5, 12], look: [0, 8, 0] }
 ];
 
@@ -772,10 +772,10 @@ function initializeThree() {
     scene.add(createAmbientField());
     worlds.push(
       createOriginWorld(),
-      createCompressorWorld(),
-      createTopoWorld(),
       createAegisWorld(),
       createGridiumWorld(),
+      createCompressorWorld(),
+      createTopoWorld(),
       createProfileWorld()
     );
     worlds.forEach((world) => scene.add(world));
@@ -833,14 +833,41 @@ function render(timeMs) {
     transitField.scale.z = 0.7 + motionEnergy * 3.8;
   }
 
+  // 0: Origin
   worlds[0].rotation.y += reduceMotion ? 0 : 0.0012;
   worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
 
-  worlds[1].userData.rotors.forEach((rotor, index) => {
+  // 1: Aegis
+  const sweepAngle = reduceMotion ? 0.65 : time * 0.68;
+  if (worlds[1].userData.sweep) worlds[1].userData.sweep.rotation.z = sweepAngle;
+  if (worlds[1].userData.sweepSector) worlds[1].userData.sweepSector.rotation.z = sweepAngle;
+  worlds[1].userData.bars.forEach((bar) => {
+    const pulse = reduceMotion ? 1 : 0.78 + Math.sin(time * 1.7 + bar.userData.phase) * 0.22;
+    bar.scale.y = bar.userData.baseHeight * pulse;
+  });
+  worlds[1].userData.blips.forEach((blip) => {
+    const pulse = reduceMotion ? 1 : 0.55 + (Math.sin(time * 3.2 + blip.userData.phase) + 1) * 0.42;
+    blip.scale.setScalar(pulse);
+  });
+
+  // 2: Gridium
+  worlds[2].userData.panels.forEach((panel) => {
+    panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.8 + panel.userData.phase) * 0.08);
+  });
+  worlds[2].userData.dataParticles.forEach((packet) => {
+    const progress = (packet.userData.offset + time * 0.065) % 1;
+    packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
+    packet.rotation.x = time * 1.4;
+    packet.rotation.y = time * 1.8;
+  });
+  worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.22) * 0.035;
+
+  // 3: Compressor
+  worlds[3].userData.rotors.forEach((rotor, index) => {
     rotor.rotation.z += reduceMotion ? 0 : 0.008 + index * 0.0016;
   });
-  worlds[1].rotation.y = Math.sin(time * 0.24) * 0.08;
-  worlds[1].userData.flowParticles.forEach((particle) => {
+  worlds[3].rotation.y = Math.sin(time * 0.24) * 0.08;
+  worlds[3].userData.flowParticles.forEach((particle) => {
     const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
     const spiral = particle.userData.phase + progress * Math.PI * 7;
     const compression = 1 - progress * 0.34;
@@ -851,40 +878,19 @@ function render(timeMs) {
     );
   });
 
-  worlds[2].rotation.y += reduceMotion ? 0 : 0.0017;
-  worlds[2].rotation.x = Math.sin(time * 0.2) * 0.08;
-  if (worlds[2].userData.flowCurve) {
-    worlds[2].userData.flowParticles.forEach((particle) => {
+  // 4: TopoFlow
+  worlds[4].rotation.y += reduceMotion ? 0 : 0.0017;
+  worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
+  if (worlds[4].userData.flowCurve) {
+    worlds[4].userData.flowParticles.forEach((particle) => {
       const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
-      particle.position.copy(worlds[2].userData.flowCurve.getPointAt(progress));
+      particle.position.copy(worlds[4].userData.flowCurve.getPointAt(progress));
       const pulse = 0.7 + Math.sin(progress * Math.PI) * 0.8;
       particle.scale.setScalar(pulse);
     });
   }
 
-  const sweepAngle = reduceMotion ? 0.65 : time * 0.68;
-  if (worlds[3].userData.sweep) worlds[3].userData.sweep.rotation.z = sweepAngle;
-  if (worlds[3].userData.sweepSector) worlds[3].userData.sweepSector.rotation.z = sweepAngle;
-  worlds[3].userData.bars.forEach((bar) => {
-    const pulse = reduceMotion ? 1 : 0.78 + Math.sin(time * 1.7 + bar.userData.phase) * 0.22;
-    bar.scale.y = bar.userData.baseHeight * pulse;
-  });
-  worlds[3].userData.blips.forEach((blip) => {
-    const pulse = reduceMotion ? 1 : 0.55 + (Math.sin(time * 3.2 + blip.userData.phase) + 1) * 0.42;
-    blip.scale.setScalar(pulse);
-  });
-
-  worlds[4].userData.panels.forEach((panel) => {
-    panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.8 + panel.userData.phase) * 0.08);
-  });
-  worlds[4].userData.dataParticles.forEach((packet) => {
-    const progress = (packet.userData.offset + time * 0.065) % 1;
-    packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
-    packet.rotation.x = time * 1.4;
-    packet.rotation.y = time * 1.8;
-  });
-  worlds[4].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.22) * 0.035;
-
+  // 5: Profile
   worlds[5].rotation.y += reduceMotion ? 0 : 0.0014;
 
   if (activeWorld && !reduceMotion) {
