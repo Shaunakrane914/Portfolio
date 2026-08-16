@@ -9,8 +9,8 @@ const telemetryScene = document.getElementById("telemetry-scene");
 const telemetryCoordinates = document.getElementById("telemetry-coordinates");
 const telemetryFps = document.getElementById("telemetry-fps");
 const sceneAnnouncer = document.getElementById("scene-announcer");
-const sceneNames = ["ORIGIN", "COMPRESSOR", "TOPOFLOW", "AEGIS", "STUDIO", "PROFILE"];
-const sceneHashes = ["origin", "compressor", "topoflow", "aegis", "studio", "profile"];
+const sceneNames = ["ORIGIN", "COMPRESSOR", "TOPOFLOW", "AEGIS", "GRIDIUM", "PROFILE"];
+const sceneHashes = ["origin", "compressor", "topoflow", "aegis", "gridium", "profile"];
 
 let renderer;
 let scene;
@@ -582,50 +582,51 @@ function createAegisWorld() {
   return group;
 }
 
-function createStudioWorld() {
+function createGridiumWorld() {
   const group = new THREE.Group();
   group.position.set(-12, 8, -10);
   group.userData.panels = [];
   group.userData.dataParticles = [];
+  group.userData.nodes = [];
 
   const panelDefinitions = [
     {
-      title: "evidence_router.py",
-      accent: "#47e6a5",
-      position: [-3.2, 0.9, 0.2],
+      title: "ddpg_agent.py",
+      accent: "#f97316",
+      position: [-3.4, 1.1, 0.2],
       rotation: [0.04, 0.22, -0.025],
       lines: [
-        { text: "@router.get('/evidence/{plant}')", accent: true },
-        { text: "def read_evidence(plant: PlantId):" },
-        { text: "    trace = service.for_plant(plant)" },
-        { text: "    return EvidenceTrace.model_validate(trace)" },
-        { text: "# causal inputs only" }
+        { text: "class DDPGAgent(nn.Module):", accent: true },
+        { text: "    def forward(self, state_vec):" },
+        { text: "        # S_t: [load, gen, soc, imbalance...]" },
+        { text: "        fee_mod = self.actor(state_vec)" },
+        { text: "        return torch.clamp(fee_mod, 0.001, 0.05)" }
       ]
     },
     {
-      title: "scene_state.ts",
-      accent: "#668cff",
+      title: "SurplusVerifier.sol",
+      accent: "#47e6a5",
       position: [0, -0.2, -0.45],
       rotation: [-0.02, 0, 0.018],
       lines: [
-        { text: "const scene = contract[index]", accent: true },
-        { text: "springVector(camera, scene.target)" },
-        { text: "renderer.setAnimationLoop(render)" },
-        { text: "announce(scene.accessibleName)" },
-        { text: "history.replaceState(null, '', hash)" }
+        { text: "function verifySurplus(bytes proof) public {", accent: true },
+        { text: "    require(verifyProof(a, b, c, input));" },
+        { text: "    // Groth16 zk-SNARK: Surplus > 0 off-chain" },
+        { text: "    amm.settleTrade(msg.sender, amount);" },
+        { text: "}" }
       ]
     },
     {
-      title: "validation.py",
-      accent: "#ff7448",
-      position: [3.2, 1.15, 0.05],
+      title: "telemetry_gateway.ts",
+      accent: "#668cff",
+      position: [3.4, 1.15, 0.05],
       rotation: [0.02, -0.24, 0.025],
       lines: [
-        { text: "assert no_future_inputs(trace)", accent: true },
-        { text: "assert api_contract.is_stable()" },
-        { text: "assert historical_dfi.byte_identical" },
-        { text: "report.add_regression(checks=17)" },
-        { text: "decision = gates.evaluate()" }
+        { text: "socket.on('tick', async (state) => {", accent: true },
+        { text: "    const proof = await snarkjs.fullProve();" },
+        { text: "    io.emit('grid_telemetry', { state, proof });" },
+        { text: "    // 500ms physics tick fan-out" },
+        { text: "});" }
       ]
     }
   ];
@@ -649,7 +650,7 @@ function createStudioWorld() {
 
     const frame = new THREE.LineSegments(
       new THREE.EdgesGeometry(new THREE.BoxGeometry(4.58, 2.82, 0.06)),
-      lineMaterial([palette.green, palette.blue, palette.orange][index], 0.48)
+      lineMaterial([palette.orange, palette.green, palette.blue][index], 0.48)
     );
     frame.position.copy(panel.position);
     frame.rotation.copy(panel.rotation);
@@ -666,15 +667,15 @@ function createStudioWorld() {
     const next = architectureNodes[index + 1];
     architectureEdges.push(node.x, node.y, node.z, next.x, next.y, next.z);
   });
-  group.add(linesFromArray(architectureEdges, palette.green, 0.72));
+  group.add(linesFromArray(architectureEdges, palette.orange, 0.72));
 
   architectureNodes.forEach((position, index) => {
     const node = new THREE.Mesh(
       new THREE.BoxGeometry(0.34, 0.34, 0.34),
-      meshMaterial([palette.green, palette.blue, palette.orange][index], {
+      meshMaterial([palette.orange, palette.green, palette.blue][index], {
         roughness: 0.2,
         metalness: 0.72,
-        emissive: [palette.greenDim, palette.blueDim, palette.orangeDim][index],
+        emissive: [palette.orangeDim, palette.greenDim, palette.blueDim][index],
         emissiveIntensity: 0.6
       })
     );
@@ -686,8 +687,8 @@ function createStudioWorld() {
   for (let i = 0; i < 12; i += 1) {
     const packet = new THREE.Mesh(
       packetGeometry,
-      meshMaterial(i % 3 === 0 ? palette.yellow : palette.green, {
-        emissive: i % 3 === 0 ? palette.yellow : palette.green,
+      meshMaterial(i % 3 === 0 ? palette.yellow : palette.orange, {
+        emissive: i % 3 === 0 ? palette.yellow : palette.orange,
         emissiveIntensity: 1
       })
     );
@@ -774,7 +775,7 @@ function initializeThree() {
       createCompressorWorld(),
       createTopoWorld(),
       createAegisWorld(),
-      createStudioWorld(),
+      createGridiumWorld(),
       createProfileWorld()
     );
     worlds.forEach((world) => scene.add(world));

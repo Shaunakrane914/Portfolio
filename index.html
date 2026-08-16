@@ -105,26 +105,21 @@
       <p class="scene-footnote">Serverless key rotation and model cascading sustain availability across free-tier rate limits.</p>
     </section>
 
-    <section class="scene-panel scene-panel-studio" data-scene-panel="4" aria-labelledby="scene-title-4" aria-hidden="true">
-      <p class="scene-coordinate">04 / Engineering studio</p>
-      <div class="scene-status"><span>System design</span><span>Interaction engineering</span></div>
-      <h2 id="scene-title-4">Code with<br />a visible spine</h2>
-      <p class="scene-lead">The interface is part of the engineering: typed API contracts, deterministic state, responsive systems, accessible controls, and motion that explains spatial relationships.</p>
-      <div class="studio-code" aria-label="Code sample from the portfolio interaction system">
-        <div class="studio-code-bar"><span>observatory.js</span><span>ES module / WebGL</span></div>
-        <pre><code><span class="code-keyword">function</span> springVector(current, target, velocity, dt) {
-  velocity.addScaledVector(target.clone().sub(current), <span class="code-number">56</span> * dt);
-  velocity.multiplyScalar(Math.exp(-<span class="code-number">11</span> * dt));
-  current.addScaledVector(velocity, dt);
-}</code></pre>
-      </div>
-      <div class="studio-stack" aria-label="Engineering capabilities">
-        <span>Python</span><span>FastAPI</span><span>PyTorch</span><span>PyG</span><span>Three.js</span><span>Docker</span><span>React</span><span>TypeScript</span><span>Supabase</span>
+    <section class="scene-panel scene-panel-gridium" data-scene-panel="4" aria-labelledby="scene-title-4" aria-hidden="true">
+      <p class="scene-coordinate">04 / Energy systems</p>
+      <div class="scene-status"><span>PyTorch DDPG</span><span>zk-SNARKs</span><span>EVM AMM</span></div>
+      <h2 id="scene-title-4">Gridium<br />protocol</h2>
+      <p class="scene-lead">A DePIN energy microgrid where a PyTorch DDPG RL agent acts as an autonomous operator, Groth16 zk-SNARKs preserve prosumer location privacy, and EVM smart contracts settle micro-trades.</p>
+      <div class="metric-strip" aria-label="Gridium project metrics">
+        <div><strong>500ms</strong><span>physics tick rate</span></div>
+        <div><strong>Groth16</strong><span>zk-SNARK privacy</span></div>
+        <div><strong>x &middot; y = k</strong><span>AMM settlement</span></div>
       </div>
       <div class="scene-actions">
-        <button class="primary-action" type="button" data-open-evidence="studio">Inspect the build <span aria-hidden="true">&#8599;</span></button>
-        <a class="quiet-action" href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">Read the code <span aria-hidden="true">&#8594;</span></a>
+        <button class="primary-action" type="button" data-open-evidence="gridium">Inspect microgrid <span aria-hidden="true">&#8599;</span></button>
+        <a class="quiet-action" href="gridium.html">DePIN case study <span aria-hidden="true">&#8594;</span></a>
       </div>
+      <p class="scene-footnote">Continuous-control RL dynamically steers swap fees without market shocks; Groth16 asserts surplus off-chain.</p>
     </section>
 
     <section class="scene-panel scene-panel-profile" data-scene-panel="5" aria-labelledby="scene-title-5" aria-hidden="true">
@@ -148,7 +143,7 @@
     <button type="button" data-scene-jump="1"><span>01</span><strong>Compressor</strong></button>
     <button type="button" data-scene-jump="2"><span>02</span><strong>TopoFlow</strong></button>
     <button type="button" data-scene-jump="3"><span>03</span><strong>Aegis</strong></button>
-    <button type="button" data-scene-jump="4"><span>04</span><strong>Studio</strong></button>
+    <button type="button" data-scene-jump="4"><span>04</span><strong>Gridium</strong></button>
     <button type="button" data-scene-jump="5"><span>05</span><strong>Profile</strong></button>
   </nav>
 
@@ -249,6 +244,29 @@
     "price_dislocation",
     "source_divergence"
   ]
+}</pre>
+      </div>
+    </div>
+  </template>
+
+  <template id="evidence-gridium">
+    <div class="evidence-layout evidence-layout-gridium">
+      <div class="evidence-narrative">
+        <p class="evidence-kicker">Autonomous Grid / DePIN</p>
+        <h3>Privacy-preserving energy microgrid governed by reinforcement learning.</h3>
+        <p>A continuous PyTorch DDPG agent optimizes AMM swap fees to maintain physical grid stability while Groth16 zero-knowledge proofs verify generation surplus off-chain without exposing home occupancy data.</p>
+        <dl><div><dt>Tick rate</dt><dd>500ms physics loop</dd></div><div><dt>Privacy</dt><dd>Groth16 zk-SNARKs</dd></div><div><dt>Engine</dt><dd>PyTorch DDPG Agent</dd></div></dl>
+        <a href="gridium.html">Read complete DePIN case study &#8594;</a>
+      </div>
+      <div class="contract-terminal" aria-label="Illustrative Gridium Telemetry Payload">
+        <div class="terminal-bar"><span>GRIDIUM_TELEMETRY.JSON</span><span>VERIFIED</span></div>
+        <pre>{
+  "tick": 4812,
+  "grid_imbalance": -0.14,
+  "ddpg_swap_fee": "1.42%",
+  "zk_proof_valid": true,
+  "battery_soc_mean": "64.2%",
+  "settlement": "AegisAMM.sol"
 }</pre>
       </div>
     </div>
