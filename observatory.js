@@ -43,6 +43,8 @@ const cameraStates = [
 ];
 
 const palette = {
+  cyan: 0x00e5ff,
+  cyanDim: 0x005566,
   green: 0x47e6a5,
   greenDim: 0x1e6a50,
   blue: 0x668cff,
@@ -504,8 +506,74 @@ function createAegisWorld() {
   group.rotation.x = -0.24;
   group.userData.bars = [];
   group.userData.blips = [];
+  group.userData.agentNodes = [];
 
-  [1.1, 2, 2.9, 3.8].forEach((radius, index) => {
+  // 1. Central Multi-Agent Core (Glowing Icosahedron + Dual Wireframe Shields)
+  const coreMesh = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.85, 2),
+    meshMaterial(palette.cyan, {
+      roughness: 0.15,
+      metalness: 0.85,
+      emissive: palette.cyanDim,
+      emissiveIntensity: 0.95
+    })
+  );
+  group.userData.coreMesh = coreMesh;
+  group.add(coreMesh);
+
+  const shieldOuter = new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.DodecahedronGeometry(1.45, 1)),
+    lineMaterial(palette.cyan, 0.75)
+  );
+  group.userData.shieldOuter = shieldOuter;
+  group.add(shieldOuter);
+
+  const shieldInner = new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.95, 1)),
+    lineMaterial(palette.orange, 0.45)
+  );
+  group.userData.shieldInner = shieldInner;
+  group.add(shieldInner);
+
+  // 2. 4 Named Agent Orbiting Nodes: Scout, Trending, BrandShield, Watch
+  const agentColors = [palette.cyan, palette.orange, palette.yellow, palette.blue];
+  for (let i = 0; i < 4; i += 1) {
+    const angle = (i / 4) * Math.PI * 2;
+    const r = 2.85;
+    const nodeGroup = new THREE.Group();
+    nodeGroup.position.set(Math.cos(angle) * r, Math.sin(angle) * r, 0);
+
+    const agentMesh = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.24, 0),
+      meshMaterial(agentColors[i], {
+        roughness: 0.1,
+        metalness: 0.9,
+        emissive: agentColors[i],
+        emissiveIntensity: 1.2
+      })
+    );
+    nodeGroup.add(agentMesh);
+
+    const orbitRing = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.TorusGeometry(0.38, 0.02, 8, 32)),
+      lineMaterial(agentColors[i], 0.6)
+    );
+    nodeGroup.add(orbitRing);
+
+    nodeGroup.userData.angleOffset = angle;
+    nodeGroup.userData.radius = r;
+    group.userData.agentNodes.push(nodeGroup);
+    group.add(nodeGroup);
+
+    // Connecting laser beam to core
+    const beamGeom = new THREE.BufferGeometry();
+    beamGeom.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, Math.cos(angle) * r, Math.sin(angle) * r, 0], 3));
+    const beam = new THREE.Line(beamGeom, lineMaterial(agentColors[i], 0.55));
+    group.add(beam);
+  }
+
+  // 3. Holographic Radar Rings & Spokes
+  [1.2, 2.85, 3.9, 4.8].forEach((radius, index) => {
     const points = [];
     for (let i = 0; i <= 96; i += 1) {
       const angle = (i / 96) * Math.PI * 2;
@@ -513,29 +581,30 @@ function createAegisWorld() {
     }
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
-    group.add(new THREE.Line(geometry, lineMaterial(index === 2 ? palette.orange : palette.faint, index === 2 ? 0.8 : 0.42)));
+    group.add(new THREE.Line(geometry, lineMaterial(index === 1 ? palette.cyan : (index === 2 ? palette.orange : palette.faint), index === 1 ? 0.85 : 0.42)));
   });
 
   const spokes = [];
-  for (let i = 0; i < 12; i += 1) {
-    const angle = (i / 12) * Math.PI * 2;
-    spokes.push(0, 0, 0, Math.cos(angle) * 4.2, Math.sin(angle) * 4.2, 0);
+  for (let i = 0; i < 16; i += 1) {
+    const angle = (i / 16) * Math.PI * 2;
+    spokes.push(0, 0, 0, Math.cos(angle) * 5.1, Math.sin(angle) * 5.1, 0);
   }
-  group.add(linesFromArray(spokes, palette.faint, 0.4));
+  group.add(linesFromArray(spokes, palette.faint, 0.35));
 
+  // 4. Dual Radar Sweeper
   const sweepGeometry = new THREE.BufferGeometry();
-  sweepGeometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, 4.25, 0, 0], 3));
-  const sweep = new THREE.Line(sweepGeometry, lineMaterial(palette.orange, 0.95));
+  sweepGeometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, 5.1, 0, 0], 3));
+  const sweep = new THREE.Line(sweepGeometry, lineMaterial(palette.cyan, 0.98));
   sweep.userData.isSweep = true;
   group.userData.sweep = sweep;
   group.add(sweep);
 
   const sweepSector = new THREE.Mesh(
-    new THREE.CircleGeometry(4.18, 72, 0, 0.42),
+    new THREE.CircleGeometry(5.0, 72, 0, 0.52),
     new THREE.MeshBasicMaterial({
-      color: palette.orange,
+      color: palette.cyan,
       transparent: true,
-      opacity: 0.09,
+      opacity: 0.12,
       side: THREE.DoubleSide,
       depthWrite: false
     })
@@ -544,16 +613,17 @@ function createAegisWorld() {
   group.userData.sweepSector = sweepSector;
   group.add(sweepSector);
 
+  // 5. Anomaly Signal Bars (|Z| > 2.5)
   const barGeometry = new THREE.BoxGeometry(0.18, 1, 0.18);
-  for (let i = 0; i < 18; i += 1) {
-    const angle = (i / 18) * Math.PI * 2;
-    const height = 0.35 + random() * 1.4;
+  for (let i = 0; i < 20; i += 1) {
+    const angle = (i / 20) * Math.PI * 2;
+    const height = 0.4 + random() * 1.6;
     const bar = new THREE.Mesh(
       barGeometry,
-      meshMaterial(i % 5 === 0 ? palette.yellow : palette.orange, { roughness: 0.5, metalness: 0.35 })
+      meshMaterial(i % 5 === 0 ? palette.yellow : palette.orange, { roughness: 0.35, metalness: 0.65 })
     );
     bar.scale.y = height;
-    bar.position.set(Math.cos(angle) * 4.55, Math.sin(angle) * 4.55, height * 0.4);
+    bar.position.set(Math.cos(angle) * 5.3, Math.sin(angle) * 5.3, height * 0.4);
     bar.rotation.z = angle - Math.PI / 2;
     bar.userData.baseHeight = height;
     bar.userData.phase = random() * Math.PI * 2;
@@ -561,17 +631,18 @@ function createAegisWorld() {
     group.add(bar);
   }
 
-  const blipGeometry = new THREE.SphereGeometry(0.095, 12, 12);
-  for (let i = 0; i < 11; i += 1) {
+  // 6. Detected Threat Blips
+  const blipGeometry = new THREE.SphereGeometry(0.11, 12, 12);
+  for (let i = 0; i < 14; i += 1) {
     const angle = random() * Math.PI * 2;
-    const radius = 0.75 + random() * 3.1;
+    const radius = 1.4 + random() * 3.4;
     const blip = new THREE.Mesh(
       blipGeometry,
-      meshMaterial(i % 4 === 0 ? palette.yellow : palette.orange, {
-        roughness: 0.22,
-        metalness: 0.1,
-        emissive: i % 4 === 0 ? palette.yellow : palette.orange,
-        emissiveIntensity: 1.1
+      meshMaterial(i % 4 === 0 ? palette.yellow : palette.cyan, {
+        roughness: 0.1,
+        metalness: 0.9,
+        emissive: i % 4 === 0 ? palette.yellow : palette.cyan,
+        emissiveIntensity: 1.3
       })
     );
     blip.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.08);
@@ -838,9 +909,23 @@ function render(timeMs) {
   worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
 
   // 1: Aegis
+  if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.012;
+  if (worlds[1].userData.shieldOuter) worlds[1].userData.shieldOuter.rotation.y -= reduceMotion ? 0 : 0.008;
+  if (worlds[1].userData.shieldInner) worlds[1].userData.shieldInner.rotation.z += reduceMotion ? 0 : 0.006;
+
   const sweepAngle = reduceMotion ? 0.65 : time * 0.68;
   if (worlds[1].userData.sweep) worlds[1].userData.sweep.rotation.z = sweepAngle;
   if (worlds[1].userData.sweepSector) worlds[1].userData.sweepSector.rotation.z = sweepAngle;
+
+  if (worlds[1].userData.agentNodes) {
+    worlds[1].userData.agentNodes.forEach((nodeGroup, i) => {
+      const orbAngle = nodeGroup.userData.angleOffset + (reduceMotion ? 0 : time * 0.35);
+      const r = nodeGroup.userData.radius;
+      nodeGroup.position.set(Math.cos(orbAngle) * r, Math.sin(orbAngle) * r, 0);
+      nodeGroup.rotation.z = time * 1.2 + i;
+    });
+  }
+
   worlds[1].userData.bars.forEach((bar) => {
     const pulse = reduceMotion ? 1 : 0.78 + Math.sin(time * 1.7 + bar.userData.phase) * 0.22;
     bar.scale.y = bar.userData.baseHeight * pulse;
@@ -1044,10 +1129,11 @@ const evidenceDialogTitle = document.getElementById("evidence-dialog-title");
 const evidenceDialogIndex = document.getElementById("evidence-dialog-index");
 const evidenceDialogBody = document.getElementById("evidence-dialog-body");
 const evidenceMetadata = {
-  compressor: { title: "Compressor evidence", index: "FIELD REPORT / 01" },
-  topoflow: { title: "TopoFlow evidence", index: "FIELD REPORT / 02" },
-  aegis: { title: "Aegis contract", index: "FIELD REPORT / 03" },
-  studio: { title: "Engineering build", index: "FIELD REPORT / 04" }
+  aegis: { title: "Aegis signal contract", index: "FIELD REPORT / 01" },
+  gridium: { title: "Gridium microgrid contract", index: "FIELD REPORT / 02" },
+  compressor: { title: "Compressor evidence", index: "FIELD REPORT / 03" },
+  topoflow: { title: "TopoFlow evidence", index: "FIELD REPORT / 04" },
+  studio: { title: "Engineering build", index: "FIELD REPORT / 05" }
 };
 
 document.querySelectorAll("[data-open-evidence]").forEach((button) => {
