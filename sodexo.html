@@ -12,45 +12,42 @@
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="project-page.css"/>
 </head>
-<body>
+<body class="case-study-deep case-food">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <nav id="navbar" class="solid">
     <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
-    <a href="index.html#work" class="nav-back">← All Projects</a>
+    <a href="index.html" class="nav-back">&larr; Systems Console</a>
   </nav>
 
-  <!-- HERO -->
-  <header class="proj-hero" style="--accent-clr:#10b981;">
+  <header class="proj-hero case-hero">
+    <div class="case-hero-shade" aria-hidden="true"></div>
+    <canvas class="project-hero-canvas" data-project-scene="food" aria-hidden="true"></canvas>
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label">06 // Operations · Data Systems</span>
-        <span class="proj-year">2025 – 2026</span>
+        <span class="proj-label">05 / Operations software / Software internship</span>
+        <span class="proj-year">2025 / Individual build</span>
       </div>
-      <h1 class="proj-hero-title">Food Waste <span style="color:var(--accent-clr)">Optimization</span> System</h1>
-      <p class="proj-hero-sub">An internship prototype for institutional kitchen operations, connecting menu planning, bill-of-materials calculations, inventory, and meal-attendance forecasting in one FastAPI workflow.</p>
+      <h1 class="proj-hero-title">Institutional <span>Food Operations</span></h1>
+      <p class="proj-hero-sub">A FastAPI operations system connecting weekly menus, dish-level bills of materials, inventory transactions, supplier context, and Random Forest attendance estimation.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card"><span class="hm-val" style="color:#10b981">FastAPI</span><span class="hm-lbl">Application backend</span></div>
         <div class="hm-card"><span class="hm-val" style="color:#10b981">RF</span><span class="hm-lbl">Random Forest pax predictor</span></div>
         <div class="hm-card"><span class="hm-val" style="color:#10b981">BOM</span><span class="hm-lbl">Menu → ingredient pipeline</span></div>
-        <div class="hm-card"><span class="hm-val" style="color:#10b981">SQLite</span><span class="hm-lbl">Inventory data store</span></div>
+        <div class="hm-card"><span class="hm-val">SQL</span><span class="hm-lbl">MySQL operations + SQLite model settings</span></div>
       </div>
       <div class="proj-hero-cta">
-        <a href="index.html#work" class="btn-main" style="background:#10b981">View Project Card</a>
-        <a href="index.html#contact" class="btn-ghost">Discuss Impact</a>
+        <span class="project-status">Private internship implementation</span>
+        <a href="#architecture" class="btn-ghost">Inspect architecture</a>
       </div>
     </div>
-    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(16,185,129,0.1), transparent 60%)"></div>
   </header>
 
   <main class="proj-main" id="main-content">
 
-    <!-- OVERVIEW -->
-
-    <!-- OVERVIEW -->
     <section class="proj-section">
-      <div class="ps-label">Overview</div>
+      <div class="ps-label">System scope</div>
       <div class="overview-grid">
         <div class="overview-text">
           <p>Large-scale food service operations face a major challenge: <strong>demand uncertainty</strong>. Overproduction, poor inventory visibility, and a lack of data-driven decision-making lead to significant daily food wastage and increased operational costs.</p>
@@ -60,62 +57,70 @@
         <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
           <h3>Tech Stack</h3>
           <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">PY</span><span>Python &middot; FastAPI &middot; Flask &mdash; service layer</span></div>
-            <div class="ts-item"><span class="ts-icon">ML</span><span>scikit-learn &middot; Random Forest &mdash; pax predictor (&lt;100ms inference)</span></div>
-            <div class="ts-item"><span class="ts-icon">DA</span><span>pandas &mdash; BOM rollup for 7-day menu in &lt;500ms</span></div>
-            <div class="ts-item"><span class="ts-icon">DB</span><span>SQLite &rarr; PostgreSQL migration path</span></div>
+            <div class="ts-item"><span class="ts-icon">PY</span><span>Python + FastAPI &mdash; route and service layer</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>scikit-learn Random Forest &mdash; pax estimator</span></div>
+            <div class="ts-item"><span class="ts-icon">DA</span><span>pandas &mdash; menu and BOM transformations</span></div>
+            <div class="ts-item"><span class="ts-icon">DB</span><span>MySQL operations data + SQLite ML settings</span></div>
             <div class="ts-item"><span class="ts-icon">UI</span><span>HTML / CSS / JS &mdash; manager-facing dashboard</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ARCHITECTURE -->
     <section class="proj-section">
-      <div class="ps-label">⚙️ System Architecture</div>
+      <div class="ps-label">Operator surfaces</div>
+      <h2 class="ps-title">One interface for inventory state and meal planning</h2>
+      <div class="project-figure-grid">
+        <figure class="project-figure"><img src="assets/food-dashboard-live.png" alt="Institutional food operations dashboard showing ingredient, low-stock, BOM, supplier, and inventory activity summaries" loading="lazy" /><figcaption><strong>Operations dashboard.</strong> Inventory state, low-stock ingredients, BOM activity, suppliers, and recent stock movements share a single review surface.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/food-pax-live.png" alt="Canteen attendance prediction form" loading="lazy" /><figcaption><strong>Pax estimation route.</strong> The manager supplies current attendance context and a service date before the Random Forest adapter returns a planning estimate.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="proj-section" id="architecture">
+      <div class="ps-label">System architecture</div>
       <h2 class="ps-title">Data-to-Decision Pipeline</h2>
       <div class="arch-diagram">
         <div class="arch-row">
           <div class="arch-node input-node">
-            <div class="an-icon">📥</div>
-            <div class="an-title">Data Collection</div>
-            <div class="an-sub">Prep qty · Consumption · Inventory</div>
+            <div class="an-icon">ING</div>
+            <div class="an-title">Operations input</div>
+            <div class="an-sub">Menus &middot; dishes &middot; inventory &middot; attendance</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#10b981">
-            <div class="an-icon">🐍</div>
-            <div class="an-title">Processing Layer</div>
-            <div class="an-sub">Flask/FastAPI · Ingestion · Cleaning</div>
+            <div class="an-icon">API</div>
+            <div class="an-title">FastAPI routes</div>
+            <div class="an-sub">Validation &middot; route handlers &middot; templates</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#10b981">
-            <div class="an-icon">🧠</div>
-            <div class="an-title">Analysis Engine</div>
-            <div class="an-sub">Waste calculation · Pattern detection</div>
+            <div class="an-icon">BOM</div>
+            <div class="an-title">BOM engine</div>
+            <div class="an-sub">Dish quantities &middot; ingredient rollups &middot; stock deltas</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#10b981">
-            <div class="an-icon">⚖️</div>
-            <div class="an-title">Optimization</div>
-            <div class="an-sub">Portion correction · Rule-based logic</div>
+            <div class="an-icon">ML</div>
+            <div class="an-title">Pax adapter</div>
+            <div class="an-sub">Random Forest &middot; configurable planning inputs</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node output-node" style="--node-clr:#10b981">
-            <div class="an-icon">📊</div>
-            <div class="an-title">Output Layer</div>
-            <div class="an-sub">Dashboards · Waste reports · Insights</div>
+            <div class="an-icon">UI</div>
+            <div class="an-title">Manager console</div>
+            <div class="an-sub">Inventory &middot; BOM &middot; meal planning &middot; alerts</div>
           </div>
         </div>
         <div class="arch-secondary">
           <div class="as-box">
-            <span class="as-icon">🔍</span>
+            <span class="as-icon">DATA</span>
             <div>
               <strong>Feature Engineering</strong>
               <p>The system calculates <em>Waste Ratios</em> (prepared - consumed / prepared) and correlates them with meal types, days, and ingredient patterns to find recurring inefficiencies.</p>
             </div>
           </div>
           <div class="as-box">
-            <span class="as-icon">🌲</span>
+            <span class="as-icon">RF</span>
             <div>
               <strong>Random Forest Pax Predictor</strong>
               <p>Features: day of week, meal type, historical attendance count, seasonal index. Output: predicted meal count used for portion planning and ingredient procurement. Prototype — trained on internship-period data; accuracy improves with longer history.</p>
@@ -125,7 +130,23 @@
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <section class="proj-section">
+      <div class="ps-label">Implementation map</div>
+      <h2 class="ps-title">The source is organized around operator workflows</h2>
+      <div class="evidence-table-wrap">
+        <table class="evidence-table">
+          <thead><tr><th>Subsystem</th><th>Runtime</th><th>Responsibility</th><th>State contract</th></tr></thead>
+          <tbody>
+            <tr><td>Menu management</td><td>FastAPI routes + SQL</td><td>Weekly menu composition and dish selection</td><td>Menu dates, meal slots, dish identifiers</td></tr>
+            <tr><td>BOM finalization</td><td>Python + pandas</td><td>Resolve selected dishes into ingredient demand</td><td>Required quantity, unit, available stock, deficit</td></tr>
+            <tr><td>Inventory ledger</td><td>MySQL</td><td>Track stock levels, restocks, and BOM consumption</td><td>Ingredient, quantity delta, action, timestamp</td></tr>
+            <tr><td>Pax prediction</td><td>scikit-learn</td><td>Estimate meal attendance from planning inputs</td><td>Service date, present population, predicted pax</td></tr>
+            <tr><td>Manager interface</td><td>HTML + CSS + JavaScript</td><td>Expose shortages and recent operational activity</td><td>Summary counters, exception lists, route actions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="proj-section">
       <div class="ps-label">Data Flow</div>
       <h2 class="ps-title">The Optimization Lifecycle</h2>
@@ -207,8 +228,8 @@
 
     <!-- IMPACT -->
     <section class="proj-section">
-      <div class="ps-label">Impact & Learning</div>
-      <h2 class="ps-title">Real-World Outcomes</h2>
+      <div class="ps-label">Operational boundary</div>
+      <h2 class="ps-title">What the implementation makes measurable</h2>
       <div class="overview-grid">
         <div class="overview-text">
           <p>This project demonstrated how a shared operational data model can make kitchen decisions <strong>measurable and reviewable</strong>. The system is designed to support:</p>
@@ -219,11 +240,11 @@
           </ul>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(16,185,129,0.15)">
-          <h3>Key Learnings</h3>
+          <h3>Engineering constraints</h3>
           <div class="ts-items">
-            <div class="ts-item"><span>Real-world systems are non-deterministic</span></div>
-            <div class="ts-item"><span>Data quality > model complexity</span></div>
-            <div class="ts-item"><span>Focus on system design over raw code</span></div>
+            <div class="ts-item"><span class="ts-icon">01</span><span>Attendance forecasts require manual event context.</span></div>
+            <div class="ts-item"><span class="ts-icon">02</span><span>BOM accuracy depends on complete dish-to-ingredient mappings.</span></div>
+            <div class="ts-item"><span class="ts-icon">03</span><span>Inventory adjustments remain auditable transactions.</span></div>
           </div>
         </div>
       </div>
@@ -240,5 +261,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script type="module" src="project-scenes.js"></script>
 </body>
 </html>

@@ -81,6 +81,11 @@
     });
   });
 
+  document.querySelectorAll(".proj-section").forEach(function (section, index) {
+    section.setAttribute("data-reveal", "");
+    section.style.setProperty("--reveal-order", String(index));
+  });
+
   var revealItems = document.querySelectorAll("[data-reveal]");
   if (!revealItems.length) return;
 

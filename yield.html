@@ -12,23 +12,24 @@
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="project-page.css"/>
 </head>
-<body>
+<body class="case-study-deep case-yield">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <nav id="navbar" class="solid">
     <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
-    <a href="index.html#work" class="nav-back">← All Projects</a>
+    <a href="index.html" class="nav-back">&larr; Systems Console</a>
   </nav>
 
-  <!-- HERO -->
-  <header class="proj-hero" style="--accent-clr:#a855f7;">
+  <header class="proj-hero case-hero">
+    <div class="case-hero-shade" aria-hidden="true"></div>
+    <canvas class="project-hero-canvas" data-project-scene="yield" aria-hidden="true"></canvas>
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label">05 // Product Prototype · Full-Stack Web</span>
-        <span class="proj-year">Nov 2025 – Feb 2026</span>
+        <span class="proj-label">06 / Geospatial product / React + FastAPI</span>
+        <span class="proj-year">Nov 2025 - Feb 2026</span>
       </div>
-      <h1 class="proj-hero-title">Yield AI <span style="color:var(--accent-clr); font-size:0.7em;">(KrushiMitra)</span></h1>
+      <h1 class="proj-hero-title">KrushiMitra <span>Yield Service</span></h1>
       <p class="proj-hero-sub">A mobile-first crop-yield scenario prototype for Odisha farmers. The public build demonstrates an accessible React interface and FastAPI service boundary; its prediction output is illustrative while a validated dataset and benchmark remain future work.</p>
       <div class="proj-hero-metrics">
         <div class="hm-card"><span class="hm-val" style="color:#a855f7">React</span><span class="hm-lbl">TypeScript · typed form state</span></div>
@@ -41,7 +42,6 @@
         <a href="https://github.com/Shaunakrane914/Yield-Ai" target="_blank" rel="noopener noreferrer" class="btn-ghost">GitHub ↗</a>
       </div>
     </div>
-    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(168,85,247,0.12), transparent 60%)"></div>
   </header>
 
   <main class="proj-main" id="main-content">
@@ -52,7 +52,7 @@
       <div class="overview-grid">
         <div class="overview-text">
           <p>KrushiMitra explores how a farmer-facing yield tool could collect district, crop, rainfall, and temperature context without demanding specialist hardware or a desktop workflow.</p>
-          <p>The engineering contribution is a <strong>production-ready service boundary</strong>: typed React form → Pydantic schema validation → FastAPI scenario service → structured response contract. A validated agricultural model can be swapped in at the adapter layer without changing the frontend or API contract. The repository currently uses mock prediction behavior, so this case study makes no accuracy or agronomic-impact claim.</p>
+          <p>The engineering contribution is a <strong>versioned service boundary</strong>: typed React form &rarr; Pydantic validation &rarr; FastAPI scenario service &rarr; structured response. A benchmarked model can replace the current adapter without changing the interface contract. The public path still uses illustrative output, so this case study makes no accuracy claim.</p>
         </div>
         <div class="tech-stack-card" style="border-color:rgba(168,85,247,0.15)">
           <h3>Tech Stack</h3>
@@ -61,53 +61,61 @@
             <div class="ts-item"><span class="ts-icon">UI</span><span>Radix UI + Tailwind CSS &mdash; accessible form components</span></div>
             <div class="ts-item"><span class="ts-icon">API</span><span>FastAPI + Pydantic &mdash; validated request/response schema</span></div>
             <div class="ts-item"><span class="ts-icon">DB</span><span>PyMySQL &mdash; crop dataset queries</span></div>
-            <div class="ts-item"><span class="ts-icon">ML</span><span>scikit-learn / XGBoost ready &mdash; adapter pattern, model slot open</span></div>
-            <div class="ts-item"><span class="ts-icon">RT</span><span>&lt;50ms /predict response (mock) &mdash; service boundary verified</span></div>
+            <div class="ts-item"><span class="ts-icon">GEO</span><span>Leaflet + Esri imagery &mdash; farm boundary capture</span></div>
+            <div class="ts-item"><span class="ts-icon">ML</span><span>scikit-learn artifacts and training scripts &mdash; promotion pending benchmark</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ARCHITECTURE -->
     <section class="proj-section">
-      <div class="ps-label">⚙️ System Architecture</div>
+      <div class="ps-label">Product surfaces</div>
+      <h2 class="ps-title">Geospatial setup and typed scenario input</h2>
+      <div class="project-figure-grid">
+        <figure class="project-figure"><img src="assets/yield-farm-setup-live.png" alt="KrushiMitra farm setup interface with satellite map and farm boundary controls" loading="lazy" /><figcaption><strong>Farm geometry.</strong> Leaflet captures a named polygon and stores the boundary as product state before the user enters the dashboard.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/yield-prediction-live.png" alt="KrushiMitra yield prediction form with district, crop, season, and variety inputs" loading="lazy" /><figcaption><strong>Scenario request.</strong> District, crop, season, and variety are constrained controls that map directly to the FastAPI request schema.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">System architecture</div>
       <h2 class="ps-title">How the System is Built</h2>
       <div class="arch-diagram">
         <div class="arch-row">
           <div class="arch-node input-node">
-            <div class="an-icon">👨‍🌾</div>
-            <div class="an-title">Farmer Input</div>
-            <div class="an-sub">Soil · Season · District · Rainfall · Crop</div>
+            <div class="an-icon">GEO</div>
+            <div class="an-title">Farm context</div>
+            <div class="an-sub">Boundary &middot; district &middot; crop &middot; season &middot; variety</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
-            <div class="an-icon">🌐</div>
+            <div class="an-icon">API</div>
             <div class="an-title">FastAPI Service</div>
             <div class="an-sub">Validation · routing · response contract</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node" style="--node-clr:#a855f7">
-            <div class="an-icon">🤖</div>
+            <div class="an-icon">ADP</div>
             <div class="an-title">Scenario Adapter</div>
             <div class="an-sub">Mock output · model interface boundary</div>
           </div>
           <div class="arch-arrow">→</div>
           <div class="arch-node output-node" style="--node-clr:#10b981">
-            <div class="an-icon">📊</div>
+            <div class="an-icon">UI</div>
             <div class="an-title">Prediction Output</div>
             <div class="an-sub">Yield (T/acre) · Comparison · Tips</div>
           </div>
         </div>
         <div class="arch-secondary">
           <div class="as-box">
-            <span class="as-icon">📦</span>
+            <span class="as-icon">QA</span>
             <div>
               <strong>Validation Work Still Required</strong>
               <p>Curated historical records → leakage-safe temporal split → baseline comparison → calibrated uncertainty → agronomic review.</p>
             </div>
           </div>
           <div class="as-box">
-            <span class="as-icon">📱</span>
+            <span class="as-icon">WEB</span>
             <div>
               <strong>Mobile-First Frontend</strong>
               <p>Typed form state → API request → response card with a predicted range, historical comparison, and explanatory factors.</p>
@@ -119,15 +127,15 @@
 
     <!-- HOW IT WORKS -->
     <section class="proj-section">
-      <div class="ps-label">Interaction Flow</div>
-      <h2 class="ps-title">How It Works — Step by Step</h2>
+      <div class="ps-label">Runtime sequence</div>
+      <h2 class="ps-title">From farm context to response contract</h2>
       <div class="flow-steps">
         <div class="flow-step">
           <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">01</div>
           <div class="fs-content">
-            <h3>Farmer Fills Input Form</h3>
-            <p>The farmer selects their district, soil type (Clay Loam, Sandy, Black, Red), crop (Rice, Wheat, Maize, etc.), expected rainfall range, and growing season (Kharif / Rabi / Zaid). Designed for low-literacy environments with visual icons.</p>
-            <code class="code-pill">District · crop · rainfall · temperature · seasonal context</code>
+            <h3>Capture farm and categorical context</h3>
+            <p>The React application records a farm polygon, district, crop, season, and variety through constrained components instead of free-form model parameters.</p>
+            <code class="code-pill">farm_geometry + district + crop + season + variety</code>
           </div>
         </div>
         <div class="flow-step">
@@ -150,14 +158,30 @@
           <div class="fs-num" style="color:#a855f7;border-color:rgba(168,85,247,0.3)">04</div>
           <div class="fs-content">
             <h3>Contextualised Output</h3>
-            <p>The response design groups the estimated range, historical comparison, and key factors so a future validated model can explain its output without changing the user flow.</p>
+            <p>The response contract reserves fields for an estimate, interval, historical comparison, explanatory factors, and model status so future validation does not require an interface rewrite.</p>
             <code class="code-pill">{ estimate, range, comparison, factors, model_status }</code>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CHALLENGES -->
+    <section class="proj-section">
+      <div class="ps-label">Implementation map</div>
+      <h2 class="ps-title">A replaceable prediction adapter behind a stable interface</h2>
+      <div class="evidence-table-wrap">
+        <table class="evidence-table">
+          <thead><tr><th>Subsystem</th><th>Source area</th><th>Responsibility</th><th>Current state</th></tr></thead>
+          <tbody>
+            <tr><td>Farm boundary</td><td><code>MapPicker.tsx</code></td><td>Capture and persist polygon coordinates</td><td>Interactive Leaflet map</td></tr>
+            <tr><td>Scenario form</td><td><code>YieldPredictionPage.tsx</code></td><td>Constrain district, crop, season, and variety</td><td>Typed React state</td></tr>
+            <tr><td>API client</td><td><code>shared/api/api.ts</code></td><td>Serialize requests and normalize failures</td><td>FastAPI adapter</td></tr>
+            <tr><td>Model artifacts</td><td><code>models/*.pkl</code></td><td>Persist estimator, encoders, and feature order</td><td>Repository artifacts; benchmark not frozen</td></tr>
+            <tr><td>Data services</td><td><code>backend/*engine.py</code></td><td>Weather, market, and database context</td><td>Integration modules under development</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="proj-section">
       <div class="ps-label">Engineering Problems Solved</div>
       <h2 class="ps-title">Challenges &amp; Solutions</h2>
@@ -195,7 +219,7 @@
           <div class="cc-solution">
             <span class="cc-badge solution">Solution</span>
             <h3>Define a temporal benchmark first</h3>
-            <p>The next research milestone is an out-of-time comparison against district and crop baselines, followed by uncertainty calibration and domain review.</p>
+            <p>The next validation milestone is an out-of-time comparison against district and crop baselines, followed by uncertainty calibration and agronomic review.</p>
           </div>
         </div>
       </div>
@@ -207,10 +231,11 @@
     <a href="index.html" class="footer-back">← Back to Portfolio</a>
     <div class="proj-footer-nav">
       <span>Next Project:</span>
-      <a href="food.html">Food Management System →</a>
+      <a href="sodexo.html">Food Operations System &rarr;</a>
     </div>
   </footer>
 
   <script src="script.js"></script>
+  <script type="module" src="project-scenes.js"></script>
 </body>
 </html>

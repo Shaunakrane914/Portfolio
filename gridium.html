@@ -1,233 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gridium Protocol — Shaunak Rane</title>
-  <meta name="description" content="Gridium Protocol: A decentralized energy microgrid AMM managed by a PyTorch DDPG reinforcement learning agent, utilizing zk-SNARKs for privacy."/>
-  <link rel="icon" type="image/png" href="favicon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="project-page.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gridium Protocol - Shaunak Rane</title>
+  <meta name="description" content="Gridium is a team-built microgrid systems prototype connecting a 15-node physics simulation, continuous-control DDPG agent, realtime WebSocket gateway, EVM energy AMM, and Groth16 proof flow." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="project-page.css" />
 </head>
-<body>
+<body class="case-study-deep case-gridium">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <nav id="navbar" class="solid">
     <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
-    <a href="index.html#work" class="nav-back">← All Projects</a>
+    <a href="index.html" class="nav-back">&larr; Systems Console</a>
   </nav>
 
-  <!-- HERO -->
-  <header class="proj-hero" style="--accent-clr:#f97316;">
+  <header class="proj-hero case-hero" style="--accent-clr:#ff7a18;">
+    <div class="case-hero-shade" aria-hidden="true"></div>
+    <canvas class="project-hero-canvas" data-project-scene="gridium" aria-hidden="true"></canvas>
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label" style="color:#f97316">02 // Energy Systems &middot; DePIN &middot; Applied RL</span>
-        <span class="proj-year">2025</span>
+        <span class="proj-label">02 / Energy systems / RL / EVM</span>
+        <span class="proj-year">Team project / 2025</span>
       </div>
-      <h1 class="proj-hero-title">Gridium <span style="color:var(--accent-clr)">Protocol</span></h1>
-      <p class="proj-hero-sub">A team-built DePIN microgrid prototype integrating a simulated 15-node energy network, an EVM AMM, a PyTorch Deep Deterministic Policy Gradient (DDPG) agent, and a Groth16 proof flow.</p>
-      <div class="proj-hero-metrics">
-        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">500ms</span><span class="hm-lbl">Physics Tick Rate</span></div>
-        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">zk-SNARK</span><span class="hm-lbl">Groth16 Proofs</span></div>
-        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">DDPG</span><span class="hm-lbl">Actor-Critic RL</span></div>
-        <div class="hm-card" style="--m-clr:#f97316"><span class="hm-val" style="color:#f97316">15</span><span class="hm-lbl">Simulated Nodes</span></div>
+      <div class="case-hero-copy">
+        <p class="case-eyebrow">Closed-loop microgrid systems prototype</p>
+        <h1 class="proj-hero-title">Gridium <span>Protocol</span></h1>
+        <p class="proj-hero-sub">Four runtimes connect a simulated neighborhood to a continuous-control agent, realtime command center, constant-product energy market, and proof-gated settlement experiment.</p>
+        <div class="proj-hero-cta">
+          <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-main"><span class="live-dot"></span>Open live system &nearr;</a>
+          <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="btn-ghost">Inspect source &nearr;</a>
+        </div>
       </div>
-      <div class="proj-hero-cta">
-        <a href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener noreferrer" class="btn-main" style="background:#f97316">
-          <span class="live-dot" style="background:#000"></span> Live Demo
-        </a>
-        <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank" rel="noopener noreferrer" class="btn-ghost">GitHub ↗</a>
+      <div class="proj-hero-metrics" aria-label="Gridium implementation summary">
+        <div class="hm-card"><span class="hm-val">15</span><span class="hm-lbl">Simulated prosumer nodes</span></div>
+        <div class="hm-card"><span class="hm-val">7D</span><span class="hm-lbl">Controller observation</span></div>
+        <div class="hm-card"><span class="hm-val">1D</span><span class="hm-lbl">Continuous fee action</span></div>
+        <div class="hm-card"><span class="hm-val">500 ms</span><span class="hm-lbl">Gateway polling loop</span></div>
       </div>
     </div>
-    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.1), transparent 60%)"></div>
   </header>
 
   <main class="proj-main" id="main-content">
-
-    <!-- OVERVIEW -->
-    <section class="proj-section">
-      <div class="ps-label">Overview</div>
-      <div class="overview-grid">
-        <div class="overview-text">
-          <p>Traditional power grids are monolithic and brittle. As residential solar panels and batteries proliferate, the legacy grid struggles. Prosumers sell surplus energy back to utilities at wholesale pennies, but unmanaged peer-to-peer trading causes grid instability and severe physical privacy risks (ledgers revealing home occupancy).</p>
-          <p>Gridium operates at the intersection of AI, cryptography, and DeFi. It uses an Automated Market Maker for simulated energy liquidity, a continuous-control RL agent for fee adjustment, and a proof-of-surplus flow that demonstrates how raw telemetry could remain off-chain.</p>
-          <p><strong>Team contribution:</strong> I focused on the Python AI engine, backend integration, and 3D visualization — specifically: the FastAPI tick loop, DDPG actor-critic implementation in PyTorch, and React Three Fiber visualization driven by Zustand state. Yash Pandit led smart contracts and zero-knowledge implementation; Sanket Deka worked on frontend and UI/UX.</p>
+    <section class="proj-section case-opening">
+      <div class="ps-label">The engineering thesis</div>
+      <div class="case-opening-grid">
+        <h2 class="case-statement">Treat energy coordination as a closed-loop systems problem, not a blockchain dashboard.</h2>
+        <div class="case-opening-copy">
+          <p>Gridium explores how physical state, market incentives, and privacy-preserving settlement could share one architecture. A Python environment simulates generation, demand, storage, and AMM reserves. A DDPG actor adjusts swap fees continuously. A gateway broadcasts state to a 3D operator interface while Solidity and Circom model the settlement boundary.</p>
+          <p>This is a systems prototype, not a grid-control product. Its technical value is the integration contract between simulation, control, realtime UX, and on-chain logic.</p>
         </div>
-        <div class="tech-stack-card" style="border-color:rgba(249,115,22,0.15)">
-          <h3>Tech Stack & MLOps</h3>
-          <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI (Engine)</span></div>
-            <div class="ts-item"><span class="ts-icon">🤖</span><span>PyTorch (DDPG Agent)</span></div>
-            <div class="ts-item"><span class="ts-icon">🟢</span><span>Node.js / Socket.io (Gateway)</span></div>
-            <div class="ts-item"><span class="ts-icon">🔐</span><span>SnarkJS / Circom (zk-SNARKs)</span></div>
-            <div class="ts-item"><span class="ts-icon">🌐</span><span>React Three Fiber (Command Center)</span></div>
-            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render PaaS</span></div>
-          </div>
-        </div>
+      </div>
+      <div class="case-contribution-band">
+        <div><span>My contribution</span><strong>Python AI engine, backend integration, and 3D visualization</strong></div>
+        <p>I implemented the FastAPI simulation loop, PyTorch DDPG actor-critic path, Node gateway integration, and React Three Fiber grid view. Yash Pandit led contracts and zero-knowledge work; Sanket Deka worked on frontend and UI/UX.</p>
       </div>
     </section>
 
-    <!-- ARCHITECTURE -->
     <section class="proj-section">
-      <div class="ps-label">⚙️ System Architecture</div>
-      <h2 class="ps-title">How the DePIN is Built</h2>
-      
+      <div class="ps-label">Runtime topology</div>
+      <h2 class="ps-title">A four-runtime control loop</h2>
+      <p class="ps-intro">Each runtime has a narrow contract. That keeps high-frequency simulation, browser rendering, proof generation, and EVM state from becoming one fragile process.</p>
       <div class="arch-diagram">
-        <div class="arch-row">
-          <div class="arch-node input-node">
-            <div class="an-icon">⚡</div>
-            <div class="an-title">RL Engine (Python)</div>
-            <div class="an-sub">PyTorch DDPG · Physics Sim</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node" style="--node-clr:#f97316">
-            <div class="an-icon">🌐</div>
-            <div class="an-title">Gateway (Node)</div>
-            <div class="an-sub">Socket.io Fan-out · snarkJS proofs</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node" style="--node-clr:#00e5ff">
-            <div class="an-icon">🖥️</div>
-            <div class="an-title">Command Center</div>
-            <div class="an-sub">React Three Fiber · Zustand State</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node output-node" style="--node-clr:#10b981">
-            <div class="an-icon">⛓️</div>
-            <div class="an-title">Blockchain (EVM)</div>
-            <div class="an-sub">Solidity AMM · Groth16 Verifier</div>
-          </div>
+        <div class="arch-row case-arch-four">
+          <div class="arch-node"><div class="an-icon">PY</div><div class="an-title">AI engine</div><div class="an-sub">FastAPI, Gym environment, PyTorch DDPG</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">WS</div><div class="an-title">Gateway</div><div class="an-sub">Node.js, REST polling, Socket.io fan-out</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">3D</div><div class="an-title">Command center</div><div class="an-sub">React, Zustand, React Three Fiber</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">EVM</div><div class="an-title">Settlement</div><div class="an-sub">Solidity AMM, access roles, Groth16 verifier</div></div>
         </div>
-        <div class="arch-secondary">
-          <div class="as-box">
-            <span class="as-icon">🤖</span>
-            <div>
-              <strong>DDPG Reinforcement Learning</strong>
-              <p>Actor-critic for continuous fee control. Reward penalises grid imbalance (squared error) and rewards AMM liquidity depth + battery SoC kept between 20&ndash;80%. Ornstein-Uhlenbeck noise for exploration during training; Polyak averaging (soft updates) for stable target-network convergence.</p>
-              <p style="margin-top:8px"><strong>Why DDPG over DQN?</strong> DQN operates on discrete action bins; swap fee adjustments require floating-point granularity (e.g. 0.1% to 5.0%). DDPG handles continuous action spaces natively &mdash; essential for steering physical grid economics without discrete market shock.</p>
-              <code class="code-pill">State: [grid_load, generation, imbalance, energy_reserve, stable_reserve, price, battery_soc] &rarr; Action: [swap_fee_modifier]</code>
-            </div>
-          </div>
-          <div class="as-box">
-            <span class="as-icon">🔒</span>
-            <div>
-              <strong>ZK Architecture</strong>
-              <p>Circuits compiled via circom. Outputting .wasm artifacts so the Node gateway computes Groth16 proofs representing off-chain node generation deltas, verified on-chain via Solidity.</p>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="case-system-grid">
+        <article><span>Simulation</span><h3>15-node microgrid</h3><p>Solar yield, duck-curve demand, battery state, reserves, and injected disturbances produce the controller state.</p></article>
+        <article><span>Control</span><h3>DDPG actor-critic</h3><p>A seven-value observation maps to one bounded swap-fee action. Replay memory and soft target updates support continuous learning.</p></article>
+        <article><span>Market</span><h3>Constant-product AMM</h3><p>Energy and stable reserves follow the x &times; y = k invariant with fee accrual, slippage guards, and non-reentrant swaps.</p></article>
+        <article><span>Privacy experiment</span><h3>Groth16 surplus proof</h3><p>The circuit exposes claimed surplus while keeping solar and load inputs private, then gates a contract path through a verifier.</p></article>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
     <section class="proj-section">
-      <div class="ps-label">Data Flow</div>
-      <h2 class="ps-title">Inference & Settlement Pipeline</h2>
+      <div class="ps-label">Controller design</div>
+      <h2 class="ps-title">Why the RL problem is continuous</h2>
+      <div class="case-equation-band">
+        <div><span>Observation</span><code>[load, generation, imbalance, energy reserve, stable reserve, price, aggregate SoC]</code></div>
+        <div><span>Action</span><code>swap fee in [0.10%, 5.00%]</code></div>
+        <div><span>Reward</span><code>balance - energy waste - price volatility</code></div>
+      </div>
       <div class="flow-steps">
-        <div class="flow-step">
-          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">01</div>
-          <div class="fs-content">
-            <h3>Physics Engine Tick (500ms)</h3>
-            <p>At tick t, the Python Engine builds an Observation State containing grid load, generation, energy reserves, and battery SoC. The DDPG Actor network outputs a continuous swap fee modifier to stabilize the system.</p>
-            <code class="code-pill">PyTorch Inference: S_t → DDPG Actor → A_t (Swap Fee)</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">02</div>
-          <div class="fs-content">
-            <h3>Gateway State Broadcast</h3>
-            <p>The Node.js Gateway polls the AI engine via REST (`/tick`) and broadcasts the high-frequency state via WebSockets to connected React frontends utilizing Zustand for 60fps 3D rendering.</p>
-            <code class="code-pill">FastAPI → Gateway → Socket.io Fan-out</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">03</div>
-          <div class="fs-content">
-            <h3>Off-Chain ZK Proof Generation</h3>
-            <p>When a prosumer trades energy, physical telemetry is NOT broadcasted. The Node Gateway securely computes a Groth16 zk-SNARK proof asserting mathematical relationships (e.g. Generation > Load) without exposing localized load data.</p>
-            <code class="code-pill">snarkjs.groth16.fullProve(signals, wasm, zkey)</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num" style="color:#f97316;border-color:rgba(249,115,22,0.3)">04</div>
-          <div class="fs-content">
-            <h3>On-Chain verifiable AMM Settlement</h3>
-            <p>The cryptographically generated proof is submitted to the EVM blockchain. The `SurplusVerifier` smart contract validates the proof on-chain in milliseconds. If valid, the trade settles against the `AegisAMM` using the x*y=k invariant.</p>
-            <code class="code-pill">Verifier.sol → require(verifyProof(a,b,c,input)) → AMM Swap</code>
-          </div>
-        </div>
+        <div class="flow-step"><div class="fs-num">01</div><div class="fs-content"><h3>Observe the physical and market state together</h3><p>The environment does not optimize price in isolation. Load, generation, imbalance, reserves, price, and battery state form a seven-dimensional observation.</p></div></div>
+        <div class="flow-step"><div class="fs-num">02</div><div class="fs-content"><h3>Produce a bounded fee, not a discrete mode</h3><p>The actor emits one normalized action and maps it into the permitted fee range. Continuous control avoids forcing the market into a handful of abrupt fee buckets.</p><code class="code-pill">actor(state) &rarr; sigmoid action &rarr; 0.001 + action &times; 0.049</code></div></div>
+        <div class="flow-step"><div class="fs-num">03</div><div class="fs-content"><h3>Learn through an actor and a critic</h3><p>The critic estimates the value of a state-action pair. Replay memory breaks temporal correlation, Ornstein-Uhlenbeck noise supports exploration, and Polyak updates stabilize the target networks.</p></div></div>
+        <div class="flow-step"><div class="fs-num">04</div><div class="fs-content"><h3>Broadcast the resulting state</h3><p>The Node gateway polls <code>/tick</code> every 500 ms and fans the state out through Socket.io. Zustand updates the UI while React Three Fiber renders energy flow and node behavior.</p></div></div>
       </div>
     </section>
 
     <section class="proj-section">
-      <div class="ps-label">System Performance</div>
-      <h2 class="ps-title">Runtime Constraints &amp; Throughput</h2>
-      <div class="arch-infra">
-        <div class="ai-box"><span>Physics tick rate</span><span class="ai-sub">500ms — DDPG inference + physics step must complete within window</span></div>
-        <div class="ai-box"><span>WebSocket fan-out</span><span class="ai-sub">Node.js gateway broadcasts full state to all clients post-tick via Socket.io</span></div>
-        <div class="ai-box"><span>ZK proof generation</span><span class="ai-sub">Groth16 via snarkjs — CPU-intensive; runs in gateway to keep frontend lightweight</span></div>
-        <div class="ai-box"><span>Simulated scale</span><span class="ai-sub">15 nodes &middot; 7-dim state vector &middot; 1 continuous action output</span></div>
+      <div class="ps-label">Product surfaces</div>
+      <h2 class="ps-title">One model, two operator views</h2>
+      <div class="project-figure-grid case-product-gallery">
+        <figure class="project-figure"><img src="assets/gridium-overview-live.png" alt="Gridium 3D microgrid command center showing prosumer nodes, AMM pool, live state, and controller telemetry" /><figcaption><strong>Macro grid.</strong> Fifteen prosumers orbit the AMM pool while generation, load, reserves, and controller state update through the WebSocket stream.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/gridium-amm-live.png" alt="Gridium AMM trading floor showing DDPG swap-fee candles and constant-product bonding curve" /><figcaption><strong>AMM floor.</strong> The interface connects the controller's fee output to market history and the x &times; y = k reserve curve.</figcaption></figure>
       </div>
     </section>
 
-    <!-- CHALLENGES -->
     <section class="proj-section">
-      <div class="ps-label">DevOps & MLOps Problems Solved</div>
-      <h2 class="ps-title">Challenges &amp; Solutions</h2>
-      <div class="challenges-grid">
-        <div class="challenge-card" style="--cc-clr:#f97316">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>Event Loop Blocking during ZK Proofs</h3>
-            <p>Generating Groth16 proofs in Node.js is CPU-intensive. Initially, proof generation halted the v8 event loop, causing massive latency spikes (lagging WebSockets under load).</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Decoupled Computation Architecture</h3>
-            <p>Offloaded the PyTorch RL inference to a distinct containerized FastAPI microservice. The Gateway acts purely as a router, and ZK execution is parallelized utilizing Node `worker_threads` to keep the Socket.io tick running cleanly.</p>
-          </div>
-        </div>
-        <div class="challenge-card" style="--cc-clr:#f97316">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>Discrete Action Spaces in Financial Systems</h3>
-            <p>Initial attempts using a DQN (Discrete Q-Network) failed. Discretized fee "buckets" (e.g. 1%, 2%, 3%) caused severe market shocks, creating arbitrage loops that drained the AMM.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Continuous Control via DDPG</h3>
-            <p>Deployed Deep Deterministic Policy Gradients (DDPG) — an actor-critic algorithm that natively supports continuous action spaces. The agent acts like a steering wheel rather than a simple switch, executing granular fee adjustments.</p>
-          </div>
-        </div>
-        <div class="challenge-card" style="--cc-clr:#f97316">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>WebSocket Avalanches & Thundering Herds</h3>
-            <p>A backend restart can cause every connected frontend client to retry at the same moment, amplifying load while the WebSocket gateway is still recovering.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Exponential Backoff with Jitter</h3>
-            <p>Implemented a resilient reconnection algorithm on the React client. Clients wait progressively longer (2s, 4s, 8s) combined with randomized jitter, naturally smoothing out the spike to allow the Node server to recover.</p>
-          </div>
-        </div>
+      <div class="ps-label">Settlement boundary</div>
+      <h2 class="ps-title">What the contract and circuit actually enforce</h2>
+      <div class="case-contract-grid">
+        <article><span>AMM</span><h3>Reserve integrity</h3><p>Bidirectional energy/stable swaps update reserves under a constant-product rule. Minimum-output parameters protect users from unacceptable slippage and <code>nonReentrant</code> guards transfer paths.</p></article>
+        <article><span>Controller hook</span><h3>Role-bounded fee updates</h3><p>Only the <code>RL_OPERATOR_ROLE</code> can update the swap fee, and the contract clamps it between 10 and 500 basis points.</p></article>
+        <article><span>Proof path</span><h3>Private arithmetic relation</h3><p>The Circom circuit proves <code>amount_to_sell = total_solar - total_load</code> without publishing the two private inputs. The AMM can call a Groth16 verifier before proof-gated liquidity.</p></article>
+      </div>
+      <div class="case-callout"><strong>Important boundary</strong><p>The current circuit proves an arithmetic relationship; it does not prove sensor authenticity, location, meter ownership, or that the private inputs came from trusted hardware. Those require oracle and attestation design beyond this prototype.</p></div>
+    </section>
+
+    <section class="proj-section">
+      <div class="ps-label">Implementation map</div>
+      <h2 class="ps-title">Where the advanced pieces live</h2>
+      <div class="evidence-table-wrap">
+        <table class="evidence-table">
+          <thead><tr><th>Subsystem</th><th>Source</th><th>Responsibility</th><th>Technical detail</th></tr></thead>
+          <tbody>
+            <tr><td>Physics environment</td><td><code>ai-engine/aegis_env.py</code></td><td>State, disturbances, reward, action bounds</td><td>Gym-compatible seven-dimensional observation</td></tr>
+            <tr><td>DDPG agent</td><td><code>ai-engine/ddpg_agent.py</code></td><td>Actor, critic, replay, targets</td><td>Continuous one-dimensional action with OU exploration</td></tr>
+            <tr><td>Realtime engine</td><td><code>ai-engine/main.py</code></td><td>Tick loop and chaos endpoints</td><td>FastAPI state service and WebSocket endpoint</td></tr>
+            <tr><td>Gateway</td><td><code>backend/index.js</code></td><td>REST polling, Socket.io, proof endpoint</td><td>500 ms fan-out with mock/event fallback paths</td></tr>
+            <tr><td>Market contract</td><td><code>AegisAMM.sol</code></td><td>Liquidity, swaps, fee control</td><td>AccessControl, ReentrancyGuard, slippage checks</td></tr>
+            <tr><td>Proof circuit</td><td><code>energy_proof.circom</code></td><td>Surplus relation</td><td>Two private signals and one public output</td></tr>
+            <tr><td>3D interface</td><td><code>MicrogridCanvas.tsx</code></td><td>Node topology and energy flow</td><td>React Three Fiber driven by Zustand state</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
+    <section class="proj-section">
+      <div class="ps-label">Engineering judgment</div>
+      <h2 class="ps-title">Integrated prototype, explicit simulation boundary</h2>
+      <div class="case-boundary-grid">
+        <article class="case-boundary-positive"><span>Implemented</span><h3>A working multi-runtime systems prototype</h3><ul><li>Closed-loop Python simulation and continuous controller</li><li>Realtime gateway and 3D operator interface</li><li>Constant-product Solidity market with control roles</li><li>Groth16 proof-generation and verification path</li><li>Chaos controls and mock-mode fallback for demonstration</li></ul></article>
+        <article class="case-boundary-limit"><span>Prototype boundary</span><h3>Not yet a validated energy-control protocol</h3><ul><li>No comparison against rule-based or model-predictive control baselines</li><li>Some event-feed entries are generated for the demonstration UI</li><li>The circuit lacks trusted-meter attestation and stronger range constraints</li><li>Contract, controller, and adversarial tests need a frozen evaluation suite</li></ul></article>
+      </div>
+      <div class="case-callout"><strong>Next engineering milestone</strong><p>Freeze deterministic scenarios, compare DDPG against PID and rule-based controllers, add contract invariants and circuit tests, then measure imbalance, volatility, proof latency, and recovery under the same disturbances.</p></div>
+    </section>
   </main>
 
   <footer class="proj-footer">
     <a href="index.html" class="footer-back">&larr; Back to Portfolio</a>
-    <div class="proj-footer-nav">
-      <span>Next Project:</span>
-      <a href="compressor-cbm.html">Compressor CBM &rarr;</a>
-    </div>
+    <div class="proj-footer-nav"><span>Next Project:</span><a href="compressor-cbm.html">Compressor CBM &rarr;</a></div>
   </footer>
-
   <script src="script.js"></script>
+  <script type="module" src="project-scenes.js"></script>
 </body>
 </html>

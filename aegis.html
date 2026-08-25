@@ -1,311 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Project Aegis — Shaunak Rane</title>
-  <meta name="description" content="Project Aegis: Real-time multi-agent AI system for misinformation detection. Architecture, how it works, challenges solved."/>
-  <link rel="icon" type="image/png" href="favicon.png"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="project-page.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Aegis - Shaunak Rane</title>
+  <meta name="description" content="Aegis is a full-stack misinformation investigation prototype with deterministic claim ingestion, asynchronous evidence and verdict stages, specialist intelligence workflows, and a reviewable dashboard." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="project-page.css" />
 </head>
-<body>
+<body class="case-study-deep case-aegis">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="reading-progress" aria-hidden="true"><span></span></div>
 
   <nav id="navbar" class="solid">
     <a href="index.html" class="nav-brand">ShaunakRane<span class="accent">._</span></a>
-    <a href="index.html#work" class="nav-back">← All Projects</a>
+    <a href="index.html" class="nav-back">&larr; Systems Console</a>
   </nav>
 
-  <!-- HERO -->
-  <header class="proj-hero" style="--accent-clr:#00e5ff;">
+  <header class="proj-hero case-hero" style="--accent-clr:#4da3ff;">
+    <div class="case-hero-shade" aria-hidden="true"></div>
+    <canvas class="project-hero-canvas" data-project-scene="aegis" aria-hidden="true"></canvas>
     <div class="proj-hero-inner">
       <div class="proj-hero-meta">
-        <span class="proj-label">01 // AI · DevOps · Multi-Agent Systems</span>
-        <span class="proj-year">Oct 2025 – Feb 2026</span>
+        <span class="proj-label">01 / Agent systems / Full-stack AI</span>
+        <span class="proj-year">Oct 2025 - Feb 2026</span>
       </div>
-      <h1 class="proj-hero-title">Project <span style="color:var(--accent-clr)">Aegis</span></h1>
-      <p class="proj-hero-sub">A full-stack agentic intelligence platform: Yahoo Finance Z-score anomaly detection &rarr; 4 specialized Gemini 2.5 Flash agent workflows &rarr; schema-enforced JSON verdict &rarr; real-time DOM hydration. Stack: Vanilla JS SPA &middot; Netlify serverless gateway &middot; Dockerized FastAPI on Render &middot; Supabase PostgreSQL.</p>
-      <div class="proj-hero-metrics">
-        <div class="hm-card"><span class="hm-val">Gemini</span><span class="hm-lbl">2.5 Flash primary model</span></div>
-        <div class="hm-card"><span class="hm-val">3-key</span><span class="hm-lbl">API rotation pool</span></div>
-        <div class="hm-card"><span class="hm-val">|Z|&gt;2.5</span><span class="hm-lbl">Anomaly detection threshold</span></div>
-        <div class="hm-card"><span class="hm-val">4</span><span class="hm-lbl">Scout · Trending · BrandShield · Watch</span></div>
+      <div class="case-hero-copy">
+        <p class="case-eyebrow">Misinformation investigation prototype</p>
+        <h1 class="proj-hero-title">Project <span>Aegis</span></h1>
+        <p class="proj-hero-sub">A claim enters once, becomes a traceable background job, passes through evidence and investigation stages, and returns as a structured record an operator can inspect instead of a one-shot chatbot answer.</p>
+        <div class="proj-hero-cta">
+          <a href="https://agenticai914.netlify.app" target="_blank" rel="noopener noreferrer" class="btn-main"><span class="live-dot"></span>Open live system &nearr;</a>
+          <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" rel="noopener noreferrer" class="btn-ghost">Inspect source &nearr;</a>
+        </div>
       </div>
-      <div class="proj-hero-cta">
-        <a href="https://agenticai914.netlify.app" target="_blank" rel="noopener noreferrer" class="btn-main">
-          <span class="live-dot" style="background:#000"></span> Live Demo
-        </a>
-        <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" rel="noopener noreferrer" class="btn-ghost">GitHub ↗</a>
+      <div class="proj-hero-metrics" aria-label="Aegis implementation summary">
+        <div class="hm-card"><span class="hm-val">2-stage</span><span class="hm-lbl">Evidence then verdict</span></div>
+        <div class="hm-card"><span class="hm-val">4</span><span class="hm-lbl">Specialist interfaces</span></div>
+        <div class="hm-card"><span class="hm-val">15 min</span><span class="hm-lbl">RSS ingestion interval</span></div>
+        <div class="hm-card"><span class="hm-val">SHA-256</span><span class="hm-lbl">Claim deduplication</span></div>
       </div>
     </div>
-    <div class="proj-hero-glow" style="background:radial-gradient(ellipse at 70% 50%, rgba(0,229,255,0.12), transparent 60%)"></div>
   </header>
 
   <main class="proj-main" id="main-content">
-
-    <!-- OVERVIEW -->
-    <section class="proj-section">
-      <div class="ps-label">Overview</div>
-      <div class="overview-grid">
-        <div class="overview-text">
-          <p>Aegis Protocol solves the critical problem of real-time digital misinformation, coordinated financial manipulation, and brand reputation attacks. In an era where fake news and automated bot swarms can trigger algorithmic market sell-offs, traditional manual fact-checking is too slow.</p>
-          <p>Moving beyond static keyword alerts, Aegis deploys <strong>Agentic AI swarms</strong>. Google Gemini models simultaneously cross-reference financial price dislocations (Yahoo Finance Z-scores) with real-time multi-platform signal analysis, autonomously producing verified verdicts and severity scores in under 30 seconds.</p>
-          <p><strong>Four specialized agent swarms:</strong></p>
-          <ul>
-            <li><strong>Scout Agent</strong> — financial anomaly detection via Yahoo Finance Z-score pipeline; flags |Z| &gt; 2.5 deviations for Gemini analysis.</li>
-            <li><strong>Trending Agent</strong> — social and news signal aggregation; identifies viral misinformation patterns across platforms.</li>
-            <li><strong>BrandShield Agent</strong> — counterfeit listing and review-bomb monitoring for brand reputation.</li>
-            <li><strong>Personal Watch Agent</strong> — targeted individual reputation monitoring; detects defamation or harassment patterns.</li>
-          </ul>
+    <section class="proj-section case-opening">
+      <div class="ps-label">The engineering thesis</div>
+      <div class="case-opening-grid">
+        <h2 class="case-statement">Make model output reviewable by designing the workflow around state, evidence, and failure.</h2>
+        <div class="case-opening-copy">
+          <p>Aegis is not presented as an autonomous truth oracle. It is an investigation workflow for claims, market anomalies, and fast-moving public narratives. The useful engineering problem is orchestration: accepting work, preventing duplicates, gathering context, constraining the verdict shape, recording status, and exposing failure to the UI.</p>
+          <p>The deployed product combines a static multi-page frontend, a Netlify Gemini gateway, a FastAPI service, background claim processing, RSS ingestion, and Supabase persistence.</p>
         </div>
-        <div class="tech-stack-card">
-          <h3>Tech Stack</h3>
-          <div class="ts-items">
-            <div class="ts-item"><span class="ts-icon">⚡</span><span>Netlify Functions &mdash; serverless Node.js API gateway</span></div>
-            <div class="ts-item"><span class="ts-icon">🐳</span><span>Docker / Render &mdash; containerized FastAPI + Uvicorn (4 workers)</span></div>
-            <div class="ts-item"><span class="ts-icon">🧠</span><span>Gemini 2.5 Flash (primary) &rarr; 2.0 Flash (model fallback)</span></div>
-            <div class="ts-item"><span class="ts-icon">🔗</span><span>Supabase PostgreSQL &mdash; verdict + claim persistence</span></div>
-            <div class="ts-item"><span class="ts-icon">🐍</span><span>Python / FastAPI &mdash; background polling + DB hydration</span></div>
-            <div class="ts-item"><span class="ts-icon">📈</span><span>Vanilla JS SPA &mdash; no framework, instant first-paint</span></div>
-            <div class="ts-item"><span class="ts-icon">📊</span><span>Yahoo Finance v8/finance/chart &mdash; live price data via CORS proxy</span></div>
-            <div class="ts-item"><span class="ts-icon">🔁</span><span>GitHub Actions &rarr; Netlify CI/CD &mdash; auto-deploy on main push</span></div>
-          </div>
-        </div>
+      </div>
+      <div class="case-fact-strip" aria-label="Aegis scope">
+        <div><span>Core pipeline</span><strong>Claim ingestion, research, investigation</strong></div>
+        <div><span>Specialist logic</span><strong>Scout and Trending agents</strong></div>
+        <div><span>Review surface</span><strong>Searchable verdict dashboard</strong></div>
+        <div><span>Persistence</span><strong>Claims, evidence, threat records</strong></div>
       </div>
     </section>
 
-    <!-- KEY DECISIONS -->
     <section class="proj-section">
-      <div class="ps-label">Engineering Decisions</div>
-      <h2 class="ps-title">Why This Architecture?</h2>
-      <div class="flow-steps">
-        <div class="flow-step">
-          <div class="fs-num">01</div>
-          <div class="fs-content">
-            <h3>Vanilla JS over React &mdash; deliberate, not lazy</h3>
-            <p>The SPA pattern requires one view state. React would add 130+ KB of framework overhead for zero functional gain. Vanilla JS with CSS custom properties delivers instant first-paint and hardware-accelerated animations with no build step or bundler dependency.</p>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">02</div>
-          <div class="fs-content">
-            <h3>Serverless gateway &mdash; API keys never reach the DOM</h3>
-            <p>Direct browser fetch would expose <code class="code-pill" style="display:inline;padding:2px 6px">AIzaSy...</code> keys in DevTools. The Netlify Function acts as a secure proxy: <code>GEMINI_KEY_1/2/3</code> are injected at build time via environment variables and never shipped in client-side JS bundles.</p>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">03</div>
-          <div class="fs-content">
-            <h3>Z-score threshold |Z| &gt; 2.5 &mdash; why this number</h3>
-            <p>Two standard deviations flags ~4.6% of price moves as statistically anomalous. Calibrated against 5-day rolling windows on NIFTY/BSE tickers &mdash; narrow enough to catch coordinated manipulation, wide enough to ignore normal intraday volatility spikes.</p>
-            <code class="code-pill">Z = (X &minus; &mu;) / &sigma; &rarr; flag if |Z| &gt; 2.5</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">04</div>
-          <div class="fs-content">
-            <h3>Gemini Flash over Pro &mdash; latency is the product</h3>
-            <p>Threat intelligence is time-sensitive. Gemini Pro would add 3&ndash;8&times; latency for marginal reasoning gain on structured JSON tasks. Flash delivers near-instant token generation; the strict output schema compensates for reasoning delta. Sub-30-second total latency is the stated SLA.</p>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">05</div>
-          <div class="fs-content">
-            <h3>JSON schema enforcement + regex fence cleanup</h3>
-            <p>LLMs occasionally wrap JSON in markdown fences (<code class="code-pill" style="display:inline;padding:2px 6px">```json</code>) despite strict prompting. The gateway strips fences with <code>.replace(/^```json/, '')</code> before <code>JSON.parse()</code>. A try-catch returns a controlled error state if parsing still fails &mdash; preventing DOM corruption from hallucination drift.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ARCHITECTURE -->
-    <section class="proj-section">
-      <div class="ps-label">⚙️ System Architecture & MLOps</div>
-      <h2 class="ps-title">How the System is Engineered</h2>
+      <div class="ps-label">System architecture</div>
+      <h2 class="ps-title">Five boundaries, one traceable claim</h2>
+      <p class="ps-intro">The architecture separates deterministic application work from probabilistic model work. That separation makes retries, fallbacks, and review states visible.</p>
       <div class="arch-diagram">
-        <!-- Pipeline flow -->
         <div class="arch-row">
-          <div class="arch-node input-node">
-            <div class="an-icon">📥</div>
-            <div class="an-title">Data Ingestion</div>
-            <div class="an-sub">Client Ticker Input / Live Feeds</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node" style="--node-clr:#00e5ff">
-            <div class="an-icon">⚡</div>
-            <div class="an-title">API Gateway</div>
-            <div class="an-sub">Serverless Proxy · CORS · Rate Limiter</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node" style="--node-clr:#a855f7">
-            <div class="an-icon">📈</div>
-            <div class="an-title">Z-Score Engine</div>
-            <div class="an-sub">Rolling Std Dev · Fast Fallbacks</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node" style="--node-clr:#10b981">
-            <div class="an-icon">🧠</div>
-            <div class="an-title">Gemini Swarm</div>
-            <div class="an-sub">Key Rotation · Semantic Inference</div>
-          </div>
-          <div class="arch-arrow">→</div>
-          <div class="arch-node output-node" style="--node-clr:#f97316">
-            <div class="an-icon">⚖️</div>
-            <div class="an-title">Verdict Sink</div>
-            <div class="an-sub">Validated JSON · UI Hydration</div>
-          </div>
+          <div class="arch-node"><div class="an-icon">01</div><div class="an-title">Ingest</div><div class="an-sub">Manual submit or RSS headline</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">02</div><div class="an-title">Identify</div><div class="an-sub">Normalize and SHA-256 deduplicate</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">03</div><div class="an-title">Research</div><div class="an-sub">Supporting and refuting context</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">04</div><div class="an-title">Investigate</div><div class="an-sub">Verdict, confidence, severity</div></div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node"><div class="an-icon">05</div><div class="an-title">Review</div><div class="an-sub">Supabase record and dashboard</div></div>
         </div>
-        <div class="arch-infra">
-          <div class="ai-box"><span>Key Rotation</span><span class="ai-sub">Environment-backed fallback keys</span></div>
-          <div class="ai-box"><span>Model Cascading</span><span class="ai-sub">2.5-Flash → 2.0-Flash fallback</span></div>
-          <div class="ai-box"><span>Containerized Backends</span><span class="ai-sub">Dockerized FastAPI on Render</span></div>
-          <div class="ai-box"><span>Cache Layer</span><span class="ai-sub">Planned response-cache boundary</span></div>
-        </div>
+      </div>
+      <div class="case-system-grid">
+        <article><span>Application plane</span><h3>FastAPI + BackgroundTasks</h3><p>Submission returns immediately while the worker advances the claim through pending, in-progress, completed, or failed states.</p></article>
+        <article><span>Model plane</span><h3>Gemini 2.5 Flash</h3><p>Research and investigation are distinct prompts. JSON normalization, schema checks, provider fallback, and controlled errors sit around the model call.</p></article>
+        <article><span>Data plane</span><h3>Supabase PostgreSQL</h3><p>Claims and evidence survive page refreshes. The dashboard prefers persisted completed claims and explicitly tops up from the WELFake dataset.</p></article>
+        <article><span>Intelligence plane</span><h3>Scout + Trending</h3><p>Scout computes market-volatility evidence; Trending collects Google News RSS and optional external social data for specialist scans.</p></article>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
     <section class="proj-section">
-      <div class="ps-label">Interaction Flow</div>
-      <h2 class="ps-title">Data Flow & Inference</h2>
+      <div class="ps-label">Runtime workflow</div>
+      <h2 class="ps-title">What happens after Submit</h2>
       <div class="flow-steps">
-        <div class="flow-step">
-          <div class="fs-num">01</div>
-          <div class="fs-content">
-            <h3>Quantitative Correlation</h3>
-            <p>The system fetches 5-day historical closing prices and volume via a proxy-routed Yahoo Finance request. It immediately calculates rolling Z-scores to distinguish organic market drift from coordinated algorithmic anomalies.</p>
-            <code class="code-pill">Z = (X - μ) / σ → Targets |Z| > 2.5</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">02</div>
-          <div class="fs-content">
-            <h3>Context-Aware Prompts</h3>
-            <p>The statistical state (ticker, Z-score, fast drop percentage) is injected into heavily constrained system prompts requiring strict roleplay and enforcing strict JSON schema bounds.</p>
-            <code class="code-pill">Injected Payload: { "ticker": "TATAMOTORS", "deviation": "-3.4σ", ... }</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">03</div>
-          <div class="fs-content">
-            <h3>Serverless Inference Gateway</h3>
-            <p>To avoid leaking API keys into the DOM, the frontend pushes the generated payload to a serverless Node gateway. The gateway selects an API key from a rotated array and dispatches the request to the Gemini v1beta endpoint.</p>
-            <code class="code-pill">Gateway Request → Round-Robin Key selection</code>
-          </div>
-        </div>
-        <div class="flow-step">
-          <div class="fs-num">04</div>
-          <div class="fs-content">
-            <h3>Output Validation & Rendering</h3>
-            <p>The AI returns a strict JSON array representing threats. The frontend strips Markdown fencing, validates the JSON shape via try-catch parsing, and dynamically renders the DOM.</p>
-            <code class="code-pill">[{ "target": "CEO", "severity": 8, "sentiment": -80 }]</code>
-          </div>
-        </div>
+        <div class="flow-step"><div class="fs-num">01</div><div class="fs-content"><h3>Normalize before spending model tokens</h3><p>The ingestion agent trims and normalizes the claim, then derives a stable SHA-256 identifier. Existing claims return their current record instead of triggering duplicate inference.</p><code class="code-pill">normalized_claim &rarr; sha256 &rarr; existing record or new job</code></div></div>
+        <div class="flow-step"><div class="fs-num">02</div><div class="fs-content"><h3>Move slow work behind a status contract</h3><p>FastAPI schedules claim processing in the background. The record becomes the shared contract between the API, worker, database, and frontend.</p><code class="code-pill">pending &rarr; in_progress &rarr; completed | failed</code></div></div>
+        <div class="flow-step"><div class="fs-num">03</div><div class="fs-content"><h3>Separate evidence collection from judgment</h3><p>The Research Agent produces supporting and refuting material. The Investigator Agent receives that structured context and generates verdict, confidence, severity, and reasoning as a second step.</p></div></div>
+        <div class="flow-step"><div class="fs-num">04</div><div class="fs-content"><h3>Persist the result and its failure mode</h3><p>Successful jobs write evidence and final fields. Failed jobs keep a failed status and an internal error reason, avoiding a silent blank result.</p></div></div>
+        <div class="flow-step"><div class="fs-num">05</div><div class="fs-content"><h3>Expose source state in the interface</h3><p>The dashboard can show persisted claims, cached data, or dataset fallback. The interface tells the user when the hosted backend is waking rather than pretending every row is live.</p></div></div>
       </div>
     </section>
 
-    <!-- PERFORMANCE -->
     <section class="proj-section">
-      <div class="ps-label">System Performance</div>
-      <h2 class="ps-title">Measured Behaviour Under Constraints</h2>
-      <div class="arch-infra">
-        <div class="ai-box"><span>Warm latency</span><span class="ai-sub">&lt; 30 seconds end-to-end threat analysis</span></div>
-        <div class="ai-box"><span>RPM capacity</span><span class="ai-sub">45 RPM via 3-key round-robin (3&times; free-tier limit)</span></div>
-        <div class="ai-box"><span>Cold start</span><span class="ai-sub">50&ndash;90s on Render free tier &mdash; heartbeat cron mitigates</span></div>
-        <div class="ai-box"><span>Response schema</span><span class="ai-sub">7 typed fields: title &middot; source &middot; summary &middot; type &middot; is_threat &middot; severity &middot; sentiment</span></div>
-      </div>
-      <div style="margin-top:28px">
-        <div class="ps-label" style="margin-bottom:16px">Deployment Pipeline</div>
-        <div class="arch-secondary">
-          <div class="as-box">
-            <span class="as-icon">🚀</span>
-            <div>
-              <strong>Frontend &amp; Gateway &mdash; Netlify CI/CD</strong>
-              <p>Push to <code>main</code> &rarr; GitHub Actions &rarr; Netlify builds static assets + Lambda functions &rarr; CDN edge deployment. <code>GEMINI_KEY_n</code> injected at build time via Netlify environment variables, never in the source tree.</p>
-            </div>
-          </div>
-          <div class="as-box">
-            <span class="as-icon">🐳</span>
-            <div>
-              <strong>Backend &mdash; Dockerized FastAPI on Render</strong>
-              <p>Python 3.11-slim base image; Uvicorn with 4 workers. <code>GEMINI_KEY_1/2/3</code> and Supabase credentials injected as Render service environment variables. Background cron hits <code>/api/claims</code> every 14 minutes to prevent free-tier spin-down.</p>
-            </div>
-          </div>
-        </div>
+      <div class="ps-label">Product surfaces</div>
+      <h2 class="ps-title">The system is visible, not buried in a notebook</h2>
+      <div class="project-figure-grid case-product-gallery">
+        <figure class="project-figure"><img src="assets/aegis-dashboard-live.png" alt="Aegis claims dashboard with verdict filters, evidence controls, and verdict distribution" /><figcaption><strong>Review dashboard.</strong> Search, verdict filters, evidence expansion, source-state messaging, and aggregate counts.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/aegis-agents-live.png" alt="Aegis specialist agent directory showing Trending, Scout, Personal Watch, and BrandShield interfaces" /><figcaption><strong>Specialist interfaces.</strong> Four investigation views expose distinct operator workflows; Scout and Trending have dedicated backend logic.</figcaption></figure>
       </div>
     </section>
 
-    <!-- CHALLENGES -->
     <section class="proj-section">
-      <div class="ps-label">DevOps & MLOps Problems Solved</div>
-      <h2 class="ps-title">Challenges &amp; Solutions</h2>
-      <div class="challenges-grid">
-        <div class="challenge-card">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>Strict LLM Rate Limits (HTTP 429)</h3>
-            <p>Google's free-tier Gemini API kept buckling under my Agent Swarms due to a strict 15 Requests Per Minute (RPM) limit.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Automated Key Rotation &amp; Fallbacks</h3>
-            <p>Engineered a serverless gateway that injects environment-backed API keys. If one route returns a rate-limit error, the workflow can try another key or model and surface a controlled failure when every route is exhausted.</p>
-          </div>
-        </div>
-        <div class="challenge-card">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>CORS Errors & External API Blocks</h3>
-            <p>Legacy APIs (like Yahoo Finance) actively block direct frontend fetch requests via strict CORS configurations, breaking the data pipeline.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Multi-Tier Proxy Routing</h3>
-            <p>Built an array of proxy fallbacks (`AllOrigins`, `CORSProxy.io`) and specifically defined an `OPTIONS` preflight handler within the gateway to ensure secure browser invocations.</p>
-          </div>
-        </div>
-        <div class="challenge-card">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Problem</span>
-            <h3>Backend Cold Starts on PaaS</h3>
-            <p>Render's free tier spins down the backend after 15 minutes of inactivity, causing 50–90 second delays for the first user query.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Solution</span>
-            <h3>Cron-based Heartbeats & Client Feedback</h3>
-            <p>Implemented a `/api/claims` ping that acts as a live heartbeat to keep the container warm. The UI displays an elegant "Waking up cluster" banner if the delay exceeds 3 seconds, preserving user trust.</p>
-          </div>
-        </div>
-        <div class="challenge-card">
-          <div class="cc-problem">
-            <span class="cc-badge problem">Limitation</span>
-            <h3>Simulated News Context &mdash; the RAG gap</h3>
-            <p>Gemini currently simulates real-time Twitter/Bloomberg scraping from its training data. For time-sensitive events after the training cutoff, threat signals may be incomplete or fabricated.</p>
-          </div>
-          <div class="cc-solution">
-            <span class="cc-badge solution">Roadmap</span>
-            <h3>RAG Pipeline &mdash; Firecrawl &rarr; Gemini</h3>
-            <p>Planned architecture: Firecrawl or Apify scrapes live article URLs &rarr; raw text is chunked &rarr; injected into Gemini context window before inference. This grounds the model in verified, real-time sources and eliminates hallucinated &ldquo;intelligence.&rdquo;</p>
-          </div>
-        </div>
+      <div class="ps-label">Implementation map</div>
+      <h2 class="ps-title">Where the important work lives</h2>
+      <div class="evidence-table-wrap">
+        <table class="evidence-table">
+          <thead><tr><th>Subsystem</th><th>Source</th><th>Responsibility</th><th>Engineering detail</th></tr></thead>
+          <tbody>
+            <tr><td>API orchestration</td><td><code>backend/main.py</code></td><td>Routes, state, dashboard data, startup loops</td><td>FastAPI, GZip, CORS, background jobs, explicit fallbacks</td></tr>
+            <tr><td>Claim worker</td><td><code>backend/workers/claim_worker.py</code></td><td>Research-to-verdict lifecycle</td><td>State transitions and persisted failure handling</td></tr>
+            <tr><td>Research / verdict</td><td><code>backend/agents/*</code></td><td>Two-stage model workflow</td><td>JSON extraction, schema normalization, model and key retry</td></tr>
+            <tr><td>Market intelligence</td><td><code>scout_agent.py</code></td><td>Price history and volatility evidence</td><td>Rolling statistics, impact simulation, specialist output</td></tr>
+            <tr><td>News ingestion</td><td><code>rss_ingestion.py</code></td><td>Recurring claim discovery</td><td>Google News RSS loop with claim-level deduplication</td></tr>
+            <tr><td>Edge gateway</td><td><code>netlify/functions/gemini.js</code></td><td>Browser-safe model access</td><td>Environment-only keys, model fallback, controlled response</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
+    <section class="proj-section">
+      <div class="ps-label">Engineering judgment</div>
+      <h2 class="ps-title">What is real, and what still needs validation</h2>
+      <div class="case-boundary-grid">
+        <article class="case-boundary-positive"><span>Implemented</span><h3>A coherent end-to-end investigation system</h3><ul><li>Deterministic claim identity and deduplication</li><li>Asynchronous evidence and verdict stages</li><li>Persistent status, evidence, and dashboard records</li><li>Market and news specialist workflows</li><li>Hosted frontend, API, and database integration</li></ul></article>
+        <article class="case-boundary-limit"><span>Prototype boundary</span><h3>Not an externally validated truth engine</h3><ul><li>Model-generated evidence needs stronger source retrieval and citation checks</li><li>Dashboard fallback rows are demonstration data, not live detections</li><li>BrandShield and Personal Watch remain interface-level concepts</li><li>No benchmark currently establishes operational accuracy or response-time claims</li></ul></article>
+      </div>
+      <div class="case-callout"><strong>Next engineering milestone</strong><p>Ground every verdict in retrieved source documents, retain multiple evidence records per claim, and run a frozen benchmark with calibration, latency, and abstention metrics.</p></div>
+    </section>
   </main>
 
   <footer class="proj-footer">
-    <a href="index.html" class="footer-back">← Back to Portfolio</a>
-    <div class="proj-footer-nav">
-      <span>Next Project:</span>
-      <a href="gridium.html">Gridium Protocol &rarr;</a>
-    </div>
+    <a href="index.html" class="footer-back">&larr; Back to Portfolio</a>
+    <div class="proj-footer-nav"><span>Next Project:</span><a href="gridium.html">Gridium Protocol &rarr;</a></div>
   </footer>
-
   <script src="script.js"></script>
+  <script type="module" src="project-scenes.js"></script>
 </body>
 </html>
