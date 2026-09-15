@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ThreeUI Spatial Prototype Lab | Shaunak Rane</title>
-  <meta name="description" content="High-end ThreeUI-inspired WebGL shaders, GPU particle networks, and spatial cybernetic UI prototypes for ML systems portfolio.">
+  <meta name="description" content="Design Prototype Lab demonstrating proportional visual treatments: Level A Full 3D, Level B Hybrid, and Level C Product UI across engineering projects.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/threeui-lab.css">
   <script type="importmap">
@@ -18,13 +18,13 @@
 </head>
 <body>
   <canvas id="lab-canvas"></canvas>
-  <div class="vignette"></div>
+  <div class="vignette" id="canvas-vignette"></div>
 
   <!-- Cybernetic Header -->
   <header class="lab-header">
     <a href="index.html" class="lab-logo">
       <span class="logo-badge">THREEUI / LAB</span>
-      <span class="logo-title">SPATIAL WEBGL PROTOTYPES</span>
+      <span class="logo-title">PROPORTIONAL VISUAL PROTOTYPES</span>
     </a>
     <div class="lab-header-actions">
       <a href="index.html" class="nav-return">← PORTFOLIO</a>
@@ -33,30 +33,525 @@
 
   <!-- Prototype Selection Tabs -->
   <nav class="prototype-tabs" aria-label="Prototype Navigation">
-    <button class="tab-btn is-active" data-prototype-tab="0">01 / AEGIS PIPELINE</button>
-    <button class="tab-btn" data-prototype-tab="1">02 / FOOD OPS MATRIX</button>
-    <button class="tab-btn" data-prototype-tab="2">03 / AGRI PARCEL</button>
-    <button class="tab-btn" data-prototype-tab="3">04 / CBM SPECTRUM</button>
+    <button class="tab-btn is-active" data-prototype-tab="0">01 / AEGIS [HYBRID]</button>
+    <button class="tab-btn" data-prototype-tab="1">02 / FOOD OPS [PRODUCT UI]</button>
+    <button class="tab-btn" data-prototype-tab="2">03 / GRIDIUM [FULL 3D]</button>
+    <button class="tab-btn" data-prototype-tab="3">04 / KRUSHIMITRA [FULL 3D]</button>
+    <button class="tab-btn" data-prototype-tab="4">05 / COMPRESSOR [FULL 3D]</button>
   </nav>
 
+  <!-- ============================================================== -->
+  <!-- LEVEL B: AEGIS HYBRID FORENSIC WORKSPACE (DOM + SUBTLE 3D)     -->
+  <!-- ============================================================== -->
+  <div id="hybrid-aegis-container" class="level-overlay is-hidden">
+    <div class="aegis-workspace">
+      <!-- Top Investigation Header -->
+      <div class="aegis-header-bar">
+        <div class="aegis-status-pill"><span class="pulse-dot"></span> LIVE INVESTIGATION WORKSPACE</div>
+        <div class="aegis-claim-title">
+          <span class="claim-label">TARGET NARRATIVE:</span>
+          <span class="claim-quote">"Emergency statutory decree: immediate freeze and re-denomination of commercial deposits"</span>
+        </div>
+        <div class="aegis-sha-pill">
+          <span class="sha-tag">SHA-256</span>
+          <code>7f83b165287a914b...</code>
+          <span class="dedup-badge">DEDUPLICATED (1,400 TOKENS SAVED)</span>
+        </div>
+      </div>
+
+      <!-- 5-Stage Pipeline Progress Strip -->
+      <div class="aegis-pipeline-strip">
+        <div class="pipeline-step is-complete">
+          <span class="step-num">01</span>
+          <span class="step-name">Ingest</span>
+          <span class="step-sub">Google News RSS</span>
+        </div>
+        <div class="pipeline-divider">→</div>
+        <div class="pipeline-step is-complete">
+          <span class="step-num">02</span>
+          <span class="step-name">Identify</span>
+          <span class="step-sub">SHA-256 Hash</span>
+        </div>
+        <div class="pipeline-divider">→</div>
+        <div class="pipeline-step is-complete">
+          <span class="step-num">03</span>
+          <span class="step-name">Research</span>
+          <span class="step-sub">6 Citations Mined</span>
+        </div>
+        <div class="pipeline-divider">→</div>
+        <div class="pipeline-step is-complete">
+          <span class="step-num">04</span>
+          <span class="step-name">Investigate</span>
+          <span class="step-sub">Gemini 2.5 Flash</span>
+        </div>
+        <div class="pipeline-divider">→</div>
+        <div class="pipeline-step is-active">
+          <span class="step-num">05</span>
+          <span class="step-name">Verdict Dossier</span>
+          <span class="step-sub">Reviewable State</span>
+        </div>
+      </div>
+
+      <!-- Main Workspace Grid: Supporting Evidence vs Contradicting Evidence -->
+      <div class="aegis-workspace-body">
+        <!-- Supporting Context Column -->
+        <section class="evidence-column col-supporting">
+          <div class="column-header">
+            <span class="col-indicator verified"></span>
+            <h3>SUPPORTING EVIDENCE (3 SOURCES)</h3>
+            <span class="col-sub">Verified documentation confirming status</span>
+          </div>
+          <div class="evidence-cards-list">
+            <article class="evidence-card card-supporting">
+              <div class="card-meta">
+                <span class="source-badge">REUTERS WIRE</span>
+                <span class="confidence-tag">HIGH RELIABILITY</span>
+                <span class="time-tag">T - 12m</span>
+              </div>
+              <h4>Primary Government Spokesperson Formal Denial</h4>
+              <p>"Ministry of Finance issues formal statement refuting rumors of emergency liquidity freezes. Operational rules remain governed by 2024 Statutory Order."</p>
+              <div class="card-citation">Ref: <code>reuters.com/markets/2026-09-14/statutory-denial-8492</code></div>
+            </article>
+
+            <article class="evidence-card card-supporting">
+              <div class="card-meta">
+                <span class="source-badge">SEC / REGULATORY 8-K</span>
+                <span class="confidence-tag">OFFICIAL FILING</span>
+                <span class="time-tag">T - 28m</span>
+              </div>
+              <h4>Commercial Banking Disclosure Schedule</h4>
+              <p>"Tier-1 commercial institutions report uninterrupted clearing, zero regulatory holds, and normal reserve settlement across all regional desks."</p>
+              <div class="card-citation">Ref: <code>edgar.sec.gov/filings/0001482914-26-000412</code></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Center Verdict Synthesis & Specialist Agents Panel -->
+        <section class="verdict-synthesis-column">
+          <div class="verdict-card">
+            <div class="verdict-badge-wrap">
+              <span class="verdict-tag">SYNTHESIZED VERDICT</span>
+              <div class="verdict-title-large misleading">MISLEADING</div>
+            </div>
+            <div class="verdict-metrics-row">
+              <div class="vm-box">
+                <span class="vm-val">91.4%</span>
+                <span class="vm-lbl">Confidence</span>
+              </div>
+              <div class="vm-box">
+                <span class="vm-val" style="color:#ff0055">HIGH</span>
+                <span class="vm-lbl">Severity</span>
+              </div>
+              <div class="vm-box">
+                <span class="vm-val" style="color:#ffaa00">+2.85σ</span>
+                <span class="vm-lbl">Scout Anomaly</span>
+              </div>
+            </div>
+            <p class="verdict-summary-text">
+              <strong>Investigation Conclusion:</strong> Narrative conflates routine 2024 liquidity stress tests with an emergency deposit freeze. Fabricated video quote verified as deepfake vocal clone.
+            </p>
+          </div>
+
+          <!-- Specialist Agent Telemetry Racks -->
+          <div class="specialist-racks">
+            <div class="spec-terminal">
+              <div class="st-header">
+                <span class="st-icon scout"></span>
+                <strong>SCOUT AGENT &middot; Market Volatility Simulator</strong>
+              </div>
+              <div class="st-content">
+                <div class="st-stat"><span>Tracked Asset:</span><code>TATAMOTORS.NS (-4.8%)</code></div>
+                <div class="st-stat"><span>Z-Score:</span><strong style="color:#ffaa00">+2.85σ [Abnormal Drop Flagged]</strong></div>
+                <p class="st-note">Algorithm detected abnormal options volume 14 minutes prior to narrative dissemination.</p>
+              </div>
+            </div>
+
+            <div class="spec-terminal">
+              <div class="st-header">
+                <span class="st-icon trending"></span>
+                <strong>TRENDING AGENT &middot; News Discovery Loop</strong>
+              </div>
+              <div class="st-content">
+                <div class="st-stat"><span>Ingestion Loop:</span><code>Google News RSS (15m cycle)</code></div>
+                <div class="st-stat"><span>Velocity:</span><strong>42 correlated mentions / min</strong></div>
+                <p class="st-note">Supabase audit record persisted to <code>claims_investigation</code> table.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contradicting Evidence Column -->
+        <section class="evidence-column col-refuting">
+          <div class="column-header">
+            <span class="col-indicator warning"></span>
+            <h3>CONTRADICTING ANOMALIES (3 DETECTIONS)</h3>
+            <span class="col-sub">Forensic discrepancies and synthetic flags</span>
+          </div>
+          <div class="evidence-cards-list">
+            <article class="evidence-card card-refuting">
+              <div class="card-meta">
+                <span class="source-badge red">AUDIO SPECTRUM</span>
+                <span class="confidence-tag red">98.4% SYNTHETIC</span>
+                <span class="time-tag">T - 4m</span>
+              </div>
+              <h4>Voice Clone Synthesizer Artifacts</h4>
+              <p>"Mel-frequency cepstral analysis reveals unnatural phase continuity between 3.2kHz and 4.8kHz. High confidence deepfake vocal clone."</p>
+              <div class="card-citation">Ref: <code>model_vocal_classifier_checkpoint_v2.pt</code></div>
+            </article>
+
+            <article class="evidence-card card-refuting">
+              <div class="card-meta">
+                <span class="source-badge red">TIMELINE ARCHIVE</span>
+                <span class="confidence-tag red">TEMPORAL DISCORD</span>
+                <span class="time-tag">T - 18m</span>
+              </div>
+              <h4>Video Recycled from 2022 Press Conference</h4>
+              <p>"Keyframe reverse search matched 99.2% visual overlap with September 2022 briefing regarding unrelated interbank clearance reforms."</p>
+              <div class="card-citation">Ref: <code>archive.org/details/press-conf-2022-09</code></div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- LEVEL C: SODEXO FOOD OPS NORMAL PRODUCT UI (PURE 2D, NO 3D)   -->
+  <!-- ============================================================== -->
+  <div id="product-food-container" class="level-overlay is-hidden">
+    <div class="food-ops-app">
+      <!-- Top Operations Control Bar -->
+      <header class="ops-topbar">
+        <div class="ops-brand">
+          <span class="ops-logo">SODEXO FOOD OPERATIONS</span>
+          <span class="ops-badge">FASTAPI + RANDOM FOREST + BOM ENGINE</span>
+        </div>
+        <div class="ops-kpis">
+          <div class="kpi-pill">
+            <span class="kpi-lbl">NEXT SERVICE:</span>
+            <span class="kpi-val" style="color:#10b981">TODAY LUNCH</span>
+          </div>
+          <div class="kpi-pill">
+            <span class="kpi-lbl">FORECAST ATTENDANCE:</span>
+            <span class="kpi-val">1,840 PAX</span>
+            <span class="kpi-ci">±2.8% CI</span>
+          </div>
+          <div class="kpi-pill">
+            <span class="kpi-lbl">WASTE RATIO:</span>
+            <span class="kpi-val" style="color:#10b981">4.8%</span>
+            <span class="kpi-ci">Target &lt; 6.0%</span>
+          </div>
+          <div class="kpi-pill">
+            <span class="kpi-lbl">AVOIDED OVERPRODUCTION:</span>
+            <span class="kpi-val" style="color:#10b981">-320 KG</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Operations Split Layout -->
+      <div class="ops-main-layout">
+        <!-- Left Panel: 7-Day Operations Calendar Board -->
+        <section class="ops-calendar-board">
+          <div class="section-title-bar">
+            <h3>WEEKLY OPERATIONS BOARD (7-DAY SERVICE CALENDAR)</h3>
+            <span class="status-indicator">● LIVE SCHEDULE SYNCHRONIZED</span>
+          </div>
+          <div class="calendar-grid">
+            <div class="cal-day-col is-active">
+              <div class="day-head">
+                <span class="day-name">MON</span>
+                <span class="day-date">15 SEP</span>
+                <span class="day-pax-badge">1,780 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST (07:30 - 09:30)</span>
+                  <p>Idli Sambar · Poha · Fresh Cut Fruits</p>
+                  <div class="slot-meta"><span>620 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch is-selected">
+                  <span class="slot-time">LUNCH (12:00 - 14:30) ★</span>
+                  <p>Paneer Butter Masala · Dal Tadka · Basmati</p>
+                  <div class="slot-meta"><strong style="color:#10b981">1,840 Pax</strong><span class="status-ok">READY</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER (19:30 - 21:30)</span>
+                  <p>Mixed Vegetable Sabzi · Phulka · Jeera Rice</p>
+                  <div class="slot-meta"><span>1,240 Pax</span><span>BOM OK</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col">
+              <div class="day-head">
+                <span class="day-name">TUE</span>
+                <span class="day-date">16 SEP</span>
+                <span class="day-pax-badge">1,820 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Upma · Medu Vada · Chutney</p>
+                  <div class="slot-meta"><span>640 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH</span>
+                  <p>Chole Bhature · Pulao · Raita</p>
+                  <div class="slot-meta"><span>1,820 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Aloo Gobi · Roti · Dal Fry</p>
+                  <div class="slot-meta"><span>1,280 Pax</span><span>BOM OK</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col">
+              <div class="day-head">
+                <span class="day-name">WED</span>
+                <span class="day-date">17 SEP</span>
+                <span class="day-pax-badge">1,890 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Aloo Paratha · Curd · Pickle</p>
+                  <div class="slot-meta"><span>680 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH (PEAK)</span>
+                  <p>Rajma Chawal · Tandoori Roti · Kheer</p>
+                  <div class="slot-meta"><span>1,890 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Bhindi Masala · Dal Makhani · Rice</p>
+                  <div class="slot-meta"><span>1,310 Pax</span><span>BOM OK</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col">
+              <div class="day-head">
+                <span class="day-name">THU</span>
+                <span class="day-date">18 SEP</span>
+                <span class="day-pax-badge">1,810 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Masala Dosa · Sambar · Chutney</p>
+                  <div class="slot-meta"><span>630 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH</span>
+                  <p>Kadai Paneer · Dal Tadka · Naan</p>
+                  <div class="slot-meta"><span>1,810 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Veg Biryani · Mirchi Ka Salan</p>
+                  <div class="slot-meta"><span>1,260 Pax</span><span>BOM OK</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col">
+              <div class="day-head">
+                <span class="day-name">FRI</span>
+                <span class="day-date">19 SEP</span>
+                <span class="day-pax-badge">1,720 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Puri Bhaji · Kesari Bath</p>
+                  <div class="slot-meta"><span>600 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH</span>
+                  <p>Veg Thali Special · Rasam · Rice</p>
+                  <div class="slot-meta"><span>1,720 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Pav Bhaji · Pulao · Salad</p>
+                  <div class="slot-meta"><span>1,190 Pax</span><span>BOM OK</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col weekend">
+              <div class="day-head">
+                <span class="day-name">SAT</span>
+                <span class="day-date">20 SEP</span>
+                <span class="day-pax-badge">940 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Bread Butter Jam · Cutlets</p>
+                  <div class="slot-meta"><span>340 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH (WEEKEND)</span>
+                  <p>Khichdi Kadhi · Papad · Pickle</p>
+                  <div class="slot-meta"><span>940 Pax</span><span>SCALED</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Pasta Primavera · Garlic Bread</p>
+                  <div class="slot-meta"><span>680 Pax</span><span>SCALED</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-day-col weekend">
+              <div class="day-head">
+                <span class="day-name">SUN</span>
+                <span class="day-date">21 SEP</span>
+                <span class="day-pax-badge">860 PAX</span>
+              </div>
+              <div class="meal-slot-cards">
+                <div class="slot-card breakfast">
+                  <span class="slot-time">BREAKFAST</span>
+                  <p>Pancakes · Fresh Fruits</p>
+                  <div class="slot-meta"><span>310 Pax</span><span>BOM OK</span></div>
+                </div>
+                <div class="slot-card lunch">
+                  <span class="slot-time">LUNCH (WEEKEND)</span>
+                  <p>Dum Aloo · Poori · Dal Fry</p>
+                  <div class="slot-meta"><span>860 Pax</span><span>SCALED</span></div>
+                </div>
+                <div class="slot-card dinner">
+                  <span class="slot-time">DINNER</span>
+                  <p>Soup · Sandwich Buffet</p>
+                  <div class="slot-meta"><span>590 Pax</span><span>SCALED</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Panel: Exploded BOM & Inventory Engine -->
+        <section class="ops-bom-engine">
+          <div class="section-title-bar">
+            <h3>LUNCH SERVICE: DISH-LEVEL BILL OF MATERIALS (BOM)</h3>
+            <span class="status-indicator">FASTAPI ENGINE &middot; 42 DISHES SCALED</span>
+          </div>
+
+          <div class="bom-selection-tabs">
+            <button class="bom-tab is-active" data-dish="paneer">Paneer Butter Masala (920 Portions)</button>
+            <button class="bom-tab" data-dish="dal">Yellow Dal Tadka (1,450 Portions)</button>
+            <button class="bom-tab" data-dish="rice">Steamed Basmati Rice (1,840 Portions)</button>
+            <button class="bom-tab alert" data-dish="salad">Mixed Sprout Salad (780 Portions) ⚠</button>
+          </div>
+
+          <div class="bom-breakdown-table-wrap">
+            <table class="bom-table" id="bom-table-body">
+              <thead>
+                <tr>
+                  <th>RAW INGREDIENT</th>
+                  <th>PER-PORTION SPEC</th>
+                  <th>TOTAL REQUIRED (BOM SCALED)</th>
+                  <th>CURRENT INVENTORY</th>
+                  <th>DELTA / REORDER STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Fresh Malai Paneer</strong></td>
+                  <td>150 g / pax</td>
+                  <td><strong>138.0 kg</strong></td>
+                  <td>185.0 kg in Cold Storage</td>
+                  <td><span class="stock-status ok">SUFFICIENT (+47 kg BUFFER)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Roma Tomatoes (Puree)</strong></td>
+                  <td>65 g / pax</td>
+                  <td><strong>59.8 kg</strong></td>
+                  <td>95.0 kg in Dry Stock</td>
+                  <td><span class="stock-status ok">SUFFICIENT (+35 kg BUFFER)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Fresh Dairy Cream</strong></td>
+                  <td>25 ml / pax</td>
+                  <td><strong>23.0 L</strong></td>
+                  <td>30.0 L in Chiller</td>
+                  <td><span class="stock-status ok">SUFFICIENT (+7 L BUFFER)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Butter &amp; Spices Rollup</strong></td>
+                  <td>18 g / pax</td>
+                  <td><strong>16.5 kg</strong></td>
+                  <td>42.0 kg in Pantry</td>
+                  <td><span class="stock-status ok">SUFFICIENT (+25.5 kg BUFFER)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Inventory Levels & Waste Analysis Bottom Row -->
+          <div class="inventory-waste-split">
+            <div class="inventory-bars-panel">
+              <h4>WAREHOUSE BULK STORAGE STATUS</h4>
+              <div class="inv-bar-row">
+                <span class="inv-name">Dairy &amp; Paneer</span>
+                <div class="bar-track"><div class="bar-fill ok" style="width: 78%"></div></div>
+                <span class="inv-pct">78%</span>
+              </div>
+              <div class="inv-bar-row">
+                <span class="inv-name">Grains &amp; Pulses</span>
+                <div class="bar-track"><div class="bar-fill ok" style="width: 88%"></div></div>
+                <span class="inv-pct">88%</span>
+              </div>
+              <div class="inv-bar-row">
+                <span class="inv-name">Fresh Salad Produce</span>
+                <div class="bar-track"><div class="bar-fill warn" style="width: 24%"></div></div>
+                <span class="inv-pct" style="color:#f59e0b">24% (REORDER)</span>
+              </div>
+            </div>
+
+            <div class="waste-reduction-panel">
+              <h4>RANDOM FOREST WASTE MITIGATION METRICS</h4>
+              <div class="waste-metric-box">
+                <div class="wm-val">4.8%</div>
+                <div class="wm-desc">Current Waste Ratio: <code>(prepared - consumed) / prepared</code></div>
+              </div>
+              <p class="wm-comparison">
+                Replaces static spreadsheet estimates with attendance-weighted batch production, avoiding <strong>320 kg</strong> of perishable food overproduction per week.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <!-- Dynamic Info Panel (Bottom Left) -->
-  <aside class="info-card">
-    <div id="info-badge" class="info-badge">PROTOTYPE 01 / AEGIS</div>
-    <h1 id="info-title" class="info-title">Aegis Misinformation Pipeline & Evidence Room</h1>
-    <p id="info-desc" class="info-desc">
-      Deterministic claim ingestion with SHA-256 deduplication and bifurcated 3D forensic evidence rack (supporting vs refuting contexts). Features autonomous Scout (market volatility) and Trending (RSS loop) agent terminals feeding a reviewable verdict dossier.
-    </p>
-    <div id="info-tech" class="info-tech">
-      <span class="tech-tag">SHA-256 Deduplication</span>
-      <span class="tech-tag">Bifurcated Evidence Rack</span>
-      <span class="tech-tag">Scout Market Terminal</span>
-      <span class="tech-tag">Trending RSS Loop</span>
-      <span class="tech-tag">Reviewable Verdict Dossier</span>
+  <aside class="info-card" id="info-card-panel">
+    <div class="info-header-row">
+      <div id="info-badge" class="info-badge">PROTOTYPE 01 / AEGIS [HYBRID]</div>
+      <button id="info-toggle-btn" class="info-toggle-btn" title="Toggle info panel" aria-label="Toggle Info Panel">−</button>
+    </div>
+    <div class="info-card-content" id="info-card-content">
+      <h1 id="info-title" class="info-title">Aegis Misinformation Pipeline & Evidence Room</h1>
+      <p id="info-desc" class="info-desc">
+        Hybrid intelligence interface communicating the complete 5-stage investigation lifecycle: Claim Ingestion -> SHA-256 Deduplication -> Research -> Bifurcated Evidence (Supporting vs Contradicting) -> Verdict Dossier with Scout volatility simulation.
+      </p>
+      <div id="info-tech" class="info-tech">
+        <span class="tech-tag">Forensic Intelligence UI</span>
+        <span class="tech-tag">Bifurcated Evidence Workspace</span>
+        <span class="tech-tag">SHA-256 Deduplication</span>
+        <span class="tech-tag">Scout Market Telemetry</span>
+        <span class="tech-tag">Subtle 3D Constellation Layer</span>
+      </div>
     </div>
   </aside>
 
   <!-- Interactive HUD Controls (Bottom Right) -->
-  <section class="hud-controls" aria-label="Visual Controls">
+  <section class="hud-controls" id="hud-controls-panel" aria-label="Visual Controls">
     <div class="control-row">
       <span>POST-PROCESSING</span>
       <button id="bloom-toggle" class="control-toggle is-active">BLOOM: ON</button>
