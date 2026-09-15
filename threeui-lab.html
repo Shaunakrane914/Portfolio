@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ThreeUI Spatial Prototype Lab | Shaunak Rane</title>
+  <meta name="description" content="High-end ThreeUI-inspired WebGL shaders, GPU particle networks, and spatial cybernetic UI prototypes for ML systems portfolio.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/threeui-lab.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./assets/vendor/three.module.min.js",
+      "three/addons/": "./assets/vendor/addons/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="lab-canvas"></canvas>
+  <div class="vignette"></div>
+
+  <!-- Cybernetic Header -->
+  <header class="lab-header">
+    <a href="index.html" class="lab-logo">
+      <span class="logo-badge">THREEUI / LAB</span>
+      <span class="logo-title">SPATIAL WEBGL PROTOTYPES</span>
+    </a>
+    <div class="lab-header-actions">
+      <a href="index.html" class="nav-return">← PORTFOLIO</a>
+    </div>
+  </header>
+
+  <!-- Prototype Selection Tabs -->
+  <nav class="prototype-tabs" aria-label="Prototype Navigation">
+    <button class="tab-btn is-active" data-prototype-tab="0">01 / NEURAL FLUX</button>
+    <button class="tab-btn" data-prototype-tab="1">02 / AEGIS HOLO</button>
+    <button class="tab-btn" data-prototype-tab="2">03 / QUANTUM GRID</button>
+    <button class="tab-btn" data-prototype-tab="3">04 / TOPO GNN</button>
+  </nav>
+
+  <!-- Dynamic Info Panel (Bottom Left) -->
+  <aside class="info-card">
+    <div id="info-badge" class="info-badge">PROTOTYPE 01 / ORIGIN</div>
+    <h1 id="info-title" class="info-title">Neural Flux & Cosmic Particle Swarm</h1>
+    <p id="info-desc" class="info-desc">
+      22,000 GPU-accelerated particles driven by 3D Simplex curl noise. The cursor forms an interactive gravitational vortex with chromatic dispersion, orbiting around a holographic accelerator core.
+    </p>
+    <div id="info-tech" class="info-tech">
+      <span class="tech-tag">GPU Curl Noise</span>
+      <span class="tech-tag">Simplex 3D</span>
+      <span class="tech-tag">UnrealBloomPass</span>
+      <span class="tech-tag">Additive Blending</span>
+    </div>
+  </aside>
+
+  <!-- Interactive HUD Controls (Bottom Right) -->
+  <section class="hud-controls" aria-label="Visual Controls">
+    <div class="control-row">
+      <span>POST-PROCESSING</span>
+      <button id="bloom-toggle" class="control-toggle is-active">BLOOM: ON</button>
+    </div>
+    <div class="control-row">
+      <span>BLOOM GLOW</span>
+      <input id="bloom-slider" type="range" min="0.2" max="2.5" step="0.05" value="1.15">
+    </div>
+    <div class="control-row">
+      <span>NOISE SPEED</span>
+      <input id="speed-slider" type="range" min="0.2" max="2.5" step="0.1" value="1.0">
+    </div>
+  </section>
+
+  <script type="module" src="js/threeui/lab-controller.js"></script>
+</body>
+</html>
