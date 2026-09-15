@@ -3,10 +3,10 @@
 
 import * as THREE from "three";
 import { createBloomComposer } from "./composer.js";
-import { createNeuralFluxPrototype } from "./prototype-neural-flux.js";
-import { createAegisHoloPrototype } from "./prototype-aegis-holo.js";
-import { createGridQuantumPrototype } from "./prototype-grid-quantum.js";
-import { createTopoMeshPrototype } from "./prototype-topo-mesh.js";
+import { createAegisPipelinePrototype } from "./prototype-aegis-pipeline.js";
+import { createFoodOpsPrototype } from "./prototype-food-ops.js";
+import { createCropNdviPrototype } from "./prototype-crop-ndvi.js";
+import { createCbmWaterfallPrototype } from "./prototype-cbm-waterfall.js";
 
 const canvas = document.getElementById("lab-canvas");
 const tabButtons = Array.from(document.querySelectorAll("[data-prototype-tab]"));
@@ -32,40 +32,40 @@ const pointerNorm = new THREE.Vector2(0, 0);
 
 const prototypeMetadata = [
   {
-    badge: "PROTOTYPE 01 / ORIGIN",
-    title: "Neural Flux & Cosmic Particle Swarm",
-    desc: "22,000 GPU-accelerated particles driven by 3D Simplex curl noise. The cursor forms an interactive gravitational vortex with chromatic dispersion, orbiting around a holographic accelerator core.",
-    tech: ["GPU Curl Noise", "Simplex 3D", "UnrealBloomPass", "Additive Blending", "Interactive Force Field"],
-    factory: createNeuralFluxPrototype,
-    camPos: [0, 2.4, 14.5],
+    badge: "PROTOTYPE 01 / AEGIS",
+    title: "Aegis Misinformation Pipeline & Evidence Room",
+    desc: "Deterministic claim ingestion with SHA-256 deduplication and bifurcated 3D forensic evidence rack (supporting vs refuting contexts). Features autonomous Scout (market volatility) and Trending (RSS loop) agent terminals feeding a reviewable verdict dossier.",
+    tech: ["SHA-256 Deduplication", "Bifurcated Evidence Rack", "Scout Market Terminal", "Trending RSS Loop", "Reviewable Verdict Dossier"],
+    factory: createAegisPipelinePrototype,
+    camPos: [0, 2.2, 13.5],
     camLook: [0, 0, 0]
   },
   {
-    badge: "PROTOTYPE 02 / AEGIS",
-    title: "Holographic Agent Grid & Laser Conduits",
-    desc: "A floating 3D claim dossier with animated GLSL scanlines and iridescent Fresnel rim lighting. Data packets race across pulsating bezier conduits into specialist agent stations and a central verdict core.",
-    tech: ["Holographic GLSL", "Fresnel Rim Glow", "Traveling Pulse Veins", "Chromatic Iridescence", "Agent HUD"],
-    factory: createAegisHoloPrototype,
-    camPos: [0, 1.2, 11.5],
-    camLook: [0, 0, 0]
+    badge: "PROTOTYPE 02 / FOOD OPS",
+    title: "Sodexo Kitchen Operations Matrix & BOM Engine",
+    desc: "Weekly 7-day operations service deck with floating Random Forest pax forecast curve ribbon. Exploded dish-to-ingredient BOM tree channels bulk storage stock into daily meal slots, tracking waste ratio (prepared vs consumed).",
+    tech: ["7-Day Operations Matrix", "RF Pax Forecast Ribbon", "Exploded BOM Tree", "Warehouse Silo Depletion", "Waste Ratio HUD"],
+    factory: createFoodOpsPrototype,
+    camPos: [0, 5.4, 13.8],
+    camLook: [0, 0, 0.4]
   },
   {
-    badge: "PROTOTYPE 03 / GRIDIUM",
-    title: "Living Quantum Energy Microgrid",
-    desc: "A floating hexagonal power deck textured with real-time procedural Voronoi cellular energy rivers. 15 distributed nodes dynamically exchange energy with a central quantum liquidity pool.",
-    tech: ["Procedural Voronoi", "Cellular Noise Shader", "Liquid Glass AMM", "Energy Veins", "Dynamic Packets"],
-    factory: createGridQuantumPrototype,
-    camPos: [0, 7.8, 12.0],
+    badge: "PROTOTYPE 03 / AGRI YIELD",
+    title: "KrushiMitra Cadastral Farm Polygon & NDVI Terrain",
+    desc: "Cadastral surveyed farm boundary polygon (Leaflet map capture) projected over terraced Odisha agricultural terrain. Multispectral LiDAR drone tracks field plots, computing NDVI canopy vigor and typed FastAPI yield estimates.",
+    tech: ["Cadastral Polygon Boundary", "Terraced Field Mesh", "Multispectral LiDAR Drone", "Monsoon Precipitation", "Pydantic Contract HUD"],
+    factory: createCropNdviPrototype,
+    camPos: [0, 5.2, 14.2],
     camLook: [0, -0.4, 0]
   },
   {
-    badge: "PROTOTYPE 04 / TOPOFLOW",
-    title: "Biomorphic Pore Network & Graph Lattice",
-    desc: "An organic graph neural network simulating permeable rock matrix topology. Nodes breathe via vertex displacement, linked by glowing tensor pathways inside a volumetric bounding hologram.",
-    tech: ["Instanced Mesh", "GNN Tensor Lattice", "Deforming Pores", "Volumetric Hologram", "Depth Attenuation"],
-    factory: createTopoMeshPrototype,
-    camPos: [0, 1.8, 12.5],
-    camLook: [0, 0, 0]
+    badge: "PROTOTYPE 04 / CBM",
+    title: "Compressor CBM 3D FFT Waterfall & Harmonics",
+    desc: "Real-time 3D time-frequency-amplitude FFT waterfall surface driven by custom GLSL harmonics (1X shaft unbalance, 2X misalignment, BPFO bearing defect). Visualizes physical turbine rotor stages, optical vibration telemetry, and Holt damped trend gates.",
+    tech: ["3D FFT Waterfall", "GLSL Spectral Harmonics", "Rotor Blisk Dynamics", "Optical Laser Sensor", "Canvas Telemetry HUD"],
+    factory: createCbmWaterfallPrototype,
+    camPos: [0, 5.2, 14.2],
+    camLook: [0, 0, 1.0]
   }
 ];
 
