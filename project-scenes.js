@@ -1204,9 +1204,311 @@ if (canvas) {
     };
   }
 
+  function buildAegisEvidenceLab() {
+    root.position.set(3.25, -0.2, 0.15);
+    root.rotation.set(-0.16, -0.18, 0.035);
+    const lab = new THREE.Group();
+    root.add(lab);
+
+    const bench = new THREE.Mesh(
+      new THREE.BoxGeometry(11.4, 0.16, 6.5),
+      metal(0x101824, { roughness: 0.44, metalness: 0.72, clearcoat: 0.32 })
+    );
+    bench.position.y = -2.2;
+    lab.add(bench);
+    const benchEdge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(11.42, 0.18, 6.52)),
+      lineMaterial(0x36557c, 0.32)
+    );
+    benchEdge.position.y = -2.2;
+    lab.add(benchEdge);
+
+    const claim = new THREE.Group();
+    claim.position.set(-4.15, -0.05, 0.15);
+    const claimBody = new THREE.Mesh(
+      new THREE.BoxGeometry(2.35, 1.48, 0.16),
+      metal(0x17263d, { roughness: 0.2, metalness: 0.68, clearcoat: 0.82, emissive: palette.accent, emissiveIntensity: 0.08 })
+    );
+    const claimScreen = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.18, 1.31),
+      new THREE.MeshBasicMaterial({
+        map: createScreenTexture("Incoming claim", [
+          ["IDENTITY", "sha256:7d9f"],
+          ["SOURCE", "public feed"],
+          ["STATE", "investigate"],
+          ["EVIDENCE", "pending"]
+        ], "#78b6ff"),
+        toneMapped: false
+      })
+    );
+    claimScreen.position.z = 0.086;
+    claim.add(claimBody, claimScreen);
+    lab.add(claim);
+
+    const rail = addCurve(lab, [
+      new THREE.Vector3(-5.55, 0, 0.15),
+      new THREE.Vector3(-4.7, 0.05, 0.15),
+      new THREE.Vector3(-3.05, 0.05, 0.1)
+    ], palette.accent, 0.02, 0.8);
+
+    const agentDefs = [
+      { name: "TREND", detail: "viral anomaly", color: 0x4f8cff, position: [-1.8, 1.45, 0.25] },
+      { name: "SCOUT", detail: "market evidence", color: 0x9a6cff, position: [0.15, 1.45, -0.15] },
+      { name: "WATCH", detail: "person context", color: 0x18bfe8, position: [-1.8, -1.05, 0.3] },
+      { name: "SHIELD", detail: "brand exposure", color: 0x34d399, position: [0.15, -1.05, -0.1] }
+    ];
+    const scanHeads = [];
+    const apertures = [];
+    const evidencePackets = [];
+
+    agentDefs.forEach((definition, index) => {
+      const station = new THREE.Group();
+      station.position.set(...definition.position);
+      const housing = new THREE.Mesh(
+        new THREE.BoxGeometry(1.42, 1.18, 0.82),
+        metal(0x121d2c, { roughness: 0.22, metalness: 0.82, clearcoat: 0.68, emissive: definition.color, emissiveIntensity: 0.07 })
+      );
+      const aperture = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.23, 0.23, 0.19, 32),
+        metal(definition.color, { roughness: 0.08, metalness: 0.48, emissive: definition.color, emissiveIntensity: 0.9 })
+      );
+      aperture.rotation.x = Math.PI / 2;
+      aperture.position.z = 0.5;
+      const scan = new THREE.Mesh(new THREE.BoxGeometry(1.08, 0.055, 0.07), glow(definition.color, 1.2, 0.9));
+      scan.position.z = 0.52;
+      scan.userData.phase = index * 0.8;
+      const stationScreen = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.08, 0.5),
+        new THREE.MeshBasicMaterial({
+          map: createScreenTexture(definition.name, [
+            ["CHANNEL", definition.detail],
+            ["STATE", "streaming"],
+            ["EVIDENCE", `${68 + index * 7}%`]
+          ], `#${definition.color.toString(16).padStart(6, "0")}`),
+          toneMapped: false
+        })
+      );
+      stationScreen.position.set(0, -0.19, 0.465);
+      station.add(housing, aperture, scan, stationScreen);
+      lab.add(station);
+      scanHeads.push(scan);
+      apertures.push(aperture);
+
+      const from = new THREE.Vector3(definition.position[0] + 0.72, definition.position[1], definition.position[2]);
+      const to = new THREE.Vector3(2.65, index < 2 ? 0.42 : -0.42, 0.05);
+      const mid = from.clone().lerp(to, 0.5);
+      mid.z += index % 2 ? -0.52 : 0.52;
+      const curve = addCurve(lab, [from, mid, to], definition.color, 0.016, 0.68);
+      for (let packetIndex = 0; packetIndex < 3; packetIndex += 1) {
+        const packet = new THREE.Mesh(new THREE.OctahedronGeometry(0.075, 0), glow(definition.color, 1.4, 1));
+        packet.userData.curve = curve;
+        packet.userData.offset = (packetIndex / 3 + index * 0.17) % 1;
+        packet.userData.speed = 0.085 + index * 0.009;
+        lab.add(packet);
+        evidencePackets.push(packet);
+      }
+    });
+
+    const intakePackets = [];
+    for (let index = 0; index < 4; index += 1) {
+      const packet = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.11, 0.055), glow(palette.accent, 1.3, 1));
+      packet.userData.offset = index / 4;
+      packet.userData.curve = rail;
+      lab.add(packet);
+      intakePackets.push(packet);
+    }
+
+    const verdict = new THREE.Group();
+    verdict.position.set(3.72, 0, 0.05);
+    [-0.92, 0.92].forEach((x) => {
+      const pillar = new THREE.Mesh(
+        new THREE.BoxGeometry(0.24, 3.85, 0.6),
+        metal(0x182535, { roughness: 0.18, metalness: 0.9, clearcoat: 0.8 })
+      );
+      pillar.position.x = x;
+      verdict.add(pillar);
+    });
+    const verdictGlass = new THREE.Mesh(new THREE.BoxGeometry(1.62, 2.62, 0.12), glass(0x34d399, 0.16));
+    verdict.add(verdictGlass);
+    const verdictBars = [];
+    [0x34d399, 0x4f8cff, 0x9a6cff, 0x18bfe8].forEach((color, index) => {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(1.24, 0.12, 0.075), glow(color, 1.25, 0.86));
+      bar.position.set(0, 0.72 - index * 0.46, 0.16);
+      bar.userData.phase = index * 0.55;
+      verdict.add(bar);
+      verdictBars.push(bar);
+    });
+    const seal = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.42, 0),
+      metal(0x34d399, { roughness: 0.08, metalness: 0.72, emissive: 0x34d399, emissiveIntensity: 0.68, clearcoat: 0.95 })
+    );
+    seal.position.set(0, -1.62, 0.18);
+    verdict.add(seal);
+    lab.add(verdict);
+
+    addInstrumentScreen(lab, [2.85, 2.42, -0.25], [-0.15, -0.12, 0.01], [2.2, 1.18], "Verdict trace", [
+      ["CLAIM", "7d9f..."],
+      ["AGENTS", "4 / 4"],
+      ["EVIDENCE", "17 items"],
+      ["VERDICT", "MISLEADING"]
+    ], "#34d399");
+
+    root.userData.update = (time) => {
+      claim.position.y = -0.05 + Math.sin(time * 0.9) * 0.035;
+      scanHeads.forEach((scan, index) => {
+        scan.position.y = Math.sin(time * 1.55 + scan.userData.phase) * 0.4;
+        scan.scale.x = 0.78 + (Math.sin(time * 2 + index) + 1) * 0.12;
+      });
+      apertures.forEach((aperture, index) => aperture.scale.setScalar(0.86 + (Math.sin(time * 2.3 + index * 0.7) + 1) * 0.12));
+      intakePackets.forEach((packet) => packet.position.copy(packet.userData.curve.getPointAt((packet.userData.offset + time * 0.18) % 1)));
+      evidencePackets.forEach((packet) => {
+        const progress = (packet.userData.offset + time * packet.userData.speed) % 1;
+        packet.position.copy(packet.userData.curve.getPointAt(progress));
+        packet.rotation.x = time * 1.2;
+        packet.rotation.y = time * 1.6;
+      });
+      verdictBars.forEach((bar) => { bar.scale.x = 0.68 + (Math.sin(time * 1.7 + bar.userData.phase) + 1) * 0.16; });
+      seal.position.y = -1.62 + Math.sin(time * 1.15) * 0.075;
+      seal.rotation.y = Math.sin(time * 0.8) * 0.28;
+    };
+  }
+
+  function buildGridiumLivingDiorama() {
+    root.position.set(3.55, -0.78, 0.05);
+    root.rotation.set(0.43, -0.12, -0.055);
+    const gridWorld = new THREE.Group();
+    root.add(gridWorld);
+
+    const island = new THREE.Mesh(
+      new THREE.CylinderGeometry(5.45, 5.75, 0.34, 6),
+      metal(0x121918, { roughness: 0.48, metalness: 0.68, clearcoat: 0.3 })
+    );
+    island.position.y = -1.83;
+    gridWorld.add(island);
+    const islandEdge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.CylinderGeometry(5.48, 5.78, 0.37, 6)),
+      lineMaterial(0x4f8cff, 0.32)
+    );
+    islandEdge.position.y = -1.83;
+    gridWorld.add(islandEdge);
+
+    const coordinates = [
+      [-3.9,-2.1],[-2.05,-3.1],[0,-3.5],[2.15,-3.0],[3.95,-1.9],
+      [-3.55,0.4],[-1.7,-0.6],[0,-0.85],[1.8,-0.55],[3.55,0.45],
+      [-2.8,2.05],[-0.9,1.55],[1.05,1.65],[2.85,2.05],[0.05,3.4]
+    ];
+    const types = ["solar","home","battery","home","solar","battery","home","solar","home","battery","solar","home","battery","home","solar"];
+    const nodes = [];
+    const routes = [];
+
+    coordinates.forEach(([x, z], index) => {
+      const node = new THREE.Group();
+      node.position.set(x, -1.65, z);
+      const color = types[index] === "solar" ? palette.accent : types[index] === "battery" ? palette.hot : 0x6ca4ff;
+      const pad = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.55, 0.12, 24), metal(0x18211f, { roughness: 0.3, emissive: color, emissiveIntensity: 0.08 }));
+      const halo = new THREE.Mesh(new THREE.TorusGeometry(0.58, 0.022, 6, 42), glow(color, 1, 0.62));
+      halo.rotation.x = Math.PI / 2;
+      halo.position.y = 0.08;
+      node.add(pad, halo);
+
+      if (types[index] === "solar") {
+        const mast = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.48, 0.07), metal(0x74817d));
+        mast.position.y = 0.3;
+        const panel = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.055, 0.54), metal(0x173a58, { roughness: 0.12, emissive: 0x173a58, emissiveIntensity: 0.28 }));
+        panel.position.y = 0.62;
+        panel.rotation.x = -0.28;
+        node.add(mast, panel);
+      } else if (types[index] === "battery") {
+        const rack = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.8, 0.48), metal(0x1c332b, { roughness: 0.2, emissive: palette.hot, emissiveIntensity: 0.12 }));
+        rack.position.y = 0.46;
+        node.add(rack);
+        for (let cell = 0; cell < 3; cell += 1) {
+          const charge = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.045, 0.025), glow(palette.hot, 1, 0.82));
+          charge.position.set(0, 0.28 + cell * 0.18, 0.255);
+          node.add(charge);
+        }
+      } else {
+        const home = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.62, 0.56), metal(0x29333b, { roughness: 0.42, emissive: 0x24496c, emissiveIntensity: 0.08 }));
+        home.position.y = 0.38;
+        const roof = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.34, 4), metal(0x315475, { roughness: 0.24 }));
+        roof.position.y = 0.86;
+        roof.rotation.y = Math.PI / 4;
+        node.add(home, roof);
+      }
+      node.userData.phase = index * 0.44;
+      node.userData.halo = halo;
+      nodes.push(node);
+      gridWorld.add(node);
+
+      const start = new THREE.Vector3(x, -1.0, z);
+      const end = new THREE.Vector3(0, -0.35, 0);
+      const mid = start.clone().lerp(end, 0.5);
+      mid.y += 0.34 + (index % 3) * 0.1;
+      routes.push(addCurve(gridWorld, [start, mid, end], color, 0.014, 0.48));
+    });
+
+    const pool = new THREE.Group();
+    pool.position.set(0, -0.88, 0);
+    const tank = new THREE.Mesh(new THREE.CylinderGeometry(1.06, 1.06, 1.48, 48), glass(palette.hot, 0.14));
+    const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.89, 0.89, 0.72, 48), metal(palette.hot, { roughness: 0.08, metalness: 0.18, opacity: 0.62, emissive: palette.hot, emissiveIntensity: 0.42, depthWrite: false }));
+    liquid.position.y = -0.28;
+    const poolRing = new THREE.Mesh(new THREE.TorusGeometry(1.28, 0.04, 8, 80), glow(palette.accent, 1.2, 0.82));
+    poolRing.rotation.x = Math.PI / 2;
+    poolRing.position.y = 0.83;
+    pool.add(tank, liquid, poolRing);
+    gridWorld.add(pool);
+
+    const packets = [];
+    routes.forEach((route, index) => {
+      const color = types[index] === "solar" ? palette.accent : types[index] === "battery" ? palette.hot : 0x6ca4ff;
+      const packet = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 10), glow(color, 1.2, 1));
+      packet.userData.route = route;
+      packet.userData.offset = index / routes.length;
+      packet.userData.speed = 0.052 + (index % 4) * 0.009;
+      gridWorld.add(packet);
+      packets.push(packet);
+    });
+
+    const proofGate = new THREE.Group();
+    proofGate.position.set(4.35, -0.72, 1.65);
+    [-0.43, 0.43].forEach((x) => {
+      const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.18, 1.72, 0.22), metal(0x1a2730, { emissive: 0x315475, emissiveIntensity: 0.18 }));
+      pillar.position.x = x;
+      proofGate.add(pillar);
+    });
+    const proofLeaves = [];
+    for (let index = 0; index < 4; index += 1) {
+      const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.64 - index * 0.08, 0.08, 0.12), glow(palette.hot, 1.2, 0.88));
+      leaf.position.set(0, 0.54 - index * 0.32, 0.16);
+      leaf.userData.phase = index * 0.55;
+      proofGate.add(leaf);
+      proofLeaves.push(leaf);
+    }
+    gridWorld.add(proofGate);
+
+    addInstrumentScreen(gridWorld, [-4.15, 1.45, 2.5], [-0.38, 0.16, 0], [2.35, 1.28], "Grid balance", [
+      ["NODES", "15 / 15"],
+      ["NET LOAD", "+14.2 kW"],
+      ["DDPG FEE", "1.42%"],
+      ["PROOF", "VERIFIED"]
+    ], "#ffa35d");
+
+    root.userData.update = (time) => {
+      nodes.forEach((node, index) => {
+        node.position.y = -1.65 + Math.sin(time * 0.72 + node.userData.phase) * 0.025;
+        const pulse = 0.88 + (Math.sin(time * 1.15 + index * 0.42) + 1) * 0.08;
+        node.userData.halo.scale.setScalar(pulse);
+      });
+      packets.forEach((packet) => packet.position.copy(packet.userData.route.getPointAt((packet.userData.offset + time * packet.userData.speed) % 1)));
+      liquid.scale.y = 0.84 + (Math.sin(time * 0.58) + 1) * 0.1;
+      poolRing.rotation.z = Math.sin(time * 0.7) * 0.18;
+      proofLeaves.forEach((leaf) => { leaf.scale.x = 0.72 + (Math.sin(time * 1.6 + leaf.userData.phase) + 1) * 0.14; });
+    };
+  }
+
   const builders = {
-    aegis: buildAegis,
-    gridium: buildGridium,
+    aegis: buildAegisEvidenceLab,
+    gridium: buildGridiumLivingDiorama,
     compressor: buildCompressor,
     topoflow: buildTopoFlow,
     food: buildFood,

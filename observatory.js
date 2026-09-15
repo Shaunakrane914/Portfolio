@@ -29,12 +29,12 @@ let dragStart = null;
 let webglReady = false;
 
 const cameraStates = [
-  { position: [0, 1.8, 12], look: [2.7, 0, 0] },
-  { position: [-14, 1.6, 10.5], look: [-14, 0, 0] },
-  { position: [-12, 10.4, 1.5], look: [-12, 8, -10] },
-  { position: [14, 1.4, 11], look: [14, 0, 0] },
-  { position: [0, 1.2, -4.5], look: [0, 0, -16] },
-  { position: [0, 10.5, 12], look: [0, 8, 0] }
+  { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
+  { position: [-9.0, 1.75, 10.05], look: [-7.8, 0.1, -0.5] },
+  { position: [-8.4, 10.2, -0.45], look: [-7.0, 6.2, -9.65] },
+  { position: [12.8, 1.6, 10.2], look: [14.2, 0.0, -0.35] },
+  { position: [3.7, 1.7, -5.75], look: [5.6, 0.1, -16.25] },
+  { position: [0.5, 9.6, 10.35], look: [2.2, 8.0, -0.15] }
 ];
 
 const palette = {
@@ -100,6 +100,35 @@ function physicalMaterial(color, options = {}) {
   });
 }
 
+function glass(color = palette.green, opacity = 0.18) {
+  return new THREE.MeshPhysicalMaterial({
+    color,
+    roughness: 0.08,
+    metalness: 0.12,
+    transmission: 0.45,
+    thickness: 0.5,
+    transparent: true,
+    opacity,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  });
+}
+
+function addCurve(parent, points, color = palette.green, radius = 0.014, opacity = 0.5) {
+  const curve = new THREE.CatmullRomCurve3(points);
+  const geometry = new THREE.TubeGeometry(curve, Math.max(18, points.length * 8), radius, 6, false);
+  const tube = new THREE.Mesh(geometry, physicalMaterial(color, {
+    roughness: 0.28,
+    metalness: 0.4,
+    emissive: color,
+    emissiveIntensity: 0.6,
+    opacity,
+    depthWrite: false
+  }));
+  parent.add(tube);
+  return curve;
+}
+
 const glowTextures = new Map();
 
 function createGlowTexture(color) {
@@ -136,11 +165,11 @@ function createGlowSprite(color, size = 1, opacity = 0.75) {
   return sprite;
 }
 
-function addWorldLight(group, color, position, intensity = 18, distance = 12) {
+function addWorldLight(group, color, position, intensity = 32, distance = 18) {
   const light = new THREE.PointLight(color, intensity, distance, 2);
   light.position.fromArray(position);
   group.add(light);
-  const glow = createGlowSprite(color, 0.9, 0.26);
+  const glow = createGlowSprite(color, 1.2, 0.38);
   glow.position.copy(light.position);
   group.add(glow);
   return light;
@@ -440,8 +469,8 @@ function createOriginWorld() {
 
   addWorldLight(group, palette.green, [0.8, 1.8, 3.1], 24, 13);
   addWorldLight(group, palette.blue, [-2.2, -1.4, 2.4], 16, 10);
-  group.position.x = 3.5;
-  group.scale.setScalar(0.94);
+  group.position.set(4.8, 0.1, 0);
+  group.scale.setScalar(0.88);
   return group;
 }
 
@@ -674,8 +703,8 @@ function createCompressorWorld() {
 
 function createTopoWorld() {
   const group = new THREE.Group();
-  group.position.set(4.35, 0.1, -16.25);
-  group.scale.setScalar(0.82);
+  group.position.set(9.6, 0.1, -16.25);
+  group.scale.setScalar(0.72);
   group.userData.nodes = [];
   group.userData.flowParticles = [];
   group.userData.shells = [];
@@ -1295,9 +1324,386 @@ function createGridiumWorld() {
   return group;
 }
 
+function createAegisInvestigationWorld() {
+  const group = new THREE.Group();
+  group.position.set(-4.5, 0.1, -0.5);
+  group.rotation.set(-0.16, -0.08, -0.035);
+  group.scale.setScalar(0.80);
+  group.userData.orbits = [];
+  group.userData.bars = [];
+  group.userData.blips = [];
+  group.userData.codePanels = [];
+  group.userData.scanHeads = [];
+  group.userData.claimPackets = [];
+  group.userData.evidencePackets = [];
+  group.userData.agentCores = [];
+  group.userData.verdictBars = [];
+
+  const floor = new THREE.Mesh(
+    new THREE.BoxGeometry(10.4, 0.12, 6.4),
+    physicalMaterial(0x090d15, {
+      roughness: 0.5,
+      metalness: 0.62,
+      clearcoat: 0.32,
+      opacity: 0.7,
+      emissive: 0x06111d,
+      emissiveIntensity: 0.2
+    })
+  );
+  floor.position.y = -2.2;
+  group.add(floor);
+
+  const floorLines = [];
+  for (let i = -5; i <= 5; i += 1) {
+    floorLines.push(i, -2.13, -3.1, i, -2.13, 3.1);
+  }
+  for (let i = -3; i <= 3; i += 1) {
+    floorLines.push(-5.1, -2.13, i, 5.1, -2.13, i);
+  }
+  group.add(linesFromArray(floorLines, palette.blueDim, 0.18));
+
+  const claimTexture = createCodeTexture("incoming_claim.json", [
+    { text: "claim_id: 7d9f...", accent: true },
+    { text: "source: public feed" },
+    { text: "status: investigate" },
+    { text: "evidence: pending" }
+  ], "#668cff");
+  const claimDossier = new THREE.Group();
+  const claimBody = new THREE.Mesh(
+    new THREE.BoxGeometry(2.05, 1.26, 0.12),
+    physicalMaterial(0x13213a, { roughness: 0.24, metalness: 0.55, clearcoat: 0.68 })
+  );
+  const claimFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.92, 1.12),
+    new THREE.MeshBasicMaterial({ map: claimTexture, toneMapped: false })
+  );
+  claimFace.position.z = 0.066;
+  claimDossier.add(claimBody, claimFace);
+  claimDossier.position.set(-4.05, 0.05, 0.05);
+  claimDossier.rotation.y = 0.08;
+  group.add(claimDossier);
+  group.userData.claimDossier = claimDossier;
+
+  const intakeRail = addCurve(group, [
+    new THREE.Vector3(-5.25, 0, 0),
+    new THREE.Vector3(-4.6, 0.05, 0),
+    new THREE.Vector3(-3.25, 0.05, 0)
+  ], palette.blue, 0.018, 0.72);
+
+  const agentDefinitions = [
+    { title: "TREND", detail: "viral signals", color: palette.orange, position: [-1.95, 1.55, 0.15] },
+    { title: "SCOUT", detail: "market evidence", color: 0xa775ff, position: [-0.15, 1.55, -0.15] },
+    { title: "WATCH", detail: "person context", color: palette.blue, position: [-1.95, -1.1, 0.2] },
+    { title: "SHIELD", detail: "brand exposure", color: palette.green, position: [-0.15, -1.1, -0.1] }
+  ];
+  const evidenceCurves = [];
+
+  agentDefinitions.forEach((definition, index) => {
+    const station = new THREE.Group();
+    station.position.set(...definition.position);
+    const housing = new THREE.Mesh(
+      new THREE.BoxGeometry(1.36, 1.2, 0.72),
+      physicalMaterial(0x111827, {
+        roughness: 0.24,
+        metalness: 0.78,
+        clearcoat: 0.62,
+        emissive: definition.color,
+        emissiveIntensity: 0.08
+      })
+    );
+    const aperture = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.23, 0.23, 0.16, 28),
+      physicalMaterial(definition.color, {
+        roughness: 0.1,
+        metalness: 0.45,
+        emissive: definition.color,
+        emissiveIntensity: 1.1
+      })
+    );
+    aperture.rotation.x = Math.PI / 2;
+    aperture.position.z = 0.42;
+    const scanHead = new THREE.Mesh(
+      new THREE.BoxGeometry(1.06, 0.055, 0.08),
+      meshMaterial(definition.color, {
+        emissive: definition.color,
+        emissiveIntensity: 1.25,
+        opacity: 0.86,
+        depthWrite: false
+      })
+    );
+    scanHead.position.z = 0.45;
+    scanHead.userData.phase = index * 0.85;
+    station.add(housing, aperture, scanHead);
+
+    const screen = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.02, 0.48),
+      new THREE.MeshBasicMaterial({
+        map: createCodeTexture(definition.title, [
+          { text: definition.detail, accent: true },
+          { text: "evidence: streaming" }
+        ], `#${definition.color.toString(16).padStart(6, "0")}`),
+        toneMapped: false
+      })
+    );
+    screen.position.set(0, -0.2, 0.405);
+    station.add(screen);
+    group.add(station);
+    group.userData.scanHeads.push(scanHead);
+    group.userData.agentCores.push(aperture);
+
+    const start = new THREE.Vector3(definition.position[0] + 0.7, definition.position[1], definition.position[2]);
+    const end = new THREE.Vector3(2.45, index < 2 ? 0.42 : -0.42, 0);
+    const mid = start.clone().lerp(end, 0.5);
+    mid.z += index % 2 ? -0.42 : 0.42;
+    evidenceCurves.push(addCurve(group, [start, mid, end], definition.color, 0.014, 0.62));
+  });
+
+  const intakePacketGeometry = new THREE.BoxGeometry(0.15, 0.11, 0.05);
+  for (let i = 0; i < 4; i += 1) {
+    const packet = new THREE.Mesh(
+      intakePacketGeometry,
+      meshMaterial(palette.blue, { emissive: palette.blue, emissiveIntensity: 1.2 })
+    );
+    packet.userData.route = intakeRail;
+    packet.userData.offset = i / 4;
+    group.userData.claimPackets.push(packet);
+    group.add(packet);
+  }
+
+  evidenceCurves.forEach((curve, curveIndex) => {
+    for (let i = 0; i < 3; i += 1) {
+      const color = agentDefinitions[curveIndex].color;
+      const packet = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.075, 0),
+        meshMaterial(color, { emissive: color, emissiveIntensity: 1.25 })
+      );
+      packet.userData.route = curve;
+      packet.userData.offset = (i + curveIndex * 0.22) / 3;
+      packet.userData.speed = 0.1 + curveIndex * 0.008;
+      group.userData.evidencePackets.push(packet);
+      group.add(packet);
+    }
+  });
+
+  const verdictGate = new THREE.Group();
+  verdictGate.position.set(3.45, 0, 0);
+  [-0.88, 0.88].forEach((x) => {
+    const pillar = new THREE.Mesh(
+      new THREE.BoxGeometry(0.22, 3.65, 0.52),
+      physicalMaterial(0x1b2432, { roughness: 0.2, metalness: 0.84, clearcoat: 0.76 })
+    );
+    pillar.position.x = x;
+    verdictGate.add(pillar);
+  });
+  const verdictPane = new THREE.Mesh(new THREE.BoxGeometry(1.58, 2.55, 0.11), glass(palette.green, 0.18));
+  verdictGate.add(verdictPane);
+  const verdictColors = [palette.green, palette.orange, palette.green, palette.blue];
+  verdictColors.forEach((color, index) => {
+    const bar = new THREE.Mesh(
+      new THREE.BoxGeometry(1.16, 0.12, 0.08),
+      meshMaterial(color, { emissive: color, emissiveIntensity: 1, opacity: 0.86, depthWrite: false })
+    );
+    bar.position.set(0, 0.72 - index * 0.47, 0.12);
+    bar.userData.phase = index * 0.62;
+    verdictGate.add(bar);
+    group.userData.verdictBars.push(bar);
+  });
+  const verdictSeal = new THREE.Mesh(
+    new THREE.OctahedronGeometry(0.38, 0),
+    physicalMaterial(palette.green, {
+      roughness: 0.12,
+      metalness: 0.7,
+      clearcoat: 0.9,
+      emissive: palette.green,
+      emissiveIntensity: 0.75
+    })
+  );
+  verdictSeal.position.set(0, -1.58, 0.18);
+  verdictGate.add(verdictSeal);
+  group.userData.verdictSeal = verdictSeal;
+  group.add(verdictGate);
+
+  addWorldLight(group, palette.blue, [-3.7, 1.8, 3], 22, 12);
+  addWorldLight(group, 0xa775ff, [-0.7, 1.2, 2.8], 16, 9);
+  addWorldLight(group, palette.green, [3.5, -0.5, 2.6], 24, 11);
+  return group;
+}
+
+function createGridiumLivingNetworkWorld() {
+  const group = new THREE.Group();
+  group.position.set(-2.0, 6.6, -9.65);
+  group.rotation.set(0.42, -0.04, -0.04);
+  group.scale.setScalar(0.70);
+  group.userData.panels = [];
+  group.userData.dataParticles = [];
+  group.userData.energyRings = [];
+  group.userData.nodes = [];
+  group.userData.gridRoutes = [];
+  group.userData.proofLeaves = [];
+
+  const deck = new THREE.Mesh(
+    new THREE.CylinderGeometry(5.4, 5.7, 0.28, 6),
+    physicalMaterial(0x0d1516, {
+      roughness: 0.48,
+      metalness: 0.66,
+      clearcoat: 0.32,
+      emissive: 0x071414,
+      emissiveIntensity: 0.18
+    })
+  );
+  deck.position.y = -1.86;
+  group.add(deck);
+  const deckEdge = new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.CylinderGeometry(5.42, 5.72, 0.3, 6)),
+    lineMaterial(palette.blue, 0.28)
+  );
+  deckEdge.position.y = -1.86;
+  group.add(deckEdge);
+
+  const coordinates = [
+    [-3.9, -2.15], [-2.05, -3.15], [0, -3.55], [2.15, -3.05], [3.95, -1.95],
+    [-3.55, 0.35], [-1.7, -0.65], [0, -0.85], [1.8, -0.55], [3.55, 0.45],
+    [-2.8, 2.05], [-0.9, 1.55], [1.05, 1.65], [2.85, 2.05], [0.05, 3.4]
+  ];
+  const nodeTypes = ["solar", "home", "battery", "home", "solar", "battery", "home", "solar", "home", "battery", "solar", "home", "battery", "home", "solar"];
+  const routes = [];
+
+  coordinates.forEach(([x, z], index) => {
+    const node = new THREE.Group();
+    node.position.set(x, -1.7, z);
+    const padColor = nodeTypes[index] === "solar" ? palette.orange : nodeTypes[index] === "battery" ? palette.green : palette.blue;
+    const pad = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.48, 0.55, 0.12, 24),
+      physicalMaterial(0x172022, { roughness: 0.3, metalness: 0.72, emissive: padColor, emissiveIntensity: 0.08 })
+    );
+    node.add(pad);
+    const halo = new THREE.Mesh(new THREE.TorusGeometry(0.58, 0.022, 6, 42), lineMaterial(padColor, 0.68));
+    halo.rotation.x = Math.PI / 2;
+    halo.position.y = 0.08;
+    node.add(halo);
+
+    if (nodeTypes[index] === "solar") {
+      const mast = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.48, 0.07), physicalMaterial(0x76817f, { roughness: 0.28, metalness: 0.8 }));
+      mast.position.y = 0.3;
+      const panel = new THREE.Mesh(
+        new THREE.BoxGeometry(0.78, 0.055, 0.52),
+        physicalMaterial(0x173a58, { roughness: 0.12, metalness: 0.58, emissive: palette.blueDim, emissiveIntensity: 0.3 })
+      );
+      panel.position.y = 0.62;
+      panel.rotation.x = -0.28;
+      node.add(mast, panel);
+    } else if (nodeTypes[index] === "battery") {
+      const rack = new THREE.Mesh(
+        new THREE.BoxGeometry(0.52, 0.78, 0.48),
+        physicalMaterial(0x183129, { roughness: 0.2, metalness: 0.76, emissive: palette.greenDim, emissiveIntensity: 0.22 })
+      );
+      rack.position.y = 0.46;
+      node.add(rack);
+      for (let cell = 0; cell < 3; cell += 1) {
+        const charge = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.045, 0.025), meshMaterial(palette.green, { emissive: palette.green, emissiveIntensity: 0.8 }));
+        charge.position.set(0, 0.28 + cell * 0.18, 0.255);
+        node.add(charge);
+      }
+    } else {
+      const home = new THREE.Mesh(
+        new THREE.BoxGeometry(0.62, 0.62, 0.56),
+        physicalMaterial(0x24303a, { roughness: 0.42, metalness: 0.46, emissive: palette.blueDim, emissiveIntensity: 0.1 })
+      );
+      home.position.y = 0.38;
+      const roof = new THREE.Mesh(
+        new THREE.ConeGeometry(0.5, 0.35, 4),
+        physicalMaterial(0x34506a, { roughness: 0.26, metalness: 0.55 })
+      );
+      roof.position.y = 0.86;
+      roof.rotation.y = Math.PI / 4;
+      node.add(home, roof);
+    }
+    node.userData.phase = index * 0.47;
+    node.userData.halo = halo;
+    group.userData.nodes.push(node);
+    group.add(node);
+
+    const start = new THREE.Vector3(x, -1.05, z);
+    const end = new THREE.Vector3(0, -0.45, 0);
+    const mid = start.clone().lerp(end, 0.5);
+    mid.y += 0.35 + (index % 3) * 0.1;
+    routes.push(addCurve(group, [start, mid, end], padColor, 0.012, 0.42));
+  });
+
+  const pool = new THREE.Group();
+  pool.position.set(0, -0.98, 0);
+  const poolTank = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 1.42, 48), glass(palette.green, 0.16));
+  const poolLiquid = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.88, 0.88, 0.72, 48),
+    physicalMaterial(palette.green, {
+      roughness: 0.08,
+      metalness: 0.18,
+      transmission: 0.25,
+      opacity: 0.52,
+      emissive: palette.greenDim,
+      emissiveIntensity: 0.65,
+      depthWrite: false
+    })
+  );
+  poolLiquid.position.y = -0.27;
+  pool.add(poolTank, poolLiquid);
+  [0.92, 1.28].forEach((radius, index) => {
+    const ring = createTechRing(radius, index ? palette.orange : palette.green, index ? 0.52 : 0.72, 96);
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = index ? 0.82 : -0.82;
+    ring.userData.speed = index ? -0.14 : 0.18;
+    group.userData.energyRings.push(ring);
+    pool.add(ring);
+  });
+  group.userData.poolLiquid = poolLiquid;
+  group.add(pool);
+
+  routes.forEach((route, index) => {
+    const packet = new THREE.Mesh(
+      new THREE.SphereGeometry(0.052, 10, 10),
+      meshMaterial(index % 3 === 0 ? palette.orange : index % 3 === 1 ? palette.blue : palette.green, {
+        emissive: index % 3 === 0 ? palette.orange : index % 3 === 1 ? palette.blue : palette.green,
+        emissiveIntensity: 1.1
+      })
+    );
+    packet.userData.route = route;
+    packet.userData.offset = index / routes.length;
+    packet.userData.speed = 0.055 + (index % 4) * 0.009;
+    group.userData.dataParticles.push(packet);
+    group.add(packet);
+  });
+
+  const proofGate = new THREE.Group();
+  proofGate.position.set(4.25, -0.8, 1.65);
+  [-0.42, 0.42].forEach((x) => {
+    const pillar = new THREE.Mesh(
+      new THREE.BoxGeometry(0.18, 1.65, 0.22),
+      physicalMaterial(0x1a2730, { roughness: 0.2, metalness: 0.85, emissive: palette.blueDim, emissiveIntensity: 0.18 })
+    );
+    pillar.position.x = x;
+    proofGate.add(pillar);
+  });
+  for (let i = 0; i < 4; i += 1) {
+    const leaf = new THREE.Mesh(
+      new THREE.BoxGeometry(0.62 - i * 0.08, 0.08, 0.12),
+      meshMaterial(palette.green, { emissive: palette.green, emissiveIntensity: 1, opacity: 0.8, depthWrite: false })
+    );
+    leaf.position.set(0, 0.52 - i * 0.32, 0.16);
+    leaf.userData.phase = i * 0.5;
+    proofGate.add(leaf);
+    group.userData.proofLeaves.push(leaf);
+  }
+  group.add(proofGate);
+
+  addWorldLight(group, palette.orange, [-3.4, 1.8, 3.2], 24, 13);
+  addWorldLight(group, palette.green, [0.5, 1.2, 3.4], 26, 12);
+  addWorldLight(group, palette.blue, [4, 0.4, 2.6], 18, 10);
+  return group;
+}
+
 function createProfileWorld() {
   const group = new THREE.Group();
-  group.position.set(2.65, 8, -0.15);
+  group.position.set(6.2, 8, -0.15);
   group.rotation.x = -0.08;
   group.userData.rings = [];
   group.userData.modules = [];
@@ -1425,25 +1831,25 @@ function initializeThree() {
     camera.add(transitField);
     scene.add(camera);
 
-    scene.add(new THREE.HemisphereLight(0xb9d8ca, 0x07100c, 1.05));
-    const key = new THREE.DirectionalLight(0xe9f4ef, 3.2);
+    scene.add(new THREE.HemisphereLight(0xcde4d8, 0x091410, 1.35));
+    const key = new THREE.DirectionalLight(0xf0f7f3, 4.2);
     key.position.set(8, 11, 12);
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0x6b8cff, 1.65);
+    const rim = new THREE.DirectionalLight(0x7596ff, 2.4);
     rim.position.set(-9, 3, -8);
     scene.add(rim);
-    const warmFill = new THREE.DirectionalLight(0xff8a5f, 1.1);
+    const warmFill = new THREE.DirectionalLight(0xff946b, 1.8);
     warmFill.position.set(6, -2, -6);
     scene.add(warmFill);
-    const accent = new THREE.PointLight(palette.green, 22, 20, 2);
+    const accent = new THREE.PointLight(palette.green, 28, 26, 2);
     accent.position.set(1.5, 2.5, 6);
     scene.add(accent);
 
     scene.add(createAmbientField());
     worlds.push(
       createOriginWorld(),
-      createAegisWorld(),
-      createGridiumWorld(),
+      createAegisInvestigationWorld(),
+      createGridiumLivingNetworkWorld(),
       createCompressorWorld(),
       createTopoWorld(),
       createProfileWorld()
@@ -1483,6 +1889,15 @@ function render(timeMs) {
   const state = cameraStates[currentScene];
   targetCamera.fromArray(state.position);
   targetLook.fromArray(state.look);
+
+  if (window.innerWidth <= 820) {
+    if (currentScene === 0) { targetLook.x = 2.5; targetLook.y -= 0.6; }
+    else if (currentScene === 1) { targetLook.x = -9.55; targetLook.y -= 0.6; }
+    else if (currentScene === 2) { targetLook.x = -9.2; targetLook.y -= 0.6; }
+    else if (currentScene === 3) { targetLook.x = 15.7; targetLook.y -= 0.6; }
+    else if (currentScene === 4) { targetLook.x = 4.35; targetLook.y -= 0.6; }
+    else if (currentScene === 5) { targetLook.x = 1.2; targetLook.y -= 0.6; }
+  }
 
   if (!reduceMotion) {
     targetCamera.x += pointerX * 0.42;
@@ -1543,21 +1958,65 @@ function render(timeMs) {
     panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.72 + panel.userData.phase) * 0.055);
     if (panel.userData.frame) panel.userData.frame.position.y = panel.position.y;
   });
+  worlds[1].userData.scanHeads?.forEach((scanHead) => {
+    scanHead.position.y = reduceMotion ? 0 : Math.sin(time * 1.55 + scanHead.userData.phase) * 0.43;
+    scanHead.scale.x = reduceMotion ? 0.78 : 0.72 + (Math.sin(time * 2.1 + scanHead.userData.phase) + 1) * 0.16;
+  });
+  worlds[1].userData.agentCores?.forEach((core, index) => {
+    const pulse = reduceMotion ? 1 : 0.82 + (Math.sin(time * 2.35 + index * 0.7) + 1) * 0.16;
+    core.scale.setScalar(pulse);
+  });
+  worlds[1].userData.claimPackets?.forEach((packet) => {
+    const progress = (packet.userData.offset + time * 0.18) % 1;
+    packet.position.copy(packet.userData.route.getPointAt(progress));
+  });
+  worlds[1].userData.evidencePackets?.forEach((packet) => {
+    const progress = (packet.userData.offset + time * packet.userData.speed) % 1;
+    packet.position.copy(packet.userData.route.getPointAt(progress));
+    packet.rotation.x = time * 1.3;
+    packet.rotation.y = time * 1.7;
+  });
+  worlds[1].userData.verdictBars?.forEach((bar) => {
+    const reveal = reduceMotion ? 1 : 0.62 + (Math.sin(time * 1.75 + bar.userData.phase) + 1) * 0.19;
+    bar.scale.x = reveal;
+  });
+  if (worlds[1].userData.verdictSeal) {
+    worlds[1].userData.verdictSeal.position.y = -1.58 + (reduceMotion ? 0 : Math.sin(time * 1.2) * 0.08);
+    worlds[1].userData.verdictSeal.rotation.y = reduceMotion ? 0 : Math.sin(time * 0.7) * 0.22;
+  }
+  if (worlds[1].userData.claimDossier) {
+    worlds[1].userData.claimDossier.position.y = 0.05 + (reduceMotion ? 0 : Math.sin(time * 0.85) * 0.04);
+  }
 
   // 2: Gridium
   worlds[2].userData.panels.forEach((panel) => {
     panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.8 + panel.userData.phase) * 0.08);
   });
   worlds[2].userData.dataParticles.forEach((packet) => {
-    const progress = (packet.userData.offset + time * 0.065) % 1;
-    packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
+    const progress = (packet.userData.offset + time * (packet.userData.speed || 0.065)) % 1;
+    if (packet.userData.route) {
+      packet.position.copy(packet.userData.route.getPointAt(progress));
+    } else {
+      packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
+    }
     packet.rotation.x = time * 1.4;
     packet.rotation.y = time * 1.8;
   });
   worlds[2].userData.energyRings?.forEach((ring) => {
     ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
   });
-  worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.22) * 0.035;
+  worlds[2].userData.nodes?.forEach((node, index) => {
+    const pulse = reduceMotion ? 1 : 0.88 + (Math.sin(time * 1.1 + node.userData.phase) + 1) * 0.08;
+    node.userData.halo.scale.setScalar(pulse);
+    node.position.y = -1.7 + (reduceMotion ? 0 : Math.sin(time * 0.72 + index * 0.38) * 0.025);
+  });
+  worlds[2].userData.proofLeaves?.forEach((leaf) => {
+    leaf.scale.x = reduceMotion ? 1 : 0.7 + (Math.sin(time * 1.65 + leaf.userData.phase) + 1) * 0.15;
+  });
+  if (worlds[2].userData.poolLiquid) {
+    worlds[2].userData.poolLiquid.scale.y = reduceMotion ? 1 : 0.82 + (Math.sin(time * 0.58) + 1) * 0.12;
+  }
+  worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.18) * 0.018;
 
   // 3: Compressor
   worlds[3].userData.rotors.forEach((rotor, index) => {
@@ -1637,6 +2096,7 @@ function setScene(index, options = {}) {
     window.clearTimeout(transitionTimer);
     transitionTimer = window.setTimeout(() => document.body.classList.remove("is-scene-transitioning"), 520);
   }
+  lockSceneTransition(950);
 
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
@@ -1658,7 +2118,22 @@ function setScene(index, options = {}) {
   }
 }
 
+let isSceneTransitioning = false;
+let lastTransitionAt = 0;
+let sceneLockTimer = null;
+
+function lockSceneTransition(duration = 950) {
+  isSceneTransitioning = true;
+  lastTransitionAt = performance.now();
+  wheelAccumulator = 0;
+  window.clearTimeout(sceneLockTimer);
+  sceneLockTimer = window.setTimeout(() => {
+    isSceneTransitioning = false;
+  }, duration);
+}
+
 function stepScene(direction) {
+  if (isSceneTransitioning) return;
   const target = currentScene + direction;
   if (target >= 0 && target < sceneNames.length) {
     setScene(target);
@@ -1726,16 +2201,94 @@ document.addEventListener("click", (event) => {
 });
 
 let wheelAccumulator = 0;
+let wheelQuietTimer = null;
+
 window.addEventListener("wheel", (event) => {
   if (document.querySelector("dialog[open]")) return;
+
+  // Check if wheel event originates from within an active scrollable panel
+  const activePanel = panels[currentScene];
+  if (activePanel && activePanel.contains(event.target)) {
+    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
+    if (isScrollable) {
+      const atTop = activePanel.scrollTop <= 0 && event.deltaY < 0;
+      const atBottom = activePanel.scrollTop + activePanel.clientHeight >= activePanel.scrollHeight - 4 && event.deltaY > 0;
+      if (!atTop && !atBottom) {
+        // Allow native smooth scrolling inside the panel
+        return;
+      }
+    }
+  }
+
   const now = performance.now();
-  if (now - lastSceneChange < 380) return;
+  const timeSinceTransition = now - lastTransitionAt;
+
+  // If transitioning or within the 950ms lockout window, dump all wheel inertia immediately
+  if (isSceneTransitioning || timeSinceTransition < 950) {
+    wheelAccumulator = 0;
+    return;
+  }
+
+  // Reset accumulator on direction change
+  if (Math.sign(event.deltaY) !== Math.sign(wheelAccumulator) && wheelAccumulator !== 0) {
+    wheelAccumulator = 0;
+  }
+
   wheelAccumulator += event.deltaY;
-  if (Math.abs(wheelAccumulator) > 35) {
+
+  // Single step threshold: 72px guarantees deliberate action without false firing
+  if (Math.abs(wheelAccumulator) >= 72) {
     const dir = wheelAccumulator > 0 ? 1 : -1;
     wheelAccumulator = 0;
     stepScene(dir);
   }
+
+  // When scrolling stops for 160ms, reset accumulator so subsequent motions start clean
+  window.clearTimeout(wheelQuietTimer);
+  wheelQuietTimer = window.setTimeout(() => {
+    wheelAccumulator = 0;
+  }, 160);
+}, { passive: true });
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchStartTime = 0;
+
+window.addEventListener("touchstart", (event) => {
+  if (document.querySelector("dialog[open]")) return;
+  if (event.touches.length === 1) {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    touchStartTime = performance.now();
+  }
+}, { passive: true });
+
+window.addEventListener("touchend", (event) => {
+  if (document.querySelector("dialog[open]")) return;
+  if (isSceneTransitioning) return;
+  if (!touchStartTime || event.changedTouches.length === 0) return;
+
+  const activePanel = panels[currentScene];
+  if (activePanel && activePanel.contains(event.target)) {
+    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
+    if (isScrollable) {
+      return;
+    }
+  }
+
+  const dx = event.changedTouches[0].clientX - touchStartX;
+  const dy = event.changedTouches[0].clientY - touchStartY;
+  const dt = performance.now() - touchStartTime;
+
+  // Guarded single scene step per swipe gesture
+  if (dt < 600) {
+    if (Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx) * 1.25) {
+      stepScene(dy < 0 ? 1 : -1);
+    } else if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+      stepScene(dx < 0 ? 1 : -1);
+    }
+  }
+  touchStartTime = 0;
 }, { passive: true });
 
 window.addEventListener("keydown", (event) => {
@@ -1780,7 +2333,7 @@ canvas.addEventListener("pointerup", (event) => {
   const dx = event.clientX - dragStart.startX;
   const dy = event.clientY - dragStart.startY;
   const elapsed = performance.now() - dragStart.at;
-  if (coarsePointer && elapsed < 650 && Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+  if (!isSceneTransitioning && coarsePointer && elapsed < 650 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.25) {
     stepScene(dx < 0 ? 1 : -1);
   }
   dragStart = null;
