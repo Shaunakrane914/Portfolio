@@ -48,8 +48,9 @@ Open `http://127.0.0.1:8080`.
 - `compressor-cbm.html` - de-identified industrial AI case study
 - `topoflow.html` - graph ML case study
 - `aegis.html`, `gridium.html`, `yield.html`, `sodexo.html` - existing project deep dives
-- `observatory.css`, `observatory.js` - full-screen portfolio experience, damped camera motion, and procedural Three.js scene system
-- `style.css`, `project-page.css`, `script.js` - case-study presentation and interactions
-- `assets/vendor/three*.js` - pinned Three.js 0.185.1 runtime
-- `assets/` - project figures used by the case studies
+- `css/` - stylesheets (`observatory.css`, `project-page.css`, `style.css`)
+- `js/` - interactive Three.js systems and page interactions (`observatory.js`, `project-scenes.js`, `script.js`)
+- `docs/` - system architecture notes (`docs/notes/`) and resume archives (`docs/resumes/`)
+- `assets/` - project diagrams, screenshots, and pinned vendor libraries (`assets/vendor/`)
+- `scripts/` - test automation, visual audits, and resume build pipeline
 - `Shaunak_Rane_MLH_Resume.pdf` - current one-page fellowship resume

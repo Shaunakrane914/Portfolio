@@ -1,4 +1,4 @@
-import * as THREE from "./assets/vendor/three.module.min.js";
+import * as THREE from "../assets/vendor/three.module.min.js";
 
 const canvas = document.querySelector(".project-hero-canvas[data-project-scene]");
 

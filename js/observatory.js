@@ -1,4 +1,4 @@
-import * as THREE from "./assets/vendor/three.module.min.js";
+import * as THREE from "../assets/vendor/three.module.min.js";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
