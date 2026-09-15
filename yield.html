@@ -236,6 +236,17 @@
   </footer>
 
   <script src="js/script.js"></script>
-  <script type="module" src="js/project-scenes.js"></script>
+  <script type="module">
+    import { createCropNdviPrototype } from "./js/threeui/prototype-crop-ndvi.js";
+    window.__HERO_FACTORY = createCropNdviPrototype;
+    window.__HERO_CONFIG = {
+      bgColor:    0x010704,
+      fogDensity: 0.014,
+      camPos:     [1.0, 6.0, 14.5],
+      camLook:    [0, -1.0, 0],
+      bloomStr:   0.45
+    };
+  </script>
+  <script type="module" src="js/project-hero-renderer.js"></script>
 </body>
 </html>

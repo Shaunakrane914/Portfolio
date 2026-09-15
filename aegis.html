@@ -145,6 +145,17 @@
     <div class="proj-footer-nav"><span>Next Project:</span><a href="gridium.html">Gridium Protocol &rarr;</a></div>
   </footer>
   <script src="js/script.js"></script>
-  <script type="module" src="js/project-scenes.js"></script>
+  <script type="module">
+    import { createAegisArtPrototype } from "./js/threeui/prototype-aegis-art.js";
+    window.__HERO_FACTORY = createAegisArtPrototype;
+    window.__HERO_CONFIG = {
+      bgColor:    0x020508,
+      fogDensity: 0.016,
+      camPos:     [0, 1.2, 13.0],
+      camLook:    [0, 0.2, 0],
+      bloomStr:   0.55
+    };
+  </script>
+  <script type="module" src="js/project-hero-renderer.js"></script>
 </body>
 </html>

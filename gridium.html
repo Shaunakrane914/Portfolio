@@ -157,6 +157,17 @@
     <div class="proj-footer-nav"><span>Next Project:</span><a href="compressor-cbm.html">Compressor CBM &rarr;</a></div>
   </footer>
   <script src="js/script.js"></script>
-  <script type="module" src="js/project-scenes.js"></script>
+  <script type="module">
+    import { createGridiumMicrogridPrototype } from "./js/threeui/prototype-gridium-microgrid.js";
+    window.__HERO_FACTORY = createGridiumMicrogridPrototype;
+    window.__HERO_CONFIG = {
+      bgColor:    0x030709,
+      fogDensity: 0.014,
+      camPos:     [2.0, 5.5, 16.0],
+      camLook:    [0, 0, 0],
+      bloomStr:   0.60
+    };
+  </script>
+  <script type="module" src="js/project-hero-renderer.js"></script>
 </body>
 </html>

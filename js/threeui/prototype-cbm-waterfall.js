@@ -1,6 +1,9 @@
-// Prototype 01: Industrial Compressor CBM — 3D FFT Waterfall & Harmonic Spectrum
-// Visualizes high-frequency vibration, acoustic diagnostics, and rotating shaft harmonics
-// Direct match for Shaunak's physics-grounded compressor condition-monitoring project
+// Prototype 03: Compressor CBM — Industrial Digital Twin & Vibration Waterfall
+// A real-time vibration spectroscopy art piece:
+// Multi-stage impeller blisks on a rotating steel shaft,
+// FFT waterfall spectrogram with BPFO defect peak modulation,
+// laser probe measurement, and bearing diagnostic rings.
+// ZERO text panels. Pure industrial engineering art.
 
 import * as THREE from "three";
 
@@ -8,89 +11,82 @@ export function createCbmWaterfallPrototype(scene) {
   const root = new THREE.Group();
   scene.add(root);
 
-  // 1. 3D FFT Waterfall Spectrogram Surface
-  // Mesh dimensions: X = Frequency (0 - 5 kHz), Z = Time History (t-0 to t-60s), Y = Amplitude (Vibration mm/s RMS)
-  const gridX = 140;
-  const gridZ = 70;
-  const sizeX = 16.0;
-  const sizeZ = 12.0;
-  const geometry = new THREE.PlaneGeometry(sizeX, sizeZ, gridX - 1, gridZ - 1);
-  geometry.rotateX(-Math.PI * 0.5);
-  geometry.translate(0, -1.8, 1.0);
+  // ─── SCENE LIGHTING ─────────────────────────────────────────────────
+  const machineLight = new THREE.SpotLight(0xffffff, 14, 30, Math.PI * 0.22, 0.6, 1.2);
+  machineLight.position.set(0, 12, 6);
+  machineLight.target.position.set(0, 3, 0);
+  root.add(machineLight);
+  root.add(machineLight.target);
 
-  // Custom GLSL Shader for 3D FFT Waterfall with real-time running harmonics
+  const sideRim = new THREE.PointLight(0x00e5ff, 6, 24);
+  sideRim.position.set(-12, 4, 0);
+  root.add(sideRim);
+
+  const alertGlow = new THREE.PointLight(0xff0055, 4, 10);
+  alertGlow.position.set(7, 3, 0);
+  root.add(alertGlow);
+
+  // ─── 1. FFT WATERFALL SPECTROGRAM ───────────────────────────────────
+  const gridX = 160;
+  const gridZ = 80;
+  const waterfallGeo = new THREE.PlaneGeometry(18.0, 13.0, gridX - 1, gridZ - 1);
+  waterfallGeo.rotateX(-Math.PI * 0.5);
+  waterfallGeo.translate(0, -2.2, 0.5);
+
   const waterfallUniforms = {
-    uTime: { value: 0 },
-    uSpeed: { value: 1.0 },
-    uPointerX: { value: 0.0 },
-    uColorBase: { value: new THREE.Color(0x02171a) },     // Deep ocean noise floor
-    uColorLow: { value: new THREE.Color(0x00e5ff) },      // Cyan 1X fundamental
-    uColorMid: { value: new THREE.Color(0x47e6a5) },      // Emerald harmonics
-    uColorAlert: { value: new THREE.Color(0xffaa00) },    // Amber alert
-    uColorCritical: { value: new THREE.Color(0xff0055) }  // Critical magenta BPFO
+    uTime:         { value: 0 },
+    uPointerX:     { value: 0.0 },
+    uColorBase:    { value: new THREE.Color(0x020f12) },
+    uColorLow:     { value: new THREE.Color(0x00e5ff) },
+    uColorMid:     { value: new THREE.Color(0x47e6a5) },
+    uColorAlert:   { value: new THREE.Color(0xffaa00) },
+    uColorCritical:{ value: new THREE.Color(0xff0055) }
   };
 
-  const waterfallMaterial = new THREE.ShaderMaterial({
+  const waterfallMat = new THREE.ShaderMaterial({
     uniforms: waterfallUniforms,
     vertexShader: /* glsl */ `
       varying vec2 vUv;
       varying float vElevation;
-      varying vec3 vWorldPos;
       uniform float uTime;
       uniform float uPointerX;
 
-      // Realistic vibration spectral harmonics
-      float getHarmonics(float freqNorm, float timeSlice) {
-        // Fundamental running shaft speed 1X (normalized ~0.15 = 50Hz / 3000 RPM)
-        float peak1X = exp(-pow((freqNorm - 0.15) * 45.0, 2.0)) * 1.35;
-
-        // 2X Harmonic unbalance/misalignment (~0.30 = 100Hz)
-        float peak2X = exp(-pow((freqNorm - 0.30) * 55.0, 2.0)) * 0.85;
-
-        // 3X Harmonic (~0.45 = 150Hz)
-        float peak3X = exp(-pow((freqNorm - 0.45) * 60.0, 2.0)) * 0.45;
-
-        // BPFO (Ball Pass Frequency Outer Race) defect peak at ~0.62 (= 208Hz) with periodic impact modulation
-        float modulation = 0.5 + 0.5 * sin(timeSlice * 12.0);
-        float bpfoPeak = exp(-pow((freqNorm - 0.62) * 50.0, 2.0)) * (1.65 * modulation);
-
-        // Gear mesh / blade pass high frequency hash (~0.85)
-        float bladePass = exp(-pow((freqNorm - 0.85) * 40.0, 2.0)) * (0.35 + 0.2 * sin(timeSlice * 24.0));
-
-        // Background turbulent flow noise floor with rolling waves
-        float noiseFloor = 0.08 * sin(freqNorm * 35.0 + timeSlice * 3.5) + 
-                           0.05 * cos(freqNorm * 75.0 - timeSlice * 6.0);
-
-        return peak1X + peak2X + peak3X + bpfoPeak + bladePass + noiseFloor;
+      float spectrum(float freq, float tSlice) {
+        // 1X running speed fundamental (~50 Hz)
+        float p1x = exp(-pow((freq - 0.14) * 48.0, 2.0)) * 1.4;
+        // 2X harmonic unbalance (~100 Hz)
+        float p2x = exp(-pow((freq - 0.28) * 55.0, 2.0)) * 0.82;
+        // 3X harmonic (~150 Hz)
+        float p3x = exp(-pow((freq - 0.43) * 62.0, 2.0)) * 0.42;
+        // BPFO defect peak — periodically modulated (~208 Hz)
+        float bpfo = exp(-pow((freq - 0.62) * 50.0, 2.0)) * (1.7 * (0.5 + 0.5 * sin(tSlice * 13.0)));
+        // Blade pass frequency
+        float bpf = exp(-pow((freq - 0.86) * 42.0, 2.0)) * (0.3 + 0.2 * sin(tSlice * 28.0));
+        // Noise floor turbulence
+        float noise = 0.07 * sin(freq * 38.0 + tSlice * 4.0) + 0.05 * cos(freq * 78.0 - tSlice * 7.0);
+        return p1x + p2x + p3x + bpfo + bpf + noise;
       }
 
       void main() {
         vUv = uv;
         vec3 pos = position;
 
-        // Time flows along the Z dimension
-        float timeSlice = uTime * 1.4 - (1.0 - uv.y) * 8.0;
-        float freqNorm = uv.x;
+        float tSlice = uTime * 1.5 - (1.0 - uv.y) * 9.0;
+        float freq   = uv.x;
+        float amp    = spectrum(freq, tSlice);
 
-        float amp = getHarmonics(freqNorm, timeSlice);
+        // Cursor frequency highlight
+        float focusDist = abs(freq - (uPointerX * 0.5 + 0.5));
+        amp += exp(-pow(focusDist * 20.0, 2.0)) * 0.4;
 
-        // Add user inspection pointer focus wave
-        float distToPointer = abs(freqNorm - (uPointerX * 0.5 + 0.5));
-        float focusHighlight = exp(-pow(distToPointer * 18.0, 2.0)) * 0.35;
-        amp += focusHighlight;
-
-        pos.y += amp * 2.2;
+        pos.y += amp * 2.4;
         vElevation = amp;
-
-        vec4 worldPosition = modelMatrix * vec4(pos, 1.0);
-        vWorldPos = worldPosition.xyz;
-        gl_Position = projectionMatrix * viewMatrix * worldPosition;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
     `,
     fragmentShader: /* glsl */ `
       varying vec2 vUv;
       varying float vElevation;
-      varying vec3 vWorldPos;
       uniform vec3 uColorBase;
       uniform vec3 uColorLow;
       uniform vec3 uColorMid;
@@ -99,323 +95,156 @@ export function createCbmWaterfallPrototype(scene) {
       uniform float uTime;
 
       void main() {
-        // Multi-tier diagnostic heat-map
+        float h = clamp(vElevation / 3.0, 0.0, 1.0);
         vec3 col = uColorBase;
-        if (vElevation < 0.35) {
-          col = mix(uColorBase, uColorLow, vElevation / 0.35);
-        } else if (vElevation < 0.75) {
-          col = mix(uColorLow, uColorMid, (vElevation - 0.35) / 0.40);
-        } else if (vElevation < 1.25) {
-          col = mix(uColorMid, uColorAlert, (vElevation - 0.75) / 0.50);
-        } else {
-          col = mix(uColorAlert, uColorCritical, clamp((vElevation - 1.25) / 0.60, 0.0, 1.0));
-        }
+        if      (h < 0.22) col = mix(uColorBase, uColorLow,      h / 0.22);
+        else if (h < 0.50) col = mix(uColorLow,  uColorMid,      (h - 0.22) / 0.28);
+        else if (h < 0.78) col = mix(uColorMid,  uColorAlert,    (h - 0.50) / 0.28);
+        else               col = mix(uColorAlert, uColorCritical, (h - 0.78) / 0.22);
 
-        // Waterfall grid scanlines
-        float scanX = step(0.96, fract(vUv.x * 70.0));
-        float scanZ = step(0.96, fract(vUv.y * 35.0));
-        float gridLine = max(scanX, scanZ) * 0.25;
+        // Spectral iso-grid
+        float gx = step(0.96, fract(vUv.x * 26.0));
+        float gz = step(0.96, fract(vUv.y * 20.0));
+        col += vec3(max(gx, gz)) * uColorLow * 0.28;
 
-        // Pulsing cursor caliper line
-        col += vec3(gridLine) * uColorLow;
-
-        // Soft depth fogging at back
-        float depthFade = smoothstep(0.0, 0.3, vUv.y);
-        col *= (0.35 + depthFade * 0.65);
+        // Fade front edge
+        float edgeFade = smoothstep(0.0, 0.1, vUv.y);
+        col *= (0.45 + 0.55 * edgeFade);
 
         gl_FragColor = vec4(col, 0.95);
       }
     `,
-    wireframe: false,
+    transparent: true,
     side: THREE.DoubleSide
   });
 
-  const waterfallMesh = new THREE.Mesh(geometry, waterfallMaterial);
+  const waterfallMesh = new THREE.Mesh(waterfallGeo, waterfallMat);
   root.add(waterfallMesh);
 
-  // Waterfall Wireframe Grid Overlay for ThreeUI high-tech aesthetic
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x00e5ff,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.12
-  });
-  const wireMesh = new THREE.Mesh(geometry, wireMat);
-  wireMesh.position.y += 0.01;
+  // Precision wireframe grid overlay
+  const wireMesh = new THREE.Mesh(
+    waterfallGeo,
+    new THREE.MeshBasicMaterial({ color: 0x00e5ff, wireframe: true, transparent: true, opacity: 0.10 })
+  );
+  wireMesh.position.y += 0.025;
   root.add(wireMesh);
 
-  // 2. Rotating Compressor Rotor Shaft & Bearing Assembly (Top / Center Background)
-  const shaftGroup = new THREE.Group();
-  shaftGroup.position.set(0, 2.6, -2.5);
-  root.add(shaftGroup);
+  // ─── 2. TURBOMACHINE — SHAFT + IMPELLER BLISKS ───────────────────────
+  const turbomachine = new THREE.Group();
+  turbomachine.position.set(0, 4.0, -1.4);
+  root.add(turbomachine);
 
-  // Main Shaft Core
-  const shaftGeo = new THREE.CylinderGeometry(0.38, 0.38, 14.0, 32);
+  // Drive shaft
+  const shaftGeo = new THREE.CylinderGeometry(0.2, 0.2, 15.0, 24);
   shaftGeo.rotateZ(Math.PI * 0.5);
-  const shaftMat = new THREE.MeshStandardMaterial({
-    color: 0x18242a,
-    metalness: 0.92,
-    roughness: 0.22,
-    emissive: 0x041014,
-    emissiveIntensity: 0.4
-  });
-  const shaftMesh = new THREE.Mesh(shaftGeo, shaftMat);
-  shaftGroup.add(shaftMesh);
+  const shaftMat = new THREE.MeshStandardMaterial({ color: 0x1e2c36, metalness: 0.96, roughness: 0.12 });
+  const shaft = new THREE.Mesh(shaftGeo, shaftMat);
+  turbomachine.add(shaft);
 
-  // Rotor Impeller / Turbine Blisk Stages (5 aerodynamic compression stages)
-  const stagePositions = [-4.5, -2.2, 0.0, 2.2, 4.5];
-  const stageRadii = [1.55, 1.40, 1.25, 1.10, 0.95]; // Decreasing diameter per compression stage
-  const rotorBlisks = [];
-
-  stagePositions.forEach((posX, idx) => {
-    const bliskGroup = new THREE.Group();
-    bliskGroup.position.x = posX;
-
-    // Disc rim
-    const r = stageRadii[idx];
-    const discGeo = new THREE.TorusGeometry(r * 0.85, 0.08, 16, 48);
-    discGeo.rotateY(Math.PI * 0.5);
-    const discMat = new THREE.MeshStandardMaterial({
-      color: 0x22363e,
-      metalness: 0.95,
-      roughness: 0.15,
-      emissive: 0x00e5ff,
-      emissiveIntensity: 0.3
-    });
-    const disc = new THREE.Mesh(discGeo, discMat);
-    bliskGroup.add(disc);
-
-    // Aerodynamic Blades (16 per stage)
-    const bladeCount = 16;
-    for (let b = 0; b < bladeCount; b++) {
-      const angle = (b / bladeCount) * Math.PI * 2;
-      const bladeGeo = new THREE.BoxGeometry(0.06, r * 0.7, 0.18);
-      const bladeMat = new THREE.MeshStandardMaterial({
-        color: 0x3a5664,
-        metalness: 0.88,
-        roughness: 0.3
-      });
-      const blade = new THREE.Mesh(bladeGeo, bladeMat);
-      blade.position.set(0, Math.cos(angle) * (r * 0.55), Math.sin(angle) * (r * 0.55));
-      blade.rotation.x = angle + 0.35; // Pitch angle
-      blade.rotation.y = 0.2;
-      bliskGroup.add(blade);
-    }
-
-    shaftGroup.add(bliskGroup);
-    rotorBlisks.push(bliskGroup);
-  });
-
-  // Bearing Pedestals with Holographic Diagnostic Rings
-  const bearingPositions = [-5.8, 5.8];
-  const bearingRings = [];
-  bearingPositions.forEach(bX => {
-    const bGroup = new THREE.Group();
-    bGroup.position.set(bX, 0, 0);
-
-    const bHousingGeo = new THREE.CylinderGeometry(0.72, 0.72, 0.6, 24);
-    bHousingGeo.rotateZ(Math.PI * 0.5);
-    const bHousingMat = new THREE.MeshStandardMaterial({
-      color: 0x0c1418,
-      metalness: 0.8,
-      roughness: 0.4
-    });
-    bGroup.add(new THREE.Mesh(bHousingGeo, bHousingMat));
-
-    // Outer Race BPFO Diagnostic Sensor Ring (pulsing warning ring)
-    const faultRingGeo = new THREE.TorusGeometry(0.85, 0.035, 16, 48);
-    faultRingGeo.rotateY(Math.PI * 0.5);
-    const faultRingMat = new THREE.MeshBasicMaterial({
-      color: 0xff0055,
-      transparent: true,
-      opacity: 0.85
-    });
-    const faultRing = new THREE.Mesh(faultRingGeo, faultRingMat);
-    bGroup.add(faultRing);
-    bearingRings.push(faultRing);
-
-    shaftGroup.add(bGroup);
-  });
-
-  // 3. Laser Optical Vibration Sensor & Diagnostic Beam
-  const sensorGroup = new THREE.Group();
-  sensorGroup.position.set(2.2, 4.6, -2.5);
-  root.add(sensorGroup);
-
-  // Sensor Probe Head
-  const sensorHeadGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.6, 16);
-  const sensorHeadMat = new THREE.MeshStandardMaterial({ color: 0x00e5ff, metalness: 0.9, roughness: 0.2 });
-  const sensorHead = new THREE.Mesh(sensorHeadGeo, sensorHeadMat);
-  sensorGroup.add(sensorHead);
-
-  // Laser Beam pointing down to shaft
-  const laserBeamGeo = new THREE.CylinderGeometry(0.012, 0.012, 1.4, 8);
-  const laserBeamMat = new THREE.MeshBasicMaterial({
-    color: 0x00e5ff,
-    transparent: true,
-    opacity: 0.8
-  });
-  const laserBeam = new THREE.Mesh(laserBeamGeo, laserBeamMat);
-  laserBeam.position.y = -1.0;
-  sensorGroup.add(laserBeam);
-
-  // 4. Frequency Axis Caliper Grid (0 Hz, 1 kHz, 2.5 kHz, 5 kHz markers)
-  const axisGroup = new THREE.Group();
-  axisGroup.position.set(-sizeX * 0.5, -1.75, sizeZ * 0.5 + 1.0);
-  root.add(axisGroup);
-
-  const freqLabels = [
-    { text: "0 Hz", x: 0 },
-    { text: "1X SHAFT (50 Hz)", x: sizeX * 0.15 },
-    { text: "2X HARMONIC (100 Hz)", x: sizeX * 0.30 },
-    { text: "BPFO FAULT (208 Hz)", x: sizeX * 0.62 },
-    { text: "5 kHz HF NOISE", x: sizeX }
+  // 4-stage impeller blisks (progressively smaller = compressor)
+  const bliskData = [
+    { x: -4.2, r: 1.35, emissive: 0x00e5ff, alert: false },
+    { x: -1.4, r: 1.18, emissive: 0x00e5ff, alert: false },
+    { x:  1.4, r: 1.02, emissive: 0x47e6a5, alert: false },
+    { x:  4.2, r: 0.88, emissive: 0xff0055, alert: true }  // Stage 4 — bearing fault
   ];
 
-  // Frequency rail line
-  const railGeo = new THREE.BoxGeometry(sizeX, 0.03, 0.03);
-  railGeo.translate(sizeX * 0.5, 0, 0);
-  const railMat = new THREE.MeshBasicMaterial({ color: 0x47e6a5 });
-  axisGroup.add(new THREE.Mesh(railGeo, railMat));
+  const bliskStages = [];
+  bliskData.forEach(d => {
+    const bGroup = new THREE.Group();
+    bGroup.position.x = d.x;
 
-  // 5. Floating Holographic Telemetry Canvas Dossier
-  const hudCanvas = document.createElement("canvas");
-  hudCanvas.width = 512;
-  hudCanvas.height = 320;
-  const ctx = hudCanvas.getContext("2d");
+    const hubGeo = new THREE.CylinderGeometry(d.r, d.r, 0.35, 28);
+    hubGeo.rotateZ(Math.PI * 0.5);
+    const hubMat = new THREE.MeshStandardMaterial({
+      color: 0x08161e,
+      metalness: 0.92,
+      roughness: 0.22,
+      emissive: d.emissive,
+      emissiveIntensity: d.alert ? 0.6 : 0.28
+    });
+    bGroup.add(new THREE.Mesh(hubGeo, hubMat));
 
-  function drawCbmHud(rpm, rms, bpfoRatio) {
-    ctx.clearRect(0, 0, 512, 320);
-
-    // Glass panel backing with glowing border
-    ctx.fillStyle = "rgba(4, 16, 18, 0.88)";
-    ctx.fillRect(0, 0, 512, 320);
-
-    ctx.strokeStyle = "rgba(0, 229, 255, 0.6)";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(4, 4, 504, 312);
-
-    // Header
-    ctx.fillStyle = "#00e5ff";
-    ctx.font = "bold 18px monospace";
-    ctx.fillText("COMPRESSOR CBM // DIAGNOSTIC RADAR", 24, 36);
-
-    ctx.fillStyle = "rgba(71, 230, 165, 0.8)";
-    ctx.font = "12px monospace";
-    ctx.fillText("PLANT 03 RECONCILED THERMODYNAMICS & VIBRATION", 24, 56);
-
-    ctx.strokeStyle = "rgba(0, 229, 255, 0.25)";
-    ctx.beginPath();
-    ctx.moveTo(24, 68);
-    ctx.lineTo(488, 68);
-    ctx.stroke();
-
-    // Metric 1: Shaft Speed
-    ctx.fillStyle = "#8fa598";
-    ctx.font = "13px monospace";
-    ctx.fillText("ROTOR SPEED:", 24, 100);
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 20px monospace";
-    ctx.fillText(`${rpm.toFixed(0)} RPM (49.7 Hz)`, 160, 100);
-
-    // Metric 2: Overall Vibration Velocity
-    ctx.fillStyle = "#8fa598";
-    ctx.font = "13px monospace";
-    ctx.fillText("RMS VELOCITY:", 24, 138);
-    ctx.fillStyle = rms > 3.0 ? "#ffaa00" : "#47e6a5";
-    ctx.font = "bold 20px monospace";
-    ctx.fillText(`${rms.toFixed(2)} mm/s [ISO 10816 CLASS II]`, 160, 138);
-
-    // Metric 3: Bearing Degradation Indicator
-    ctx.fillStyle = "#8fa598";
-    ctx.font = "13px monospace";
-    ctx.fillText("BPFO SIGNATURE:", 24, 176);
-    ctx.fillStyle = "#ff0055";
-    ctx.font = "bold 18px monospace";
-    ctx.fillText(`DETECTED (+${(bpfoRatio * 100).toFixed(1)}% OVER BASELINE)`, 160, 176);
-
-    // Dynamic Spectrum Mini-Bar Graph
-    ctx.fillStyle = "rgba(0, 229, 255, 0.15)";
-    ctx.fillRect(24, 200, 464, 45);
-    for (let i = 0; i < 40; i++) {
-      const h = Math.min(38, Math.max(4, Math.sin(i * 0.4 + Date.now() * 0.005) * 16 + 18));
-      ctx.fillStyle = i === 25 ? "#ff0055" : (i === 6 ? "#00e5ff" : "rgba(71, 230, 165, 0.7)");
-      ctx.fillRect(28 + i * 11.2, 240 - h, 7, h);
+    // 16 aerodynamic blades
+    const bladeCount = 16;
+    for (let b = 0; b < bladeCount; b++) {
+      const bAngle = (b / bladeCount) * Math.PI * 2;
+      const bladeGeo = new THREE.BoxGeometry(0.16, d.r * 0.72, 0.035);
+      bladeGeo.translate(0, d.r * 0.52, 0);
+      const blade = new THREE.Mesh(bladeGeo, new THREE.MeshStandardMaterial({
+        color: 0x283c48,
+        metalness: 0.88,
+        roughness: 0.28
+      }));
+      blade.rotation.x = bAngle;
+      blade.rotation.y = 0.28;
+      bGroup.add(blade);
     }
 
-    // Holt Damped Forecast Gate Status
-    ctx.fillStyle = "#47e6a5";
-    ctx.font = "12px monospace";
-    ctx.fillText("HOLT DAMPED TREND FORECAST: 17/17 GATES PASSED", 24, 276);
-    ctx.fillStyle = "#8fa598";
-    ctx.fillText("MAINTENANCE RESET CONFIRMATION QUEUED FOR TURNAROUND", 24, 296);
-  }
-
-  const hudTexture = new THREE.CanvasTexture(hudCanvas);
-  hudTexture.minFilter = THREE.LinearFilter;
-  const hudGeo = new THREE.PlaneGeometry(4.8, 3.0);
-  const hudMat = new THREE.MeshBasicMaterial({
-    map: hudTexture,
-    transparent: true,
-    opacity: 0.92,
-    side: THREE.DoubleSide
+    turbomachine.add(bGroup);
+    bliskStages.push(bGroup);
   });
-  const hudMesh = new THREE.Mesh(hudGeo, hudMat);
-  hudMesh.position.set(-4.8, 3.2, 3.0);
-  hudMesh.rotation.y = 0.32;
-  hudMesh.rotation.x = -0.12;
-  root.add(hudMesh);
 
-  // Return lifecycle hooks
-  let lastHudUpdate = 0;
+  // ─── 3. OPTICAL LASER VIBRATION PROBE ────────────────────────────────
+  const sensorGroup = new THREE.Group();
+  sensorGroup.position.set(4.2, 1.9, 0);
+  turbomachine.add(sensorGroup);
 
+  const probeGeo = new THREE.CylinderGeometry(0.13, 0.18, 0.65, 16);
+  const probeMat = new THREE.MeshStandardMaterial({ color: 0x1a2630, metalness: 0.92, roughness: 0.18 });
+  sensorGroup.add(new THREE.Mesh(probeGeo, probeMat));
+
+  const laserGeo = new THREE.CylinderGeometry(0.012, 0.012, 1.8, 8);
+  laserGeo.translate(0, -0.9, 0);
+  const laserMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.9 });
+  const laserBeam = new THREE.Mesh(laserGeo, laserMat);
+  sensorGroup.add(laserBeam);
+
+  // ─── 4. BEARING DIAGNOSTIC RINGS (Drive-end bearing) ─────────────────
+  const bearingGeo = new THREE.TorusGeometry(1.08, 0.04, 16, 64);
+  bearingGeo.rotateY(Math.PI * 0.5);
+  const bearingMat = new THREE.MeshBasicMaterial({ color: 0xff0055, transparent: true, opacity: 0.85 });
+  const bearingRing = new THREE.Mesh(bearingGeo, bearingMat);
+  bearingRing.position.set(4.2, 0, 0);
+  turbomachine.add(bearingRing);
+
+  // Secondary diagnostic ring
+  const bearing2Geo = new THREE.TorusGeometry(1.22, 0.025, 16, 64);
+  bearing2Geo.rotateY(Math.PI * 0.5);
+  const bearing2 = new THREE.Mesh(bearing2Geo, new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.6 }));
+  bearing2.position.set(4.2, 0, 0);
+  turbomachine.add(bearing2);
+
+  // ─── RETURN OBJECT ───────────────────────────────────────────────────
   return {
     update(time, pointerNorm) {
-      // 1. Update waterfall shader uniforms
       waterfallUniforms.uTime.value = time;
       waterfallUniforms.uPointerX.value = pointerNorm.x;
 
-      // 2. Rotate compressor turbine shaft & blisks
-      const rotSpeed = 3.8;
-      shaftGroup.rotation.x += 0.05;
-      rotorBlisks.forEach(blisk => {
-        blisk.rotation.x += 0.05;
-      });
+      // Shaft and blisk rotation
+      shaft.rotation.x += 0.065;
+      bliskStages.forEach(blisk => { blisk.rotation.x += 0.065; });
 
-      // 3. Pulse bearing fault diagnostic rings
-      const pulse = 0.5 + 0.5 * Math.sin(time * 8.0);
-      bearingRings.forEach(ring => {
-        ring.material.opacity = 0.5 + pulse * 0.5;
-        ring.scale.setScalar(1.0 + pulse * 0.08);
-      });
+      // Radial vibration displacement (subtle CBM signature)
+      turbomachine.position.y = 4.0 + Math.sin(time * 52.0) * 0.022;
 
-      // 4. Pulsing laser sensor beam
-      laserBeam.material.opacity = 0.6 + 0.4 * Math.sin(time * 15.0);
+      // Bearing fault diagnostic pulse
+      const faultPulse = 0.5 + 0.5 * Math.sin(time * 9.0);
+      bearingRing.scale.setScalar(1.0 + faultPulse * 0.08);
+      bearing2.scale.setScalar(1.0 + faultPulse * 0.05);
+      bearingRing.material.opacity = 0.6 + faultPulse * 0.4;
 
-      // 5. Interactive gentle parallax tilt
-      root.rotation.y = pointerNorm.x * 0.12;
-      root.rotation.x = pointerNorm.y * 0.08;
+      // Alert glow pulse
+      alertGlow.intensity = 3 + faultPulse * 5;
 
-      // 6. Refresh HUD canvas every 200ms
-      const now = performance.now();
-      if (now - lastHudUpdate > 180) {
-        lastHudUpdate = now;
-        const rpm = 2980 + Math.sin(time * 2.0) * 15;
-        const rms = 3.38 + Math.sin(time * 1.5) * 0.18;
-        const bpfoRatio = 0.28 + Math.sin(time * 3.0) * 0.08;
-        drawCbmHud(rpm, rms, bpfoRatio);
-        hudTexture.needsUpdate = true;
-      }
+      // Laser probe flicker
+      laserBeam.material.opacity = 0.7 + Math.sin(time * 18.0) * 0.3;
+
+      // Parallax tilt
+      root.rotation.y = pointerNorm.x * 0.13;
+      root.rotation.x = pointerNorm.y * 0.07;
     },
     destroy() {
-      geometry.dispose();
-      waterfallMaterial.dispose();
-      wireMat.dispose();
-      shaftGeo.dispose();
-      shaftMat.dispose();
-      hudGeo.dispose();
-      hudMat.dispose();
-      hudTexture.dispose();
       scene.remove(root);
     }
   };
