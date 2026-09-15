@@ -37,6 +37,22 @@ const cameraStates = [
   { position: [0.5, 9.6, 10.35], look: [2.2, 8.0, -0.15] }
 ];
 
+const mobileCameraStates = [
+  { position: [4.8, 1.4, 15.5], look: [4.8, -1.8, 0] },
+  { position: [-3.8, 1.6, 16.5], look: [-3.8, -2.5, -0.22] },
+  { position: [-2.05, 7.2, 4.2], look: [-2.05, 1.7, -10.18] },
+  { position: [15.42, 1.8, 18.2], look: [15.42, -2.4, -0.24] },
+  { position: [9.6, 1.8, -0.2], look: [9.6, -2.4, -16.44] },
+  { position: [6.2, 9.2, 15.6], look: [6.2, 5.0, -0.15] }
+];
+
+function getCameraTarget(sceneIndex) {
+  if (window.innerWidth <= 820) {
+    return mobileCameraStates[sceneIndex] || mobileCameraStates[0];
+  }
+  return cameraStates[sceneIndex] || cameraStates[0];
+}
+
 const palette = {
   cyan: 0x00e5ff,
   cyanDim: 0x005566,
@@ -1823,9 +1839,11 @@ function initializeThree() {
     scene.background = new THREE.Color(0x020403);
     scene.fog = new THREE.FogExp2(0x020403, 0.021);
 
-    camera = new THREE.PerspectiveCamera(42, 1, 0.1, 120);
-    camera.position.fromArray(cameraStates[currentScene].position);
-    currentLook.fromArray(cameraStates[currentScene].look);
+    const isMobile = window.innerWidth <= 820;
+    camera = new THREE.PerspectiveCamera(isMobile ? 64 : 42, 1, 0.1, 120);
+    const initialTarget = getCameraTarget(currentScene);
+    camera.position.fromArray(initialTarget.position);
+    currentLook.fromArray(initialTarget.look);
     camera.lookAt(currentLook);
     transitField = createTransitField();
     camera.add(transitField);
@@ -1859,6 +1877,7 @@ function initializeThree() {
       scene.add(world);
     });
     activeWorld = worlds[currentScene];
+    window.__observatory = { worlds, camera, targetCamera, targetLook, currentLook, mobileCameraStates, cameraStates, THREE };
     webglReady = true;
     resizeRenderer();
     renderer.setAnimationLoop(render);
@@ -1875,6 +1894,7 @@ function resizeRenderer() {
   if (canvas.width !== Math.floor(width * renderer.getPixelRatio()) || canvas.height !== Math.floor(height * renderer.getPixelRatio())) {
     renderer.setSize(width, height, false);
     camera.aspect = width / Math.max(height, 1);
+    camera.fov = window.innerWidth <= 820 ? 64 : 42;
     camera.updateProjectionMatrix();
   }
 }
@@ -1886,18 +1906,9 @@ function render(timeMs) {
   lastFrameTime = timeMs;
   resizeRenderer();
 
-  const state = cameraStates[currentScene];
+  const state = getCameraTarget(currentScene);
   targetCamera.fromArray(state.position);
   targetLook.fromArray(state.look);
-
-  if (window.innerWidth <= 820) {
-    if (currentScene === 0) { targetLook.x = 2.5; targetLook.y -= 0.6; }
-    else if (currentScene === 1) { targetLook.x = -9.55; targetLook.y -= 0.6; }
-    else if (currentScene === 2) { targetLook.x = -9.2; targetLook.y -= 0.6; }
-    else if (currentScene === 3) { targetLook.x = 15.7; targetLook.y -= 0.6; }
-    else if (currentScene === 4) { targetLook.x = 4.35; targetLook.y -= 0.6; }
-    else if (currentScene === 5) { targetLook.x = 1.2; targetLook.y -= 0.6; }
-  }
 
   if (!reduceMotion) {
     targetCamera.x += pointerX * 0.42;
