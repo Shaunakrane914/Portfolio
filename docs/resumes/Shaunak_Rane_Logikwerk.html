@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Shaunak Rane — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink:#0f172a; --muted:#475569; --accent:#0ea5e9;
+    --rule:#e2e8f0; --tag-bg:#f0f9ff; --tag-ink:#0369a1;
+    --font:'Inter',system-ui,sans-serif; --mono:'DM Mono',monospace;
+  }
+  body { font-family:var(--font); background:#f8fafc; color:var(--ink); -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .page { max-width:820px; margin:32px auto; background:#fff; border-radius:10px; box-shadow:0 4px 24px rgba(0,0,0,.10); padding:48px 52px 44px; }
+  .hd { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; }
+  .hd-left h1 { font-size:28px; font-weight:700; letter-spacing:-.5px; }
+  .hd-left .tagline { font-size:13px; color:var(--accent); font-weight:600; margin-top:3px; letter-spacing:.04em; text-transform:uppercase; }
+  .hd-right { text-align:right; font-size:12.5px; color:var(--muted); line-height:1.8; }
+  .hd-right a { color:var(--accent); text-decoration:none; }
+  .section { margin-top:24px; }
+  .sec-title { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); border-bottom:1.5px solid var(--rule); padding-bottom:4px; margin-bottom:12px; }
+  .summary { font-size:13px; line-height:1.7; color:#334155; }
+  .entry { margin-bottom:17px; }
+  .entry:last-child { margin-bottom:0; }
+  .entry-head { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:4px; }
+  .entry-title { font-size:13.5px; font-weight:700; }
+  .entry-org { font-size:13px; font-weight:700; }
+  .entry-sub { font-size:12.5px; color:var(--muted); }
+  .entry-date { font-size:11.5px; color:var(--muted); white-space:nowrap; font-family:var(--mono); }
+  .entry-stack { font-size:11.5px; color:var(--muted); margin:3px 0 5px; font-family:var(--mono); }
+  ul.bullets { padding-left:16px; margin-top:5px; }
+  ul.bullets li { font-size:12.8px; line-height:1.65; color:#334155; margin-bottom:3px; }
+  ul.bullets li strong { color:var(--ink); font-weight:600; }
+  .tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+  .tag { font-size:11px; font-family:var(--mono); background:var(--tag-bg); color:var(--tag-ink); border:1px solid #bae6fd; border-radius:4px; padding:2px 7px; }
+  .tag.g { background:#f0fdf4; color:#166534; border-color:#86efac; }
+  .tag.p { background:#faf5ff; color:#6b21a8; border-color:#d8b4fe; }
+  .tag.o { background:#fff7ed; color:#9a3412; border-color:#fdba74; }
+  .skills-grid { display:grid; grid-template-columns:140px 1fr; gap:5px 12px; }
+  .sk-label { font-size:12px; font-weight:600; padding-top:1px; }
+  .sk-value { font-size:12px; color:#334155; line-height:1.6; }
+  .edu-head { display:flex; justify-content:space-between; flex-wrap:wrap; }
+  .edu-school { font-size:13.5px; font-weight:700; }
+  .edu-deg { font-size:12.5px; color:var(--muted); margin-top:2px; }
+  @media print { body{background:#fff;} .page{margin:0;border-radius:0;box-shadow:none;padding:28px 36px;max-width:100%;} }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hd">
+    <div class="hd-left">
+      <h1>Shaunak Rane</h1>
+      <div class="tagline">Agentic AI &amp; LLM Systems · AI Engineering</div>
+    </div>
+    <div class="hd-right">
+      +91 93202 21211<br/>
+      <a href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a><br/>
+      <a href="https://shaunakrane.is-a.dev">shaunakrane.is-a.dev</a><br/>
+      <a href="https://github.com/Shaunakrane914">github.com/Shaunakrane914</a><br/>
+      Dombivli, Maharashtra (Remote Ready)
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Profile</div>
+    <p class="summary">
+      AI/ML undergraduate with hands-on experience building <strong>agentic AI systems, LLM-powered pipelines, and production-grade FastAPI backends</strong>.
+      Designed and deployed a full multi-agent claim-investigation workflow using <strong>Gemini 2.5 Flash</strong> — covering prompt engineering, schema-constrained structured outputs, async workflow orchestration, RAG-style evidence retrieval, fallback routing, and Supabase/PostgreSQL persistence.
+      Comfortable across the complete AI engineering lifecycle: LLM API integration, REST backend development, database integration, and cloud deployment.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Experience</div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <div><span class="entry-org">AI Intern</span><span class="entry-sub"> &middot; Univitt Technologies</span></div>
+        <span class="entry-date">Jul 2026 &ndash; Present</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a <strong>physics-grounded condition-monitoring platform</strong> for industrial compressors across 3 plants; designed ML evaluation pipelines, causal maintenance-event logic, and model-promotion gates.</li>
+        <li>Reproduced 3,879 degradation-index rows to &lt;1e&#8209;10 absolute error; <strong>17/17 validation gates</strong> passing across regression and causal checks — all outputs audited before operational use.</li>
+        <li>Audited 400+ process variables, evaluated statistical and ML forecasts, and used <strong>Docker</strong> for reproducible backend workflows; delivered de-identified methodology and evidence reports.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag g">Flask</span><span class="tag g">scikit-learn</span>
+        <span class="tag g">pytest</span><span class="tag g">Docker</span>
+        <span class="tag g">ML Evaluation</span><span class="tag">REST APIs</span><span class="tag">Python</span><span class="tag">Git</span>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <div><span class="entry-org">Software Intern</span><span class="entry-sub"> &middot; Univitt Technologies</span></div>
+        <span class="entry-date">Apr 2025 &ndash; Jul 2025</span>
+      </div>
+      <ul class="bullets">
+        <li>Developed a <strong>FastAPI backend</strong> for institutional food-operations management — menu generation, bill-of-materials rollup, inventory and cost workflows.</li>
+        <li>Integrated <strong>PostgreSQL / MySQL</strong> for persistence and built a <strong>Random Forest model</strong> for meal-attendance demand forecasting.</li>
+        <li>Delivered a structured REST API consumed by a React frontend; wrote documentation and API integration tests.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">FastAPI</span><span class="tag">Python</span>
+        <span class="tag">PostgreSQL</span><span class="tag">scikit-learn</span>
+        <span class="tag">REST APIs</span><span class="tag">Git/GitHub</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Projects</div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Project Aegis &mdash; Multi-Agent LLM Investigation System</span>
+        <span class="entry-date">Oct 2025 &ndash; Feb 2026</span>
+      </div>
+      <div class="entry-stack">FastAPI &middot; Gemini 2.5 Flash API &middot; Supabase (PostgreSQL) &middot; Netlify Edge Functions &middot; WebSockets &middot; RSS</div>
+      <ul class="bullets">
+        <li><strong>Designed a multi-agent, multi-step AI pipeline</strong>: claims enter as async background jobs, pass through a Research Agent (context retrieval + evidence gathering) then an Investigator Agent (verdict, confidence, severity), and persist to Supabase — no one-shot answers.</li>
+        <li>Implemented <strong>prompt engineering</strong> for two distinct agent personas; applied <strong>JSON schema constraints</strong>, output normalization, and schema validation so every verdict is structured, inspectable, and traceable.</li>
+        <li>Built <strong>RAG-style retrieval</strong>: Research Agent collects supporting and refuting evidence from external sources before the Investigator makes a judgment — separating context gathering from reasoning.</li>
+        <li>Added a <strong>Scout Agent</strong> (market volatility + price-history intelligence) and a <strong>Trending Agent</strong> (Google News RSS, 15-min discovery loop, SHA-256 claim deduplication) as specialist agentic workflows.</li>
+        <li>Exposed full <strong>REST observability</strong>: job status, evidence records, and verdict history queryable by operator dashboard; <strong>WebSocket telemetry</strong> for live claim-status updates; LLM gateway via Netlify Edge Function with env-only API key isolation and model fallback.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag p">Agentic AI</span><span class="tag p">LLM API (Gemini)</span>
+        <span class="tag p">Prompt Engineering</span><span class="tag p">Structured Outputs</span>
+        <span class="tag p">RAG-style Retrieval</span><span class="tag p">Multi-agent Workflow</span>
+        <span class="tag">FastAPI</span><span class="tag">Supabase</span>
+        <span class="tag">PostgreSQL</span><span class="tag">REST APIs</span><span class="tag">Git/GitHub</span>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">Gridium Protocol &mdash; AI-Controlled Distributed Energy System</span>
+        <span class="entry-date">2025</span>
+      </div>
+      <div class="entry-stack">Python &middot; PyTorch (DDPG) &middot; FastAPI &middot; WebSockets &middot; Solidity &middot; Circom &middot; React Three Fiber</div>
+      <ul class="bullets">
+        <li>Implemented the <strong>Python AI engine</strong>: Gym-compatible 15-node microgrid environment, DDPG actor-critic agent with replay memory, and a FastAPI service exposing a 500ms real-time tick loop.</li>
+        <li>Built backend integration: <strong>REST polling, WebSocket fan-out</strong>, and event fallback paths consumed by a live 3D operator interface — maintained API contracts across a 3-person team.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">FastAPI</span><span class="tag">Python</span>
+        <span class="tag">REST APIs</span><span class="tag">WebSockets</span>
+        <span class="tag">Git/GitHub</span><span class="tag o">RL / AI</span>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">TopoFlow GNN &mdash; Graph ML for Scientific Permeability Prediction</span>
+        <span class="entry-date">2025</span>
+      </div>
+      <div class="entry-stack">Python &middot; PyTorch Geometric &middot; GraphSAGE &middot; FastAPI &middot; NetworkX</div>
+      <ul class="bullets">
+        <li>Benchmarked GraphSAGE against physics baseline across 1,231 pore-network graphs from 5 rock families; 46.2% best MSE reduction with regime-aware model selection.</li>
+        <li>Built FastAPI inference service; all results frozen to reproducible benchmark artifacts.</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">Python</span><span class="tag">FastAPI</span>
+        <span class="tag">PyTorch</span><span class="tag">Git/GitHub</span><span class="tag g">AI Evaluation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Technical Skills</div>
+    <div class="skills-grid">
+      <span class="sk-label">AI &amp; LLM</span>
+      <span class="sk-value">Gemini 2.5 Flash API &middot; Prompt engineering &middot; Schema-constrained structured outputs &middot; Agentic AI &middot; Multi-agent orchestration &middot; RAG-style context retrieval &middot; LLM fallback routing &middot; Tool/function-calling patterns &middot; AI workflow automation</span>
+
+      <span class="sk-label">Languages</span>
+      <span class="sk-value">Python &middot; TypeScript / JavaScript &middot; SQL</span>
+
+      <span class="sk-label">Backend</span>
+      <span class="sk-value">FastAPI &middot; Flask &middot; REST APIs &middot; WebSockets &middot; async background tasks &middot; API observability &middot; Netlify / Vercel deployment</span>
+
+      <span class="sk-label">Databases</span>
+      <span class="sk-value">PostgreSQL &middot; Supabase &middot; MySQL &middot; vector database concepts &middot; embeddings</span>
+
+      <span class="sk-label">ML &amp; Data</span>
+      <span class="sk-value">PyTorch &middot; PyTorch Geometric &middot; scikit-learn &middot; pandas &middot; NumPy &middot; statsmodels</span>
+
+      <span class="sk-label">Engineering</span>
+      <span class="sk-value">Docker &middot; Git / GitHub &middot; pytest &middot; API validation &middot; causal time-series evaluation</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Education</div>
+    <div class="edu-head">
+      <div>
+        <div class="edu-school">Universal AI University</div>
+        <div class="edu-deg">B.Tech, Artificial Intelligence &amp; Machine Learning &middot; Karjat, Maharashtra</div>
+      </div>
+      <span class="entry-date">Expected 2028</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
