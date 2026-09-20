@@ -1,1 +1,4 @@
 .audit/
+__pycache__/
+*.pyc
+.tempmediaStorage/
