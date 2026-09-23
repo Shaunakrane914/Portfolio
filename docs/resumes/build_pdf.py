@@ -17,7 +17,7 @@ html_template = """<!DOCTYPE html>
 <style>
   @page {
     size: letter;
-    margin: 0.33in 0.42in 0.30in 0.42in;
+    margin: 0.30in 0.42in 0.27in 0.42in;
   }
   * {
     box-sizing: border-box;
@@ -156,7 +156,7 @@ html_template = """<!DOCTYPE html>
   <div class="section">
     <div class="section-title">Professional Summary</div>
     <div class="summary-text">
-      AI Engineer with proven experience architecting autonomous multi-agent systems, structured output generation pipelines via LLM APIs, and production-grade RAG retrieval systems. Strong foundation in software engineering fundamentals, object-oriented design, and containerized REST microservices using FastAPI, PostgreSQL, and Docker. Hands-on background developing predictive time-series models for mission-critical industrial assets, with end-to-end focus on API observability, regression testing, and reproducible system promotion.
+      AI and software engineering intern with proven experience delivering end-to-end solutions across full Software Development Lifecycle (SDLC): from requirements analysis and system design to implementation, testing, and deployment. Strong analytical and problem-solving skills applied to real client workloads, autonomous multi-agent systems, LLM API pipelines, and production-grade machine learning services. Collaborative team contributor with hands-on background in Python, REST APIs, SQL databases, Docker, and automated test engineering.
     </div>
   </div>
 
@@ -166,16 +166,16 @@ html_template = """<!DOCTYPE html>
       <strong>AI &amp; LLM Systems:</strong> Agentic AI, Multi-Agent Workflows, RAG, Prompt Engineering, Structured Outputs (JSON Schema), Function &amp; Tool Calling, Vector Embeddings, LLM APIs (Gemini, OpenAI)
     </div>
     <div class="skills-row">
-      <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, Graph Neural Networks (GraphSAGE), Scikit-learn, Statsmodels, Time-Series Modeling, Anomaly Detection, NumPy, Pandas
+      <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Exploratory Data Analysis, Time-Series Modeling, Anomaly Detection
     </div>
     <div class="skills-row">
-      <strong>Backend &amp; Languages:</strong> Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, System Architecture
+      <strong>Backend &amp; Languages:</strong> Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, SDLC, System Design
     </div>
     <div class="skills-row">
       <strong>Databases &amp; DevOps:</strong> PostgreSQL, Supabase (pgvector), MySQL, Docker, Git, GitHub Actions, Linux, Postman, pytest, CI/CD
     </div>
     <div class="skills-row">
-      <strong>Engineering Practices:</strong> Causal Evaluation, Statistical Quality Gates, API Observability, Test-Driven Development (TDD), Microservices
+      <strong>Engineering Practices:</strong> Full SDLC, Test-Driven Development (TDD), Causal Evaluation, API Observability, Agile Collaboration, Microservices, Documentation
     </div>
   </div>
 
@@ -345,7 +345,7 @@ def generate_docx(docx_path):
     add_heading("Professional Summary")
     p_sum = add_p(space_before=0, space_after=3)
     r_sum = p_sum.add_run(
-        "AI Engineer with proven experience architecting autonomous multi-agent systems, structured output generation pipelines via LLM APIs, and production-grade RAG retrieval systems. Strong foundation in software engineering fundamentals, object-oriented design, and containerized REST microservices using FastAPI, PostgreSQL, and Docker. Hands-on background developing predictive time-series models for mission-critical industrial assets, with end-to-end focus on API observability, regression testing, and reproducible system promotion."
+        "AI and software engineering intern with proven experience delivering end-to-end solutions across full Software Development Lifecycle (SDLC): from requirements analysis and system design to implementation, testing, and deployment. Strong analytical and problem-solving skills applied to real client workloads, autonomous multi-agent systems, LLM API pipelines, and production-grade machine learning services. Collaborative team contributor with hands-on background in Python, REST APIs, SQL databases, Docker, and automated test engineering."
     )
     r_sum.font.name = "Arial"
     r_sum.font.size = Pt(8.7)
@@ -354,10 +354,10 @@ def generate_docx(docx_path):
     add_heading("Technical Skills")
     skills = [
         ("AI & LLM Systems: ", "Agentic AI, Multi-Agent Workflows, RAG, Prompt Engineering, Structured Outputs (JSON Schema), Function & Tool Calling, Vector Embeddings, LLM APIs (Gemini, OpenAI)"),
-        ("Machine Learning & Data: ", "PyTorch, PyTorch Geometric, Graph Neural Networks (GraphSAGE), Scikit-learn, Statsmodels, Time-Series Modeling, Anomaly Detection, NumPy, Pandas"),
-        ("Backend & Languages: ", "Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, System Architecture"),
+        ("Machine Learning & Data: ", "PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Exploratory Data Analysis, Time-Series Modeling, Anomaly Detection"),
+        ("Backend & Languages: ", "Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, SDLC, System Design"),
         ("Databases & DevOps: ", "PostgreSQL, Supabase (pgvector), MySQL, Docker, Git, GitHub Actions, Linux, Postman, pytest, CI/CD"),
-        ("Engineering Practices: ", "Causal Evaluation, Statistical Quality Gates, API Observability, Test-Driven Development (TDD), Microservices")
+        ("Engineering Practices: ", "Full SDLC, Test-Driven Development (TDD), Causal Evaluation, API Observability, Agile Collaboration, Microservices, Documentation")
     ]
     for title, items in skills:
         p_sk = add_p(space_before=0, space_after=1)
