@@ -144,7 +144,7 @@ html_template = """<!DOCTYPE html>
 
   <div class="header">
     <h1>Shaunak Rane</h1>
-    <div class="headline">Associate AI Engineer | Agentic AI | LLM Systems | AI Automation</div>
+    <div class="headline">AI/ML Engineer | Backend &amp; LLM Systems | Python | FastAPI</div>
     <div class="contact">
       Thane, Maharashtra, India | +91 93202 21211 | 
       <a href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a> | 
@@ -192,7 +192,7 @@ html_template = """<!DOCTYPE html>
       <ul class="bullets">
         <li>Architected end-to-end predictive analytics pipeline for centrifugal compressor Condition-Based Monitoring (CBM) across 3 industrial facilities and 4,000+ daily historian records.</li>
         <li>Reproduced 3,879 historical Degradation Factor Index (DFI) rows to &lt;1e-10 absolute error; engineered causal maintenance-event logic with 17/17 regression checks passing.</li>
-        <li>Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts and cutting operational diagnostic turnaround.</li>
+        <li>Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts with structured API responses.</li>
         <li>Audited 400+ physical and mechanical process variables, evaluated ML vs. statistical forecasting baselines, and instituted automated promotion gates for model deployment.</li>
       </ul>
     </div>
@@ -227,9 +227,9 @@ html_template = """<!DOCTYPE html>
         <strong>Live Demo:</strong> <a href="https://agenticai914.netlify.app" target="_blank">agenticai914.netlify.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
       </div>
       <ul class="bullets">
-        <li>Architected an autonomous emergency response orchestrator with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.</li>
-        <li>Engineered tool-calling agent workflows to autonomously query incident records, evaluate casualty severity, and dispatch prioritized emergency actions with sub-second API latency.</li>
-        <li>Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and real-time incident reporting.</li>
+        <li>Built a multi-agent incident-triage and response simulation with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.</li>
+        <li>Engineered tool-calling agent workflows to autonomously query incident records, evaluate severity levels, and route prioritized response actions across the multi-agent pipeline.</li>
+        <li>Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and event reporting.</li>
       </ul>
     </div>
 
@@ -244,8 +244,8 @@ html_template = """<!DOCTYPE html>
         <strong>Live Demo:</strong> <a href="https://live-ai-1-7tcy.vercel.app" target="_blank">live-ai-1-7tcy.vercel.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank">github.com/Shaunakrane914/Live-Ai-1</a>
       </div>
       <ul class="bullets">
-        <li>Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated grid.</li>
-        <li>Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain.</li>
+        <li>Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated microgrid.</li>
+        <li>Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain in simulation.</li>
         <li>Built real-time telemetry streaming pipelines using FastAPI and WebSockets, feeding continuous operational metrics to interactive monitoring dashboards.</li>
       </ul>
     </div>
@@ -278,7 +278,7 @@ html_template = """<!DOCTYPE html>
         <div class="item-date">Expected May 2028 | Karjat, Maharashtra</div>
       </div>
       <ul class="bullets">
-        <li><strong>Relevant Coursework:</strong> Data Structures &amp; Algorithms, Object-Oriented Programming (OOP), Machine Learning, Deep Learning, Database Management Systems (DBMS), Operating Systems, Linear Algebra &amp; Probability.</li>
+        <li><strong>CGPA: 8.47</strong> &nbsp;|&nbsp; <strong>Relevant Coursework:</strong> Data Structures &amp; Algorithms, Object-Oriented Programming, Machine Learning, Deep Learning, DBMS, Operating Systems, Linear Algebra &amp; Probability.</li>
       </ul>
     </div>
   </div>
@@ -331,7 +331,7 @@ def generate_docx(docx_path):
     r_name.font.size = Pt(18)
 
     p_head = add_p(space_before=0, space_after=1, align=WD_ALIGN_PARAGRAPH.CENTER)
-    r_head = p_head.add_run("Associate AI Engineer | Agentic AI | LLM Systems | AI Automation")
+    r_head = p_head.add_run("AI/ML Engineer | Backend & LLM Systems | Python | FastAPI")
     r_head.bold = True
     r_head.font.name = "Arial"
     r_head.font.size = Pt(9.5)
@@ -404,7 +404,7 @@ def generate_docx(docx_path):
         [
             "Architected end-to-end predictive analytics pipeline for centrifugal compressor Condition-Based Monitoring (CBM) across 3 industrial facilities and 4,000+ daily historian records.",
             "Reproduced 3,879 historical Degradation Factor Index (DFI) rows to <1e-10 absolute error; engineered causal maintenance-event logic with 17/17 regression checks passing.",
-            "Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts and cutting operational diagnostic turnaround.",
+            "Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts with structured API responses.",
             "Audited 400+ physical and mechanical process variables, evaluated ML vs. statistical forecasting baselines, and instituted automated promotion gates for model deployment."
         ]
     )
@@ -464,9 +464,9 @@ def generate_docx(docx_path):
         "Python, FastAPI, Agentic AI, RAG, Supabase (pgvector), Docker",
         "Live Demo: https://agenticai914.netlify.app | Source Code: https://github.com/Shaunakrane914/Misinformation",
         [
-            "Architected an autonomous emergency response orchestrator with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.",
-            "Engineered tool-calling agent workflows to autonomously query incident records, evaluate casualty severity, and dispatch prioritized emergency actions with sub-second API latency.",
-            "Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and real-time incident reporting."
+            "Built a multi-agent incident-triage and response simulation with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.",
+            "Engineered tool-calling agent workflows to autonomously query incident records, evaluate severity levels, and route prioritized response actions across the multi-agent pipeline.",
+            "Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and event reporting."
         ]
     )
 
@@ -475,8 +475,8 @@ def generate_docx(docx_path):
         "Python, PyTorch, FastAPI, DDPG, WebSockets",
         "Live Demo: https://live-ai-1-7tcy.vercel.app | Source Code: https://github.com/Shaunakrane914/Live-Ai-1",
         [
-            "Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated grid.",
-            "Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain.",
+            "Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated microgrid.",
+            "Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain in simulation.",
             "Built real-time telemetry streaming pipelines using FastAPI and WebSockets, feeding continuous operational metrics to interactive monitoring dashboards."
         ]
     )
@@ -510,11 +510,18 @@ def generate_docx(docx_path):
     bp_c = doc.add_paragraph(style='List Bullet')
     bp_c.paragraph_format.space_before = Pt(0)
     bp_c.paragraph_format.space_after = Pt(1)
-    br_c = bp_c.add_run("Relevant Coursework: ")
+    br_c = bp_c.add_run("CGPA: ")
     br_c.bold = True
     br_c.font.name = "Arial"
     br_c.font.size = Pt(8.55)
-    br_ci = bp_c.add_run("Data Structures & Algorithms, Object-Oriented Programming (OOP), Machine Learning, Deep Learning, Database Management Systems (DBMS), Operating Systems, Linear Algebra & Probability.")
+    br_cgpa = bp_c.add_run("8.47")
+    br_cgpa.bold = True
+    br_cgpa.font.name = "Arial"
+    br_cgpa.font.size = Pt(8.55)
+    br_sep = bp_c.add_run("   |   Relevant Coursework: ")
+    br_sep.font.name = "Arial"
+    br_sep.font.size = Pt(8.55)
+    br_ci = bp_c.add_run("Data Structures & Algorithms, Object-Oriented Programming, Machine Learning, Deep Learning, DBMS, Operating Systems, Linear Algebra & Probability.")
     br_ci.font.name = "Arial"
     br_ci.font.size = Pt(8.55)
 
