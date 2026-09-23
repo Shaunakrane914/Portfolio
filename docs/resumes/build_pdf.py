@@ -17,7 +17,7 @@ html_template = """<!DOCTYPE html>
 <style>
   @page {
     size: letter;
-    margin: 0.36in 0.42in 0.35in 0.42in;
+    margin: 0.33in 0.42in 0.30in 0.42in;
   }
   * {
     box-sizing: border-box;
@@ -30,14 +30,14 @@ html_template = """<!DOCTYPE html>
     font-family: Arial, Calibri, 'Segoe UI', sans-serif;
     color: #111111;
     background: #ffffff;
-    line-height: 1.235;
-    font-size: 8.95pt;
+    line-height: 1.22;
+    font-size: 8.8pt;
     font-variant-ligatures: none;
     -webkit-font-smoothing: antialiased;
   }
   .header {
     text-align: center;
-    margin-bottom: 4px;
+    margin-bottom: 3.5px;
   }
   .header h1 {
     font-size: 19pt;
@@ -48,44 +48,41 @@ html_template = """<!DOCTYPE html>
     text-transform: uppercase;
   }
   .header .headline {
-    font-size: 9.6pt;
+    font-size: 9.5pt;
     font-weight: 600;
     color: #222222;
     margin-bottom: 2px;
   }
   .header .contact {
-    font-size: 8.6pt;
+    font-size: 8.5pt;
     color: #333333;
   }
   .header .contact a {
     color: #111111;
-    text-decoration: none;
-  }
-  .header .contact a:hover {
     text-decoration: underline;
   }
   .section {
-    margin-bottom: 4.5px;
+    margin-bottom: 4px;
   }
   .section-title {
-    font-size: 9.6pt;
+    font-size: 9.5pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     border-bottom: 1px solid #111111;
     padding-bottom: 1px;
-    margin-bottom: 3px;
+    margin-bottom: 2.5px;
     color: #000000;
   }
   .summary-text {
-    font-size: 8.75pt;
+    font-size: 8.65pt;
     text-align: justify;
-    line-height: 1.24;
+    line-height: 1.22;
   }
   .skills-row {
-    font-size: 8.7pt;
-    margin-bottom: 1.2px;
-    line-height: 1.22;
+    font-size: 8.6pt;
+    margin-bottom: 1px;
+    line-height: 1.20;
   }
   .skills-row strong {
     font-weight: 700;
@@ -101,7 +98,7 @@ html_template = """<!DOCTYPE html>
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 8.95pt;
+    font-size: 8.85pt;
     margin-bottom: 1px;
   }
   .item-title {
@@ -113,18 +110,28 @@ html_template = """<!DOCTYPE html>
     color: #333333;
   }
   .item-date {
-    font-size: 8.5pt;
+    font-size: 8.4pt;
     font-weight: 600;
     color: #222222;
     white-space: nowrap;
+  }
+  .item-links {
+    font-size: 8.2pt;
+    color: #333333;
+    margin-bottom: 1.5px;
+    line-height: 1.20;
+  }
+  .item-links a {
+    color: #111111;
+    text-decoration: underline;
   }
   ul.bullets {
     margin-left: 15px;
     list-style-type: disc;
   }
   ul.bullets li {
-    font-size: 8.65pt;
-    line-height: 1.235;
+    font-size: 8.55pt;
+    line-height: 1.22;
     margin-bottom: 1px;
     text-align: justify;
   }
@@ -216,6 +223,9 @@ html_template = """<!DOCTYPE html>
         </div>
         <div class="item-date">Python, FastAPI, Agentic AI, RAG, Supabase (pgvector), Docker</div>
       </div>
+      <div class="item-links">
+        <strong>Live Demo:</strong> <a href="https://agenticai914.netlify.app" target="_blank">agenticai914.netlify.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
+      </div>
       <ul class="bullets">
         <li>Architected an autonomous emergency response orchestrator with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.</li>
         <li>Engineered tool-calling agent workflows to autonomously query incident records, evaluate casualty severity, and dispatch prioritized emergency actions with sub-second API latency.</li>
@@ -230,6 +240,9 @@ html_template = """<!DOCTYPE html>
         </div>
         <div class="item-date">Python, PyTorch, FastAPI, DDPG, WebSockets</div>
       </div>
+      <div class="item-links">
+        <strong>Live Demo:</strong> <a href="https://live-ai-1-7tcy.vercel.app" target="_blank">live-ai-1-7tcy.vercel.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank">github.com/Shaunakrane914/Live-Ai-1</a>
+      </div>
       <ul class="bullets">
         <li>Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated grid.</li>
         <li>Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain.</li>
@@ -243,6 +256,9 @@ html_template = """<!DOCTYPE html>
           <span class="item-title">TopoFlow - GNN Fluid Dynamics Simulation</span>
         </div>
         <div class="item-date">Python, PyTorch Geometric, GraphSAGE, FastAPI</div>
+      </div>
+      <div class="item-links">
+        <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Flow" target="_blank">github.com/Shaunakrane914/Flow</a>
       </div>
       <ul class="bullets">
         <li>Benchmarked GraphSAGE against Kozeny-Carman physics baselines across 1,231 pore-network samples from 5 geological formations, using pore-size heterogeneity to dictate the modeling regime.</li>
@@ -274,8 +290,8 @@ html_template = """<!DOCTYPE html>
 def generate_docx(docx_path):
     doc = Document()
     for section in doc.sections:
-        section.top_margin = Inches(0.36)
-        section.bottom_margin = Inches(0.35)
+        section.top_margin = Inches(0.33)
+        section.bottom_margin = Inches(0.30)
         section.left_margin = Inches(0.42)
         section.right_margin = Inches(0.42)
 
@@ -290,11 +306,11 @@ def generate_docx(docx_path):
         return p
 
     def add_heading(title):
-        p = add_p(space_before=5, space_after=2.5)
+        p = add_p(space_before=4.5, space_after=2)
         run = p.add_run(title.upper())
         run.bold = True
         run.font.name = "Arial"
-        run.font.size = Pt(10)
+        run.font.size = Pt(9.8)
         run.font.color.rgb = RGBColor(0, 0, 0)
         
         pPr = p._p.get_or_add_pPr()
@@ -320,19 +336,19 @@ def generate_docx(docx_path):
     r_head.font.name = "Arial"
     r_head.font.size = Pt(9.5)
 
-    p_contact = add_p(space_before=0, space_after=4, align=WD_ALIGN_PARAGRAPH.CENTER)
+    p_contact = add_p(space_before=0, space_after=3.5, align=WD_ALIGN_PARAGRAPH.CENTER)
     r_con = p_contact.add_run("Thane, Maharashtra, India | +91 93202 21211 | shaunakrane914@gmail.com | github.com/Shaunakrane914 | shaunakrane.is-a.dev")
     r_con.font.name = "Arial"
     r_con.font.size = Pt(8.5)
 
     # Summary
     add_heading("Professional Summary")
-    p_sum = add_p(space_before=0, space_after=3.5)
+    p_sum = add_p(space_before=0, space_after=3)
     r_sum = p_sum.add_run(
         "AI Engineer with proven experience architecting autonomous multi-agent systems, structured output generation pipelines via LLM APIs, and production-grade RAG retrieval systems. Strong foundation in software engineering fundamentals, object-oriented design, and containerized REST microservices using FastAPI, PostgreSQL, and Docker. Hands-on background developing predictive time-series models for mission-critical industrial assets, with end-to-end focus on API observability, regression testing, and reproducible system promotion."
     )
     r_sum.font.name = "Arial"
-    r_sum.font.size = Pt(8.8)
+    r_sum.font.size = Pt(8.7)
 
     # Skills
     add_heading("Technical Skills")
@@ -344,14 +360,14 @@ def generate_docx(docx_path):
         ("Engineering Practices: ", "Causal Evaluation, Statistical Quality Gates, API Observability, Test-Driven Development (TDD), Microservices")
     ]
     for title, items in skills:
-        p_sk = add_p(space_before=0, space_after=1.2)
+        p_sk = add_p(space_before=0, space_after=1)
         r_t = p_sk.add_run(title)
         r_t.bold = True
         r_t.font.name = "Arial"
-        r_t.font.size = Pt(8.7)
+        r_t.font.size = Pt(8.6)
         r_i = p_sk.add_run(items)
         r_i.font.name = "Arial"
-        r_i.font.size = Pt(8.7)
+        r_i.font.size = Pt(8.6)
 
     # Experience
     add_heading("Work Experience")
@@ -361,15 +377,15 @@ def generate_docx(docx_path):
         r1 = p.add_run(company)
         r1.bold = True
         r1.font.name = "Arial"
-        r1.font.size = Pt(9.2)
+        r1.font.size = Pt(9.1)
         r2 = p.add_run(f" - {role}")
         r2.italic = True
         r2.font.name = "Arial"
-        r2.font.size = Pt(9.2)
+        r2.font.size = Pt(9.1)
         
         p_date = p.add_run(f"       ({dates})")
         p_date.font.name = "Arial"
-        p_date.font.size = Pt(8.5)
+        p_date.font.size = Pt(8.4)
         p_date.bold = True
 
         for b in bullets:
@@ -379,7 +395,7 @@ def generate_docx(docx_path):
             bp.paragraph_format.line_spacing = 1.15
             br = bp.add_run(b)
             br.font.name = "Arial"
-            br.font.size = Pt(8.65)
+            br.font.size = Pt(8.55)
 
     add_exp(
         "Univitt Technologies",
@@ -408,16 +424,31 @@ def generate_docx(docx_path):
     # Projects
     add_heading("Projects")
 
-    def add_proj(name, tech, bullets):
-        p = add_p(space_before=2, space_after=1)
+    def add_proj(name, tech, links_text, bullets):
+        p = add_p(space_before=2, space_after=0.5)
         r1 = p.add_run(name)
         r1.bold = True
         r1.font.name = "Arial"
-        r1.font.size = Pt(9.2)
+        r1.font.size = Pt(9.1)
         r2 = p.add_run(f" | {tech}")
         r2.font.name = "Arial"
-        r2.font.size = Pt(8.5)
+        r2.font.size = Pt(8.4)
         r2.italic = True
+
+        if links_text:
+            p_lnk = add_p(space_before=0, space_after=1)
+            for part in links_text.split(" | "):
+                pieces = part.split(": ")
+                if len(pieces) == 2:
+                    lbl, url = pieces
+                    r_lbl = p_lnk.add_run(f"{lbl}: ")
+                    r_lbl.bold = True
+                    r_lbl.font.name = "Arial"
+                    r_lbl.font.size = Pt(8.2)
+                    r_u = p_lnk.add_run(f"{url}   ")
+                    r_u.font.name = "Arial"
+                    r_u.font.size = Pt(8.2)
+                    r_u.underline = True
 
         for b in bullets:
             bp = doc.add_paragraph(style='List Bullet')
@@ -426,11 +457,12 @@ def generate_docx(docx_path):
             bp.paragraph_format.line_spacing = 1.15
             br = bp.add_run(b)
             br.font.name = "Arial"
-            br.font.size = Pt(8.65)
+            br.font.size = Pt(8.55)
 
     add_proj(
         "Project Aegis - Autonomous Multi-Agent Triage System",
         "Python, FastAPI, Agentic AI, RAG, Supabase (pgvector), Docker",
+        "Live Demo: https://agenticai914.netlify.app | Source Code: https://github.com/Shaunakrane914/Misinformation",
         [
             "Architected an autonomous emergency response orchestrator with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.",
             "Engineered tool-calling agent workflows to autonomously query incident records, evaluate casualty severity, and dispatch prioritized emergency actions with sub-second API latency.",
@@ -441,6 +473,7 @@ def generate_docx(docx_path):
     add_proj(
         "Gridium Protocol - Multi-Agent Microgrid Optimization",
         "Python, PyTorch, FastAPI, DDPG, WebSockets",
+        "Live Demo: https://live-ai-1-7tcy.vercel.app | Source Code: https://github.com/Shaunakrane914/Live-Ai-1",
         [
             "Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated grid.",
             "Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain.",
@@ -451,6 +484,7 @@ def generate_docx(docx_path):
     add_proj(
         "TopoFlow - GNN Fluid Dynamics Simulation",
         "Python, PyTorch Geometric, GraphSAGE, FastAPI",
+        "Source Code: https://github.com/Shaunakrane914/Flow",
         [
             "Benchmarked GraphSAGE against Kozeny-Carman physics baselines across 1,231 pore-network samples from 5 geological formations, using pore-size heterogeneity to dictate the modeling regime.",
             "Reduced MSE loss by 46.2% on Savonnieres and 28.4% on Estaillades formations while maintaining rigorous physical consistency benchmarks across baseline solvers.",
@@ -464,13 +498,13 @@ def generate_docx(docx_path):
     r_u = p_edu.add_run("Universal AI University")
     r_u.bold = True
     r_u.font.name = "Arial"
-    r_u.font.size = Pt(9.2)
+    r_u.font.size = Pt(9.1)
     r_deg = p_edu.add_run(" - B.Tech in Artificial Intelligence & Machine Learning")
     r_deg.font.name = "Arial"
-    r_deg.font.size = Pt(9.2)
+    r_deg.font.size = Pt(9.1)
     r_edate = p_edu.add_run("       (Expected May 2028 | Karjat, Maharashtra)")
     r_edate.font.name = "Arial"
-    r_edate.font.size = Pt(8.5)
+    r_edate.font.size = Pt(8.4)
     r_edate.bold = True
 
     bp_c = doc.add_paragraph(style='List Bullet')
@@ -479,10 +513,10 @@ def generate_docx(docx_path):
     br_c = bp_c.add_run("Relevant Coursework: ")
     br_c.bold = True
     br_c.font.name = "Arial"
-    br_c.font.size = Pt(8.65)
+    br_c.font.size = Pt(8.55)
     br_ci = bp_c.add_run("Data Structures & Algorithms, Object-Oriented Programming (OOP), Machine Learning, Deep Learning, Database Management Systems (DBMS), Operating Systems, Linear Algebra & Probability.")
     br_ci.font.name = "Arial"
-    br_ci.font.size = Pt(8.65)
+    br_ci.font.size = Pt(8.55)
 
     doc.save(docx_path)
     print(f"Saved DOCX to {docx_path}")
