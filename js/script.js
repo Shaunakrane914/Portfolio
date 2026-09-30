@@ -8,16 +8,28 @@
   var siteNav = document.getElementById("site-nav");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function updateProgress() {
-    if (!progressBar) return;
-    var scrollable = root.scrollHeight - window.innerHeight;
-    var percent = scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0;
-    progressBar.style.width = percent + "%";
+  var scrollableHeight = 1;
+  var progressScheduled = false;
+
+  function measureScrollRange() {
+    scrollableHeight = Math.max(1, root.scrollHeight - window.innerHeight);
   }
 
+  function updateProgress() {
+    if (!progressBar) return;
+    if (progressScheduled) return;
+    progressScheduled = true;
+    requestAnimationFrame(function () {
+      progressScheduled = false;
+      var ratio = Math.min(1, Math.max(0, window.scrollY / scrollableHeight));
+      progressBar.style.transform = "scaleX(" + ratio + ")";
+    });
+  }
+
+  measureScrollRange();
   updateProgress();
   window.addEventListener("scroll", updateProgress, { passive: true });
-  window.addEventListener("resize", updateProgress);
+  window.addEventListener("resize", measureScrollRange, { passive: true });
 
   if (navToggle && siteNav) {
     navToggle.addEventListener("click", function () {

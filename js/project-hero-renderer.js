@@ -37,6 +37,9 @@ if (!canvas || !window.__HERO_FACTORY) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.25));
+  if ("transmissionResolutionScale" in renderer) {
+    renderer.transmissionResolutionScale = 0.5;
+  }
 
   // ── Scene ────────────────────────────────────────────────────────────────
   const scene = new THREE.Scene();

@@ -1957,30 +1957,59 @@ function ensureWorld(index) {
   return worlds[index];
 }
 
-function prewarmRemainingWorlds() {
-  // Allow initial render, fonts, and first interaction to complete without CPU contention
-  setTimeout(() => {
-    let idx = 0;
-    function scheduleNext() {
-      while (idx < worldFactories.length && worlds[idx]) {
-        idx++;
-      }
-      if (idx < worldFactories.length) {
-        ensureWorld(idx);
-        idx++;
-        if (typeof requestIdleCallback !== "undefined") {
-          requestIdleCallback(scheduleNext, { timeout: 2500 });
-        } else {
-          setTimeout(scheduleNext, 300);
+let lastUserInteraction = performance.now();
+function markUserInteraction() {
+  lastUserInteraction = performance.now();
+}
+window.addEventListener("pointermove", markUserInteraction, { passive: true });
+window.addEventListener("pointerdown", markUserInteraction, { passive: true });
+window.addEventListener("keydown", markUserInteraction, { passive: true });
+window.addEventListener("wheel", markUserInteraction, { passive: true });
+window.addEventListener("touchstart", markUserInteraction, { passive: true });
+
+function isUserIdle(idleThresholdMs = 1500) {
+  return (performance.now() - lastUserInteraction) > idleThresholdMs;
+}
+
+function scheduleIdlePrewarm() {
+  function tryPrewarmNext() {
+    // Never prewarm while user is actively moving pointer, scrolling, or during transitions
+    if (!isUserIdle(1500) || isSceneTransitioning || document.hidden) {
+      setTimeout(tryPrewarmNext, 800);
+      return;
+    }
+
+    // Prioritize the adjacent next scene first, then any remaining unbuilt scenes
+    const nextAdjacent = (currentScene + 1) % worldFactories.length;
+    let targetIdx = -1;
+    if (!worlds[nextAdjacent]) {
+      targetIdx = nextAdjacent;
+    } else {
+      for (let i = 0; i < worldFactories.length; i++) {
+        if (!worlds[i]) {
+          targetIdx = i;
+          break;
         }
       }
     }
-    if (typeof requestIdleCallback !== "undefined") {
-      requestIdleCallback(scheduleNext, { timeout: 2500 });
-    } else {
-      setTimeout(scheduleNext, 300);
+
+    if (targetIdx !== -1) {
+      if (typeof requestIdleCallback !== "undefined") {
+        requestIdleCallback((deadline) => {
+          if (deadline.timeRemaining() > 10 && isUserIdle(1500)) {
+            ensureWorld(targetIdx);
+          }
+          setTimeout(tryPrewarmNext, 1600);
+        }, { timeout: 4000 });
+      } else {
+        ensureWorld(targetIdx);
+        setTimeout(tryPrewarmNext, 1600);
+      }
     }
-  }, 2200);
+  }
+
+  // Defer first check by 2.8s so initial hero rendering and page load have zero main-thread contention
+  setTimeout(tryPrewarmNext, 2800);
 }
 
 function initializeThree() {
@@ -2028,7 +2057,7 @@ function initializeThree() {
     scene.add(createAmbientField());
     ensureWorld(currentScene);
     activeWorld = worlds[currentScene];
-    prewarmRemainingWorlds();
+    scheduleIdlePrewarm();
     window.__observatory = { worlds, camera, targetCamera, targetLook, currentLook, mobileCameraStates, cameraStates, THREE };
     webglReady = true;
     resizeRenderer();
@@ -2284,11 +2313,7 @@ function setScene(index, options = {}) {
     const direction = Math.sign(currentScene - previousScene) || 1;
     cameraVelocity.y += direction * 1.9;
     cameraVelocity.x += direction * 0.7;
-    document.body.classList.remove("is-scene-transitioning");
-    void document.body.offsetWidth;
-    document.body.classList.add("is-scene-transitioning");
-    window.clearTimeout(transitionTimer);
-    transitionTimer = window.setTimeout(() => document.body.classList.remove("is-scene-transitioning"), 520);
+    triggerScanEffect();
   }
   lockSceneTransition(950);
 
@@ -2312,6 +2337,26 @@ function setScene(index, options = {}) {
   }
 }
 
+const transitionLine = document.querySelector(".scene-transition-line");
+let scanAnimation = null;
+
+function triggerScanEffect() {
+  if (!transitionLine || reduceMotion) return;
+  if (scanAnimation) {
+    try { scanAnimation.cancel(); } catch {}
+  }
+  scanAnimation = transitionLine.animate([
+    { transform: "translateX(0) skewX(-8deg)", opacity: 0 },
+    { opacity: 1, offset: 0.12 },
+    { opacity: 0.62, offset: 0.86 },
+    { transform: "translateX(126vw) skewX(-8deg)", opacity: 0 }
+  ], {
+    duration: 620,
+    easing: "cubic-bezier(0.22, 0.8, 0.24, 1)",
+    fill: "none"
+  });
+}
+
 let isSceneTransitioning = false;
 let lastTransitionAt = 0;
 let sceneLockTimer = null;
@@ -2333,15 +2378,6 @@ function stepScene(direction) {
     setScene(target);
   }
 }
-
-// Prebuild scene on hover to eliminate click latency
-document.addEventListener("pointerover", (event) => {
-  const jumpBtn = event.target.closest("[data-scene-jump]");
-  if (jumpBtn) {
-    const target = Number(jumpBtn.dataset.sceneJump);
-    if (!isNaN(target)) ensureWorld(target);
-  }
-}, { passive: true });
 
 // Global Event Delegation for all interactive action attributes
 document.addEventListener("click", (event) => {

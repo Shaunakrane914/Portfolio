@@ -33,6 +33,9 @@ if (canvas) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;
+  if ("transmissionResolutionScale" in renderer) {
+    renderer.transmissionResolutionScale = 0.5;
+  }
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(palette.dark);
