@@ -11,6 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/project-page.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./assets/vendor/three.module.min.js",
+      "three/addons/": "./assets/vendor/addons/"
+    }
+  }
+  </script>
 </head>
 <body class="case-study-deep case-aegis">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -34,7 +42,7 @@
         <h1 class="proj-hero-title">Project <span>Aegis</span></h1>
         <p class="proj-hero-sub">A claim enters once, becomes a traceable background job, passes through evidence and investigation stages, and returns as a structured record an operator can inspect instead of a one-shot chatbot answer.</p>
         <div class="proj-hero-cta">
-          <a href="https://agenticai914.netlify.app" target="_blank" rel="noopener noreferrer" class="btn-main"><span class="live-dot"></span>Live Website &nearr;</a>
+          <a href="https://shaunakrane.is-a.dev/aegis.html" target="_blank" rel="noopener noreferrer" class="btn-main"><span class="live-dot"></span>Live System &nearr;</a>
           <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" rel="noopener noreferrer" class="btn-ghost">Inspect source &nearr;</a>
         </div>
       </div>
@@ -84,7 +92,7 @@
       </div>
       <div class="case-system-grid">
         <article><span>Application plane</span><h3>FastAPI + BackgroundTasks</h3><p>Submission returns immediately while the worker advances the claim through pending, in-progress, completed, or failed states.</p></article>
-        <article><span>Model plane</span><h3>Gemini 2.5 Flash</h3><p>Research and investigation are distinct prompts. JSON normalization, schema checks, provider fallback, and controlled errors sit around the model call.</p></article>
+        <article><span>Model plane</span><h3>Agentic AI &amp; RAG Architecture</h3><p>Research and investigation are distinct multi-agent workflows. Structured JSON Schema normalization, hybrid RAG retrieval, tool-calling swarms, and auditable Supabase persistence surround the inference pipeline.</p></article>
         <article><span>Data plane</span><h3>Supabase PostgreSQL</h3><p>Claims and evidence survive page refreshes. The dashboard prefers persisted completed claims and explicitly tops up from the WELFake dataset.</p></article>
         <article><span>Intelligence plane</span><h3>Scout + Trending</h3><p>Scout computes market-volatility evidence; Trending collects Google News RSS and optional external social data for specialist scans.</p></article>
       </div>

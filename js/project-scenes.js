@@ -30,7 +30,7 @@ if (canvas) {
     preserveDrawingBuffer: true
   });
   renderer.setClearColor(palette.dark, 1);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.35 : 1.85));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;
@@ -1562,7 +1562,7 @@ if (canvas) {
 
   const observer = new IntersectionObserver((entries) => {
     visible = entries[0]?.isIntersecting ?? true;
-    if (visible) {
+    if (visible && !document.hidden) {
       lastTime = performance.now();
       renderer.setAnimationLoop(render);
     } else {
@@ -1571,6 +1571,17 @@ if (canvas) {
   }, { threshold: 0.02 });
   observer.observe(hero || canvas);
 
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      renderer.setAnimationLoop(null);
+    } else if (visible) {
+      lastTime = performance.now();
+      renderer.setAnimationLoop(render);
+    }
+  });
+
   resize();
-  renderer.setAnimationLoop(render);
+  if (visible && !document.hidden) {
+    renderer.setAnimationLoop(render);
+  }
 }

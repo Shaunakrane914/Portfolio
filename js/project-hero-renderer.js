@@ -36,7 +36,7 @@ if (!canvas || !window.__HERO_FACTORY) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarsePointer ? 1.3 : 1.8));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
 
   // ── Scene ────────────────────────────────────────────────────────────────
   const scene = new THREE.Scene();
@@ -66,10 +66,11 @@ if (!canvas || !window.__HERO_FACTORY) {
   }
 
   // ── Bloom Post-processing ────────────────────────────────────────────────
+  const dpr = renderer.getPixelRatio();
   const rt = new THREE.WebGLRenderTarget(800, 600, {
     type: THREE.HalfFloatType,
     format: THREE.RGBAFormat,
-    samples: 4
+    samples: dpr > 1 ? 0 : 2
   });
   const composer = new EffectComposer(renderer, rt);
   composer.addPass(new RenderPass(scene, camera));
@@ -85,7 +86,7 @@ if (!canvas || !window.__HERO_FACTORY) {
   window.addEventListener("pointermove", e => {
     pointer.x =  (e.clientX / window.innerWidth)  * 2 - 1;
     pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
-  });
+  }, { passive: true });
   window.addEventListener("touchmove", e => {
     if (e.touches.length > 0) {
       pointer.x =  (e.touches[0].clientX / window.innerWidth)  * 2 - 1;
@@ -97,19 +98,49 @@ if (!canvas || !window.__HERO_FACTORY) {
   if (typeof ResizeObserver !== "undefined") {
     new ResizeObserver(resize).observe(canvas);
   } else {
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", resize, { passive: true });
   }
   resize();
 
-  // ── Animation loop ────────────────────────────────────────────────────────
-  if (!reduceMotion) {
+  // ── Animation loop with viewport and visibility gating ────────────────────
+  let isVisible = true;
+  let isRunning = false;
+
+  function startLoop() {
+    if (isRunning || reduceMotion) return;
+    isRunning = true;
     renderer.setAnimationLoop(timeMs => {
+      if (!isVisible || document.hidden) return;
       const t = timeMs * 0.001;
       proto.update(t, pointer);
       composer.render();
     });
+  }
+
+  function stopLoop() {
+    if (!isRunning) return;
+    isRunning = false;
+    renderer.setAnimationLoop(null);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    isVisible = entries[0]?.isIntersecting ?? true;
+    if (isVisible && !document.hidden) {
+      startLoop();
+    } else {
+      stopLoop();
+    }
+  }, { threshold: 0.05 });
+  observer.observe(canvas.closest(".proj-hero") || canvas);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopLoop();
+    else if (isVisible) startLoop();
+  });
+
+  if (!reduceMotion) {
+    startLoop();
   } else {
-    // Single static frame for reduced-motion users
     proto.update(0, pointer);
     composer.render();
   }

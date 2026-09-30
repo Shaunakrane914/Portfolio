@@ -1818,7 +1818,50 @@ function createProfileWorld() {
   return group;
 }
 
-const worlds = [];
+const worlds = new Array(6).fill(null);
+const worldFactories = [
+  createOriginWorld,
+  createAegisInvestigationWorld,
+  createGridiumLivingNetworkWorld,
+  createCompressorWorld,
+  createTopoWorld,
+  createProfileWorld
+];
+
+function ensureWorld(index) {
+  if (index < 0 || index >= worldFactories.length) return null;
+  if (!worlds[index]) {
+    const world = worldFactories[index]();
+    world.userData.baseScale = world.scale.clone();
+    world.visible = index === currentScene;
+    worlds[index] = world;
+    if (scene) scene.add(world);
+  }
+  return worlds[index];
+}
+
+function prewarmRemainingWorlds() {
+  let idx = 0;
+  function scheduleNext() {
+    while (idx < worldFactories.length && worlds[idx]) {
+      idx++;
+    }
+    if (idx < worldFactories.length) {
+      ensureWorld(idx);
+      idx++;
+      if (typeof requestIdleCallback !== "undefined") {
+        requestIdleCallback(scheduleNext, { timeout: 600 });
+      } else {
+        setTimeout(scheduleNext, 80);
+      }
+    }
+  }
+  if (typeof requestIdleCallback !== "undefined") {
+    requestIdleCallback(scheduleNext, { timeout: 600 });
+  } else {
+    setTimeout(scheduleNext, 120);
+  }
+}
 
 function initializeThree() {
   try {
@@ -1830,7 +1873,7 @@ function initializeThree() {
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x020403, 1);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarsePointer ? 1.4 : 1.85));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -1864,22 +1907,22 @@ function initializeThree() {
     scene.add(accent);
 
     scene.add(createAmbientField());
-    worlds.push(
-      createOriginWorld(),
-      createAegisInvestigationWorld(),
-      createGridiumLivingNetworkWorld(),
-      createCompressorWorld(),
-      createTopoWorld(),
-      createProfileWorld()
-    );
-    worlds.forEach((world) => {
-      world.userData.baseScale = world.scale.clone();
-      scene.add(world);
-    });
+    ensureWorld(currentScene);
     activeWorld = worlds[currentScene];
+    prewarmRemainingWorlds();
     window.__observatory = { worlds, camera, targetCamera, targetLook, currentLook, mobileCameraStates, cameraStates, THREE };
     webglReady = true;
     resizeRenderer();
+    window.addEventListener("resize", resizeRenderer, { passive: true });
+    window.addEventListener("orientationchange", resizeRenderer, { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        renderer.setAnimationLoop(null);
+      } else if (webglReady) {
+        lastFrameTime = performance.now();
+        renderer.setAnimationLoop(render);
+      }
+    });
     renderer.setAnimationLoop(render);
   } catch (error) {
     document.body.classList.add("webgl-unavailable");
@@ -1904,7 +1947,6 @@ function render(timeMs) {
   const time = timeMs * 0.001;
   const dt = Math.min((timeMs - lastFrameTime) / 1000, 0.034);
   lastFrameTime = timeMs;
-  resizeRenderer();
 
   const state = getCameraTarget(currentScene);
   targetCamera.fromArray(state.position);
@@ -1932,143 +1974,157 @@ function render(timeMs) {
     transitField.scale.z = 0.7 + motionEnergy * 3.8;
   }
 
+  const activeIdx = currentScene;
+
   // 0: Origin
-  worlds[0].rotation.y += reduceMotion ? 0 : 0.0012;
-  worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
-  worlds[0].userData.rings?.forEach((ring) => {
-    ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
-    ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.35;
-  });
-  if (worlds[0].userData.chamber) worlds[0].userData.chamber.rotation.y = reduceMotion ? 0 : time * 0.035;
+  if (activeIdx === 0 && worlds[0]) {
+    worlds[0].rotation.y += reduceMotion ? 0 : 0.0012;
+    worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
+    worlds[0].userData.rings?.forEach((ring) => {
+      ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
+      ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.35;
+    });
+    if (worlds[0].userData.chamber) worlds[0].userData.chamber.rotation.y = reduceMotion ? 0 : time * 0.035;
+  }
 
   // 1: Aegis
-  if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.01;
-  if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.006;
-  if (worlds[1].userData.inspectionShell) {
-    worlds[1].userData.inspectionShell.rotation.x = reduceMotion ? 0 : time * 0.08;
-    worlds[1].userData.inspectionShell.rotation.y = reduceMotion ? 0 : -time * 0.11;
-  }
-  worlds[1].userData.orbits?.forEach((orbit) => {
-    orbit.rotation.z += reduceMotion ? 0 : orbit.userData.speed * dt;
-    orbit.rotation.y += reduceMotion ? 0 : orbit.userData.speed * dt * 0.55;
-  });
+  else if (activeIdx === 1 && worlds[1]) {
+    if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.01;
+    if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.006;
+    if (worlds[1].userData.inspectionShell) {
+      worlds[1].userData.inspectionShell.rotation.x = reduceMotion ? 0 : time * 0.08;
+      worlds[1].userData.inspectionShell.rotation.y = reduceMotion ? 0 : -time * 0.11;
+    }
+    worlds[1].userData.orbits?.forEach((orbit) => {
+      orbit.rotation.z += reduceMotion ? 0 : orbit.userData.speed * dt;
+      orbit.rotation.y += reduceMotion ? 0 : orbit.userData.speed * dt * 0.55;
+    });
 
-  const sweepAngle = reduceMotion ? 0.65 : time * 0.68;
-  if (worlds[1].userData.sweep) worlds[1].userData.sweep.rotation.z = sweepAngle;
-  if (worlds[1].userData.sweepSector) worlds[1].userData.sweepSector.rotation.z = sweepAngle;
+    const sweepAngle = reduceMotion ? 0.65 : time * 0.68;
+    if (worlds[1].userData.sweep) worlds[1].userData.sweep.rotation.z = sweepAngle;
+    if (worlds[1].userData.sweepSector) worlds[1].userData.sweepSector.rotation.z = sweepAngle;
 
-  worlds[1].userData.bars.forEach((bar) => {
-    const pulse = reduceMotion ? 1 : 0.78 + Math.sin(time * 1.7 + bar.userData.phase) * 0.22;
-    bar.scale.y = bar.userData.baseHeight * pulse;
-  });
-  worlds[1].userData.blips.forEach((blip) => {
-    const pulse = reduceMotion ? 1 : 0.55 + (Math.sin(time * 3.2 + blip.userData.phase) + 1) * 0.42;
-    blip.scale.setScalar(pulse);
-  });
-  worlds[1].userData.codePanels?.forEach((panel) => {
-    panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.72 + panel.userData.phase) * 0.055);
-    if (panel.userData.frame) panel.userData.frame.position.y = panel.position.y;
-  });
-  worlds[1].userData.scanHeads?.forEach((scanHead) => {
-    scanHead.position.y = reduceMotion ? 0 : Math.sin(time * 1.55 + scanHead.userData.phase) * 0.43;
-    scanHead.scale.x = reduceMotion ? 0.78 : 0.72 + (Math.sin(time * 2.1 + scanHead.userData.phase) + 1) * 0.16;
-  });
-  worlds[1].userData.agentCores?.forEach((core, index) => {
-    const pulse = reduceMotion ? 1 : 0.82 + (Math.sin(time * 2.35 + index * 0.7) + 1) * 0.16;
-    core.scale.setScalar(pulse);
-  });
-  worlds[1].userData.claimPackets?.forEach((packet) => {
-    const progress = (packet.userData.offset + time * 0.18) % 1;
-    packet.position.copy(packet.userData.route.getPointAt(progress));
-  });
-  worlds[1].userData.evidencePackets?.forEach((packet) => {
-    const progress = (packet.userData.offset + time * packet.userData.speed) % 1;
-    packet.position.copy(packet.userData.route.getPointAt(progress));
-    packet.rotation.x = time * 1.3;
-    packet.rotation.y = time * 1.7;
-  });
-  worlds[1].userData.verdictBars?.forEach((bar) => {
-    const reveal = reduceMotion ? 1 : 0.62 + (Math.sin(time * 1.75 + bar.userData.phase) + 1) * 0.19;
-    bar.scale.x = reveal;
-  });
-  if (worlds[1].userData.verdictSeal) {
-    worlds[1].userData.verdictSeal.position.y = -1.58 + (reduceMotion ? 0 : Math.sin(time * 1.2) * 0.08);
-    worlds[1].userData.verdictSeal.rotation.y = reduceMotion ? 0 : Math.sin(time * 0.7) * 0.22;
-  }
-  if (worlds[1].userData.claimDossier) {
-    worlds[1].userData.claimDossier.position.y = 0.05 + (reduceMotion ? 0 : Math.sin(time * 0.85) * 0.04);
+    worlds[1].userData.bars?.forEach((bar) => {
+      const pulse = reduceMotion ? 1 : 0.78 + Math.sin(time * 1.7 + bar.userData.phase) * 0.22;
+      bar.scale.y = bar.userData.baseHeight * pulse;
+    });
+    worlds[1].userData.blips?.forEach((blip) => {
+      const pulse = reduceMotion ? 1 : 0.55 + (Math.sin(time * 3.2 + blip.userData.phase) + 1) * 0.42;
+      blip.scale.setScalar(pulse);
+    });
+    worlds[1].userData.codePanels?.forEach((panel) => {
+      panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.72 + panel.userData.phase) * 0.055);
+      if (panel.userData.frame) panel.userData.frame.position.y = panel.position.y;
+    });
+    worlds[1].userData.scanHeads?.forEach((scanHead) => {
+      scanHead.position.y = reduceMotion ? 0 : Math.sin(time * 1.55 + scanHead.userData.phase) * 0.43;
+      scanHead.scale.x = reduceMotion ? 0.78 : 0.72 + (Math.sin(time * 2.1 + scanHead.userData.phase) + 1) * 0.16;
+    });
+    worlds[1].userData.agentCores?.forEach((core, index) => {
+      const pulse = reduceMotion ? 1 : 0.82 + (Math.sin(time * 2.35 + index * 0.7) + 1) * 0.16;
+      core.scale.setScalar(pulse);
+    });
+    worlds[1].userData.claimPackets?.forEach((packet) => {
+      const progress = (packet.userData.offset + time * 0.18) % 1;
+      packet.position.copy(packet.userData.route.getPointAt(progress));
+    });
+    worlds[1].userData.evidencePackets?.forEach((packet) => {
+      const progress = (packet.userData.offset + time * packet.userData.speed) % 1;
+      packet.position.copy(packet.userData.route.getPointAt(progress));
+      packet.rotation.x = time * 1.3;
+      packet.rotation.y = time * 1.7;
+    });
+    worlds[1].userData.verdictBars?.forEach((bar) => {
+      const reveal = reduceMotion ? 1 : 0.62 + (Math.sin(time * 1.75 + bar.userData.phase) + 1) * 0.19;
+      bar.scale.x = reveal;
+    });
+    if (worlds[1].userData.verdictSeal) {
+      worlds[1].userData.verdictSeal.position.y = -1.58 + (reduceMotion ? 0 : Math.sin(time * 1.2) * 0.08);
+      worlds[1].userData.verdictSeal.rotation.y = reduceMotion ? 0 : Math.sin(time * 0.7) * 0.22;
+    }
+    if (worlds[1].userData.claimDossier) {
+      worlds[1].userData.claimDossier.position.y = 0.05 + (reduceMotion ? 0 : Math.sin(time * 0.85) * 0.04);
+    }
   }
 
   // 2: Gridium
-  worlds[2].userData.panels.forEach((panel) => {
-    panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.8 + panel.userData.phase) * 0.08);
-  });
-  worlds[2].userData.dataParticles.forEach((packet) => {
-    const progress = (packet.userData.offset + time * (packet.userData.speed || 0.065)) % 1;
-    if (packet.userData.route) {
-      packet.position.copy(packet.userData.route.getPointAt(progress));
-    } else {
-      packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
+  else if (activeIdx === 2 && worlds[2]) {
+    worlds[2].userData.panels?.forEach((panel) => {
+      panel.position.y = panel.userData.baseY + (reduceMotion ? 0 : Math.sin(time * 0.8 + panel.userData.phase) * 0.08);
+    });
+    worlds[2].userData.dataParticles?.forEach((packet) => {
+      const progress = (packet.userData.offset + time * (packet.userData.speed || 0.065)) % 1;
+      if (packet.userData.route) {
+        packet.position.copy(packet.userData.route.getPointAt(progress));
+      } else {
+        packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
+      }
+      packet.rotation.x = time * 1.4;
+      packet.rotation.y = time * 1.8;
+    });
+    worlds[2].userData.energyRings?.forEach((ring) => {
+      ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
+    });
+    worlds[2].userData.nodes?.forEach((node, index) => {
+      const pulse = reduceMotion ? 1 : 0.88 + (Math.sin(time * 1.1 + node.userData.phase) + 1) * 0.08;
+      node.userData.halo.scale.setScalar(pulse);
+      node.position.y = -1.7 + (reduceMotion ? 0 : Math.sin(time * 0.72 + index * 0.38) * 0.025);
+    });
+    worlds[2].userData.proofLeaves?.forEach((leaf) => {
+      leaf.scale.x = reduceMotion ? 1 : 0.7 + (Math.sin(time * 1.65 + leaf.userData.phase) + 1) * 0.15;
+    });
+    if (worlds[2].userData.poolLiquid) {
+      worlds[2].userData.poolLiquid.scale.y = reduceMotion ? 1 : 0.82 + (Math.sin(time * 0.58) + 1) * 0.12;
     }
-    packet.rotation.x = time * 1.4;
-    packet.rotation.y = time * 1.8;
-  });
-  worlds[2].userData.energyRings?.forEach((ring) => {
-    ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
-  });
-  worlds[2].userData.nodes?.forEach((node, index) => {
-    const pulse = reduceMotion ? 1 : 0.88 + (Math.sin(time * 1.1 + node.userData.phase) + 1) * 0.08;
-    node.userData.halo.scale.setScalar(pulse);
-    node.position.y = -1.7 + (reduceMotion ? 0 : Math.sin(time * 0.72 + index * 0.38) * 0.025);
-  });
-  worlds[2].userData.proofLeaves?.forEach((leaf) => {
-    leaf.scale.x = reduceMotion ? 1 : 0.7 + (Math.sin(time * 1.65 + leaf.userData.phase) + 1) * 0.15;
-  });
-  if (worlds[2].userData.poolLiquid) {
-    worlds[2].userData.poolLiquid.scale.y = reduceMotion ? 1 : 0.82 + (Math.sin(time * 0.58) + 1) * 0.12;
+    worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.18) * 0.018;
   }
-  worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.18) * 0.018;
 
   // 3: Compressor
-  worlds[3].userData.rotors.forEach((rotor, index) => {
-    rotor.rotation.z += reduceMotion ? 0 : 0.008 + index * 0.0016;
-  });
-  worlds[3].userData.instrumentRings?.forEach((ring) => {
-    ring.rotation.x += reduceMotion ? 0 : ring.userData.speed * dt;
-  });
-  worlds[3].rotation.y = Math.sin(time * 0.24) * 0.08;
-  worlds[3].userData.flowParticles.forEach((particle) => {
-    const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
-    const spiral = particle.userData.phase + progress * Math.PI * 7;
-    const compression = 1 - progress * 0.34;
-    particle.position.set(
-      -4.45 + progress * 8.9,
-      Math.cos(spiral) * particle.userData.radius * compression,
-      Math.sin(spiral) * particle.userData.radius * compression
-    );
-  });
-
-  // 4: TopoFlow
-  worlds[4].rotation.y += reduceMotion ? 0 : 0.0017;
-  worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
-  if (worlds[4].userData.flowCurve) {
-    worlds[4].userData.flowParticles.forEach((particle) => {
+  else if (activeIdx === 3 && worlds[3]) {
+    worlds[3].userData.rotors?.forEach((rotor, index) => {
+      rotor.rotation.z += reduceMotion ? 0 : 0.008 + index * 0.0016;
+    });
+    worlds[3].userData.instrumentRings?.forEach((ring) => {
+      ring.rotation.x += reduceMotion ? 0 : ring.userData.speed * dt;
+    });
+    worlds[3].rotation.y = Math.sin(time * 0.24) * 0.08;
+    worlds[3].userData.flowParticles?.forEach((particle) => {
       const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
-      particle.position.copy(worlds[4].userData.flowCurve.getPointAt(progress));
-      const pulse = 0.7 + Math.sin(progress * Math.PI) * 0.8;
-      particle.scale.setScalar(pulse);
+      const spiral = particle.userData.phase + progress * Math.PI * 7;
+      const compression = 1 - progress * 0.34;
+      particle.position.set(
+        -4.45 + progress * 8.9,
+        Math.cos(spiral) * particle.userData.radius * compression,
+        Math.sin(spiral) * particle.userData.radius * compression
+      );
     });
   }
 
+  // 4: TopoFlow
+  else if (activeIdx === 4 && worlds[4]) {
+    worlds[4].rotation.y += reduceMotion ? 0 : 0.0017;
+    worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
+    if (worlds[4].userData.flowCurve && worlds[4].userData.flowParticles) {
+      worlds[4].userData.flowParticles.forEach((particle) => {
+        const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
+        particle.position.copy(worlds[4].userData.flowCurve.getPointAt(progress));
+        const pulse = 0.7 + Math.sin(progress * Math.PI) * 0.8;
+        particle.scale.setScalar(pulse);
+      });
+    }
+  }
+
   // 5: Profile
-  worlds[5].rotation.y += reduceMotion ? 0 : 0.0014;
-  worlds[5].userData.rings?.forEach((ring) => {
-    ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
-    ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.22;
-  });
-  worlds[5].userData.modules?.forEach((module) => {
-    module.position.x = module.userData.baseX + (reduceMotion ? 0 : Math.sin(time * 0.42 + module.userData.phase) * 0.08);
-  });
+  else if (activeIdx === 5 && worlds[5]) {
+    worlds[5].rotation.y += reduceMotion ? 0 : 0.0014;
+    worlds[5].userData.rings?.forEach((ring) => {
+      ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
+      ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.22;
+    });
+    worlds[5].userData.modules?.forEach((module) => {
+      module.position.x = module.userData.baseX + (reduceMotion ? 0 : Math.sin(time * 0.42 + module.userData.phase) * 0.08);
+    });
+  }
 
   if (activeWorld && !reduceMotion) {
     activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * 0.025;
@@ -2086,6 +2142,7 @@ function setScene(index, options = {}) {
   if (next === currentScene && !options.force) return;
   const previousScene = currentScene;
   currentScene = next;
+  ensureWorld(currentScene);
   activeWorld = worlds[currentScene] || null;
   if (activeWorld?.userData.baseScale) {
     activeWorld.scale.copy(activeWorld.userData.baseScale);
@@ -2094,7 +2151,7 @@ function setScene(index, options = {}) {
   lastSceneChange = performance.now();
   document.body.dataset.currentScene = String(currentScene);
   worlds.forEach((world, worldIndex) => {
-    world.visible = worldIndex === currentScene;
+    if (world) world.visible = worldIndex === currentScene;
   });
 
   if (!options.force && !reduceMotion) {

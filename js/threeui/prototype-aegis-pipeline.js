@@ -265,7 +265,7 @@ export function createAegisPipelinePrototype(scene) {
 
     ctx.fillStyle = "#8fa598";
     ctx.font = "11px monospace";
-    ctx.fillText("FASTAPI WORKER · GEMINI 2.5 FLASH · SUPABASE PERSISTENCE", 20, 64);
+    ctx.fillText("FASTAPI WORKER · AGENTIC AI & RAG · SUPABASE PERSISTENCE", 20, 64);
 
     // Claim Ingestion Card
     ctx.fillStyle = "rgba(10, 24, 40, 0.85)";
