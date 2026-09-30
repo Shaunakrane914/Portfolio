@@ -167,8 +167,7 @@ body.is-scene-transitioning .scene-transition-line {
   min-height: var(--header-height);
   padding: 0 28px;
   border-bottom: 1px solid var(--line);
-  background: rgba(5, 7, 6, 0.78);
-  backdrop-filter: blur(12px);
+  background: rgba(5, 7, 6, 0.92);
 }
 
 .brand-lockup,
@@ -288,10 +287,9 @@ body.is-scene-transitioning .scene-transition-line {
   position: absolute;
   z-index: -1;
   inset: -20px -36px -20px -20px;
-  background: radial-gradient(ellipse at left top, rgba(5, 7, 6, 0.94) 0%, rgba(5, 7, 6, 0.82) 65%, transparent 100%);
+  background: radial-gradient(ellipse at left top, rgba(5, 7, 6, 0.96) 0%, rgba(5, 7, 6, 0.88) 65%, transparent 100%);
   content: "";
   pointer-events: none;
-  backdrop-filter: blur(8px);
   border-radius: 8px;
 }
 
@@ -868,8 +866,7 @@ body.is-scene-transitioning .scene-transition-line {
   transform: translateX(-50%);
   padding: 7px 20px;
   border: 1px solid var(--line-strong);
-  background: rgba(5, 7, 6, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(5, 7, 6, 0.94);
   color: var(--muted);
   font-family: var(--mono);
   font-size: 0.58rem;
@@ -936,8 +933,7 @@ body.is-scene-transitioning .scene-transition-line {
   min-height: 92px;
   padding: 16px 32px;
   border-bottom: 1px solid var(--line);
-  background: rgba(10, 14, 12, 0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 14, 12, 0.96);
 }
 
 .dialog-header span {
@@ -1331,9 +1327,8 @@ body.is-scene-transitioning .scene-transition-line {
     gap: 0;
     min-height: 68px;
     border-top: 1px solid var(--line);
-    background: rgba(5, 7, 6, 0.92);
+    background: rgba(5, 7, 6, 0.95);
     transform: none;
-    backdrop-filter: blur(12px);
   }
 
   .scene-rail button {
@@ -1712,8 +1707,7 @@ body[data-current-scene="0"] .origin-layer-map {
   min-height: 164px;
   padding: 14px 7.5vw;
   border-top: 1px solid var(--line);
-  background: rgba(5, 7, 6, 0.88);
-  backdrop-filter: blur(14px);
+  background: rgba(5, 7, 6, 0.95);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -2084,9 +2078,7 @@ body[data-current-scene="0"] .systems-console {
     -webkit-overflow-scrolling: touch;
     padding: 14px 16px;
     border-radius: 10px;
-    background: rgba(3, 7, 5, 0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(3, 7, 5, 0.94);
     border: 1px solid rgba(71, 230, 165, 0.2);
     box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.7);
   }

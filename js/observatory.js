@@ -1841,26 +1841,29 @@ function ensureWorld(index) {
 }
 
 function prewarmRemainingWorlds() {
-  let idx = 0;
-  function scheduleNext() {
-    while (idx < worldFactories.length && worlds[idx]) {
-      idx++;
-    }
-    if (idx < worldFactories.length) {
-      ensureWorld(idx);
-      idx++;
-      if (typeof requestIdleCallback !== "undefined") {
-        requestIdleCallback(scheduleNext, { timeout: 600 });
-      } else {
-        setTimeout(scheduleNext, 80);
+  // Allow initial render, fonts, and first interaction to complete without CPU contention
+  setTimeout(() => {
+    let idx = 0;
+    function scheduleNext() {
+      while (idx < worldFactories.length && worlds[idx]) {
+        idx++;
+      }
+      if (idx < worldFactories.length) {
+        ensureWorld(idx);
+        idx++;
+        if (typeof requestIdleCallback !== "undefined") {
+          requestIdleCallback(scheduleNext, { timeout: 2500 });
+        } else {
+          setTimeout(scheduleNext, 300);
+        }
       }
     }
-  }
-  if (typeof requestIdleCallback !== "undefined") {
-    requestIdleCallback(scheduleNext, { timeout: 600 });
-  } else {
-    setTimeout(scheduleNext, 120);
-  }
+    if (typeof requestIdleCallback !== "undefined") {
+      requestIdleCallback(scheduleNext, { timeout: 2500 });
+    } else {
+      setTimeout(scheduleNext, 300);
+    }
+  }, 2200);
 }
 
 function initializeThree() {
@@ -2208,6 +2211,15 @@ function stepScene(direction) {
   }
 }
 
+// Prebuild scene on hover to eliminate click latency
+document.addEventListener("pointerover", (event) => {
+  const jumpBtn = event.target.closest("[data-scene-jump]");
+  if (jumpBtn) {
+    const target = Number(jumpBtn.dataset.sceneJump);
+    if (!isNaN(target)) ensureWorld(target);
+  }
+}, { passive: true });
+
 // Global Event Delegation for all interactive action attributes
 document.addEventListener("click", (event) => {
   const jumpBtn = event.target.closest("[data-scene-jump]");
@@ -2423,6 +2435,13 @@ function openDialog(dialog) {
   if (!dialog) return;
   lastFocusedElement = document.activeElement;
   document.body.classList.add("dialog-open");
+  if (dialog === archiveDialog) {
+    const lazyImages = dialog.querySelectorAll("img[data-src]");
+    lazyImages.forEach((img) => {
+      img.src = img.dataset.src;
+      img.removeAttribute("data-src");
+    });
+  }
   dialog.showModal();
 }
 
