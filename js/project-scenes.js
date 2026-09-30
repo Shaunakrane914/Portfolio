@@ -26,11 +26,10 @@ if (canvas) {
     canvas,
     alpha: false,
     antialias: true,
-    powerPreference: "high-performance",
-    preserveDrawingBuffer: true
+    powerPreference: "high-performance"
   });
   renderer.setClearColor(palette.dark, 1);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;

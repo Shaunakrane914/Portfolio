@@ -36,7 +36,7 @@ if (!canvas || !window.__HERO_FACTORY) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.25));
 
   // ── Scene ────────────────────────────────────────────────────────────────
   const scene = new THREE.Scene();
@@ -62,19 +62,20 @@ if (!canvas || !window.__HERO_FACTORY) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     composer.setSize(w, h);
-    bloomPass.resolution.set(w, h);
+    // Half-resolution bloom: preserves cinematic glow while slashing fill-rate overhead by 75%
+    bloomPass.resolution.set(Math.floor(w * 0.5), Math.floor(h * 0.5));
   }
 
   // ── Bloom Post-processing ────────────────────────────────────────────────
-  const dpr = renderer.getPixelRatio();
+  // samples: 0 strictly avoids high-res multisample buffer bloat in HDR pass chain
   const rt = new THREE.WebGLRenderTarget(800, 600, {
     type: THREE.HalfFloatType,
     format: THREE.RGBAFormat,
-    samples: dpr > 1 ? 0 : 2
+    samples: 0
   });
   const composer = new EffectComposer(renderer, rt);
   composer.addPass(new RenderPass(scene, camera));
-  const bloomPass = new UnrealBloomPass(new THREE.Vector2(800, 600), bloomStr, 0.35, 0.72);
+  const bloomPass = new UnrealBloomPass(new THREE.Vector2(400, 300), bloomStr, 0.35, 0.72);
   bloomPass.renderToScreen = true;
   composer.addPass(bloomPass);
 
@@ -138,10 +139,22 @@ if (!canvas || !window.__HERO_FACTORY) {
     else if (isVisible) startLoop();
   });
 
-  if (!reduceMotion) {
-    startLoop();
+  // ── Asynchronous Shader Precompilation ──────────────────────────────────
+  if (renderer.compileAsync) {
+    renderer.compileAsync(scene, camera).then(() => {
+      if (!reduceMotion) startLoop();
+      else {
+        proto.update(0, pointer);
+        composer.render();
+      }
+    }).catch(() => {
+      if (!reduceMotion) startLoop();
+    });
   } else {
-    proto.update(0, pointer);
-    composer.render();
+    if (!reduceMotion) startLoop();
+    else {
+      proto.update(0, pointer);
+      composer.render();
+    }
   }
 }

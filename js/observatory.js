@@ -1989,7 +1989,6 @@ function initializeThree() {
       canvas,
       antialias: true,
       alpha: false,
-      preserveDrawingBuffer: true,
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x020403, 1);
