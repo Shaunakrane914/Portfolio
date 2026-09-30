@@ -1828,14 +1828,131 @@ const worldFactories = [
   createProfileWorld
 ];
 
+// ── Performance Telemetry & Adaptive Quality System ───────────────────────────
+const perfMode = new URLSearchParams(window.location.search).has("perf") || window.location.hash.includes("perf");
+let perfHud = null;
+let frameCount = 0;
+const frameWindow = [];
+let qualityTier = "high";
+let slowFrameTally = 0;
+let fastFrameTally = 0;
+
+function applyQualityTier(tier) {
+  if (!renderer) return;
+  const maxDpr = coarsePointer ? 1.15 : 1.35;
+  let targetDpr = maxDpr;
+  if (tier === "low") {
+    targetDpr = Math.min(window.devicePixelRatio || 1, 1.0);
+  } else if (tier === "medium") {
+    targetDpr = Math.min(window.devicePixelRatio || 1, 1.15);
+  } else {
+    targetDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+  }
+  renderer.setPixelRatio(targetDpr);
+  resizeRenderer();
+  if (perfMode) {
+    console.log(`[ADAPTIVE QUALITY] Tier changed to ${tier.toUpperCase()} (DPR: ${targetDpr.toFixed(2)})`);
+  }
+}
+
+function recordFrameTime(frameDeltaMs) {
+  if (frameWindow.length >= 60) frameWindow.shift();
+  frameWindow.push(frameDeltaMs);
+
+  if (frameDeltaMs > 32) slowFrameTally++;
+  else slowFrameTally = Math.max(0, slowFrameTally - 1);
+
+  if (frameDeltaMs < 18) fastFrameTally++;
+  else fastFrameTally = Math.max(0, fastFrameTally - 1);
+
+  if (slowFrameTally >= 12 && qualityTier !== "low") {
+    qualityTier = qualityTier === "high" ? "medium" : "low";
+    applyQualityTier(qualityTier);
+    slowFrameTally = 0;
+  } else if (fastFrameTally >= 80 && qualityTier !== "high") {
+    qualityTier = qualityTier === "low" ? "medium" : "high";
+    applyQualityTier(qualityTier);
+    fastFrameTally = 0;
+  }
+}
+
+function updatePerfHud() {
+  if (!perfMode || !renderer) return;
+  if (!perfHud) {
+    perfHud = document.createElement("div");
+    perfHud.id = "perf-hud";
+    Object.assign(perfHud.style, {
+      position: "fixed",
+      bottom: "16px",
+      right: "16px",
+      zIndex: "99999",
+      padding: "10px 14px",
+      background: "rgba(3, 7, 5, 0.94)",
+      border: "1px solid rgba(71, 230, 165, 0.5)",
+      borderRadius: "4px",
+      fontFamily: "'DM Mono', monospace, monospace",
+      fontSize: "11px",
+      color: "#47e6a5",
+      pointerEvents: "none",
+      lineHeight: "1.45",
+      boxShadow: "0 6px 24px rgba(0, 0, 0, 0.7)"
+    });
+    document.body.appendChild(perfHud);
+  }
+  frameCount++;
+  if (frameCount % 8 !== 0) return;
+
+  const avg = frameWindow.length ? (frameWindow.reduce((a, b) => a + b, 0) / frameWindow.length) : 16.6;
+  const fps = Math.round(1000 / Math.max(avg, 1));
+  const info = renderer.info;
+
+  perfHud.innerHTML = `
+    <div style="font-weight:700;letter-spacing:0.04em;border-bottom:1px solid rgba(71,230,165,0.25);margin-bottom:4px;padding-bottom:2px">
+      SYSTEM TELEMETRY [${qualityTier.toUpperCase()}]
+    </div>
+    <div>FPS: <b>${fps}</b> <span style="color:#9aa7a0">(${avg.toFixed(1)}ms)</span></div>
+    <div>CALLS: <b>${info.render.calls}</b> | TRIS: <b>${(info.render.triangles / 1000).toFixed(1)}k</b></div>
+    <div>GEOM: <b>${info.memory.geometries}</b> | TEX: <b>${info.memory.textures}</b></div>
+    <div>DPR: <b>${renderer.getPixelRatio().toFixed(2)}</b> | SCENE: <b>${sceneNames[currentScene]}</b></div>
+  `;
+}
+
+window.__perfTelemetry = {
+  getSnapshot: () => {
+    const avg = frameWindow.length ? (frameWindow.reduce((a, b) => a + b, 0) / frameWindow.length) : 16.6;
+    return {
+      fps: Math.round(1000 / Math.max(avg, 1)),
+      avgFrameMs: avg,
+      qualityTier,
+      dpr: renderer ? renderer.getPixelRatio() : 1,
+      calls: renderer?.info?.render?.calls || 0,
+      triangles: renderer?.info?.render?.triangles || 0,
+      geometries: renderer?.info?.memory?.geometries || 0,
+      textures: renderer?.info?.memory?.textures || 0,
+      activeScene: sceneNames[currentScene]
+    };
+  }
+};
+
 function ensureWorld(index) {
   if (index < 0 || index >= worldFactories.length) return null;
   if (!worlds[index]) {
+    const t0 = performance.now();
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
     world.visible = index === currentScene;
     worlds[index] = world;
     if (scene) scene.add(world);
+
+    // Asynchronously pre-compile shaders to remove the first-render hitch
+    if (renderer && camera && renderer.compileAsync) {
+      renderer.compileAsync(world, camera).catch(() => {});
+    }
+
+    world.userData.buildDuration = performance.now() - t0;
+    if (perfMode) {
+      console.log(`[PERF BUILD] World ${index} (${sceneNames[index]}) built in ${world.userData.buildDuration.toFixed(1)}ms`);
+    }
   }
   return worlds[index];
 }
@@ -2138,6 +2255,8 @@ function render(timeMs) {
   }
 
   renderer.render(scene, camera);
+  recordFrameTime(dt * 1000);
+  updatePerfHud();
 }
 
 function setScene(index, options = {}) {
@@ -2156,6 +2275,11 @@ function setScene(index, options = {}) {
   worlds.forEach((world, worldIndex) => {
     if (world) world.visible = worldIndex === currentScene;
   });
+
+  if (perfMode && renderer) {
+    const info = renderer.info;
+    console.log(`[PERF SCENE] Switched to ${sceneNames[currentScene]} | Calls: ${info.render.calls} | Tris: ${(info.render.triangles / 1000).toFixed(1)}k | Geometries: ${info.memory.geometries} | Textures: ${info.memory.textures} | DPR: ${renderer.getPixelRatio().toFixed(2)}`);
+  }
 
   if (!options.force && !reduceMotion) {
     const direction = Math.sign(currentScene - previousScene) || 1;

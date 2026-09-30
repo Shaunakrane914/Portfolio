@@ -10,21 +10,23 @@ const browser = await chromium.launch({
   args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-webgl", "--disable-gpu-vsync"]
 });
 
-async function measurePage(url, pageName) {
+async function measurePage(url, pageName, cpuThrottleRate = 1) {
   const context = await browser.newContext({
     viewport: { width: 1440, height: 900 }
   });
   const page = await context.newPage();
   const cdp = await context.newCDPSession(page);
   await cdp.send("Performance.enable");
+  if (cpuThrottleRate > 1) {
+    await cdp.send("Emulation.setCPUThrottlingRate", { rate: cpuThrottleRate });
+  }
 
   const networkRequests = [];
   page.on("request", (req) => {
     networkRequests.push({
       url: req.url(),
       resourceType: req.resourceType(),
-      method: req.method(),
-      startTime: performance.now()
+      method: req.method()
     });
   });
 
@@ -38,16 +40,14 @@ async function measurePage(url, pageName) {
     responses.push({
       url: res.url(),
       status: res.status(),
-      size,
-      time: performance.now()
+      size
     });
   });
 
-  const longTasks = [];
   await page.addInitScript(() => {
     window.__longTasks = [];
     try {
-      const observer = new PerformanceObserver((list) => {
+      new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           window.__longTasks.push({
             name: entry.name,
@@ -55,12 +55,12 @@ async function measurePage(url, pageName) {
             duration: entry.duration
           });
         }
-      });
-      observer.observe({ type: "longtask", buffered: true });
+      }).observe({ type: "longtask", buffered: true });
     } catch (e) {}
 
     window.__fcp = 0;
     window.__lcp = 0;
+    window.__cls = 0;
     try {
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
@@ -76,6 +76,14 @@ async function measurePage(url, pageName) {
           window.__lcp = entries[entries.length - 1].startTime;
         }
       }).observe({ type: "largest-contentful-paint", buffered: true });
+
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            window.__cls += entry.value;
+          }
+        }
+      }).observe({ type: "layout-shift", buffered: true });
     } catch (e) {}
   });
 
@@ -83,23 +91,37 @@ async function measurePage(url, pageName) {
   await page.goto(url, { waitUntil: "networkidle" });
   const navEnd = performance.now();
 
-  // Simulate mouse moves and interaction for 2 seconds
-  for (let i = 0; i < 10; i++) {
+  // Natural pointer movement
+  for (let i = 0; i < 8; i++) {
     await page.mouse.move(200 + i * 80, 200 + (i % 2) * 100);
-    await page.waitForTimeout(60);
+    await page.waitForTimeout(40);
   }
 
-  // Keyboard navigation for scenes if index.html
-  if (pageName === "index.html") {
-    await page.keyboard.press("ArrowDown");
-    await page.waitForTimeout(400);
-    await page.keyboard.press("ArrowDown");
-    await page.waitForTimeout(400);
+  const sceneSnapshots = [];
+
+  // Cycle through all 6 scenes on index.html to gather WebGL renderer.info telemetry
+  if (pageName.includes("index")) {
+    for (let sceneIdx = 0; sceneIdx < 6; sceneIdx++) {
+      await page.evaluate((idx) => {
+        const btn = document.querySelector(`[data-scene-jump="${idx}"]`);
+        if (btn) btn.click();
+      }, sceneIdx);
+
+      await page.waitForTimeout(450);
+
+      const snapshot = await page.evaluate(() => {
+        if (window.__perfTelemetry) {
+          return window.__perfTelemetry.getSnapshot();
+        }
+        return null;
+      });
+      if (snapshot) sceneSnapshots.push(snapshot);
+    }
   } else {
-    // Scroll case study
-    await page.mouse.wheel(0, 600);
+    // Scroll project case study
+    await page.mouse.wheel(0, 700);
     await page.waitForTimeout(300);
-    await page.mouse.wheel(0, 600);
+    await page.mouse.wheel(0, 700);
     await page.waitForTimeout(300);
   }
 
@@ -114,10 +136,10 @@ async function measurePage(url, pageName) {
     return {
       fcp: window.__fcp || 0,
       lcp: window.__lcp || 0,
+      cls: window.__cls || 0,
       longTasks: window.__longTasks || [],
       domContentLoaded: nav.domContentLoadedEventEnd - nav.startTime,
-      loadEvent: nav.loadEventEnd - nav.startTime,
-      jsHeapUsedMB: performance.memory ? performance.memory.usedJSHeapSize / (1024 * 1024) : 0
+      loadEvent: nav.loadEventEnd - nav.startTime
     };
   });
 
@@ -125,47 +147,42 @@ async function measurePage(url, pageName) {
   const totalTBT = clientMetrics.longTasks.reduce((acc, t) => acc + Math.max(0, t.duration - 50), 0);
 
   console.log(`\n======================================================`);
-  console.log(`PAGE: ${pageName}`);
+  console.log(`PAGE: ${pageName} (CPU Throttling: ${cpuThrottleRate}x)`);
   console.log(`======================================================`);
   console.log(`Network Duration to Idle: ${(navEnd - navStart).toFixed(1)} ms`);
-  console.log(`Total Requests: ${networkRequests.length}, Recorded Transferred: ${(totalTransferBytes / 1024).toFixed(1)} KB`);
-  console.log(`DOMContentLoaded: ${clientMetrics.domContentLoaded.toFixed(1)} ms`);
-  console.log(`Load Event: ${clientMetrics.loadEvent.toFixed(1)} ms`);
-  console.log(`FCP: ${clientMetrics.fcp.toFixed(1)} ms | LCP: ${clientMetrics.lcp.toFixed(1)} ms`);
-  console.log(`Long Tasks Count: ${clientMetrics.longTasks.length}, Total Blocking Time (TBT): ${totalTBT.toFixed(1)} ms`);
-  if (clientMetrics.longTasks.length > 0) {
-    console.log(`Top Long Tasks:`);
-    clientMetrics.longTasks.slice(0, 5).forEach((t, i) => {
-      console.log(`  #${i+1}: ${t.duration.toFixed(1)} ms (started at ${t.startTime.toFixed(1)} ms)`);
-    });
-  }
+  console.log(`Total Requests: ${networkRequests.length}, Transferred: ${(totalTransferBytes / 1024).toFixed(1)} KB`);
+  console.log(`DOMContentLoaded: ${clientMetrics.domContentLoaded.toFixed(1)} ms | Load: ${clientMetrics.loadEvent.toFixed(1)} ms`);
+  console.log(`FCP: ${clientMetrics.fcp.toFixed(1)} ms | LCP: ${clientMetrics.lcp.toFixed(1)} ms | CLS: ${clientMetrics.cls.toFixed(3)}`);
+  console.log(`Long Tasks: ${clientMetrics.longTasks.length}, Total Blocking Time (TBT): ${totalTBT.toFixed(1)} ms`);
   console.log(`CDP ScriptDuration: ${(metricsMap.ScriptDuration * 1000).toFixed(1)} ms`);
   console.log(`CDP LayoutDuration: ${(metricsMap.LayoutDuration * 1000).toFixed(1)} ms (Count: ${metricsMap.LayoutCount})`);
   console.log(`CDP RecalcStyleDuration: ${(metricsMap.RecalcStyleDuration * 1000).toFixed(1)} ms (Count: ${metricsMap.RecalcStyleCount})`);
-  console.log(`CDP JSHeapUsed: ${(metricsMap.JSHeapUsedSize / (1024 * 1024)).toFixed(2)} MB`);
 
-  // Breakdown requests
-  console.log(`Top 10 Requests by Size:`);
-  responses
-    .sort((a, b) => b.size - a.size)
-    .slice(0, 10)
-    .forEach((r) => {
-      const shortUrl = r.url.replace("http://127.0.0.1:8089/", "");
-      console.log(`  - ${(r.size / 1024).toFixed(1)} KB : ${shortUrl}`);
-    });
+  if (sceneSnapshots.length > 0) {
+    console.log(`\n3D WebGL Scene Telemetry (renderer.info):`);
+    console.table(sceneSnapshots.map(s => ({
+      Scene: s.activeScene,
+      FPS: s.fps,
+      "Frame (ms)": Number(s.avgFrameMs.toFixed(1)),
+      "Draw Calls": s.calls,
+      Triangles: s.triangles,
+      Geometries: s.geometries,
+      Textures: s.textures,
+      DPR: Number(s.dpr.toFixed(2)),
+      Tier: s.qualityTier
+    })));
+  }
 
   await context.close();
 }
 
-const pagesToTest = [
-  "http://127.0.0.1:8089/index.html",
-  "http://127.0.0.1:8089/aegis.html",
-  "http://127.0.0.1:8089/food.html"
-];
+// 1. Run index.html with ?perf=1 to capture telemetry
+await measurePage("http://127.0.0.1:8089/index.html?perf=1", "index.html");
 
-for (const p of pagesToTest) {
-  const name = path.basename(p);
-  await measurePage(p, name);
-}
+// 2. Run index.html with 4x CPU Throttling to test simulated mid-range laptop
+await measurePage("http://127.0.0.1:8089/index.html?perf=1", "index.html (4x Throttled)", 4);
+
+// 3. Run aegis.html to measure content-visibility gains on project case studies
+await measurePage("http://127.0.0.1:8089/aegis.html", "aegis.html");
 
 await browser.close();

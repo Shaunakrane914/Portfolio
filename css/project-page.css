@@ -291,6 +291,8 @@ body:not([data-page="home"]) .nav-back {
   position: relative;
   padding: 108px 0;
   border-bottom: 1px solid var(--case-line);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 650px;
 }
 
 .proj-section::before { position: absolute; top: 0; left: 0; width: 72px; height: 1px; background: var(--case-accent); content: ""; }
