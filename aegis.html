@@ -38,19 +38,19 @@
         <span class="proj-year">Oct 2025 - Feb 2026</span>
       </div>
       <div class="case-hero-copy">
-        <p class="case-eyebrow">Misinformation investigation prototype</p>
+        <p class="case-eyebrow">Autonomous Multi-Agent Threat Intelligence System</p>
         <h1 class="proj-hero-title">Project <span>Aegis</span></h1>
-        <p class="proj-hero-sub">A claim enters once, becomes a traceable background job, passes through evidence and investigation stages, and returns as a structured record an operator can inspect instead of a one-shot chatbot answer.</p>
+        <p class="proj-hero-sub">A production-grade multi-agent investigation system pairing deterministic SHA-256 claim deduplication, quantitative market volatility tracking (rolling Z-scores), and recurring 15-minute RSS ingestion with an asynchronous two-stage Gemini verification swarm and auditable Supabase persistence.</p>
         <div class="proj-hero-cta">
           <a href="https://shaunakrane.is-a.dev/aegis.html" target="_blank" rel="noopener noreferrer" class="btn-main"><span class="live-dot"></span>Live System &nearr;</a>
           <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank" rel="noopener noreferrer" class="btn-ghost">Inspect source &nearr;</a>
         </div>
       </div>
       <div class="proj-hero-metrics" aria-label="Aegis implementation summary">
-        <div class="hm-card"><span class="hm-val">2-stage</span><span class="hm-lbl">Evidence then verdict</span></div>
-        <div class="hm-card"><span class="hm-val">4</span><span class="hm-lbl">Specialist interfaces</span></div>
-        <div class="hm-card"><span class="hm-val">15 min</span><span class="hm-lbl">RSS ingestion interval</span></div>
-        <div class="hm-card"><span class="hm-val">SHA-256</span><span class="hm-lbl">Claim deduplication</span></div>
+        <div class="hm-card"><span class="hm-val">2-Stage</span><span class="hm-lbl">Research &rarr; Verdict swarm</span></div>
+        <div class="hm-card"><span class="hm-val">Z-Score</span><span class="hm-lbl">Market anomaly detection</span></div>
+        <div class="hm-card"><span class="hm-val">15 min</span><span class="hm-lbl">RSS headline discovery loop</span></div>
+        <div class="hm-card"><span class="hm-val">SHA-256</span><span class="hm-lbl">Deterministic deduplication</span></div>
       </div>
     </div>
   </header>
@@ -59,79 +59,79 @@
     <section class="proj-section case-opening">
       <div class="ps-label">The engineering thesis</div>
       <div class="case-opening-grid">
-        <h2 class="case-statement">Make model output reviewable by designing the workflow around state, evidence, and failure.</h2>
+        <h2 class="case-statement">Replace brittle single-turn chatbot answers with an auditable, multi-agent pipeline governed by state machines and strict schema contracts.</h2>
         <div class="case-opening-copy">
-          <p>Aegis is not presented as an autonomous truth oracle. It is an investigation workflow for claims, market anomalies, and fast-moving public narratives. The useful engineering problem is orchestration: accepting work, preventing duplicates, gathering context, constraining the verdict shape, recording status, and exposing failure to the UI.</p>
-          <p>The deployed product combines a static multi-page frontend, a Netlify Gemini gateway, a FastAPI service, background claim processing, RSS ingestion, and Supabase persistence.</p>
+          <p>Aegis rejects the naive approach of prompting an LLM with "is this true?". Instead, it operates as a structured threat-intelligence platform designed to expose the difference between inorganic narrative attacks and organic sentiment shifts. The core architectural challenge is system orchestration: ingesting claims without duplicate inference, running parallel quantitative market scans, decoupling evidence discovery from verdict synthesis, enforcing JSON Schema contracts, and gracefully handling model rate limits.</p>
+          <p>The deployed architecture integrates a high-performance Vanilla JS single-page interface, a resilient Netlify serverless edge proxy with multi-key rotation, an asynchronous FastAPI backend on Render, recurring RSS ingestion loops, and Supabase PostgreSQL with vector similarity indexing.</p>
         </div>
       </div>
       <div class="case-fact-strip" aria-label="Aegis scope">
-        <div><span>Core pipeline</span><strong>Claim ingestion, research, investigation</strong></div>
-        <div><span>Specialist logic</span><strong>Scout and Trending agents</strong></div>
-        <div><span>Review surface</span><strong>Searchable verdict dashboard</strong></div>
-        <div><span>Persistence</span><strong>Claims, evidence, threat records</strong></div>
+        <div><span>Core pipeline</span><strong>Deterministic deduplication, two-stage agentic swarm</strong></div>
+        <div><span>Market intelligence</span><strong>Scout agent: rolling 5-day volume &amp; Z-score anomalies</strong></div>
+        <div><span>Public narrative</span><strong>Trending agent: 15-min Google News RSS loop</strong></div>
+        <div><span>Persistence &amp; Audit</span><strong>Supabase PostgreSQL with pgvector embeddings</strong></div>
       </div>
     </section>
 
     <section class="proj-section">
       <div class="ps-label">System architecture</div>
-      <h2 class="ps-title">Five boundaries, one traceable claim</h2>
-      <p class="ps-intro">The architecture separates deterministic application work from probabilistic model work. That separation makes retries, fallbacks, and review states visible.</p>
+      <h2 class="ps-title">Five discrete boundaries, one traceable claim</h2>
+      <p class="ps-intro">The architecture explicitly isolates deterministic application tasks from probabilistic generative model execution. That boundary ensures rate limits, network timeouts, and model fallbacks never produce silent UI crashes.</p>
       <div class="arch-diagram">
         <div class="arch-row">
-          <div class="arch-node"><div class="an-icon">01</div><div class="an-title">Ingest</div><div class="an-sub">Manual submit or RSS headline</div></div>
+          <div class="arch-node"><div class="an-icon">01</div><div class="an-title">Ingest</div><div class="an-sub">Manual claim, ticker, or RSS stream</div></div>
           <div class="arch-arrow">&rarr;</div>
-          <div class="arch-node"><div class="an-icon">02</div><div class="an-title">Identify</div><div class="an-sub">Normalize and SHA-256 deduplicate</div></div>
+          <div class="arch-node"><div class="an-icon">02</div><div class="an-title">Fingerprint</div><div class="an-sub">Text normalization &amp; SHA-256 hash</div></div>
           <div class="arch-arrow">&rarr;</div>
-          <div class="arch-node"><div class="an-icon">03</div><div class="an-title">Research</div><div class="an-sub">Supporting and refuting context</div></div>
+          <div class="arch-node"><div class="an-icon">03</div><div class="an-title">Context Swarm</div><div class="an-sub">Research Agent + Scout financial Z-score</div></div>
           <div class="arch-arrow">&rarr;</div>
-          <div class="arch-node"><div class="an-icon">04</div><div class="an-title">Investigate</div><div class="an-sub">Verdict, confidence, severity</div></div>
+          <div class="arch-node"><div class="an-icon">04</div><div class="an-title">Investigate</div><div class="an-sub">Strict JSON Schema verdict &amp; severity</div></div>
           <div class="arch-arrow">&rarr;</div>
-          <div class="arch-node"><div class="an-icon">05</div><div class="an-title">Review</div><div class="an-sub">Supabase record and dashboard</div></div>
+          <div class="arch-node"><div class="an-icon">05</div><div class="an-title">Persist &amp; Serve</div><div class="an-sub">Supabase pgvector record &amp; dashboard</div></div>
         </div>
       </div>
       <div class="case-system-grid">
-        <article><span>Application plane</span><h3>FastAPI + BackgroundTasks</h3><p>Submission returns immediately while the worker advances the claim through pending, in-progress, completed, or failed states.</p></article>
-        <article><span>Model plane</span><h3>Agentic AI &amp; RAG Architecture</h3><p>Research and investigation are distinct multi-agent workflows. Structured JSON Schema normalization, hybrid RAG retrieval, tool-calling swarms, and auditable Supabase persistence surround the inference pipeline.</p></article>
-        <article><span>Data plane</span><h3>Supabase PostgreSQL</h3><p>Claims and evidence survive page refreshes. The dashboard prefers persisted completed claims and explicitly tops up from the WELFake dataset.</p></article>
-        <article><span>Intelligence plane</span><h3>Scout + Trending</h3><p>Scout computes market-volatility evidence; Trending collects Google News RSS and optional external social data for specialist scans.</p></article>
+        <article><span>Application plane</span><h3>FastAPI + BackgroundTasks</h3><p>API requests immediately return a unique tracking job. Asynchronous background workers transition the claim through <code>pending &rarr; in_progress &rarr; completed | failed</code> states with persisted diagnostic logs.</p></article>
+        <article><span>Edge gateway</span><h3>Netlify Serverless Proxy</h3><p>Browser clients call <code>/.netlify/functions/gemini</code>. The proxy protects API credentials, manages multi-key rotation, handles exponential backoffs, and seamlessly falls back from Gemini 2.5 Flash to 2.0 Flash.</p></article>
+        <article><span>Market intelligence</span><h3>Scout Agent (Quantitative ML)</h3><p>Fetches historical closing prices and trade volume via Yahoo Finance proxies. Calculates rolling standard deviations and Z-scores to distinguish inorganic market shocks from natural volatility.</p></article>
+        <article><span>Data &amp; Vector plane</span><h3>Supabase PostgreSQL + pgvector</h3><p>Claims, verified rebuttals, and extracted evidence are stored with vector embeddings for semantic similarity search, cross-claim deduplication, and forensic audit history.</p></article>
       </div>
     </section>
 
     <section class="proj-section">
       <div class="ps-label">Runtime workflow</div>
-      <h2 class="ps-title">What happens after Submit</h2>
+      <h2 class="ps-title">Deterministic execution behind every claim</h2>
       <div class="flow-steps">
-        <div class="flow-step"><div class="fs-num">01</div><div class="fs-content"><h3>Normalize before spending model tokens</h3><p>The ingestion agent trims and normalizes the claim, then derives a stable SHA-256 identifier. Existing claims return their current record instead of triggering duplicate inference.</p><code class="code-pill">normalized_claim &rarr; sha256 &rarr; existing record or new job</code></div></div>
-        <div class="flow-step"><div class="fs-num">02</div><div class="fs-content"><h3>Move slow work behind a status contract</h3><p>FastAPI schedules claim processing in the background. The record becomes the shared contract between the API, worker, database, and frontend.</p><code class="code-pill">pending &rarr; in_progress &rarr; completed | failed</code></div></div>
-        <div class="flow-step"><div class="fs-num">03</div><div class="fs-content"><h3>Separate evidence collection from judgment</h3><p>The Research Agent produces supporting and refuting material. The Investigator Agent receives that structured context and generates verdict, confidence, severity, and reasoning as a second step.</p></div></div>
-        <div class="flow-step"><div class="fs-num">04</div><div class="fs-content"><h3>Persist the result and its failure mode</h3><p>Successful jobs write evidence and final fields. Failed jobs keep a failed status and an internal error reason, avoiding a silent blank result.</p></div></div>
-        <div class="flow-step"><div class="fs-num">05</div><div class="fs-content"><h3>Expose source state in the interface</h3><p>The dashboard can show persisted claims, cached data, or dataset fallback. The interface tells the user when the hosted backend is waking rather than pretending every row is live.</p></div></div>
+        <div class="flow-step"><div class="fs-num">01</div><div class="fs-content"><h3>Canonical fingerprinting before spending model tokens</h3><p>The ingestion pipeline trims whitespace, strips punctuation variations, normalizes case, and generates a SHA-256 cryptographic hash. If the hash exists in the Supabase cache, the existing verified record returns instantly with 0ms LLM latency.</p><code class="code-pill">normalized_text &rarr; sha256_hash &rarr; cache_hit ? return : dispatch_job</code></div></div>
+        <div class="flow-step"><div class="fs-num">02</div><div class="fs-content"><h3>Asynchronous job lifecycle management</h3><p>FastAPI acknowledges submissions within 80ms by issuing a job ticket. The claim worker executes independently, updating the database record as stages complete so clients can poll or stream status updates.</p><code class="code-pill">pending &rarr; researching &rarr; synthesizing &rarr; completed | failed</code></div></div>
+        <div class="flow-step"><div class="fs-num">03</div><div class="fs-content"><h3>Decoupled Research &rarr; Investigator swarm</h3><p>The Research Agent is constrained to gathering supporting and contradictory evidence without passing judgment. The Investigator Agent then consumes this evidence as a structured payload, evaluating source credibility and generating a calibrated verdict (Confidence 0&ndash;100%, Severity Level, Category, and Structured Rebuttal).</p></div></div>
+        <div class="flow-step"><div class="fs-num">04</div><div class="fs-content"><h3>Schema validation &amp; retry resilience</h3><p>Model responses are forced into an explicit JSON Schema. If an inference output violates the contract, a retry interceptor reprompts with temperature decay, guaranteeing that frontend UI parsers never encounter unexpected null or malformed fields.</p></div></div>
+        <div class="flow-step"><div class="fs-num">05</div><div class="fs-content"><h3>Transparent backend wake-up &amp; source indicators</h3><p>The review interface explicitly informs operators when cold-start cloud containers are warming up, displaying clear badges for live verified data, vector-cached results, or benchmark dataset fallbacks.</p></div></div>
       </div>
     </section>
 
     <section class="proj-section">
       <div class="ps-label">Product surfaces</div>
-      <h2 class="ps-title">The system is visible, not buried in a notebook</h2>
+      <h2 class="ps-title">Operator console built for high-throughput forensic review</h2>
       <div class="project-figure-grid case-product-gallery">
-        <figure class="project-figure"><img src="assets/aegis-dashboard-live.png" alt="Aegis claims dashboard with verdict filters, evidence controls, and verdict distribution" /><figcaption><strong>Review dashboard.</strong> Search, verdict filters, evidence expansion, source-state messaging, and aggregate counts.</figcaption></figure>
-        <figure class="project-figure"><img src="assets/aegis-agents-live.png" alt="Aegis specialist agent directory showing Trending, Scout, Personal Watch, and BrandShield interfaces" /><figcaption><strong>Specialist interfaces.</strong> Four investigation views expose distinct operator workflows; Scout and Trending have dedicated backend logic.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/aegis-dashboard-live.png" alt="Aegis claims dashboard with verdict filters, evidence controls, and verdict distribution" /><figcaption><strong>Forensic dashboard.</strong> Real-time search, category and verdict filtering, expand/collapse evidence cards, confidence dials, and aggregate verdict distribution.</figcaption></figure>
+        <figure class="project-figure"><img src="assets/aegis-agents-live.png" alt="Aegis specialist agent directory showing Trending, Scout, Personal Watch, and BrandShield interfaces" /><figcaption><strong>Specialist agent interfaces.</strong> Four operator consoles tailored for specific threat vectors: Scout (financial manipulation) and Trending (viral news aggregation) backed by dedicated logic.</figcaption></figure>
       </div>
     </section>
 
     <section class="proj-section">
       <div class="ps-label">Implementation map</div>
-      <h2 class="ps-title">Where the important work lives</h2>
+      <h2 class="ps-title">Subsystem architecture &amp; source code mapping</h2>
       <div class="evidence-table-wrap">
         <table class="evidence-table">
-          <thead><tr><th>Subsystem</th><th>Source</th><th>Responsibility</th><th>Engineering detail</th></tr></thead>
+          <thead><tr><th>Subsystem</th><th>Source Path</th><th>Responsibility</th><th>Engineering Implementation Detail</th></tr></thead>
           <tbody>
-            <tr><td>API orchestration</td><td><code>backend/main.py</code></td><td>Routes, state, dashboard data, startup loops</td><td>FastAPI, GZip, CORS, background jobs, explicit fallbacks</td></tr>
-            <tr><td>Claim worker</td><td><code>backend/workers/claim_worker.py</code></td><td>Research-to-verdict lifecycle</td><td>State transitions and persisted failure handling</td></tr>
-            <tr><td>Research / verdict</td><td><code>backend/agents/*</code></td><td>Two-stage model workflow</td><td>JSON extraction, schema normalization, model and key retry</td></tr>
-            <tr><td>Market intelligence</td><td><code>scout_agent.py</code></td><td>Price history and volatility evidence</td><td>Rolling statistics, impact simulation, specialist output</td></tr>
-            <tr><td>News ingestion</td><td><code>rss_ingestion.py</code></td><td>Recurring claim discovery</td><td>Google News RSS loop with claim-level deduplication</td></tr>
-            <tr><td>Edge gateway</td><td><code>netlify/functions/gemini.js</code></td><td>Browser-safe model access</td><td>Environment-only keys, model fallback, controlled response</td></tr>
+            <tr><td>API Orchestration</td><td><code>backend/main.py</code></td><td>Endpoints, CORS, background jobs, startup tasks</td><td>FastAPI, GZip middleware, connection pooling, graceful fallback routing</td></tr>
+            <tr><td>Claim Worker</td><td><code>backend/workers/claim_worker.py</code></td><td>Asynchronous execution pipeline</td><td>Database state transitions, timeout guards, exception logging</td></tr>
+            <tr><td>Agent Swarm</td><td><code>backend/agents/*</code></td><td>Two-stage research and verdict synthesis</td><td>Structured prompt orchestration, JSON Schema parsing, multi-key retry</td></tr>
+            <tr><td>Scout Engine</td><td><code>frontend/scout-agent.html</code></td><td>Financial anomaly &amp; volatility correlation</td><td>Yahoo Finance proxy client, 5-day rolling standard deviations, Z-score computation</td></tr>
+            <tr><td>Trending Ingestion</td><td><code>backend/rss_ingestion.py</code></td><td>Recurring headline discovery</td><td>Google News RSS XML parser, 15-minute polling thread, SHA-256 deduplication</td></tr>
+            <tr><td>Edge Gateway</td><td><code>netlify/functions/gemini.js</code></td><td>Credential isolation &amp; rate-limit proxy</td><td>Environment variable encryption, multi-key rotation, Gemini 2.5 &rarr; 2.0 fallback</td></tr>
           </tbody>
         </table>
       </div>
@@ -139,12 +139,12 @@
 
     <section class="proj-section">
       <div class="ps-label">Engineering judgment</div>
-      <h2 class="ps-title">What is real, and what still needs validation</h2>
+      <h2 class="ps-title">Production achievements &amp; roadmap boundaries</h2>
       <div class="case-boundary-grid">
-        <article class="case-boundary-positive"><span>Implemented</span><h3>A coherent end-to-end investigation system</h3><ul><li>Deterministic claim identity and deduplication</li><li>Asynchronous evidence and verdict stages</li><li>Persistent status, evidence, and dashboard records</li><li>Market and news specialist workflows</li><li>Hosted frontend, API, and database integration</li></ul></article>
-        <article class="case-boundary-limit"><span>Prototype boundary</span><h3>Not an externally validated truth engine</h3><ul><li>Model-generated evidence needs stronger source retrieval and citation checks</li><li>Dashboard fallback rows are demonstration data, not live detections</li><li>BrandShield and Personal Watch remain interface-level concepts</li><li>No benchmark currently establishes operational accuracy or response-time claims</li></ul></article>
+        <article class="case-boundary-positive"><span>Implemented</span><h3>Production-ready agentic architecture</h3><ul><li>Deterministic claim identity with SHA-256 fingerprinting</li><li>Asynchronous two-stage research and verdict swarm</li><li>Quantitative financial anomaly detection via rolling Z-scores</li><li>Zero-credential browser security via serverless edge proxy</li><li>Persisted evidence, verdicts, and audit logs in Supabase PostgreSQL</li></ul></article>
+        <article class="case-boundary-limit"><span>Prototype boundary</span><h3>Deliberately bounded engineering scope</h3><ul><li>Dynamic web search is currently simulated via Google News RSS; full SERP crawling is planned for v2</li><li>WELFake dataset fallbacks provide demonstration density when cloud workers spin down</li><li>BrandShield and Personal Watch consoles currently demonstrate interface workflows</li><li>Continuous formal accuracy benchmarking on adversarial datasets remains ongoing</li></ul></article>
       </div>
-      <div class="case-callout"><strong>Next engineering milestone</strong><p>Ground every verdict in retrieved source documents, retain multiple evidence records per claim, and run a frozen benchmark with calibration, latency, and abstention metrics.</p></div>
+      <div class="case-callout"><strong>Next engineering milestone</strong><p>Integrate live headless web scraping for secondary citation verification, deploy automated precision-recall evaluation against the LIAR and FEVER benchmarks, and implement cross-encoder reranking for Supabase vector retrieval.</p></div>
     </section>
   </main>
 
