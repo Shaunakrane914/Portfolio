@@ -17,7 +17,7 @@ html_template = """<!DOCTYPE html>
 <style>
   @page {
     size: letter;
-    margin: 0.30in 0.42in 0.27in 0.42in;
+    margin: 0.25in 0.36in 0.20in 0.36in;
   }
   * {
     box-sizing: border-box;
@@ -30,17 +30,17 @@ html_template = """<!DOCTYPE html>
     font-family: Arial, Calibri, 'Segoe UI', sans-serif;
     color: #111111;
     background: #ffffff;
-    line-height: 1.22;
-    font-size: 8.8pt;
+    line-height: 1.20;
+    font-size: 8.75pt;
     font-variant-ligatures: none;
     -webkit-font-smoothing: antialiased;
   }
   .header {
     text-align: center;
-    margin-bottom: 3.5px;
+    margin-bottom: 3px;
   }
   .header h1 {
-    font-size: 19pt;
+    font-size: 18.5pt;
     font-weight: 700;
     letter-spacing: 0.5px;
     color: #000000;
@@ -48,13 +48,13 @@ html_template = """<!DOCTYPE html>
     text-transform: uppercase;
   }
   .header .headline {
-    font-size: 9.5pt;
+    font-size: 9.3pt;
     font-weight: 600;
     color: #222222;
     margin-bottom: 2px;
   }
   .header .contact {
-    font-size: 8.5pt;
+    font-size: 8.15pt;
     color: #333333;
   }
   .header .contact a {
@@ -148,6 +148,7 @@ html_template = """<!DOCTYPE html>
     <div class="contact">
       Thane, Maharashtra, India | +91 93202 21211 | 
       <a href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a> | 
+      <a href="https://www.linkedin.com/in/shaunak-rane-3980582ba/" target="_blank">linkedin.com/in/shaunak-rane</a> | 
       <a href="https://github.com/Shaunakrane914" target="_blank">github.com/Shaunakrane914</a> | 
       <a href="https://shaunakrane.is-a.dev" target="_blank">shaunakrane.is-a.dev</a>
     </div>
@@ -337,7 +338,7 @@ def generate_docx(docx_path):
     r_head.font.size = Pt(9.5)
 
     p_contact = add_p(space_before=0, space_after=3.5, align=WD_ALIGN_PARAGRAPH.CENTER)
-    r_con = p_contact.add_run("Thane, Maharashtra, India | +91 93202 21211 | shaunakrane914@gmail.com | github.com/Shaunakrane914 | shaunakrane.is-a.dev")
+    r_con = p_contact.add_run("Thane, Maharashtra, India | +91 93202 21211 | shaunakrane914@gmail.com | linkedin.com/in/shaunak-rane-3980582ba | github.com/Shaunakrane914 | shaunakrane.is-a.dev")
     r_con.font.name = "Arial"
     r_con.font.size = Pt(8.5)
 

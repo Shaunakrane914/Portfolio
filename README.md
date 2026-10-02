@@ -6,7 +6,7 @@ The portfolio is architected as an interactive **WebGL Systems Observatory**: si
 
 - **Primary Custom Domain:** [shaunakrane.is-a.dev](https://shaunakrane.is-a.dev)
 - **Netlify CDN Mirror:** [sr914.netlify.app](https://sr914.netlify.app)
-- **Author:** Shaunak Rane ([GitHub](https://github.com/Shaunakrane914) · [LinkedIn](https://linkedin.com/in/shaunak-rane) · `shaunakrane914@gmail.com`)
+- **Author:** Shaunak Rane ([GitHub](https://github.com/Shaunakrane914) · [LinkedIn](https://www.linkedin.com/in/shaunak-rane-3980582ba/) · `shaunakrane914@gmail.com`)
 
 ---
 
