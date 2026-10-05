@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .tempmediaStorage/
+
+# Local Netlify folder
+.netlify
