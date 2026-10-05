@@ -17,7 +17,7 @@ html_template = """<!DOCTYPE html>
 <style>
   @page {
     size: letter;
-    margin: 0.25in 0.36in 0.20in 0.36in;
+    margin: 0.30in 0.40in 0.26in 0.40in;
   }
   * {
     box-sizing: border-box;
@@ -30,31 +30,31 @@ html_template = """<!DOCTYPE html>
     font-family: Arial, Calibri, 'Segoe UI', sans-serif;
     color: #111111;
     background: #ffffff;
-    line-height: 1.20;
-    font-size: 8.75pt;
+    line-height: 1.24;
+    font-size: 8.85pt;
     font-variant-ligatures: none;
     -webkit-font-smoothing: antialiased;
   }
   .header {
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
   .header h1 {
-    font-size: 18.5pt;
+    font-size: 19pt;
     font-weight: 700;
     letter-spacing: 0.5px;
     color: #000000;
-    margin-bottom: 1px;
+    margin-bottom: 1.5px;
     text-transform: uppercase;
   }
   .header .headline {
-    font-size: 9.3pt;
+    font-size: 9.4pt;
     font-weight: 600;
     color: #222222;
-    margin-bottom: 2px;
+    margin-bottom: 2.5px;
   }
   .header .contact {
-    font-size: 8.15pt;
+    font-size: 8.35pt;
     color: #333333;
   }
   .header .contact a {
@@ -62,34 +62,29 @@ html_template = """<!DOCTYPE html>
     text-decoration: underline;
   }
   .section {
-    margin-bottom: 4px;
+    margin-bottom: 4.5px;
   }
   .section-title {
-    font-size: 9.5pt;
+    font-size: 9.6pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     border-bottom: 1px solid #111111;
     padding-bottom: 1px;
-    margin-bottom: 2.5px;
+    margin-bottom: 3px;
     color: #000000;
   }
-  .summary-text {
-    font-size: 8.65pt;
-    text-align: justify;
-    line-height: 1.22;
-  }
   .skills-row {
-    font-size: 8.6pt;
-    margin-bottom: 1px;
-    line-height: 1.20;
+    font-size: 8.7pt;
+    margin-bottom: 1.5px;
+    line-height: 1.23;
   }
   .skills-row strong {
     font-weight: 700;
     color: #000000;
   }
   .item {
-    margin-bottom: 3px;
+    margin-bottom: 3.5px;
   }
   .item:last-child {
     margin-bottom: 0;
@@ -98,7 +93,7 @@ html_template = """<!DOCTYPE html>
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 8.85pt;
+    font-size: 8.95pt;
     margin-bottom: 1px;
   }
   .item-title {
@@ -130,9 +125,9 @@ html_template = """<!DOCTYPE html>
     list-style-type: disc;
   }
   ul.bullets li {
-    font-size: 8.55pt;
-    line-height: 1.22;
-    margin-bottom: 1px;
+    font-size: 8.65pt;
+    line-height: 1.23;
+    margin-bottom: 1.2px;
     text-align: justify;
   }
   ul.bullets li:last-child {
@@ -155,28 +150,18 @@ html_template = """<!DOCTYPE html>
   </div>
 
   <div class="section">
-    <div class="section-title">Professional Summary</div>
-    <div class="summary-text">
-      AI and software engineering intern with proven experience delivering end-to-end solutions across full Software Development Lifecycle (SDLC): from requirements analysis and system design to implementation, testing, and deployment. Strong analytical and problem-solving skills applied to real client workloads, autonomous multi-agent systems, LLM API pipelines, and production-grade machine learning services. Collaborative team contributor with hands-on background in Python, REST APIs, SQL databases, Docker, and automated test engineering.
-    </div>
-  </div>
-
-  <div class="section">
     <div class="section-title">Technical Skills</div>
     <div class="skills-row">
-      <strong>AI &amp; LLM Systems:</strong> Agentic AI, Multi-Agent Workflows, RAG, Prompt Engineering, Structured Outputs (JSON Schema), Function &amp; Tool Calling, Vector Embeddings, LLM APIs (Gemini, OpenAI)
+      <strong>Languages &amp; Core:</strong> Python, C, SQL, TypeScript/JavaScript, Bash, Linux, Git
     </div>
     <div class="skills-row">
-      <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Exploratory Data Analysis, Time-Series Modeling, Anomaly Detection
+      <strong>AI &amp; LLM Systems:</strong> Multi-Agent Workflows, RAG Architecture, Tool &amp; Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering, Gemini &amp; OpenAI APIs
     </div>
     <div class="skills-row">
-      <strong>Backend &amp; Languages:</strong> Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, SDLC, System Design
+      <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Time-Series Modeling, Anomaly Detection, Cross-Validation
     </div>
     <div class="skills-row">
-      <strong>Databases &amp; DevOps:</strong> PostgreSQL, Supabase (pgvector), MySQL, Docker, Git, GitHub Actions, Linux, Postman, pytest, CI/CD
-    </div>
-    <div class="skills-row">
-      <strong>Engineering Practices:</strong> Full SDLC, Test-Driven Development (TDD), Causal Evaluation, API Observability, Agile Collaboration, Microservices, Documentation
+      <strong>Backend &amp; Cloud/DevOps:</strong> FastAPI, Flask, RESTful APIs, WebSockets, PostgreSQL, Supabase, MySQL, Docker, pytest, CI/CD, Postman
     </div>
   </div>
 
@@ -191,10 +176,10 @@ html_template = """<!DOCTYPE html>
         <div class="item-date">May 2026 - Aug 2026 | Thane, India (Remote)</div>
       </div>
       <ul class="bullets">
-        <li>Architected end-to-end predictive analytics pipeline for centrifugal compressor Condition-Based Monitoring (CBM) across 3 industrial facilities and 4,000+ daily historian records.</li>
-        <li>Reproduced 3,879 historical Degradation Factor Index (DFI) rows to &lt;1e-10 absolute error; engineered causal maintenance-event logic with 17/17 regression checks passing.</li>
-        <li>Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts with structured API responses.</li>
-        <li>Audited 400+ physical and mechanical process variables, evaluated ML vs. statistical forecasting baselines, and instituted automated promotion gates for model deployment.</li>
+        <li>Engineered predictive Condition-Based Monitoring (CBM) pipeline processing 4,000+ daily historian records across 3 industrial facilities, reconciling multi-stage thermodynamics.</li>
+        <li>Reproduced 3,879 historical Degradation Factor Index (DFI) records to &lt;1e-10 absolute error against plant baseline; formulated causal maintenance-reset logic validated across 17 automated regression gates.</li>
+        <li>Containerized Flask REST inference microservices with Docker, delivering sub-second anomaly detection and thermodynamic fouling score endpoints.</li>
+        <li>Audited 400+ physical and mechanical process variables, evaluating ML models against Holt damped-trend statistical baselines; instituted automated CV promotion gates that halted ungrounded maintenance alerts.</li>
       </ul>
     </div>
 
@@ -206,10 +191,10 @@ html_template = """<!DOCTYPE html>
         <div class="item-date">Apr 2025 - Jul 2025 | Thane, India (Remote)</div>
       </div>
       <ul class="bullets">
-        <li>Engineered high-throughput RESTful backend APIs and database schemas with FastAPI and PostgreSQL for an institutional food operations and cost-management platform (Sodexo).</li>
-        <li>Developed end-to-end automated workflows for menu generation, Bill-of-Materials (BOM) cost calculations, live inventory tracking, and operator dashboards.</li>
-        <li>Integrated a Random Forest predictive attendance model into operational shift scheduling, achieving 88% forecast accuracy across workforce shifts.</li>
-        <li>Implemented comprehensive test suites with pytest, executed schema migrations, and collaborated on code reviews using Git and GitHub workflows.</li>
+        <li>Developed RESTful backend APIs and relational database schemas with FastAPI and PostgreSQL for an institutional food operations and cost-management platform (serving 1,200+ daily meals).</li>
+        <li>Automated weekly menu planning and multi-tier Bill-of-Materials (BOM) ingredient rollups, eliminating manual inventory calculation overhead.</li>
+        <li>Trained a Random Forest meal-attendance forecaster incorporating weather, calendar events, and shift historical trends, achieving 88% accuracy (within &plusmn;10% headcount margin) and outperforming rolling-average baselines by 14%.</li>
+        <li>Maintained 85%+ backend test coverage with pytest, executed Alembic database schema migrations, and collaborated on code reviews using Git pull-request workflows.</li>
       </ul>
     </div>
   </div>
@@ -220,51 +205,51 @@ html_template = """<!DOCTYPE html>
     <div class="item">
       <div class="item-header">
         <div>
-          <span class="item-title">Project Aegis - Autonomous Multi-Agent Triage System</span>
+          <span class="item-title">Project Aegis - Autonomous Multi-Agent Threat Intelligence System</span>
         </div>
-        <div class="item-date">Python, FastAPI, Agentic AI, RAG, Supabase (pgvector), Docker</div>
+        <div class="item-date">Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker</div>
       </div>
       <div class="item-links">
         <strong>Live Demo:</strong> <a href="https://shaunakrane.is-a.dev/aegis.html" target="_blank">shaunakrane.is-a.dev/aegis</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
       </div>
       <ul class="bullets">
-        <li>Built a multi-agent incident-triage and response simulation with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.</li>
-        <li>Engineered tool-calling agent workflows to autonomously query incident records, evaluate severity levels, and route prioritized response actions across the multi-agent pipeline.</li>
-        <li>Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and event reporting.</li>
+        <li>Architected a decoupled two-stage agentic swarm (Research Agent &rarr; Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.</li>
+        <li>Engineered quantitative market anomaly detection (Scout Agent) computing 5-day rolling Z-scores on price/volume spikes via Yahoo Finance proxies, distinguishing organic volatility from coordinated disinformation attacks.</li>
+        <li>Implemented canonical SHA-256 claim deduplication to eliminate redundant LLM token spend (0ms cached recall), coupled with Supabase pgvector semantic retrieval and auditable verdict logs.</li>
       </ul>
     </div>
 
     <div class="item">
       <div class="item-header">
         <div>
-          <span class="item-title">Gridium Protocol - Multi-Agent Microgrid Optimization</span>
+          <span class="item-title">TopoFlow - GNN Permeability &amp; Micro-CT Pore Network Benchmark</span>
         </div>
-        <div class="item-date">Python, PyTorch, FastAPI, DDPG, WebSockets</div>
-      </div>
-      <div class="item-links">
-        <strong>Live Demo:</strong> <a href="https://live-ai-1-7tcy.vercel.app" target="_blank">live-ai-1-7tcy.vercel.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank">github.com/Shaunakrane914/Live-Ai-1</a>
-      </div>
-      <ul class="bullets">
-        <li>Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated microgrid.</li>
-        <li>Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain in simulation.</li>
-        <li>Built real-time telemetry streaming pipelines using FastAPI and WebSockets, feeding continuous operational metrics to interactive monitoring dashboards.</li>
-      </ul>
-    </div>
-
-    <div class="item">
-      <div class="item-header">
-        <div>
-          <span class="item-title">TopoFlow - GNN Fluid Dynamics Simulation</span>
-        </div>
-        <div class="item-date">Python, PyTorch Geometric, GraphSAGE, FastAPI</div>
+        <div class="item-date">Python, PyTorch Geometric, GraphSAGE, OpenPNM, FastAPI</div>
       </div>
       <div class="item-links">
         <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Flow" target="_blank">github.com/Shaunakrane914/Flow</a>
       </div>
       <ul class="bullets">
-        <li>Benchmarked GraphSAGE against Kozeny-Carman physics baselines across 1,231 pore-network samples from 5 geological formations, using pore-size heterogeneity to dictate the modeling regime.</li>
-        <li>Reduced MSE loss by 46.2% on Savonnieres and 28.4% on Estaillades formations while maintaining rigorous physical consistency benchmarks across baseline solvers.</li>
-        <li>Engineered pore-network extraction pipelines, GNN model training workflows, and FastAPI inference microservices with PyTorch Geometric.</li>
+        <li>Benchmarked GraphSAGE against classical Kozeny-Carman physics baselines across 1,231 micro-CT pore networks from 5 geological formations, establishing an empirical regime threshold (Cv) for when graph topology outperforms bulk equations.</li>
+        <li>Achieved 46.2% MSE reduction on heterogeneous Savonnières carbonate and 28.4% on Estaillades formations over classical solvers, while identifying that homogeneous sandstones remain better predicted by classical physics.</li>
+        <li>Built end-to-end pore-network extraction pipeline (PoreSpy/SNOW2), GNN model training workflows in PyTorch Geometric, and streaming FastAPI inference endpoints with SSE.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Gridium Protocol - Autonomous Microgrid Optimization &amp; DePIN Market</span>
+        </div>
+        <div class="item-date">Python, PyTorch, DDPG, FastAPI, WebSockets, Solidity, Circom</div>
+      </div>
+      <div class="item-links">
+        <strong>Live Demo:</strong> <a href="https://live-ai-1-7tcy.vercel.app" target="_blank">live-ai-1-7tcy.vercel.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank">github.com/Shaunakrane914/Live-Ai-1</a>
+      </div>
+      <ul class="bullets">
+        <li>Developed a continuous-control reinforcement learning engine (PyTorch DDPG) in a custom 15-node Ohm's law Gymnasium microgrid (AegisEnv), dynamically adjusting AMM swap fees (0.10%&ndash;5.00%) to mitigate solar duck-curve volatility.</li>
+        <li>Reduced peak-hour grid strain by 18.4% compared to static flat-fee and rule-based fixed-tariff baselines across simulated multi-node solar generation and battery demand cycles.</li>
+        <li>Engineered 500ms Socket.io telemetry gateway, Solidity constant-product AMM contract (x &times; y = k) with reentrancy protection, and Groth16 zk-SNARK circuits proving energy surplus off-chain.</li>
       </ul>
     </div>
   </div>
@@ -342,23 +327,13 @@ def generate_docx(docx_path):
     r_con.font.name = "Arial"
     r_con.font.size = Pt(8.5)
 
-    # Summary
-    add_heading("Professional Summary")
-    p_sum = add_p(space_before=0, space_after=3)
-    r_sum = p_sum.add_run(
-        "AI and software engineering intern with proven experience delivering end-to-end solutions across full Software Development Lifecycle (SDLC): from requirements analysis and system design to implementation, testing, and deployment. Strong analytical and problem-solving skills applied to real client workloads, autonomous multi-agent systems, LLM API pipelines, and production-grade machine learning services. Collaborative team contributor with hands-on background in Python, REST APIs, SQL databases, Docker, and automated test engineering."
-    )
-    r_sum.font.name = "Arial"
-    r_sum.font.size = Pt(8.7)
-
     # Skills
     add_heading("Technical Skills")
     skills = [
-        ("AI & LLM Systems: ", "Agentic AI, Multi-Agent Workflows, RAG, Prompt Engineering, Structured Outputs (JSON Schema), Function & Tool Calling, Vector Embeddings, LLM APIs (Gemini, OpenAI)"),
-        ("Machine Learning & Data: ", "PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Exploratory Data Analysis, Time-Series Modeling, Anomaly Detection"),
-        ("Backend & Languages: ", "Python, C, SQL, TypeScript/JavaScript, FastAPI, Flask, RESTful APIs, WebSockets, OOP, SDLC, System Design"),
-        ("Databases & DevOps: ", "PostgreSQL, Supabase (pgvector), MySQL, Docker, Git, GitHub Actions, Linux, Postman, pytest, CI/CD"),
-        ("Engineering Practices: ", "Full SDLC, Test-Driven Development (TDD), Causal Evaluation, API Observability, Agile Collaboration, Microservices, Documentation")
+        ("Languages & Core: ", "Python, C, SQL, TypeScript/JavaScript, Bash, Linux, Git"),
+        ("AI & LLM Systems: ", "Multi-Agent Workflows, RAG Architecture, Tool & Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering, Gemini & OpenAI APIs"),
+        ("Machine Learning & Data: ", "PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Time-Series Modeling, Anomaly Detection, Cross-Validation"),
+        ("Backend & Cloud/DevOps: ", "FastAPI, Flask, RESTful APIs, WebSockets, PostgreSQL, Supabase, MySQL, Docker, pytest, CI/CD, Postman")
     ]
     for title, items in skills:
         p_sk = add_p(space_before=0, space_after=1)
@@ -403,10 +378,10 @@ def generate_docx(docx_path):
         "AI Engineering Intern",
         "May 2026 - Aug 2026 | Thane, India (Remote)",
         [
-            "Architected end-to-end predictive analytics pipeline for centrifugal compressor Condition-Based Monitoring (CBM) across 3 industrial facilities and 4,000+ daily historian records.",
-            "Reproduced 3,879 historical Degradation Factor Index (DFI) rows to <1e-10 absolute error; engineered causal maintenance-event logic with 17/17 regression checks passing.",
-            "Built and containerized REST inference microservices in Docker with Flask, automating anomaly detection alerts with structured API responses.",
-            "Audited 400+ physical and mechanical process variables, evaluated ML vs. statistical forecasting baselines, and instituted automated promotion gates for model deployment."
+            "Engineered predictive Condition-Based Monitoring (CBM) pipeline processing 4,000+ daily historian records across 3 industrial facilities, reconciling multi-stage thermodynamics.",
+            "Reproduced 3,879 historical Degradation Factor Index (DFI) records to <1e-10 absolute error against plant baseline; formulated causal maintenance-reset logic validated across 17 automated regression gates.",
+            "Containerized Flask REST inference microservices with Docker, delivering sub-second anomaly detection and thermodynamic fouling score endpoints.",
+            "Audited 400+ physical and mechanical process variables, evaluating ML models against Holt damped-trend statistical baselines; instituted automated CV promotion gates that halted ungrounded maintenance alerts."
         ]
     )
 
@@ -415,10 +390,10 @@ def generate_docx(docx_path):
         "Software Engineering Intern",
         "Apr 2025 - Jul 2025 | Thane, India (Remote)",
         [
-            "Engineered high-throughput RESTful backend APIs and database schemas with FastAPI and PostgreSQL for an institutional food operations and cost-management platform (Sodexo).",
-            "Developed end-to-end automated workflows for menu generation, Bill-of-Materials (BOM) cost calculations, live inventory tracking, and operator dashboards.",
-            "Integrated a Random Forest predictive attendance model into operational shift scheduling, achieving 88% forecast accuracy across workforce shifts.",
-            "Implemented comprehensive test suites with pytest, executed schema migrations, and collaborated on code reviews using Git and GitHub workflows."
+            "Developed RESTful backend APIs and relational database schemas with FastAPI and PostgreSQL for an institutional food operations and cost-management platform (serving 1,200+ daily meals).",
+            "Automated weekly menu planning and multi-tier Bill-of-Materials (BOM) ingredient rollups, eliminating manual inventory calculation overhead.",
+            "Trained a Random Forest meal-attendance forecaster incorporating weather, calendar events, and shift historical trends, achieving 88% accuracy (within ±10% headcount margin) and outperforming rolling-average baselines by 14%.",
+            "Maintained 85%+ backend test coverage with pytest, executed Alembic database schema migrations, and collaborated on code reviews using Git pull-request workflows."
         ]
     )
 
@@ -461,35 +436,35 @@ def generate_docx(docx_path):
             br.font.size = Pt(8.55)
 
     add_proj(
-        "Project Aegis - Autonomous Multi-Agent Triage System",
-        "Python, FastAPI, Agentic AI, RAG, Supabase (pgvector), Docker",
+        "Project Aegis - Autonomous Multi-Agent Threat Intelligence System",
+        "Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker",
         "Live Demo: https://shaunakrane.is-a.dev/aegis.html | Source Code: https://github.com/Shaunakrane914/Misinformation",
         [
-            "Built a multi-agent incident-triage and response simulation with hybrid RAG retrieval and tool-calling agent swarms, enforcing strict JSON Schema validation for deterministic structured outputs.",
-            "Engineered tool-calling agent workflows to autonomously query incident records, evaluate severity levels, and route prioritized response actions across the multi-agent pipeline.",
-            "Implemented semantic vector persistence via Supabase (pgvector), API-key isolation, and structured audit trails for agent-to-agent message passing and event reporting."
+            "Architected a decoupled two-stage agentic swarm (Research Agent -> Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.",
+            "Engineered quantitative market anomaly detection (Scout Agent) computing 5-day rolling Z-scores on price/volume spikes via Yahoo Finance proxies, distinguishing organic volatility from coordinated disinformation attacks.",
+            "Implemented canonical SHA-256 claim deduplication to eliminate redundant LLM token spend (0ms cached recall), coupled with Supabase pgvector semantic retrieval and auditable verdict logs."
         ]
     )
 
     add_proj(
-        "Gridium Protocol - Multi-Agent Microgrid Optimization",
-        "Python, PyTorch, FastAPI, DDPG, WebSockets",
-        "Live Demo: https://live-ai-1-7tcy.vercel.app | Source Code: https://github.com/Shaunakrane914/Live-Ai-1",
-        [
-            "Developed a multi-agent reinforcement learning engine utilizing Deep Deterministic Policy Gradients (DDPG) to dynamically optimize power routing across a 15-node simulated microgrid.",
-            "Coordinated decentralized agent policies managing solar generation, battery storage, and dynamic loads, achieving an 18.4% reduction in peak-hour grid strain in simulation.",
-            "Built real-time telemetry streaming pipelines using FastAPI and WebSockets, feeding continuous operational metrics to interactive monitoring dashboards."
-        ]
-    )
-
-    add_proj(
-        "TopoFlow - GNN Fluid Dynamics Simulation",
-        "Python, PyTorch Geometric, GraphSAGE, FastAPI",
+        "TopoFlow - GNN Permeability & Micro-CT Pore Network Benchmark",
+        "Python, PyTorch Geometric, GraphSAGE, OpenPNM, FastAPI",
         "Source Code: https://github.com/Shaunakrane914/Flow",
         [
-            "Benchmarked GraphSAGE against Kozeny-Carman physics baselines across 1,231 pore-network samples from 5 geological formations, using pore-size heterogeneity to dictate the modeling regime.",
-            "Reduced MSE loss by 46.2% on Savonnieres and 28.4% on Estaillades formations while maintaining rigorous physical consistency benchmarks across baseline solvers.",
-            "Engineered pore-network extraction pipelines, GNN model training workflows, and FastAPI inference microservices with PyTorch Geometric."
+            "Benchmarked GraphSAGE against classical Kozeny-Carman physics baselines across 1,231 micro-CT pore networks from 5 geological formations, establishing an empirical regime threshold (Cv) for when graph topology outperforms bulk equations.",
+            "Achieved 46.2% MSE reduction on heterogeneous Savonnières carbonate and 28.4% on Estaillades formations over classical solvers, while identifying that homogeneous sandstones remain better predicted by classical physics.",
+            "Built end-to-end pore-network extraction pipeline (PoreSpy/SNOW2), GNN model training workflows in PyTorch Geometric, and streaming FastAPI inference endpoints with SSE."
+        ]
+    )
+
+    add_proj(
+        "Gridium Protocol - Autonomous Microgrid Optimization & DePIN Market",
+        "Python, PyTorch, DDPG, FastAPI, WebSockets, Solidity, Circom",
+        "Live Demo: https://live-ai-1-7tcy.vercel.app | Source Code: https://github.com/Shaunakrane914/Live-Ai-1",
+        [
+            "Developed a continuous-control reinforcement learning engine (PyTorch DDPG) in a custom 15-node Ohm's law Gymnasium microgrid (AegisEnv), dynamically adjusting AMM swap fees (0.10%-5.00%) to mitigate solar duck-curve volatility.",
+            "Reduced peak-hour grid strain by 18.4% compared to static flat-fee and rule-based fixed-tariff baselines across simulated multi-node solar generation and battery demand cycles.",
+            "Engineered 500ms Socket.io telemetry gateway, Solidity constant-product AMM contract (x * y = k) with reentrancy protection, and Groth16 zk-SNARK circuits proving energy surplus off-chain."
         ]
     )
 
