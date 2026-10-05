@@ -210,7 +210,7 @@ html_template = """<!DOCTYPE html>
         <div class="item-date">Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker</div>
       </div>
       <div class="item-links">
-        <strong>Live Demo:</strong> <a href="https://shaunakrane.is-a.dev/aegis.html" target="_blank">shaunakrane.is-a.dev/aegis</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
+        <strong>Live Demo:</strong> <a href="https://aegis-protocol-110.pages.dev" target="_blank">aegis-protocol-110.pages.dev</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
       </div>
       <ul class="bullets">
         <li>Architected a decoupled two-stage agentic swarm (Research Agent &rarr; Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.</li>
@@ -438,7 +438,7 @@ def generate_docx(docx_path):
     add_proj(
         "Project Aegis - Autonomous Multi-Agent Threat Intelligence System",
         "Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker",
-        "Live Demo: https://shaunakrane.is-a.dev/aegis.html | Source Code: https://github.com/Shaunakrane914/Misinformation",
+        "Live Demo: https://aegis-protocol-110.pages.dev | Source Code: https://github.com/Shaunakrane914/Misinformation",
         [
             "Architected a decoupled two-stage agentic swarm (Research Agent -> Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.",
             "Engineered quantitative market anomaly detection (Scout Agent) computing 5-day rolling Z-scores on price/volume spikes via Yahoo Finance proxies, distinguishing organic volatility from coordinated disinformation attacks.",
