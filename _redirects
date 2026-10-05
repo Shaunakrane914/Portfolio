@@ -1,0 +1,11 @@
+# Clean route rewrites for Portfolio
+/aegis            /aegis.html            200
+/gridium          /gridium.html          200
+/compressor-cbm   /compressor-cbm.html   200
+/topoflow         /topoflow.html         200
+/sodexo           /sodexo.html           200
+/food             /food.html             200
+/yield            /yield.html            200
+/lab              /threeui-lab.html      200
+/threeui-lab      /threeui-lab.html      200
+/resume           /Shaunak_Rane_Resume.pdf 302
