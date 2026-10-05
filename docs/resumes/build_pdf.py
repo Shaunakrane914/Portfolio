@@ -152,10 +152,10 @@ html_template = """<!DOCTYPE html>
   <div class="section">
     <div class="section-title">Technical Skills</div>
     <div class="skills-row">
-      <strong>Languages &amp; Core:</strong> Python, C, SQL, TypeScript/JavaScript, Bash, Linux, Git
+      <strong>Languages &amp; Core:</strong> Python, C, SQL, Bash, Linux, Git
     </div>
     <div class="skills-row">
-      <strong>AI &amp; LLM Systems:</strong> Multi-Agent Workflows, RAG Architecture, Tool &amp; Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering, Gemini &amp; OpenAI APIs
+      <strong>AI &amp; LLM Systems:</strong> Multi-Agent Workflows, RAG Architecture, Tool &amp; Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering
     </div>
     <div class="skills-row">
       <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Time-Series Modeling, Anomaly Detection, Cross-Validation
@@ -207,7 +207,7 @@ html_template = """<!DOCTYPE html>
         <div>
           <span class="item-title">Project Aegis - Autonomous Multi-Agent Threat Intelligence System</span>
         </div>
-        <div class="item-date">Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker</div>
+        <div class="item-date">Python, FastAPI, Multi-Agent Swarms, Agentic AI, RAG, Supabase (pgvector), Docker</div>
       </div>
       <div class="item-links">
         <strong>Live Demo:</strong> <a href="https://aegis-protocol-110.pages.dev" target="_blank">aegis-protocol-110.pages.dev</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
@@ -330,8 +330,8 @@ def generate_docx(docx_path):
     # Skills
     add_heading("Technical Skills")
     skills = [
-        ("Languages & Core: ", "Python, C, SQL, TypeScript/JavaScript, Bash, Linux, Git"),
-        ("AI & LLM Systems: ", "Multi-Agent Workflows, RAG Architecture, Tool & Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering, Gemini & OpenAI APIs"),
+        ("Languages & Core: ", "Python, C, SQL, Bash, Linux, Git"),
+        ("AI & LLM Systems: ", "Multi-Agent Workflows, RAG Architecture, Tool & Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering"),
         ("Machine Learning & Data: ", "PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Time-Series Modeling, Anomaly Detection, Cross-Validation"),
         ("Backend & Cloud/DevOps: ", "FastAPI, Flask, RESTful APIs, WebSockets, PostgreSQL, Supabase, MySQL, Docker, pytest, CI/CD, Postman")
     ]
@@ -437,7 +437,7 @@ def generate_docx(docx_path):
 
     add_proj(
         "Project Aegis - Autonomous Multi-Agent Threat Intelligence System",
-        "Python, FastAPI, Multi-Agent Swarms, Gemini API, RAG, Supabase (pgvector), Docker",
+        "Python, FastAPI, Multi-Agent Swarms, Agentic AI, RAG, Supabase (pgvector), Docker",
         "Live Demo: https://aegis-protocol-110.pages.dev | Source Code: https://github.com/Shaunakrane914/Misinformation",
         [
             "Architected a decoupled two-stage agentic swarm (Research Agent -> Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.",

@@ -421,13 +421,13 @@ def build_resume():
     add_project_heading(
         doc,
         "Project Aegis",
-        "FastAPI, Gemini API, Supabase, WebSockets",
+        "FastAPI, Supabase, WebSockets",
         "https://github.com/Shaunakrane914/Misinformation",
     )
     add_bullet(
         doc,
         "Built backend orchestration for a threat-intelligence prototype with "
-        "schema-constrained Gemini outputs, API-key isolation, fallback routing, "
+        "schema-constrained LLM outputs, API-key isolation, fallback routing, "
         "REST observability, and WebSocket telemetry.",
     )
 
@@ -459,7 +459,7 @@ def build_resume():
     add_skills_line(
         doc,
         "Languages",
-        "Python, TypeScript/JavaScript, C, SQL",
+        "Python, C, SQL",
     )
     add_skills_line(
         doc,
@@ -728,7 +728,7 @@ def build_pdf():
     )
     story.append(
         Paragraph(
-            '<b>Project Aegis</b> | FastAPI, Gemini API, Supabase, WebSockets | '
+            '<b>Project Aegis</b> | FastAPI, Supabase, WebSockets | '
             '<a href="https://github.com/Shaunakrane914/Misinformation" '
             'color="#114F6B">GitHub</a>',
             styles["project"],
@@ -736,7 +736,7 @@ def build_pdf():
     )
     bullet(
         "Built backend orchestration for a threat-intelligence prototype with "
-        "schema-constrained Gemini outputs, API-key isolation, fallback routing, "
+        "schema-constrained LLM outputs, API-key isolation, fallback routing, "
         "REST observability, and WebSocket telemetry."
     )
     story.append(
@@ -765,7 +765,7 @@ def build_pdf():
     section("Technical Skills")
     story.append(
         Paragraph(
-            "<b>Languages:</b> Python, TypeScript/JavaScript, C, SQL",
+            "<b>Languages:</b> Python, C, SQL",
             styles["skills"],
         )
     )
