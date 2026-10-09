@@ -19,7 +19,7 @@
     font-family: Arial, Calibri, 'Segoe UI', sans-serif;
     color: #111111;
     background: #ffffff;
-    line-height: 1.24;
+    line-height: 1.25;
     font-size: 8.85pt;
     font-variant-ligatures: none;
     -webkit-font-smoothing: antialiased;
@@ -37,14 +37,15 @@
     text-transform: uppercase;
   }
   .header .headline {
-    font-size: 9.4pt;
+    font-size: 9.5pt;
     font-weight: 600;
-    color: #222222;
+    color: #1a1a1a;
     margin-bottom: 2.5px;
   }
   .header .contact {
-    font-size: 8.35pt;
+    font-size: 8.2pt;
     color: #333333;
+    white-space: nowrap;
   }
   .header .contact a {
     color: #111111;
@@ -64,7 +65,7 @@
     color: #000000;
   }
   .skills-row {
-    font-size: 8.7pt;
+    font-size: 8.75pt;
     margin-bottom: 1.5px;
     line-height: 1.23;
   }
@@ -114,8 +115,8 @@
     list-style-type: disc;
   }
   ul.bullets li {
-    font-size: 8.65pt;
-    line-height: 1.23;
+    font-size: 8.7pt;
+    line-height: 1.24;
     margin-bottom: 1.2px;
     text-align: justify;
   }
@@ -128,29 +129,44 @@
 
   <div class="header">
     <h1>Shaunak Rane</h1>
-    <div class="headline">AI/ML Engineer | Backend &amp; LLM Systems | Python | FastAPI</div>
+    <div class="headline">Software Engineering | Python | Backend Systems | AI/ML</div>
     <div class="contact">
-      Thane, Maharashtra, India | +91 93202 21211 | 
+      Thane, India | +91 93202 21211 | 
       <a href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a> | 
       <a href="https://www.linkedin.com/in/shaunak-rane-3980582ba/" target="_blank">linkedin.com/in/shaunak-rane</a> | 
       <a href="https://github.com/Shaunakrane914" target="_blank">github.com/Shaunakrane914</a> | 
-      <a href="https://shaunakrane.is-a.dev" target="_blank">shaunakrane.is-a.dev</a>
+      <a href="https://shaunak-rane.pages.dev" target="_blank">shaunak-rane.pages.dev</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Universal AI University</span> - <span class="item-sub">B.Tech in Artificial Intelligence &amp; Machine Learning</span>
+        </div>
+        <div class="item-date">Expected May 2028 | Karjat, Maharashtra</div>
+      </div>
+      <ul class="bullets">
+        <li><strong>CGPA: 8.47 / 10.0</strong> | <strong>Relevant Coursework:</strong> Data Structures &amp; Algorithms, Object-Oriented Programming, Operating Systems, DBMS, Computer Networks, System Design.</li>
+      </ul>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">Technical Skills</div>
     <div class="skills-row">
-      <strong>Languages &amp; Core:</strong> Python, C, SQL, Bash, Linux, Git
+      <strong>Languages &amp; Core:</strong> Python, C, SQL, Bash, Git, Linux (CLI, Scripting)
     </div>
     <div class="skills-row">
-      <strong>AI &amp; LLM Systems:</strong> Multi-Agent Workflows, RAG Architecture, Tool &amp; Function Calling, Structured Outputs (JSON Schema), Vector Embeddings (pgvector), Prompt Engineering
+      <strong>Backend &amp; Infrastructure:</strong> FastAPI, Flask, RESTful APIs, WebSockets, PostgreSQL, Supabase, MySQL, Docker, Linux Internals
     </div>
     <div class="skills-row">
-      <strong>Machine Learning &amp; Data:</strong> PyTorch, PyTorch Geometric, GraphSAGE, Scikit-learn, Statsmodels, NumPy, Pandas, Time-Series Modeling, Anomaly Detection, Cross-Validation
+      <strong>Software Engineering:</strong> Data Structures &amp; Algorithms (DSA), OOP, pytest (Unit &amp; Integration Testing), Alembic (Schema Migrations), CI/CD
     </div>
     <div class="skills-row">
-      <strong>Backend &amp; Cloud/DevOps:</strong> FastAPI, Flask, RESTful APIs, WebSockets, PostgreSQL, Supabase, MySQL, Docker, pytest, CI/CD, Postman
+      <strong>AI &amp; Intelligent Systems:</strong> Multi-Agent Workflows, RAG Architecture, PyTorch, PyTorch Geometric, Vector Embeddings (pgvector), Time-Series Modeling
     </div>
   </div>
 
@@ -160,14 +176,14 @@
     <div class="item">
       <div class="item-header">
         <div>
-          <span class="item-title">Univitt Technologies</span> - <span class="item-sub">AI Engineering Intern</span>
+          <span class="item-title">Univitt Technologies</span> - <span class="item-sub">AI &amp; Systems Engineering Intern</span>
         </div>
-        <div class="item-date">May 2026 - Aug 2026 | Thane, India (Remote)</div>
+        <div class="item-date">May 2026 - Aug 2026 | Remote</div>
       </div>
       <ul class="bullets">
-        <li>Engineered predictive Condition-Based Monitoring (CBM) pipeline processing 4,000+ daily historian records across 3 industrial facilities, reconciling multi-stage thermodynamics.</li>
-        <li>Reproduced 3,879 historical Degradation Factor Index (DFI) records to &lt;1e-10 absolute error against plant baseline; formulated causal maintenance-reset logic validated across 17 automated regression gates.</li>
-        <li>Containerized Flask REST inference microservices with Docker, delivering sub-second anomaly detection and thermodynamic fouling score endpoints.</li>
+        <li>Engineered predictive Condition-Based Monitoring (CBM) pipeline processing 4,000+ daily historian records across 3 industrial plants, reconciling multi-stage thermodynamics.</li>
+        <li>Re-implemented historical Degradation Factor Index (DFI) models across 3,879 historian logs with numerical convergence (&lt;1e-10 residual vs baseline); formulated deterministic maintenance-reset logic validated across 17 automated regression test gates.</li>
+        <li>Containerized Flask REST inference microservices with Docker for edge deployment, delivering sub-second anomaly detection and thermodynamic scoring endpoints.</li>
         <li>Audited 400+ physical and mechanical process variables, evaluating ML models against Holt damped-trend statistical baselines; instituted automated CV promotion gates that halted ungrounded maintenance alerts.</li>
       </ul>
     </div>
@@ -177,12 +193,12 @@
         <div>
           <span class="item-title">Univitt Technologies</span> - <span class="item-sub">Software Engineering Intern</span>
         </div>
-        <div class="item-date">Apr 2025 - Jul 2025 | Thane, India (Remote)</div>
+        <div class="item-date">Apr 2025 - Jul 2025 | Remote</div>
       </div>
       <ul class="bullets">
-        <li>Developed RESTful backend APIs and relational database schemas with FastAPI and PostgreSQL for an institutional food operations and cost-management platform (serving 1,200+ daily meals).</li>
+        <li>Developed RESTful backend APIs and normalized relational PostgreSQL database schemas with FastAPI for an institutional food operations and cost-management platform (serving 1,200+ daily meals).</li>
         <li>Automated weekly menu planning and multi-tier Bill-of-Materials (BOM) ingredient rollups, eliminating manual inventory calculation overhead.</li>
-        <li>Trained a Random Forest meal-attendance forecaster incorporating weather, calendar events, and shift historical trends, achieving 88% accuracy (within &plusmn;10% headcount margin) and outperforming rolling-average baselines by 14%.</li>
+        <li>Trained a Random Forest meal-attendance forecaster incorporating weather, calendar events, and shift historical trends, achieving 88% accuracy (within &plusmn;10% margin) and outperforming rolling baselines by 14%.</li>
         <li>Maintained 85%+ backend test coverage with pytest, executed Alembic database schema migrations, and collaborated on code reviews using Git pull-request workflows.</li>
       </ul>
     </div>
@@ -194,17 +210,17 @@
     <div class="item">
       <div class="item-header">
         <div>
-          <span class="item-title">Project Aegis - Autonomous Multi-Agent Threat Intelligence System</span>
+          <span class="item-title">Project Aegis - Threat Intelligence &amp; Claim Verification Engine</span>
         </div>
-        <div class="item-date">Python, FastAPI, Multi-Agent Swarms, Agentic AI, RAG, Supabase (pgvector), Docker</div>
+        <div class="item-date">Python, FastAPI, Multi-Agent Swarms, RAG, pgvector, Docker</div>
       </div>
       <div class="item-links">
         <strong>Live Demo:</strong> <a href="https://aegis-protocol-110.pages.dev" target="_blank">aegis-protocol-110.pages.dev</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Misinformation" target="_blank">github.com/Shaunakrane914/Misinformation</a>
       </div>
       <ul class="bullets">
-        <li>Architected a decoupled two-stage agentic swarm (Research Agent &rarr; Investigator Agent) enforcing strict JSON Schema validation, achieving 100% structured parsing reliability across model retries.</li>
-        <li>Engineered quantitative market anomaly detection (Scout Agent) computing 5-day rolling Z-scores on price/volume spikes via Yahoo Finance proxies, distinguishing organic volatility from coordinated disinformation attacks.</li>
-        <li>Implemented canonical SHA-256 claim deduplication to eliminate redundant LLM token spend (0ms cached recall), coupled with Supabase pgvector semantic retrieval and auditable verdict logs.</li>
+        <li>Architected decoupled multi-agent verification pipeline (Scout &rarr; Research &rarr; Investigator) enforcing strict Pydantic JSON Schema validation, achieving zero unhandled schema errors across benchmark test suites via automated retry policies.</li>
+        <li>Engineered quantitative market anomaly detection (Scout Agent) computing 5-day rolling Z-scores on price/volume telemetry via Yahoo Finance proxies to isolate abnormal spikes.</li>
+        <li>Implemented canonical SHA-256 claim hashing for sub-millisecond in-memory cache deduplication, preventing redundant LLM token spend, paired with Supabase pgvector semantic retrieval and auditable verdict trails.</li>
       </ul>
     </div>
 
@@ -228,7 +244,7 @@
     <div class="item">
       <div class="item-header">
         <div>
-          <span class="item-title">Gridium Protocol - Autonomous Microgrid Optimization &amp; DePIN Market</span>
+          <span class="item-title">Gridium Protocol - Autonomous Microgrid Optimization &amp; Telemetry</span>
         </div>
         <div class="item-date">Python, PyTorch, DDPG, FastAPI, WebSockets, Solidity, Circom</div>
       </div>
@@ -236,24 +252,9 @@
         <strong>Live Demo:</strong> <a href="https://live-ai-1-7tcy.vercel.app" target="_blank">live-ai-1-7tcy.vercel.app</a> | <strong>Source Code:</strong> <a href="https://github.com/Shaunakrane914/Live-Ai-1" target="_blank">github.com/Shaunakrane914/Live-Ai-1</a>
       </div>
       <ul class="bullets">
-        <li>Developed a continuous-control reinforcement learning engine (PyTorch DDPG) in a custom 15-node Ohm's law Gymnasium microgrid (AegisEnv), dynamically adjusting AMM swap fees (0.10%&ndash;5.00%) to mitigate solar duck-curve volatility.</li>
+        <li>Developed continuous-control reinforcement learning engine (PyTorch DDPG) in a custom 15-node Ohm's law Gymnasium microgrid (AegisEnv), dynamically adjusting AMM swap fees (0.10%&ndash;5.00%) to mitigate solar duck-curve volatility.</li>
         <li>Reduced peak-hour grid strain by 18.4% compared to static flat-fee and rule-based fixed-tariff baselines across simulated multi-node solar generation and battery demand cycles.</li>
         <li>Engineered 500ms Socket.io telemetry gateway, Solidity constant-product AMM contract (x &times; y = k) with reentrancy protection, and Groth16 zk-SNARK circuits proving energy surplus off-chain.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Education</div>
-    <div class="item">
-      <div class="item-header">
-        <div>
-          <span class="item-title">Universal AI University</span> - <span class="item-sub">B.Tech in Artificial Intelligence &amp; Machine Learning</span>
-        </div>
-        <div class="item-date">Expected May 2028 | Karjat, Maharashtra</div>
-      </div>
-      <ul class="bullets">
-        <li><strong>CGPA: 8.47</strong> | <strong>Relevant Coursework:</strong> Data Structures &amp; Algorithms, Object-Oriented Programming, Machine Learning, Deep Learning, DBMS, Operating Systems, Linear Algebra &amp; Probability.</li>
       </ul>
     </div>
   </div>
