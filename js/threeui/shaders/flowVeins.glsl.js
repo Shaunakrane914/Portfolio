@@ -1,5 +1,9 @@
 // Energy Current, Flow Veins, and Laser Conduit GLSL Shaders
 // Inspired by ThreeUI / Meng To cybernetic data pathways & energy grids
+//
+// Procedural Pulse Mechanics:
+// Computes dynamic traveling wave packets along UV coordinates:
+// intensity = sin(uv.y * frequency - time * speed) * pow(fresnel, exponent)
 
 export const veinVertexShader = /* glsl */ `
 varying vec2 vUv;

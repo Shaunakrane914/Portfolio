@@ -1,5 +1,9 @@
 // GLSL Curl Noise & 3D Simplex Noise Shader Utilities
 // Inspired by ThreeUI / Meng To spatial particle systems
+//
+// Mathematical Principle:
+// Curl of a 3D vector potential field (v = curl(psi)) guarantees that divergence div(v) = 0.
+// This preserves volume and incompressible fluid dynamics across GPU particle simulations.
 
 export const noiseGLSL = /* glsl */ `
 // Simplex 3D noise by Ian McEwan, Stefan Gustavson
