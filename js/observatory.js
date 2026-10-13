@@ -1839,12 +1839,12 @@ let fastFrameTally = 0;
 
 function applyQualityTier(tier) {
   if (!renderer) return;
-  const maxDpr = coarsePointer ? 1.15 : 1.35;
+  const maxDpr = coarsePointer ? 1.0 : 1.20;
   let targetDpr = maxDpr;
   if (tier === "low") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 1.0);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 0.95);
   } else if (tier === "medium") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 1.15);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 1.05);
   } else {
     targetDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
   }
@@ -2021,7 +2021,7 @@ function initializeThree() {
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x020403, 1);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.15 : 1.35));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.20));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -2111,8 +2111,8 @@ function render(timeMs) {
     cameraVelocity.set(0, 0, 0);
     lookVelocity.set(0, 0, 0);
   } else {
-    springVector(camera.position, targetCamera, cameraVelocity, dt, 58, 11.5);
-    springVector(currentLook, targetLook, lookVelocity, dt, 48, 10.5);
+    springVector(camera.position, targetCamera, cameraVelocity, dt, 82, 13.8);
+    springVector(currentLook, targetLook, lookVelocity, dt, 72, 12.8);
   }
   camera.lookAt(currentLook);
 
@@ -2315,7 +2315,7 @@ function setScene(index, options = {}) {
     cameraVelocity.x += direction * 0.7;
     triggerScanEffect();
   }
-  lockSceneTransition(950);
+  lockSceneTransition(380);
 
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
@@ -2361,7 +2361,7 @@ let isSceneTransitioning = false;
 let lastTransitionAt = 0;
 let sceneLockTimer = null;
 
-function lockSceneTransition(duration = 950) {
+function lockSceneTransition(duration = 380) {
   isSceneTransitioning = true;
   lastTransitionAt = performance.now();
   wheelAccumulator = 0;
@@ -2462,8 +2462,8 @@ window.addEventListener("wheel", (event) => {
   const now = performance.now();
   const timeSinceTransition = now - lastTransitionAt;
 
-  // If transitioning or within the 950ms lockout window, dump all wheel inertia immediately
-  if (isSceneTransitioning || timeSinceTransition < 950) {
+  // If transitioning or within the 380ms lockout window, dump all wheel inertia immediately
+  if (isSceneTransitioning || timeSinceTransition < 380) {
     wheelAccumulator = 0;
     return;
   }
@@ -2475,8 +2475,8 @@ window.addEventListener("wheel", (event) => {
 
   wheelAccumulator += event.deltaY;
 
-  // Single step threshold: 72px guarantees deliberate action without false firing
-  if (Math.abs(wheelAccumulator) >= 72) {
+  // Responsive step threshold: 40px guarantees immediate, snappy action without false firing
+  if (Math.abs(wheelAccumulator) >= 40) {
     const dir = wheelAccumulator > 0 ? 1 : -1;
     wheelAccumulator = 0;
     stepScene(dir);
