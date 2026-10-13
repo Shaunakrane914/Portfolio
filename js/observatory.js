@@ -2058,7 +2058,19 @@ function initializeThree() {
     ensureWorld(currentScene);
     activeWorld = worlds[currentScene];
     scheduleIdlePrewarm();
-    window.__observatory = { worlds, camera, targetCamera, targetLook, currentLook, mobileCameraStates, cameraStates, THREE };
+    window.__observatory = {
+      version: "3.2.0",
+      buildDate: "2026-10-13",
+      worlds,
+      camera,
+      targetCamera,
+      targetLook,
+      currentLook,
+      mobileCameraStates,
+      cameraStates,
+      THREE
+    };
+    console.log("%c[Observatory 3D] v3.2.0 initialized (380ms transition lockout, DPR 1.2, spring physics active)", "color: #47e6a5; font-weight: bold;");
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
