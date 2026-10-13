@@ -110,6 +110,9 @@ if (!canvas || !window.__HERO_FACTORY) {
   let isVisible = true;
   let isRunning = false;
 
+  /**
+   * Starts the WebGL render loop if the hero section is in the viewport and tab is active.
+   */
   function startLoop() {
     if (isRunning || reduceMotion) return;
     isRunning = true;
@@ -121,6 +124,9 @@ if (!canvas || !window.__HERO_FACTORY) {
     });
   }
 
+  /**
+   * Pauses the WebGL render loop when scrolled off-screen or tab is backgrounded.
+   */
   function stopLoop() {
     if (!isRunning) return;
     isRunning = false;
