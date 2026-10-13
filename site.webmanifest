@@ -1,0 +1,23 @@
+{
+  "name": "Shaunak Rane — Portfolio & 3D Observatory",
+  "short_name": "Shaunak Rane",
+  "description": "Software Development & AI Engineer Portfolio featuring interactive 3D WebGL Observatory.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030705",
+  "theme_color": "#47e6a5",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
