@@ -72,6 +72,9 @@ const prototypes = [
   }
 ];
 
+/**
+ * Initializes the Three.js WebGLRenderer, scene lighting, camera, and bloom composer.
+ */
 function init() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -146,6 +149,10 @@ function init() {
   renderer.setAnimationLoop(animate);
 }
 
+/**
+ * Tears down previous visual prototype and instantiates the selected one.
+ * @param {number} index - The index of the prototype to display.
+ */
 function setPrototype(index) {
   if (activePrototype) {
     activePrototype.destroy();
