@@ -6,6 +6,16 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 
+/**
+ * Creates and configures an EffectComposer pipeline with selective HDR UnrealBloomPass.
+ *
+ * @param {THREE.WebGLRenderer} renderer - The WebGL renderer instance.
+ * @param {THREE.Scene} scene - The active Three.js scene graph.
+ * @param {THREE.Camera} camera - The perspective or orthographic camera.
+ * @param {number} width - Viewport width in pixels.
+ * @param {number} height - Viewport height in pixels.
+ * @returns {{ composer: EffectComposer, bloomPass: UnrealBloomPass, enabled: boolean, setSize: (w: number, h: number) => void, setBloom: (strength: number, radius: number, threshold: number) => void, render: (deltaTime?: number) => void }}
+ */
 export function createBloomComposer(renderer, scene, camera, width, height) {
   const renderTarget = new THREE.WebGLRenderTarget(width, height, {
     type: THREE.HalfFloatType,
