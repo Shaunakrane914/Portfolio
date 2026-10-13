@@ -1,0 +1,8 @@
+# Robots.txt for Shaunak Rane Portfolio & 3D Observatory
+User-agent: *
+Allow: /
+Disallow: /scripts/
+Disallow: /docs/notes/
+
+# Sitemaps
+Sitemap: https://shaunakrane.is-a.dev/sitemap.xml
