@@ -1,12 +1,17 @@
 # Shaunak Rane — Systems & Applied AI Engineering Portfolio
 
+[![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
+[![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![Build Version](https://img.shields.io/badge/Version-v3.2.0-brightgreen?style=flat-square)](CHANGELOG.md)
+
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 
 The portfolio is architected as an interactive **WebGL Systems Observatory**: six spatial procedural scenes connect real engineering decisions, architectural constraints, telemetry traces, and inspectable evidence without collapsing the experience into a generic scrolling template.
 
 - **Primary Custom Domain:** [shaunakrane.is-a.dev](https://shaunakrane.is-a.dev)
-- **Netlify CDN Mirror:** [sr914.netlify.app](https://sr914.netlify.app)
-- **Author:** Shaunak Rane ([GitHub](https://github.com/Shaunakrane914) · [LinkedIn](https://www.linkedin.com/in/shaunak-rane-3980582ba/) · [Resume PDF](Shaunak_Rane_Resume.pdf) · [Resume DOCX](Shaunak_Rane_Resume.docx) · `shaunakrane914@gmail.com`)
+- **Author:** Shaunak Rane ([GitHub](https://github.com/Shaunakrane914) · [LinkedIn](https://www.linkedin.com/in/shaunak-rane-3980582ba/) · [Resume PDF](Shaunak_Rane_Resume.pdf) · `shaunakrane914@gmail.com`)
+- **Documentation:** [Architecture](docs/ARCHITECTURE.md) · [Benchmarks](docs/BENCHMARKS.md) · [Deployment](docs/DEPLOYMENT.md) · [Changelog](CHANGELOG.md)
 
 ---
 
