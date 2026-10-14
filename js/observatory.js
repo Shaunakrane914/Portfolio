@@ -1,4 +1,5 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
+import { disposeScene, compileInBatches } from "./graphics-runtime.js";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -6,6 +7,7 @@ const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 const panels = Array.from(document.querySelectorAll("[data-scene-panel]"));
 const railButtons = Array.from(document.querySelectorAll("[data-scene-jump]"));
 const sceneAnnouncer = document.getElementById("scene-announcer");
+const readingProgress = document.querySelector(".reading-progress");
 const sceneNames = ["ORIGIN", "AEGIS", "GRIDIUM", "COMPRESSOR", "TOPOFLOW", "PROFILE"];
 const sceneHashes = ["origin", "aegis", "gridium", "compressor", "topoflow", "profile"];
 
@@ -21,12 +23,21 @@ const lookVelocity = new THREE.Vector3();
 let activeWorld = null;
 let transitField = null;
 let lastSceneChange = 0;
-let lastFrameTime = performance.now();
-let transitionTimer = null;
+let lastFrameTime = 0;
 let pointerX = 0;
 let pointerY = 0;
-let dragStart = null;
 let webglReady = false;
+const cameraStart = new THREE.Vector3();
+const lookStart = new THREE.Vector3();
+let cameraTransitionAt = 0;
+let animationTime = 0;
+let renderedFrames = 0;
+const modelViews = Array.from(document.querySelectorAll("[data-model-view]"));
+const modelLayouts = [];
+let modelViewport = null;
+let headerBottom = 0;
+let footerHeight = 0;
+const modelAngles = [[.24, .16, 1], [.12, .32, 1], [.12, .5, 1], [.42, .28, 1], [.48, .25, 1]];
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -38,19 +49,108 @@ const cameraStates = [
 ];
 
 const mobileCameraStates = [
-  { position: [4.8, 1.4, 15.5], look: [4.8, -1.8, 0] },
-  { position: [-3.8, 1.6, 16.5], look: [-3.8, -2.5, -0.22] },
-  { position: [-2.05, 7.2, 4.2], look: [-2.05, 1.7, -10.18] },
-  { position: [15.42, 1.8, 18.2], look: [15.42, -2.4, -0.24] },
-  { position: [9.6, 1.8, -0.2], look: [9.6, -2.4, -16.44] },
-  { position: [6.2, 9.2, 15.6], look: [6.2, 5.0, -0.15] }
+  { position: [4.8, 1.4, 20], look: [4.8, -6, 0] },
+  { position: [-3.8, 1.6, 16.5], look: [-3.8, -5.6, -0.22] },
+  { position: [-2.05, 7.2, 4.2], look: [-2.05, -1.4, -10.18] },
+  { position: [15.42, 1.8, 18.2], look: [15.42, -5.5, -0.24] },
+  { position: [9.6, 1.8, -0.2], look: [9.6, -5.5, -16.44] },
+  { position: [6.2, 9.2, 15.6], look: [6.2, 2.0, -0.15] }
 ];
 
 function getCameraTarget(sceneIndex) {
+  const world = worlds[sceneIndex];
+  const layout = modelLayouts[sceneIndex];
+  if (world?.userData.modelCorners && layout?.width && layout?.height) {
+    const key = `${layout.width}:${layout.height}`;
+    if (world.userData.cameraFit?.key !== key) {
+      const direction = new THREE.Vector3(...modelAngles[sceneIndex]).normalize();
+      const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction).normalize();
+      const up = new THREE.Vector3().crossVectors(direction, right);
+      const center = world.userData.modelCenter;
+      const tan = Math.tan(THREE.MathUtils.degToRad(42) / 2);
+      const aspect = layout.width / layout.height;
+      let distance = 0;
+      world.userData.modelCorners.forEach(corner => {
+        const relative = corner.clone().applyMatrix4(world.userData.modelMatrix).sub(center);
+        const depth = relative.dot(direction);
+        distance = Math.max(distance, Math.abs(relative.dot(right)) / (tan * aspect * .84) + depth,
+          Math.abs(relative.dot(up)) / (tan * .84) + depth);
+      });
+      const position = center.clone().addScaledVector(direction, distance);
+      const state = { position: position.toArray(), look: center.toArray() };
+      world.userData.cameraFit = { key, state };
+      // Keep the diagnostic camera presets consistent with the actual fit.
+      cameraStates[sceneIndex] = state;
+      mobileCameraStates[sceneIndex] = state;
+    }
+    return world.userData.cameraFit.state;
+  }
   if (window.innerWidth <= 820) {
     return mobileCameraStates[sceneIndex] || mobileCameraStates[0];
   }
   return cameraStates[sceneIndex] || cameraStates[0];
+}
+
+function measureModelViews() {
+  headerBottom = document.querySelector(".observatory-header").getBoundingClientRect().bottom;
+  const rail = document.querySelector(".scene-rail").getBoundingClientRect();
+  footerHeight = window.innerWidth <= 820 ? rail.height : 0;
+  modelViews.forEach(view => {
+    const rect = view.getBoundingClientRect();
+    modelLayouts[Number(view.dataset.modelView)] = {
+      left: rect.left, top: rect.top + window.scrollY, width: rect.width, height: rect.height
+    };
+  });
+}
+
+function getModelViewportRect() {
+  const layout = modelLayouts[currentScene];
+  if (!layout) return null;
+  const left = Math.max(0, layout.left);
+  const right = Math.min(window.innerWidth, layout.left + layout.width);
+  const top = Math.max(headerBottom, layout.top - window.scrollY);
+  const bottom = Math.min(window.innerHeight - footerHeight, layout.top - window.scrollY + layout.height);
+  return { left, top, right, bottom, width: Math.max(0, right - left), height: Math.max(0, bottom - top) };
+}
+
+function updateModelViewport() {
+  modelViewport = getModelViewportRect();
+  const layout = modelLayouts[currentScene];
+  if (layout && camera.aspect !== layout.width / layout.height) {
+    camera.aspect = layout.width / layout.height;
+    camera.fov = 42;
+    camera.updateProjectionMatrix();
+  }
+}
+
+function drawModel(renderCamera = camera) {
+  // Clear once, then rasterize only the model's own transparent space. The
+  // viewport follows native document scroll; text never covers the model.
+  renderer.setScissorTest(false);
+  renderer.clear();
+  const layout = modelLayouts[currentScene];
+  if (!layout || !modelViewport?.width || !modelViewport.height) return;
+  renderer.setViewport(layout.left, window.innerHeight - (layout.top - window.scrollY + layout.height), layout.width, layout.height);
+  renderer.setScissor(modelViewport.left, window.innerHeight - modelViewport.bottom, modelViewport.width, modelViewport.height);
+  renderer.setScissorTest(true);
+  renderer.render(scene, renderCamera);
+  renderer.setScissorTest(false);
+}
+
+function getProjectedModelBounds() {
+  const world = worlds[currentScene];
+  const layout = modelLayouts[currentScene];
+  if (!world?.userData.modelCorners || !layout || !camera) return null;
+  world.updateWorldMatrix(true, false);
+  camera.updateMatrixWorld();
+  const points = world.userData.modelCorners.map(corner => {
+    const p = corner.clone().applyMatrix4(world.matrixWorld).project(camera);
+    return { x: layout.left + (p.x + 1) * layout.width / 2,
+      y: layout.top - window.scrollY + (1 - p.y) * layout.height / 2 };
+  });
+  const left = Math.min(...points.map(p => p.x)), right = Math.max(...points.map(p => p.x));
+  const top = Math.min(...points.map(p => p.y)), bottom = Math.max(...points.map(p => p.y));
+  return { left, top, right, bottom, width: right - left, height: bottom - top };
 }
 
 const palette = {
@@ -77,13 +177,19 @@ function seededRandom(seed = 914) {
 }
 
 const random = seededRandom();
+const materialCache = new Map();
+function cachedMaterial(kind, color, options, create) {
+  const key = `${kind}:${color}:${JSON.stringify(options)}`;
+  if (!materialCache.has(key)) materialCache.set(key, create());
+  return materialCache.get(key);
+}
 
 function lineMaterial(color, opacity = 1) {
   return new THREE.LineBasicMaterial({ color, transparent: opacity < 1, opacity });
 }
 
 function meshMaterial(color, options = {}) {
-  return new THREE.MeshStandardMaterial({
+  return cachedMaterial("standard", color, options, () => new THREE.MeshStandardMaterial({
     color,
     roughness: options.roughness ?? 0.62,
     metalness: options.metalness ?? 0.42,
@@ -94,35 +200,29 @@ function meshMaterial(color, options = {}) {
     depthWrite: options.depthWrite ?? true,
     emissive: options.emissive ?? 0x000000,
     emissiveIntensity: options.emissiveIntensity ?? 0
-  });
+  }));
 }
 
 function physicalMaterial(color, options = {}) {
-  return new THREE.MeshPhysicalMaterial({
+  // Lit metal and tinted shells retain depth without a second transmission pass.
+  return cachedMaterial("metal", color, options, () => new THREE.MeshStandardMaterial({
     color,
     roughness: options.roughness ?? 0.3,
     metalness: options.metalness ?? 0.62,
-    clearcoat: options.clearcoat ?? 0.38,
-    clearcoatRoughness: options.clearcoatRoughness ?? 0.22,
-    transmission: options.transmission ?? 0,
-    thickness: options.thickness ?? 0,
-    ior: options.ior ?? 1.45,
     transparent: options.opacity !== undefined && options.opacity < 1,
     opacity: options.opacity ?? 1,
     side: options.side ?? THREE.FrontSide,
     depthWrite: options.depthWrite ?? true,
     emissive: options.emissive ?? 0x000000,
     emissiveIntensity: options.emissiveIntensity ?? 0
-  });
+  }));
 }
 
 function glass(color = palette.green, opacity = 0.18) {
-  return new THREE.MeshPhysicalMaterial({
+  return new THREE.MeshStandardMaterial({
     color,
     roughness: 0.08,
     metalness: 0.12,
-    transmission: 0.45,
-    thickness: 0.5,
     transparent: true,
     opacity,
     side: THREE.DoubleSide,
@@ -184,7 +284,9 @@ function createGlowSprite(color, size = 1, opacity = 0.75) {
 function addWorldLight(group, color, position, intensity = 32, distance = 18) {
   const light = new THREE.PointLight(color, intensity, distance, 2);
   light.position.fromArray(position);
-  group.add(light);
+  // A stable light count lets every world reuse the same lit shader programs.
+  group.userData.lightCount = (group.userData.lightCount || 0) + 1;
+  if (group.userData.lightCount <= 2) group.add(light);
   const glow = createGlowSprite(color, 1.2, 0.38);
   glow.position.copy(light.position);
   group.add(glow);
@@ -210,16 +312,9 @@ function getCachedCurvePoint(curve, progress) {
   }
   const samples = curve.userData.samples;
   const idx = Math.min(samples.length - 1, Math.max(0, Math.floor(progress * (samples.length - 1))));
-  return samples[idx];
+  return curveSample.copy(samples[idx]).lerp(samples[Math.min(idx + 1, samples.length - 1)], progress * (samples.length - 1) - idx);
 }
-
-const _springDisplacement = new THREE.Vector3();
-function springVector(current, target, velocity, dt, stiffness = 88, damping = 14.5) {
-  _springDisplacement.copy(target).sub(current);
-  velocity.addScaledVector(_springDisplacement, stiffness * dt);
-  velocity.multiplyScalar(Math.exp(-damping * dt));
-  current.addScaledVector(velocity, dt);
-}
+const curveSample = new THREE.Vector3();
 
 function createTransitField() {
   const values = [];
@@ -411,19 +506,22 @@ function createOriginWorld() {
     ringGeometry.setAttribute("position", new THREE.Float32BufferAttribute(ringPoints, 3));
     group.add(new THREE.LineLoop(ringGeometry, lineMaterial(layer.color, 0.46)));
 
+    const nodes = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 12, 12), nodeMaterial, layer.nodes);
+    const placement = new THREE.Object3D();
     for (let i = 0; i < layer.nodes; i += 1) {
       const angle = (i / layer.nodes) * Math.PI * 2 + layerIndex * 0.31;
-      const node = new THREE.Mesh(new THREE.SphereGeometry(0.085, 12, 12), nodeMaterial);
-      node.position.set(
+      placement.position.set(
         Math.cos(angle) * layer.radius,
         layer.y,
         Math.sin(angle) * layer.radius * 0.42
       );
-      group.add(node);
+      placement.updateMatrix();
+      nodes.setMatrixAt(i, placement.matrix);
       if (i % 3 === 0) {
-        verticals.push(node.position.x, node.position.y, node.position.z, 0, 0, 0);
+        verticals.push(placement.position.x, placement.position.y, placement.position.z, 0, 0, 0);
       }
     }
+    group.add(nodes);
   });
   group.add(linesFromArray(verticals, palette.white, 0.11));
 
@@ -768,7 +866,7 @@ function createTopoWorld() {
   });
 
   const poreGeometry = new THREE.IcosahedronGeometry(0.1, 2);
-  const poreMaterial = physicalMaterial(0x335d7d, {
+  const poreMaterial = physicalMaterial(0x9ab8d2, {
     roughness: 0.24,
     metalness: 0.38,
     clearcoat: 0.5,
@@ -812,11 +910,11 @@ function createTopoWorld() {
   group.add(poreShell);
 
   const matrixGeometry = new THREE.IcosahedronGeometry(0.78, 1);
-  const matrixMaterial = physicalMaterial(0x202a2b, {
+  const matrixMaterial = physicalMaterial(0x465657, {
     roughness: 0.78,
     metalness: 0.14,
     clearcoat: 0.08,
-    opacity: 0.52,
+    opacity: 0.38,
     emissive: 0x071011,
     emissiveIntensity: 0.1
   });
@@ -1879,9 +1977,9 @@ function applyQualityTier(tier) {
   const maxDpr = coarsePointer ? 1.0 : 1.15;
   let targetDpr = maxDpr;
   if (tier === "low") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 0.95);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 0.65);
   } else if (tier === "medium") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 1.05);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 0.85);
   } else {
     targetDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
   }
@@ -1906,7 +2004,7 @@ function recordFrameTime(frameDeltaMs) {
     qualityTier = qualityTier === "high" ? "medium" : "low";
     applyQualityTier(qualityTier);
     slowFrameTally = 0;
-  } else if (fastFrameTally >= 80 && qualityTier !== "high") {
+  } else if (fastFrameTally >= 300 && qualityTier !== "high") {
     qualityTier = qualityTier === "low" ? "medium" : "high";
     applyQualityTier(qualityTier);
     fastFrameTally = 0;
@@ -1971,6 +2069,8 @@ window.__perfTelemetry = {
       triangles: renderer?.info?.render?.triangles || 0,
       geometries: renderer?.info?.memory?.geometries || 0,
       textures: renderer?.info?.memory?.textures || 0,
+      renderedFrames,
+      animationRunning: webglReady && !reduceMotion && !document.hidden,
       activeScene: sceneNames[currentScene]
     };
   }
@@ -1986,7 +2086,26 @@ function ensureWorld(index) {
     worldStatus[index] = "building";
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
-    world.visible = (index === currentScene);
+    if (index < 5) {
+      // Fit all actual geometry, including instance bounds, once per world.
+      // Cache local corners so projection checks also follow its gentle motion.
+      world.updateWorldMatrix(true, true);
+      const inverse = world.matrixWorld.clone().invert();
+      const bounds = new THREE.Box3();
+      world.traverse(object => {
+        if (!object.geometry) return;
+        if (object.isInstancedMesh) object.computeBoundingBox();
+        else if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+        const box = (object.isInstancedMesh ? object.boundingBox : object.geometry.boundingBox)?.clone();
+        if (box) bounds.union(box.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld)));
+      });
+      const corners = [];
+      for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z));
+      world.userData.modelCorners = corners;
+      world.userData.modelMatrix = world.matrixWorld.clone();
+      world.userData.modelCenter = bounds.getCenter(new THREE.Vector3()).applyMatrix4(world.matrixWorld);
+    }
+    world.visible = false;
     worlds[index] = world;
     worldStatus[index] = "built";
     if (scene) scene.add(world);
@@ -1998,139 +2117,99 @@ function ensureWorld(index) {
   return worlds[index];
 }
 
-async function prepareWorldAsync(index) {
-  if (index < 0 || index >= worldFactories.length) return null;
-  if (worlds[index]?.userData?.ready) return worlds[index];
+const yieldTask = () => new Promise(resolve => setTimeout(resolve, 0));
+const preparationQueue = [];
+let preparing = false;
+async function drainPreparationQueue() {
+  if (preparing || !webglReady || document.hidden) return;
+  preparing = true;
+  while (preparationQueue.length && webglReady && !document.hidden) {
+    const requested = preparationQueue.findIndex(job => job.index === currentScene);
+    const job = preparationQueue.splice(requested >= 0 ? requested : 0, 1)[0];
+    try { job.resolve(await job.execute()); }
+    catch (error) {
+      worldStatus[job.index] = "failed";
+      console.warn(`Scene ${sceneNames[job.index]} unavailable; content remains accessible.`, error);
+      job.resolve(null);
+    }
+  }
+  preparing = false;
+}
+let prewarmTimer = null;
+
+function prepareWorldAsync(index) {
+  if (index < 0 || index >= worldFactories.length) return Promise.resolve(null);
+  if (worlds[index]?.userData.ready) return Promise.resolve(worlds[index]);
   if (worldCompilePromises[index]) return worldCompilePromises[index];
-
-  if (!worlds[index]) {
-    const t0 = performance.now();
-    worldStatus[index] = "building";
-    const world = worldFactories[index]();
-    world.userData.baseScale = world.scale.clone();
+  // Even the requested scene is built outside the input handler. The finite,
+  // six-world cache reuses each world; preparation is serialized, never fanned out.
+  const execute = async () => {
+    await yieldTask();
+    const world = ensureWorld(index);
     world.visible = false;
-    worlds[index] = world;
-    worldStatus[index] = "built";
-    if (scene) scene.add(world);
-    world.userData.buildDuration = performance.now() - t0;
-    if (perfMode) {
-      console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) constructed in ${world.userData.buildDuration.toFixed(1)}ms`);
-    }
-  }
-
-  const world = worlds[index];
-  if (renderer && renderer.initTexture) {
-    world.traverse(child => {
-      if (child.material) {
-        const mats = Array.isArray(child.material) ? child.material : [child.material];
-        mats.forEach(mat => {
-          if (mat.map && mat.map.isTexture) {
-            try { renderer.initTexture(mat.map); } catch {}
-          }
-        });
-      }
-    });
-  }
-  if (renderer && camera && renderer.compileAsync && !world.userData.ready) {
+    await yieldTask();
     worldStatus[index] = "compiling";
-
-    // Temporarily configure scene visibility for target world so Three.js compiles with exact local lights and fog
-    const prevVisibilities = worlds.map(w => w ? w.visible : false);
-    worlds.forEach((w, i) => { if (w) w.visible = (i === index); });
-
-    // Call compileAsync: Three.js initiates GPU shader compilation synchronously
-    const p = renderer.compileAsync(scene, camera).then(() => {
-      worldStatus[index] = "ready";
-      world.userData.ready = true;
-      if (perfMode) {
-        console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) async compiled with full lighting & fog`);
-      }
-      return world;
-    }).catch(() => {
-      worldStatus[index] = "ready";
-      world.userData.ready = true;
-      return world;
+    await compileInBatches(renderer, scene, camera, world, () => {
+      const visibilities = worlds.map(w => w?.visible || false);
+      worlds.forEach((w, i) => { if (w) w.visible = i === index; });
+      return () => worlds.forEach((w, i) => { if (w) w.visible = visibilities[i]; });
     });
-
-    // Immediately restore active scene visibility for the render loop
-    worlds.forEach((w, i) => { if (w) w.visible = prevVisibilities[i]; });
-
-    worldCompilePromises[index] = p;
-    return p;
-  } else {
-    world.visible = (index === currentScene);
-    if (!world.parent && scene) scene.add(world);
-    worldStatus[index] = "ready";
-    world.userData.ready = true;
-    return world;
-  }
-}
-
-let compileScene = null;
-let prewarmRunning = false;
-let prewarmQueue = [];
-
-function computePrewarmSequence(centerIdx) {
-  const seq = [];
-  const total = worldFactories.length;
-  const next = (centerIdx + 1) % total;
-  if (!worlds[next]?.userData?.ready) seq.push(next);
-  const prev = (centerIdx - 1 + total) % total;
-  if (prev !== next && !worlds[prev]?.userData?.ready) seq.push(prev);
-  for (let i = 0; i < total; i++) {
-    const idx = (centerIdx + i) % total;
-    if (idx !== centerIdx && !seq.includes(idx) && !worlds[idx]?.userData?.ready) {
-      seq.push(idx);
-    }
-  }
-  return seq;
-}
-
-function processPrewarmStep() {
-  if (document.hidden || isSceneTransitioning) {
-    setTimeout(processPrewarmStep, 150);
-    return;
-  }
-
-  prewarmQueue = prewarmQueue.filter(idx => !worlds[idx]?.userData?.ready);
-  if (prewarmQueue.length === 0) {
-    prewarmQueue = computePrewarmSequence(currentScene);
-    if (prewarmQueue.length === 0) {
-      prewarmRunning = false;
-      return;
-    }
-  }
-
-  const targetIdx = prewarmQueue.shift();
-  if (worlds[targetIdx]?.userData?.ready) {
-    setTimeout(processPrewarmStep, 40);
-    return;
-  }
-
-  const executeWarm = async () => {
+    await yieldTask();
+    // Compilation does not upload buffers. Warm the actual output pipeline:
+    // an offscreen target changes tone-mapping/color-space shader variants.
+    // Restore and draw the active world in this same task, before browser paint.
+    const warmCamera = camera.clone();
+    const state = getCameraTarget(index);
+    warmCamera.position.fromArray(state.position);
+    warmCamera.lookAt(new THREE.Vector3(...state.look));
+    const visible = worlds.map(w => w?.visible || false);
     try {
-      await prepareWorldAsync(targetIdx);
-    } catch (err) {
-      console.warn("[prewarm] error warming world", targetIdx, err);
+      worlds.forEach((w, i) => { if (w) w.visible = i === index; });
+      drawModel(warmCamera);
+    } finally {
+      worlds.forEach((w, i) => { if (w) w.visible = visible[i]; });
+      drawModel();
     }
-    setTimeout(processPrewarmStep, 200);
+    world.userData.ready = true;
+    worldStatus[index] = "ready";
+    if (index === currentScene) revealWorld(index);
+    return world;
   };
+  const job = new Promise(resolve => preparationQueue.push({ index, execute, resolve }));
+  worldCompilePromises[index] = job;
+  setTimeout(drainPreparationQueue, 0);
+  return job;
+}
 
-  if (typeof requestIdleCallback !== "undefined") {
-    requestIdleCallback(() => {
-      executeWarm();
-    }, { timeout: 1500 });
-  } else {
-    setTimeout(executeWarm, 80);
-  }
+function revealWorld(index) {
+  if (!webglReady || index !== currentScene || !worlds[index]?.userData.ready) return;
+  activeWorld = worlds[index];
+  activeWorld.visible = true;
+  const state = getCameraTarget(index);
+  cameraStart.fromArray(state.position);
+  if (!reduceMotion) cameraStart.add(new THREE.Vector3(.2, .08, .35));
+  lookStart.fromArray(state.look);
+  cameraTransitionAt = performance.now();
+  document.body.dataset.graphicsReady = "true";
+  if (reduceMotion) render(performance.now());
 }
 
 function startBackgroundPrewarm() {
-  prewarmQueue = computePrewarmSequence(currentScene);
-  if (!prewarmRunning && prewarmQueue.length > 0) {
-    prewarmRunning = true;
-    setTimeout(processPrewarmStep, 250);
-  }
+  clearTimeout(prewarmTimer);
+  if (!webglReady || reduceMotion || document.hidden) return;
+  // Only the next likely destination and previous scene are prepared. Distant
+  // archive jumps keep the CSS centerpiece visible while their model prepares.
+  prewarmTimer = setTimeout(() => {
+    const next = currentScene + 1;
+    const previous = currentScene - 1;
+    const run = async () => {
+      if (document.hidden || !webglReady) return;
+      if (next < worlds.length) await prepareWorldAsync(next);
+      if (previous >= 0) await prepareWorldAsync(previous);
+    };
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 1000 });
+    else run();
+  }, 120);
 }
 
 function initializeThree() {
@@ -2141,15 +2220,16 @@ function initializeThree() {
       alpha: false,
       powerPreference: "high-performance"
     });
-    renderer.setClearColor(0x020403, 1);
+    renderer.setClearColor(0x050706, 1);
+    renderer.autoClear = false;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x020403);
-    scene.fog = new THREE.FogExp2(0x020403, 0.021);
+    scene.background = new THREE.Color(0x050706);
+    scene.fog = new THREE.FogExp2(0x050706, 0.012);
 
     const isMobile = window.innerWidth <= 820;
     camera = new THREE.PerspectiveCamera(isMobile ? 64 : 42, 1, 0.1, 120);
@@ -2157,6 +2237,9 @@ function initializeThree() {
     camera.position.fromArray(initialTarget.position);
     currentLook.fromArray(initialTarget.look);
     camera.lookAt(currentLook);
+    cameraStart.copy(camera.position);
+    lookStart.copy(currentLook);
+    cameraTransitionAt = performance.now() - 280;
     transitField = createTransitField();
     camera.add(transitField);
     scene.add(camera);
@@ -2175,27 +2258,8 @@ function initializeThree() {
     accent.position.set(1.5, 2.5, 6);
     scene.add(accent);
 
-    compileScene = new THREE.Scene();
-    compileScene.add(new THREE.HemisphereLight(0xcde4d8, 0x091410, 1.35));
-    const cKey = new THREE.DirectionalLight(0xf0f7f3, 4.2);
-    cKey.position.set(8, 11, 12);
-    compileScene.add(cKey);
-    const cRim = new THREE.DirectionalLight(0x7596ff, 2.4);
-    cRim.position.set(-9, 3, -8);
-    compileScene.add(cRim);
-    const cWarm = new THREE.DirectionalLight(0xff946b, 1.8);
-    cWarm.position.set(6, -2, -6);
-    compileScene.add(cWarm);
-    const cAccent = new THREE.PointLight(palette.green, 28, 26, 2);
-    cAccent.position.set(1.5, 2.5, 6);
-    compileScene.add(cAccent);
-
-    scene.add(createAmbientField());
-    ensureWorld(currentScene);
-    activeWorld = worlds[currentScene];
-    startBackgroundPrewarm();
     window.__observatory = {
-      version: "3.4.0",
+      version: "4.4.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2208,22 +2272,45 @@ function initializeThree() {
       currentLook,
       mobileCameraStates,
       cameraStates,
+      getModelViewportRect,
+      getProjectedModelBounds,
       THREE
     };
-    console.log("%c[Observatory 3D] v3.4.0 initialized (async prewarm pipeline, 220ms lockout, 28px threshold, zero-alloc springs, instanced meshes)", "color: #47e6a5; font-weight: bold;");
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
     window.addEventListener("orientationchange", resizeRenderer, { passive: true });
+    const modelObserver = new ResizeObserver(() => {
+      measureModelViews();
+      if (webglReady && reduceMotion) render(performance.now());
+    });
+    modelViews.forEach(view => modelObserver.observe(view));
+    document.fonts.ready.then(() => {
+      measureModelViews();
+      if (webglReady && reduceMotion) render(performance.now());
+    });
+    canvas.addEventListener("webglcontextlost", event => { event.preventDefault(); webglReady = false; renderer.setAnimationLoop(null); document.body.dataset.graphicsReady = "false"; });
+    canvas.addEventListener("webglcontextrestored", () => location.reload());
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         renderer.setAnimationLoop(null);
-      } else if (webglReady) {
-        lastFrameTime = performance.now();
+      } else if (webglReady && !reduceMotion) {
+        lastFrameTime = 0;
         renderer.setAnimationLoop(render);
       }
+      if (!document.hidden) drainPreparationQueue();
     });
-    renderer.setAnimationLoop(render);
+    window.addEventListener("pagehide", event => {
+      if (event.persisted) return;
+      clearTimeout(prewarmTimer);
+      modelObserver.disconnect();
+      renderer.setAnimationLoop(null);
+      disposeScene(scene);
+      renderer.dispose();
+      webglReady = false;
+    });
+    prepareWorldAsync(currentScene).then(() => startBackgroundPrewarm());
+    if (!reduceMotion) renderer.setAnimationLoop(render);
   } catch (error) {
     document.body.classList.add("webgl-unavailable");
     console.warn("Interactive scene unavailable; content fallback remains active.", error);
@@ -2236,26 +2323,27 @@ function resizeRenderer() {
   const height = canvas.clientHeight;
   if (canvas.width !== Math.floor(width * renderer.getPixelRatio()) || canvas.height !== Math.floor(height * renderer.getPixelRatio())) {
     renderer.setSize(width, height, false);
-    camera.aspect = width / Math.max(height, 1);
-    camera.fov = window.innerWidth <= 820 ? 64 : 42;
-    camera.updateProjectionMatrix();
   }
+  measureModelViews();
+  if (webglReady && reduceMotion) render(performance.now());
 }
 
 function render(timeMs) {
   if (!webglReady) return;
+  updateModelViewport();
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
-  const time = timeMs * 0.001;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
+  if (!reduceMotion) animationTime += dt;
+  const time = animationTime;
 
   const state = getCameraTarget(currentScene);
   targetCamera.fromArray(state.position);
   targetLook.fromArray(state.look);
 
   if (!reduceMotion) {
-    targetCamera.x += pointerX * 0.42;
-    targetCamera.y += pointerY * 0.28;
+    targetCamera.x += pointerX * 0.2;
+    targetCamera.y += pointerY * 0.14;
   }
 
   if (reduceMotion) {
@@ -2264,22 +2352,25 @@ function render(timeMs) {
     cameraVelocity.set(0, 0, 0);
     lookVelocity.set(0, 0, 0);
   } else {
-    springVector(camera.position, targetCamera, cameraVelocity, dt, 88, 14.5);
-    springVector(currentLook, targetLook, lookVelocity, dt, 78, 13.5);
+    // Travel between spatially distant worlds has a bounded duration. An
+    // asymptotic spring previously kept chasing a destination for over a second.
+    const progress = THREE.MathUtils.clamp((timeMs - cameraTransitionAt) / 280, 0, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    camera.position.lerpVectors(cameraStart, targetCamera, eased);
+    currentLook.lerpVectors(lookStart, targetLook, eased);
   }
   camera.lookAt(currentLook);
 
   if (transitField) {
-    const motionEnergy = THREE.MathUtils.clamp(cameraVelocity.length() / 10, 0, 1);
-    transitField.material.opacity = reduceMotion ? 0 : motionEnergy * 0.38;
-    transitField.scale.z = 0.7 + motionEnergy * 3.8;
+    // Keep the model legible during travel rather than covering it with streaks.
+    transitField.material.opacity = 0;
   }
 
   const activeIdx = currentScene;
 
   // 0: Origin
   if (activeIdx === 0 && worlds[0]) {
-    worlds[0].rotation.y += reduceMotion ? 0 : 0.0012;
+    worlds[0].rotation.y = reduceMotion ? 0 : Math.sin(time * .16) * .14;
     worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
     worlds[0].userData.rings?.forEach((ring) => {
       ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
@@ -2290,8 +2381,8 @@ function render(timeMs) {
 
   // 1: Aegis
   else if (activeIdx === 1 && worlds[1]) {
-    if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.01;
-    if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.006;
+    if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.6 * dt;
+    if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.36 * dt;
     if (worlds[1].userData.inspectionShell) {
       worlds[1].userData.inspectionShell.rotation.x = reduceMotion ? 0 : time * 0.08;
       worlds[1].userData.inspectionShell.rotation.y = reduceMotion ? 0 : -time * 0.11;
@@ -2386,7 +2477,7 @@ function render(timeMs) {
   // 3: Compressor
   else if (activeIdx === 3 && worlds[3]) {
     worlds[3].userData.rotors?.forEach((rotor, index) => {
-      rotor.rotation.z += reduceMotion ? 0 : 0.008 + index * 0.0016;
+      rotor.rotation.z += reduceMotion ? 0 : (0.48 + index * 0.096) * dt;
     });
     worlds[3].userData.instrumentRings?.forEach((ring) => {
       ring.rotation.x += reduceMotion ? 0 : ring.userData.speed * dt;
@@ -2406,7 +2497,7 @@ function render(timeMs) {
 
   // 4: TopoFlow
   else if (activeIdx === 4 && worlds[4]) {
-    worlds[4].rotation.y += reduceMotion ? 0 : 0.0017;
+    worlds[4].rotation.y = reduceMotion ? 0 : Math.sin(time * .18) * .14;
     worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
     if (worlds[4].userData.flowCurve && worlds[4].userData.flowParticles) {
       worlds[4].userData.flowParticles.forEach((particle) => {
@@ -2421,7 +2512,7 @@ function render(timeMs) {
 
   // 5: Profile
   else if (activeIdx === 5 && worlds[5]) {
-    worlds[5].rotation.y += reduceMotion ? 0 : 0.0014;
+    worlds[5].rotation.y += reduceMotion ? 0 : 0.084 * dt;
     worlds[5].userData.rings?.forEach((ring) => {
       ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
       ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.22;
@@ -2432,27 +2523,44 @@ function render(timeMs) {
   }
 
   if (activeWorld && !reduceMotion) {
-    activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * 0.025;
+    activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * (1 - Math.exp(-8 * dt));
     const baseScale = activeWorld.userData.baseScale;
-    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 300, 0, 1);
+    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 240, 0, 1);
     const eased = 1 - Math.pow(1 - transitionProgress, 3);
     activeWorld.scale.copy(baseScale).multiplyScalar(0.93 + eased * 0.07);
   }
 
-  renderer.render(scene, camera);
-  if (!document.hidden && rawFrameDeltaMs < 800) {
+  drawModel();
+  renderedFrames++;
+  if (!document.hidden && !reduceMotion) {
     recordFrameTime(rawFrameDeltaMs);
   }
   updatePerfHud();
 }
 
 function setScene(index, options = {}) {
+  if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
-  if (next === currentScene && !options.force) return;
-  const previousScene = currentScene;
+  if (!options.observed) {
+    // Explicit navigation jumps immediately. Ordinary browsing stays native.
+    window.scrollTo({ top: panels[next].offsetTop, behavior: "instant" });
+  }
+  if (next === currentScene && !options.force) {
+    if (options.focus) focusSceneHeading(next);
+    return;
+  }
+  if (camera) {
+    const destination = getCameraTarget(next);
+    cameraStart.fromArray(destination.position);
+    cameraStart.x += 0.35;
+    cameraStart.z += 0.55;
+    lookStart.fromArray(destination.look);
+  }
+  cameraTransitionAt = performance.now();
   currentScene = next;
-  ensureWorld(currentScene);
-  activeWorld = worlds[currentScene] || null;
+  activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
+  document.body.dataset.graphicsReady = String(Boolean(activeWorld));
+  if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
   if (activeWorld?.userData.baseScale) {
     activeWorld.scale.copy(activeWorld.userData.baseScale);
     if (!reduceMotion) activeWorld.scale.multiplyScalar(0.93);
@@ -2460,7 +2568,7 @@ function setScene(index, options = {}) {
   lastSceneChange = performance.now();
   document.body.dataset.currentScene = String(currentScene);
   worlds.forEach((world, worldIndex) => {
-    if (world) world.visible = worldIndex === currentScene;
+    if (world) world.visible = worldIndex === currentScene && Boolean(world.userData.ready);
   });
 
   if (perfMode && renderer) {
@@ -2468,18 +2576,11 @@ function setScene(index, options = {}) {
     console.log(`[PERF SCENE] Switched to ${sceneNames[currentScene]} | Calls: ${info.render.calls} | Tris: ${(info.render.triangles / 1000).toFixed(1)}k | Geometries: ${info.memory.geometries} | Textures: ${info.memory.textures} | DPR: ${renderer.getPixelRatio().toFixed(2)}`);
   }
 
-  if (!options.force && !reduceMotion) {
-    const direction = Math.sign(currentScene - previousScene) || 1;
-    cameraVelocity.y += direction * 0.4;
-    cameraVelocity.x += direction * 0.2;
-    triggerScanEffect();
-  }
-  lockSceneTransition(220);
-
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
     panel.classList.toggle("is-active", active);
-    panel.setAttribute("aria-hidden", String(!active));
+    panel.removeAttribute("aria-hidden");
+    panel.inert = false;
   });
 
   railButtons.forEach((button) => {
@@ -2490,53 +2591,53 @@ function setScene(index, options = {}) {
   });
 
   if (sceneAnnouncer && !options.force) sceneAnnouncer.textContent = `${sceneNames[currentScene]} scene selected`;
+  if (options.focus) focusSceneHeading(currentScene);
+
+  const flow = document.querySelector(".scene-flow");
+  if (flow) {
+    flow.hidden = currentScene === 0;
+    flow.querySelector("[data-scene-position]").textContent = `${String(currentScene + 1).padStart(2, "0")} / 06`;
+    const nextButton = flow.querySelector("[data-next-scene]");
+    nextButton.querySelector("span").textContent = currentScene === 5 ? "Back to introduction" : `Next: ${sceneNames[currentScene + 1]}`;
+    if (currentScene === 5) nextButton.dataset.sceneJump = "0";
+    else nextButton.removeAttribute("data-scene-jump");
+  }
 
   if (!options.skipHistory) {
-    history.replaceState(null, "", `#${sceneHashes[currentScene]}`);
+    history[options.observed ? "replaceState" : "pushState"](null, "", `#${sceneHashes[currentScene]}`);
   }
   startBackgroundPrewarm();
+  if ((reduceMotion) && webglReady) render(performance.now());
 }
 
-const transitionLine = document.querySelector(".scene-transition-line");
-let scanAnimation = null;
-
-function triggerScanEffect() {
-  if (!transitionLine || reduceMotion) return;
-  if (scanAnimation) {
-    try { scanAnimation.cancel(); } catch {}
-  }
-  scanAnimation = transitionLine.animate([
-    { transform: "translateX(0) skewX(-8deg)", opacity: 0 },
-    { opacity: 1, offset: 0.12 },
-    { opacity: 0.62, offset: 0.86 },
-    { transform: "translateX(126vw) skewX(-8deg)", opacity: 0 }
-  ], {
-    duration: 320,
-    easing: "cubic-bezier(0.22, 0.8, 0.24, 1)",
-    fill: "none"
-  });
+function focusSceneHeading(index) {
+  const heading = panels[index]?.querySelector("h1, h2");
+  if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
 }
 
-let isSceneTransitioning = false;
-let lastTransitionAt = 0;
-let sceneLockTimer = null;
-
-function lockSceneTransition(duration = 220) {
-  isSceneTransitioning = true;
-  lastTransitionAt = performance.now();
-  wheelAccumulator = 0;
-  window.clearTimeout(sceneLockTimer);
-  sceneLockTimer = window.setTimeout(() => {
-    isSceneTransitioning = false;
-  }, duration);
+let scrollFrame = 0;
+function syncSceneToScroll() {
+  scrollFrame = 0;
+  if (document.querySelector("dialog[open]")) return;
+  const readingLine = window.scrollY + window.innerHeight * 0.4;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  if (readingProgress) readingProgress.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
+  let next = 0;
+  panels.forEach((panel, index) => { if (panel.offsetTop <= readingLine) next = index; });
+  if (next !== currentScene) setScene(next, { observed: true });
+  else if (reduceMotion && webglReady) render(performance.now());
 }
+window.addEventListener("scroll", () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
+}, { passive: true });
+window.addEventListener("resize", () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
+}, { passive: true });
+history.scrollRestoration = "manual";
 
-function stepScene(direction) {
-  if (isSceneTransitioning) return;
+function stepScene(direction, options = {}) {
   const target = currentScene + direction;
-  if (target >= 0 && target < sceneNames.length) {
-    setScene(target);
-  }
+  if (target >= 0 && target < sceneNames.length) setScene(target, options);
 }
 
 // Global Event Delegation for all interactive action attributes
@@ -2544,21 +2645,21 @@ document.addEventListener("click", (event) => {
   const jumpBtn = event.target.closest("[data-scene-jump]");
   if (jumpBtn) {
     event.preventDefault();
-    setScene(Number(jumpBtn.dataset.sceneJump));
+    setScene(Number(jumpBtn.dataset.sceneJump), { focus: event.detail === 0 });
     return;
   }
 
   const nextBtn = event.target.closest("[data-next-scene]");
   if (nextBtn) {
     event.preventDefault();
-    stepScene(1);
+    stepScene(1, { focus: event.detail === 0 });
     return;
   }
 
   const prevBtn = event.target.closest("[data-prev-scene]");
   if (prevBtn) {
     event.preventDefault();
-    stepScene(-1);
+    stepScene(-1, { focus: event.detail === 0 });
     return;
   }
 
@@ -2599,155 +2700,41 @@ document.addEventListener("click", (event) => {
   }
 });
 
-let wheelAccumulator = 0;
-let wheelQuietTimer = null;
-
-window.addEventListener("wheel", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-
-  // Check if wheel event originates from within an active scrollable panel
-  const activePanel = panels[currentScene];
-  if (activePanel && activePanel.contains(event.target)) {
-    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
-    if (isScrollable) {
-      const atTop = activePanel.scrollTop <= 0 && event.deltaY < 0;
-      const atBottom = activePanel.scrollTop + activePanel.clientHeight >= activePanel.scrollHeight - 4 && event.deltaY > 0;
-      if (!atTop && !atBottom) {
-        // Allow native smooth scrolling inside the panel
-        return;
-      }
-    }
-  }
-
-  const now = performance.now();
-  const timeSinceTransition = now - lastTransitionAt;
-
-  // If transitioning or within the 220ms lockout window, dump all wheel inertia immediately
-  if (isSceneTransitioning || timeSinceTransition < 220) {
-    wheelAccumulator = 0;
-    return;
-  }
-
-  // Reset accumulator on direction change
-  if (Math.sign(event.deltaY) !== Math.sign(wheelAccumulator) && wheelAccumulator !== 0) {
-    wheelAccumulator = 0;
-  }
-
-  wheelAccumulator += event.deltaY;
-
-  // Responsive step threshold: 28px guarantees immediate, snappy action without false firing
-  if (Math.abs(wheelAccumulator) >= 28) {
-    const dir = wheelAccumulator > 0 ? 1 : -1;
-    wheelAccumulator = 0;
-    stepScene(dir);
-  }
-
-  // When scrolling stops for 120ms, reset accumulator so subsequent motions start clean
-  window.clearTimeout(wheelQuietTimer);
-  wheelQuietTimer = window.setTimeout(() => {
-    wheelAccumulator = 0;
-  }, 120);
-}, { passive: true });
-
-let touchStartX = 0;
-let touchStartY = 0;
-let touchStartTime = 0;
-
-window.addEventListener("touchstart", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (event.touches.length === 1) {
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-    touchStartTime = performance.now();
-  }
-}, { passive: true });
-
-window.addEventListener("touchend", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (isSceneTransitioning) return;
-  if (!touchStartTime || event.changedTouches.length === 0) return;
-
-  const activePanel = panels[currentScene];
-  if (activePanel && activePanel.contains(event.target)) {
-    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
-    if (isScrollable) {
-      return;
-    }
-  }
-
-  const dx = event.changedTouches[0].clientX - touchStartX;
-  const dy = event.changedTouches[0].clientY - touchStartY;
-  const dt = performance.now() - touchStartTime;
-
-  // Guarded single scene step per swipe gesture
-  if (dt < 600) {
-    if (Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx) * 1.25) {
-      stepScene(dy < 0 ? 1 : -1);
-    } else if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-      stepScene(dx < 0 ? 1 : -1);
-    }
-  }
-  touchStartTime = 0;
-}, { passive: true });
-
+// Vertical scrolling belongs to the browser: no wheel cancellation, cooldown,
+// or touch swipe threshold. Direction changes and gentle trackpad input always
+// move the document. Horizontal arrow keys remain explicit project shortcuts.
 window.addEventListener("keydown", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (["ArrowDown", "ArrowRight", "PageDown"].includes(event.key)) {
-    event.preventDefault();
-    stepScene(1);
-  }
-  if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) {
-    event.preventDefault();
-    stepScene(-1);
-  }
-  if (event.key === "Home") setScene(0);
-  if (event.key === "End") setScene(sceneNames.length - 1);
+  if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
+  if (event.key === "ArrowRight") { event.preventDefault(); stepScene(1, { focus: true }); }
+  if (event.key === "ArrowLeft") { event.preventDefault(); stepScene(-1, { focus: true }); }
+  if (event.key === "Home") { event.preventDefault(); setScene(0, { focus: true }); }
+  if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1, { focus: true }); }
+
 });
 
-canvas.addEventListener("pointerdown", (event) => {
-  dragStart = {
-    startX: event.clientX,
-    startY: event.clientY,
-    lastX: event.clientX,
-    lastY: event.clientY,
-    at: performance.now()
-  };
-  canvas.setPointerCapture?.(event.pointerId);
-});
-
-window.addEventListener("pointermove", (event) => {
+// Subtle parallax is automatic; the canvas never captures pointer or wheel input.
+window.addEventListener("pointermove", event => {
+  if (event.pointerType === "touch" || reduceMotion) return;
   pointerX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2;
   pointerY = -(event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2;
 }, { passive: true });
 
-canvas.addEventListener("pointermove", (event) => {
-  if (!dragStart || !activeWorld || reduceMotion) return;
-  const dx = (event.clientX - dragStart.lastX) * 0.0025;
-  const dy = (event.clientY - dragStart.lastY) * 0.0018;
-  activeWorld.rotation.y += dx;
-  activeWorld.rotation.x += dy;
-  dragStart.lastX = event.clientX;
-  dragStart.lastY = event.clientY;
-});
-
-canvas.addEventListener("pointerup", (event) => {
-  if (!dragStart) return;
-  const dx = event.clientX - dragStart.startX;
-  const dy = event.clientY - dragStart.startY;
-  const elapsed = performance.now() - dragStart.at;
-  if (!isSceneTransitioning && coarsePointer && elapsed < 650 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-    stepScene(dx < 0 ? 1 : -1);
+document.addEventListener("click", async event => {
+  const button = event.target.closest("[data-copy-email]");
+  if (!button) return;
+  const status = document.querySelector("[data-copy-status]");
+  try {
+    await navigator.clipboard.writeText("shaunakrane914@gmail.com");
+    status.textContent = "Email copied.";
+  } catch {
+    status.textContent = "Use the email link to get in touch.";
+    document.querySelector(".contact-email").focus({ preventScroll: true });
   }
-  dragStart = null;
 });
 
-canvas.addEventListener("pointercancel", () => {
-  dragStart = null;
-});
-
-window.addEventListener("resize", resizeRenderer);
 window.addEventListener("hashchange", () => {
-  const index = sceneHashes.indexOf(window.location.hash.slice(1));
+  const hash = window.location.hash.slice(1);
+  const index = hash ? sceneHashes.indexOf(hash) : 0;
   if (index >= 0) setScene(index, { skipHistory: true });
 });
 
@@ -2807,5 +2794,6 @@ const evidenceMetadata = {
   dialog.addEventListener("close", () => document.body.classList.remove("dialog-open"));
 });
 
-initializeThree();
+// Content and controls are usable before WebGL context creation or scene builds.
 setScene(currentScene, { force: true, skipHistory: true });
+requestAnimationFrame(() => requestAnimationFrame(initializeThree));

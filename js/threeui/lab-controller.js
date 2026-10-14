@@ -24,7 +24,11 @@ let camera;
 let composerObj;
 let activePrototype = null;
 let currentPrototypeIndex = 0;
-let lastFrameTime = performance.now();
+let lastFrameTime = 0;
+let prototypeRevision = 0;
+let prototypeCompilation = Promise.resolve();
+let prototypeReady = false;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const pointerNorm = new THREE.Vector2(0, 0);
 
@@ -146,14 +150,24 @@ function init() {
   }
 
   // Animation Loop
-  renderer.setAnimationLoop(animate);
+  document.addEventListener("visibilitychange", () => {
+    renderer.setAnimationLoop(document.hidden || reduceMotion ? null : animate);
+    lastFrameTime = 0;
+  });
 }
 
 /**
  * Tears down previous visual prototype and instantiates the selected one.
  * @param {number} index - The index of the prototype to display.
  */
-function setPrototype(index) {
+async function setPrototype(index) {
+  const revision = ++prototypeRevision;
+  renderer.setAnimationLoop(null);
+  // An async compiler still references materials. Finish before disposal;
+  // rapid tab requests collapse to the latest selection.
+  await prototypeCompilation;
+  if (revision !== prototypeRevision) return;
+  prototypeReady = false;
   if (activePrototype) {
     activePrototype.destroy();
     activePrototype = null;
@@ -179,7 +193,13 @@ function setPrototype(index) {
   // Build 3D visual art
   if (proto.factory) {
     activePrototype = proto.factory(scene);
-    if (renderer.compileAsync) renderer.compileAsync(scene, camera).catch(() => {});
+    prototypeCompilation = renderer.compileAsync(scene, camera).then(() => {
+      if (revision !== prototypeRevision) return;
+      prototypeReady = true;
+      lastFrameTime = 0;
+      if (reduceMotion) animate(0);
+      else if (!document.hidden) renderer.setAnimationLoop(animate);
+    }).catch(error => console.warn("Prototype unavailable", error));
   }
 }
 
@@ -211,13 +231,13 @@ function onResize() {
 
 function animate(timeMs) {
   const time = timeMs * 0.001;
-  const dt = Math.min((timeMs - lastFrameTime) / 1000, 0.034);
+  const dt = lastFrameTime ? Math.min((timeMs - lastFrameTime) / 1000, 0.05) : 1 / 60;
   lastFrameTime = timeMs;
 
   const speedMult = speedSlider ? parseFloat(speedSlider.value) : 1.0;
 
   if (activePrototype) {
-    activePrototype.update(time * speedMult, pointerNorm);
+    activePrototype.update(time * speedMult, pointerNorm, reduceMotion ? 0 : dt * speedMult);
   }
 
   if (composerObj) {
@@ -227,3 +247,4 @@ function animate(timeMs) {
 
 // Start
 init();
+window.__labTelemetry = () => ({ ready: prototypeReady, index: currentPrototypeIndex, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures });

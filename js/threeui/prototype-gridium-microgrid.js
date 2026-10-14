@@ -5,6 +5,7 @@
 // ZERO text panels. Pure living, breathing energy architecture.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createGridiumMicrogridPrototype(scene) {
   const root = new THREE.Group();
@@ -178,17 +179,17 @@ export function createGridiumMicrogridPrototype(scene) {
 
   // ─── RETURN OBJECT ───────────────────────────────────────────────────
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       // AMM core breathing pulse
       const corePulse = 1.0 + Math.sin(time * 2.4) * 0.06;
       ammCore.scale.setScalar(corePulse);
-      ammCore.rotation.y += 0.012;
+      ammCore.rotation.y += 0.72 * dt;
 
       // AMM bonding curve torus animation
-      rims[0].rotation.z += 0.022;
-      rims[1].rotation.z -= 0.018;
-      rims[2].rotation.y += 0.015;
-      rims[3].rotation.x += 0.01;
+      rims[0].rotation.z += 1.32 * dt;
+      rims[1].rotation.z -= 1.08 * dt;
+      rims[2].rotation.y += 0.9 * dt;
+      rims[3].rotation.x += 0.6 * dt;
 
       // Pulsing core point light
       coreLight.intensity = 10 + Math.sin(time * 3.0) * 4;
@@ -196,14 +197,14 @@ export function createGridiumMicrogridPrototype(scene) {
       // Node hub spin
       nodes.forEach(({ group, nodeType }, idx) => {
         const child = group.children[0]; // hub mesh
-        if (child) child.rotation.y += 0.008 * (idx % 2 === 0 ? 1 : -1);
+        if (child) child.rotation.y += 0.48 * dt * (idx % 2 === 0 ? 1 : -1);
       });
 
       // Energy packet flow
       energyPackets.forEach(ep => {
         let t = (time * ep.speed + ep.offset) % 1.0;
         if (ep.direction === -1) t = 1.0 - t;
-        ep.packet.position.copy(ep.curve.getPoint(t));
+        ep.curve.getPoint(t, ep.packet.position);
       });
 
       // Atmospheric dust rotation
@@ -215,6 +216,7 @@ export function createGridiumMicrogridPrototype(scene) {
     },
     destroy() {
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }

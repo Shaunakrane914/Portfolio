@@ -1,90 +1,55 @@
-# Systems Portfolio Architecture & 3D Observatory Engine
+# Portfolio runtime architecture (v4.4)
 
-## Overview
+The portfolio is a static HTML site with an editorial layout, native document scrolling and visible Three.js models. Four featured projects connect concise summaries to implementation evidence and case studies. Project claims, evidence and resume content are retained.
 
-Shaunak Rane's portfolio is built as an interactive 3D WebGL observatory using Three.js, Vanilla CSS, and modular ES6 JavaScript. The application delivers high-performance rendering (60–120 FPS), accessible semantic DOM content overlays, and smooth spring-based camera dynamics across desktop and mobile devices.
+## Input and scene state
 
-```
-+--------------------------------------------------------------------+
-|                         Browser Viewport                           |
-+--------------------------------------------------------------------+
-| DOM Overlay Layer:                                                 |
-|  - Semantic HTML5 Panels ([data-scene-panel])                     |
-|  - Accessibility Announcer, Skip Links & ARIA Roles                |
-|  - Real-time Telemetry HUD (URL param ?perf=1)                     |
-+--------------------------------------------------------------------+
-| WebGL Rendering Pipeline:                                          |
-|  - Three.js PerspectiveCamera with 2nd-Order Spring Physics         |
-|  - Multi-world Scene Graph (Worlds 0 to 5)                          |
-|  - InstancedMesh Optimizations (Blades, Sensors, Pore Networks)    |
-|  - Dedicated Asynchronous Shader & Texture Compilation Pipeline    |
-|  - Spline Curve Pre-Sampling (Zero-Alloc Packet Paths)             |
-|  - Adaptive DPR Quality Scaling (High / Medium / Low)              |
-+--------------------------------------------------------------------+
-| Edge Delivery & Hosting:                                           |
-|  - Custom Domain DNS: shaunakrane.is-a.dev                         |
-|  - Cloudflare Pages Edge Network                                   |
-|  - Cache-busting Asset Bundles (?v=3.4)                            |
-+--------------------------------------------------------------------+
-```
+Six normal-flow sections have a `100svh` minimum height and expand with their content. Narrative remains normal HTML; the introduction and four featured projects reserve empty, transparent `.model-view` regions for WebGL. The shared canvas stays fixed and rasterizes into the selected region as it moves through the viewport. Panels have no independent scrollers, hidden content or inert state. There is no scroll snap and no wheel/touch navigation listener: the browser handles reading, momentum, reversals, zoom and panning.
 
-## Scene Architecture
+The earlier burst classifier could discard repeated wheel ticks, gentle follow-up movement and quick reversals. Native browsing replaces that input contract. Short movement visibly scrolls the document; large gestures may cross several sections. Browsing no longer enforces one gesture per scene.
 
-| Scene Index | Codename | Project Highlight | 3D Visual Elements & Rendering Primitives |
-|---|---|---|---|
-| `0` | Origin | Core Portfolio & Identity | Gyroscopic orbital rings, ambient starfield, core energy sphere |
-| `1` | Aegis | Agentic AI Multi-Agent Engine | Shield geometry, holographic scanner sweeps, active status nodes, pre-sampled spline packets |
-| `2` | Gridium | Microgrid Energy Optimization | Cybernetic isometric grid, energy flux lines, shared node geometries, pool liquid |
-| `3` | Compressor CBM | Predictive Machinery Diagnostics | 7-stage dual rotor with 182 instanced blades, 42 instanced sensors, aerodynamic spiral flow |
-| `4` | Topoflow | Porous Media Hydrodynamics | Microscale pore network with InstancedMesh pores, centripetal streamlines, tracer spheres |
-| `5` | Profile | SDE & Systems Background | Accretion vortex, identity core, terminal diagnostics, shared module geometries |
+A passive scroll listener schedules one animation-frame update. The section crossing a reading line at 40% of the viewport selects the current 3D world and navigation state. Passive selection uses `replaceState`, keeping the URL useful without adding a history entry for every section crossed. Explicit controls call `setScene`, scroll immediately to the selected section and use `pushState`. Direct hashes and browser history restore the section. Scene preparation never constructs a world inside the navigation handler.
 
-## Performance Engineering & Rendering Pipeline (v3.4.0)
+Up/down arrows and Page Up/Down retain browser scrolling. Left/right arrows, Home and End provide explicit scene shortcuts outside dialogs and text-entry controls. Keyboard scene changes focus the selected heading so Tab reaches its case-study action. Dialogs use native focus containment and restore focus on close.
 
-### 1. Asynchronous Scene Preparation & Shader Precompilation
-- **The Cold-Start Bottleneck Identified:** Previously, worlds were built synchronously on first navigation, triggering 20+ synchronous WebGL driver shader compiles on the active render frame and freezing the UI for ~1,228ms.
-- **Dedicated Prewarming Scheduler:**
-  - Proactive background prewarming commences 250ms after initial page render.
-  - Prepares upcoming worlds sequentially in bounded idle slices (`requestIdleCallback` with `setTimeout` fallback).
-  - Sequence prioritization: immediately adjacent scenes (`currentScene + 1`, `currentScene - 1`) are prepared first, followed by outward scenes.
-  - Reprioritizes dynamically whenever the active scene changes.
-- **Exact Lighting Precompilation:**
-  - Shaders are compiled using Three.js's async compiler with the exact lighting setup (hemisphere light, directional lights, local scene point lights, and `scene.fog`).
-  - Pre-initializes all canvas and texture maps via `renderer.initTexture`, eliminating `texImage2D` stalls during active navigation.
+## Graphics preparation
 
-### 2. Geometry & Allocation Optimization
-- **`THREE.InstancedMesh` Implementation:**
-  - Compressor blades (26 per stage $\times$ 7 stages = 182 meshes) and rotor sensors (6 per stage $\times$ 7 stages = 42 meshes) are rendered as InstancedMeshes.
-  - Slashes Scene 3 draw calls from **374 down to 161** (a 57% reduction) while preserving 100% of the mechanical geometry and lighting.
-- **Zero-Allocation Spline Traversal:**
-  - `getCachedCurvePoint(curve, progress)` pre-samples CatmullRom spline curves into 120 cached points.
-  - Replaces repeated runtime `curve.getPointAt(progress)` allocations, eliminating thousands of `THREE.Vector3` garbage-collection allocations per minute.
-- **Shared Geometry Re-use:**
-  - Nodes, packets, pillars, and gates in Aegis, Gridium, and Profile worlds reuse shared geometry buffers rather than allocating duplicate `BoxGeometry` and `CylinderGeometry` instances.
+Content, controls and the CSS orbital instrument render before WebGL initialization. Six procedural world factories are cached once. The preparation queue is serial and chooses the currently requested scene before queued background destinations. Next/previous scenes are prepared in idle time; distant worlds are built only when requested. A running driver operation cannot be preempted.
 
-### 3. Dynamics & Interaction Engine
-- **Spring Dynamics:** Camera transitions use 2nd-order damped harmonic oscillator physics:
-  - Camera position: `stiffness = 88`, `damping = 14.5`
-  - Look-at target: `stiffness = 78`, `damping = 13.5`
-  - Critically damped settling in ~260ms without overshoot or wobble across 60Hz, 120Hz, and 144Hz displays.
-- **Input Decoupling & Transition Lockout:**
-  - `lockSceneTransition(220)`: 220ms lockout window intercepts trackpad inertia without locking out responsive manual gestures.
-  - Wheel threshold: 28px accumulation threshold ensures snappy, immediate scene changes.
-  - Native content scrolling: Preserves native trackpad/wheel scrolling inside scrollable content panels until bounds are reached.
-  - Pointer parallax: Global `pointermove` tracking across the entire window without dead zones.
+Each world progresses through unbuilt, building, built, compiling, ready (or failed). Preparation yields between construction, shader batches and GPU upload. `compileInBatches` compiles four distinct material/object configurations per task using the real target scene's fog and lighting. Temporary visibility is restored synchronously before yielding. Clones share source resources and never dispose them. Both ordinary and instanced mesh variants are prepared.
 
-### 4. Telemetry & Adaptive Quality
-- **Unclipped Frame-Delta Tracking:**
-  - Separates animation physics delta (`dt` clamped to 34ms for stability) from raw frame time telemetry (`rawFrameDeltaMs`).
-  - Measures true hitch durations instead of concealing long frames.
-  - `window.__perfTelemetry.getSnapshot()` reports true `avgFrameMs`, `p95FrameMs`, `p99FrameMs`, FPS, draw calls, triangles, and DPR tier.
-- **Adaptive DPR:**
-  - Caps maximum DPR at 1.15 on desktop and 1.0 on mobile devices.
-  - Seamlessly scales between High, Medium (1.05), and Low (0.95) tiers during sustained GPU pressure.
+After compilation, a warm render uploads buffers and textures through the actual canvas output pipeline with the destination camera. The active world is restored and redrawn in the same JavaScript task before browser paint. This avoids offscreen-target tone-mapping shader variants and prevents background preparation flashing a different model. A world becomes visible only when it is still selected and preparation completed. Stale completions cannot reveal a different scene. The CSS instrument remains visible on cold jumps, context loss and WebGL failure. It fades out when WebGL is ready; a regression test prevents it covering a ready canvas.
 
-### 5. Case-Study Hero Renderer & ThreeUI Lab
-- **Offscreen Animation Gating:** Uses `IntersectionObserver` (threshold: 0.05) to pause WebGL loops and postprocessing composers whenever the hero canvas scrolls out of viewport or the tab is hidden.
-- **Optimized HDR Postprocessing:**
-  - Half-resolution UnrealBloomPass reduces fill-rate overhead by 75%.
-  - `samples: 0` on HDR float render targets strictly avoids multi-sample buffer bloat on mobile and integrated GPUs.
-  - Asynchronous shader precompilation on prototype mount.
+The site retains a finite six-world GPU cache. No eviction occurs between visits, avoiding repeated construction and compilation. Warm traversal checks assert stable geometry and texture counts. Shared standard materials, instanced origin nodes and existing compressor/pore instancing reduce duplication and draw calls. On non-cached page teardown, geometries, materials, textures, renderer are disposed. Browser back/forward cache pages retain their live resources.
+
+## Rendering and motion
+
+Lit standard materials and tinted transparent shells replace physical glass/transmission. Local light counts are consistent between worlds, helping shader reuse. Case studies render directly without bloom's full-screen pass chain. The separate experimental lab retains bloom, with its internal targets actually resized via `setSize` and bloom disabled by default on coarse-pointer devices.
+
+Scene arrival uses a 280ms ease-out cubic camera move from a small dolly offset near the destination. It does not traverse the distance between spatial worlds or add a scan/streak effect. Rotation and pointer damping use elapsed time, and cached curve samples interpolate continuously into a reused vector. Case-study prototypes receive elapsed time, smoothed pointers and delta seconds. Hidden/offscreen heroes stop their animation loop; reduced-motion heroes render a static frame, including after resize. Homepage reduced motion also stops continuous rendering.
+
+The fixed canvas is decorative, with `pointer-events: none`; it never captures dragging or wheel input. Cached region dimensions determine the camera aspect and render viewport; a scissor rectangle clips drawing to the visible region below the header and above mobile navigation. Text and models occupy separate areas. No screenshot panel or browser frame sits over the geometry.
+
+Each world caches local bounding-box corners when built, including bounds for instanced meshes. Camera fitting projects those corners against the selected view direction and available aspect ratio, leaving a framing margin. The fit is reused until viewport dimensions change. Homepage exposure is 1.2 and fog density is 0.012; TopoFlow's material is brighter. Origin and TopoFlow use gentle bounded oscillation. Reduced motion stops continuous animation while preserving a visible static model.
+
+Animation delta is clamped for numerical stability; telemetry records raw frame intervals, including stalls longer than 800ms. The homepage exposes `window.__perfTelemetry.getSnapshot()` and the `?perf` HUD. Heroes expose `window.__heroTelemetry()`, including readiness, render count and running state. Desktop DPR is capped at 1.15, touch DPR at 1.0; sustained slow frames reduce resolution toward 0.65. Homepage recovery requires a longer stable fast period to avoid rapid quality oscillation.
+
+## Content and delivery
+
+Case-study desktop heroes reserve the right side for art and constrain metrics and direct CTAs to the left 44% text lane. Metrics have no panel background, blur or divider borders; the art shade and decorative left border are removed. Mobile heroes reserve a separate 250px art region above normal-flow content. Both case renderers fit the model on resize, including portrait/desktop changes. Food and Sodexo no longer draw their three illustrative UI screens. Report evidence images remain in their ordinary content sections.
+
+Copy is visible immediately; only graphics fade in after readiness. Local OFL-licensed WOFF2 fonts remove third-party font CSS from the critical path. Evidence images have intrinsic dimensions, lazy loading and asynchronous decoding.
+
+See [BENCHMARKS.md](BENCHMARKS.md) for measured results, limitations, raw evidence and reproduction commands. Async shader compilation reduces rendering stalls; it cannot guarantee that a browser driver never blocks the main thread. See the [Three.js renderer contract](https://threejs.org/docs/pages/WebGLRenderer.html) for compilation, lighting and disposal semantics.
+
+## Recruiter-facing navigation and layout
+
+`css/editorial.css` owns the identity, model regions and contact presentation above the base observatory styles. The opening pairs a large serif headline with the full name in the header and eyebrow, a clear engineering role and a full-width four-project index. A thin 2px reading-progress bar follows document progress without accepting input.
+
+Each featured chapter has a short lead and a clear model region. The earlier four image-preview figures are removed. Original technical descriptions remain visible in `.project-implementation` paragraphs, alongside existing metrics, evidence, case-study and live links.
+
+Desktop places narrative and model beside one another. On mobile, `.scene-copy` uses `display: contents` for the featured chapters so `.project-intro`, the model region and `.project-details` follow the title/summary, model, then metrics/links reading order. Content grows naturally with the document; it has no panel-local scrolling or hidden sections. The case-study action is primary, and rail controls keep accessible names and tooltips.
+
+The profile combines the internship timeline with three engineering-practice groups. The contact ending exposes the real email address, resume, GitHub and LinkedIn. Copy email reports success through a status element; clipboard rejection or an unavailable API focuses the existing email link and presents a useful fallback.
+
+See [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md) for current status and design rationale. Final v4.4 layout, case and performance verification is pending. The archived [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](NATIVE-SCROLL-VERIFICATION.md) and [v4.1 UX report](UX-VERIFICATION.md) describe earlier presentations and experiments. Their measurements do not establish current frame rates.

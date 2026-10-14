@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-14T17:23:58.375Z",
+  "browser": "155.0.8059.41",
+  "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "windows": [
+    {
+      "traversal": "first",
+      "frames": 473,
+      "fps": 68.67114795510969,
+      "p95": 48.59999999999991,
+      "p99": 69.59999999999991,
+      "max": 90.20000000000005,
+      "longTasks": [],
+      "wheelEvents": 98,
+      "cancelledWheelEvents": 0,
+      "visitedScenes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finalScrollY": 0,
+      "telemetry": {
+        "fps": 79,
+        "avgFrameMs": 12.61833333333334,
+        "p95FrameMs": 41.5,
+        "p99FrameMs": 55.69999999999982,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 168,
+        "textures": 11,
+        "renderedFrames": 558,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      }
+    },
+    {
+      "traversal": "warm",
+      "frames": 478,
+      "fps": 70.68078310758858,
+      "p95": 48.5,
+      "p99": 62.69999999999891,
+      "max": 90.29999999999927,
+      "longTasks": [],
+      "wheelEvents": 98,
+      "cancelledWheelEvents": 0,
+      "visitedScenes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finalScrollY": 0,
+      "telemetry": {
+        "fps": 78,
+        "avgFrameMs": 12.843333333333309,
+        "p95FrameMs": 41.899999999999636,
+        "p99FrameMs": 62.69999999999891,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 168,
+        "textures": 11,
+        "renderedFrames": 1083,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      }
+    }
+  ],
+  "cameraErrorAfter350ms": 0.1618603269244779,
+  "errors": []
+}

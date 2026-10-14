@@ -6,6 +6,7 @@
 // ZERO text panels. Pure industrial engineering art.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createCbmWaterfallPrototype(scene) {
   const root = new THREE.Group();
@@ -217,13 +218,13 @@ export function createCbmWaterfallPrototype(scene) {
 
   // ─── RETURN OBJECT ───────────────────────────────────────────────────
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       waterfallUniforms.uTime.value = time;
       waterfallUniforms.uPointerX.value = pointerNorm.x;
 
       // Shaft and blisk rotation
-      shaft.rotation.x += 0.065;
-      bliskStages.forEach(blisk => { blisk.rotation.x += 0.065; });
+      shaft.rotation.x += 3.9 * dt;
+      bliskStages.forEach(blisk => { blisk.rotation.x += 3.9 * dt; });
 
       // Radial vibration displacement (subtle CBM signature)
       turbomachine.position.y = 4.0 + Math.sin(time * 52.0) * 0.022;
@@ -246,6 +247,7 @@ export function createCbmWaterfallPrototype(scene) {
     },
     destroy() {
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }

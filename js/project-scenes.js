@@ -1,8 +1,12 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
+import { mountHero } from "./graphics-runtime.js";
+import { fitModelCamera } from "./model-framing.js";
 
 const canvas = document.querySelector(".project-hero-canvas[data-project-scene]");
 
-if (canvas) {
+function initialize() {
+ if (!canvas) return;
+ try {
   const hero = canvas.closest(".proj-hero");
   const sceneName = canvas.dataset.projectScene;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -24,11 +28,11 @@ if (canvas) {
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    alpha: false,
+    alpha: true,
     antialias: true,
     powerPreference: "high-performance"
   });
-  renderer.setClearColor(palette.dark, 1);
+  renderer.setClearColor(palette.dark, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -38,7 +42,7 @@ if (canvas) {
   }
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(palette.dark);
+  scene.background = null;
   scene.fog = new THREE.FogExp2(palette.dark, 0.026);
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 80);
   camera.position.set(0, 0.5, 14.5);
@@ -46,7 +50,7 @@ if (canvas) {
   const root = new THREE.Group();
   scene.add(root);
 
-  const ambient = new THREE.HemisphereLight(0xd6e8ff, 0x090d0b, 1.05);
+  const ambient = new THREE.HemisphereLight(0xe4eee9, 0x17231d, 1.5);
   scene.add(ambient);
   const key = new THREE.DirectionalLight(0xffffff, 3.4);
   key.position.set(4, 8, 9);
@@ -63,12 +67,12 @@ if (canvas) {
   scene.add(backLight);
 
   function metal(color = 0x263038, options = {}) {
-    return new THREE.MeshPhysicalMaterial({
+    return new THREE.MeshStandardMaterial({
       color,
       roughness: options.roughness ?? 0.25,
       metalness: options.metalness ?? 0.82,
-      clearcoat: options.clearcoat ?? 0.6,
-      clearcoatRoughness: options.clearcoatRoughness ?? 0.2,
+
+
       emissive: options.emissive ?? 0x000000,
       emissiveIntensity: options.emissiveIntensity ?? 0,
       transparent: options.opacity !== undefined && options.opacity < 1,
@@ -79,12 +83,12 @@ if (canvas) {
   }
 
   function glass(color = palette.accent, opacity = 0.16) {
-    return new THREE.MeshPhysicalMaterial({
+    return new THREE.MeshStandardMaterial({
       color,
       roughness: 0.08,
       metalness: 0.12,
-      transmission: 0.35,
-      thickness: 0.5,
+
+
       transparent: true,
       opacity,
       side: THREE.DoubleSide,
@@ -941,16 +945,11 @@ if (canvas) {
     }
 
     const processCells = [];
-    const cellDefinitions = [
-      { x: -2.15, title: "Demand", accent: "#f6c85f", rows: [["PAX", "1,248"], ["FORECAST", "+3.8%"], ["SERVICE", "DINNER"], ["CONF", "0.92"]] },
-      { x: 0, title: "Inventory", accent: "#6fd7ff", rows: [["STOCK", "86.4%"], ["RISK SKU", "04"], ["INBOUND", "312 kg"], ["WASTE", "-18.7%"]] },
-      { x: 2.15, title: "Cost", accent: "#7fe4ba", rows: [["TODAY", "52.8k"], ["BUDGET", "55.0k"], ["VAR", "-4.1%"], ["MARGIN", "12.6%"]] }
-    ];
-    cellDefinitions.forEach((definition, index) => {
+    [-2.15, 0, 2.15].forEach((x, index) => {
       const cell = new THREE.Group();
       const body = new THREE.Mesh(
         new THREE.BoxGeometry(1.66, 1.72, 1.55),
-        metal(0x1b2021, { roughness: 0.32, metalness: 0.78 })
+        metal(0x50636a, { roughness: 0.42, metalness: 0.48 })
       );
       body.position.y = -0.38;
       cell.add(body);
@@ -960,14 +959,13 @@ if (canvas) {
       );
       trim.position.y = -0.38;
       cell.add(trim);
-      addInstrumentScreen(cell, [0, -0.25, 0.79], [0, 0, 0], [1.34, 0.76], definition.title, definition.rows, definition.accent);
       const status = new THREE.Mesh(
         new THREE.BoxGeometry(0.72, 0.028, 0.035),
         glow(index === 0 ? palette.accent : index === 1 ? 0x6fd7ff : 0x7fe4ba, 1, 0.72)
       );
       status.position.set(0, -1.08, 0.83);
       cell.add(status);
-      cell.position.x = definition.x;
+      cell.position.x = x;
       cell.userData.phase = index * 1.7;
       cell.userData.status = status;
       machine.add(cell);
@@ -1520,11 +1518,7 @@ if (canvas) {
 
   const baseRotation = root.rotation.clone();
   const basePosition = root.position.clone();
-
-  let pointerX = 0;
-  let pointerY = 0;
-  let visible = true;
-  let lastTime = performance.now();
+  const viewDirection = new THREE.Vector3(.22, .14, 1);
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -1532,61 +1526,26 @@ if (canvas) {
     const height = Math.max(1, Math.floor(rect.height));
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
-    camera.fov = width < 720 ? 40 : 34;
-    camera.position.x = width < 720 ? 0.8 : 0;
-    root.scale.setScalar(width < 720 ? 0.72 : 1);
-    root.position.x = width < 720 ? 1.35 : basePosition.x;
+    camera.fov = window.innerWidth <= 820 ? 42 : 48;
+    camera.position.x = 0;
+    root.scale.setScalar(window.innerWidth <= 820 ? 0.85 : 1);
+    root.position.x = 0;
     root.position.y = basePosition.y;
     root.position.z = basePosition.z;
-    camera.updateProjectionMatrix();
+    fitModelCamera(camera, root, viewDirection);
   }
 
-  function render(timeMs) {
-    if (!visible || document.hidden) return;
-    const time = timeMs * 0.001;
-    const delta = Math.min((timeMs - lastTime) / 1000, 0.04);
-    lastTime = timeMs;
-    if (!reduceMotion) {
-      root.rotation.y += (baseRotation.y + pointerX * 0.055 - root.rotation.y) * 0.025;
-      root.rotation.x += (baseRotation.x - pointerY * 0.035 - root.rotation.x) * 0.025;
-      root.rotation.z += (baseRotation.z + pointerX * 0.012 - root.rotation.z) * 0.02;
-      root.position.y += (basePosition.y + pointerY * 0.08 - root.position.y) * 0.018;
-      root.userData.update?.(time, delta);
-    }
-    renderer.render(scene, camera);
-  }
-
-  window.addEventListener("pointermove", (event) => {
-    pointerX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2;
-    pointerY = (event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2;
-  }, { passive: true });
-  window.addEventListener("resize", resize, { passive: true });
-
-  const observer = new IntersectionObserver((entries) => {
-    visible = entries[0]?.isIntersecting ?? true;
-    if (visible && !document.hidden) {
-      lastTime = performance.now();
-      renderer.setAnimationLoop(render);
-    } else {
-      renderer.setAnimationLoop(null);
-    }
-  }, { threshold: 0.02 });
-  observer.observe(hero || canvas);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      renderer.setAnimationLoop(null);
-    } else if (visible) {
-      lastTime = performance.now();
-      renderer.setAnimationLoop(render);
+  mountHero({ canvas, renderer, scene, camera, resize,
+    update(time, pointer, dt) {
+      if (!dt) { root.rotation.copy(baseRotation); return; }
+      const blend = 1 - Math.exp(-8 * dt);
+      root.rotation.y += (baseRotation.y + pointer.x * .055 - root.rotation.y) * blend;
+      root.rotation.x += (baseRotation.x - pointer.y * .035 - root.rotation.x) * blend;
+      root.rotation.z += (baseRotation.z + pointer.x * .012 - root.rotation.z) * blend;
+      root.position.y += (basePosition.y + pointer.y * .08 - root.position.y) * blend;
+      root.userData.update?.(time, dt);
     }
   });
-
-  resize();
-  if (renderer.compileAsync) {
-    renderer.compileAsync(scene, camera).catch(() => {});
-  }
-  if (visible && !document.hidden) {
-    renderer.setAnimationLoop(render);
-  }
+ } catch (error) { console.warn('Hero unavailable; content remains accessible.', error); }
 }
+requestAnimationFrame(() => requestAnimationFrame(initialize));

@@ -1,5 +1,53 @@
 # Changelog
 
+
+## v4.4.0 - 2026-10-14
+
+- Remove the four browser-style screenshot previews so the procedural models remain the primary project visuals. Preserve direct case-study, live and evidence links.
+- Reserve transparent `.model-view` regions for the introduction and four featured projects. Render real WebGL geometry only inside its own scissored rectangle, following native document scrolling without covering text or capturing input.
+- Cache model geometry bounds, including instanced geometry, and fit cameras to the available responsive viewport. Improve model visibility through exposure, lighter fog, brighter TopoFlow material and gentle bounded Origin/TopoFlow motion.
+- Keep case-study metrics and direct CTAs in the desktop text lane, with plain borderless metrics and no art shade or decorative left border. Fit both case renderers on resize and remove Food/Sodexo's three illustrative in-world UI displays.
+- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups; final layout, case and performance runs are pending in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
+
+
+## v4.3.0 - 2026-10-14
+
+- Introduce an editorial portfolio layout with a large serif headline, full-name identity, a full-width four-project index and restrained automatic 3D.
+- Remove the 3D explorer controls and manual orbit/pause state. Keep the canvas decorative and preserve the v4.2 native scrolling, history, focus and keyboard contract.
+- Add directly linked project previews using the Aegis agent interface, Gridium overview, flat compressor evidence chart and labeled TopoFlow illustration. Retain original technical claims in visible implementation paragraphs.
+- Order mobile project reading as title/summary, image, then metrics and links. Add subtle bounded preview tilt, hover destinations and a 2px reading-progress indicator; respect reduced motion.
+- Add three engineering-practice groups and a contact ending with direct email, resume and social links. Email copying announces success and focuses the existing email link if clipboard access fails.
+- Record 62 passing browser interaction groups, 30 chapter layout checks and a separate focused scrolling sample in the [editorial-design report](docs/EDITORIAL-DESIGN-VERIFICATION.md). Update the progress indicator and canvas dimming to reduce compositing/style overhead. Earlier benchmark and native-scroll samples remain historical.
+
+
+## v4.2.0 - 2026-10-14
+
+- Replace wheel/touch scene hijacking with native document browsing after repeated wheel ticks, gentle follow-up input and quick reversals could be ignored. Six viewport-sized sections grow with their content; large gestures may cross several sections.
+- Remove nested panel scrolling and scroll snap. Keep vertical arrows and page keys native; retain explicit section controls, left/right/Home/End shortcuts, keyboard focus, direct links and browser history.
+- Select the fixed 3D backdrop from a passive reading-line observer. Passive changes replace the current history entry; explicit navigation scrolls immediately and adds an entry.
+- Replace long camera travel and scan/streak effects with a 280ms ease-out cubic dolly near the destination. Reframe mobile models above the narrative.
+- Add explicit Explore 3D camera orbit, labeled subsystem views with explanations, Reset and Escape. Wheel and touch remain native during exploration; Pause stops continuous rendering while interactions still update the view. Reuse existing geometry and materials.
+- Verify 54 browser interaction groups, 30 chapter layouts and five expanded-explorer layouts in the [native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md), including a separate focused hardware scrolling sample. Earlier performance tables remain historical.
+
+
+## v4.1.0 - 2026-10-14
+
+- Fix false panel overflow from oversized backdrops and allow fresh wheel/touch gestures at content edges to navigate.
+- Keep momentum owned by its original gesture even when events target the next scene's content.
+- Remove panel outlines, scrollbar tracks and dense metric dividers; put case-study links first and add named next-project controls.
+- Keep keyboard focus in the selected project and compact header/rail controls on narrow screens.
+- Audit panel overflow across six scenes at five viewports, including short landscape, and add direct-over-text navigation regressions. The archived [verification](docs/UX-VERIFICATION.md) records 44 interaction groups and 30 scene/viewport captures for this earlier navigation contract.
+
+
+## v4.0.0 - 2026-10-14
+
+- Replace transition cooldown scrolling with gesture consumption, delta normalization, tail hysteresis and native panel ownership.
+- Decouple semantic navigation/history from prioritized scene construction, batched shader preparation and GPU readiness.
+- Simplify glass and bloom, instance origin nodes, share materials, and record unclipped frame delays.
+- Share case-study graphics lifecycle, pause offscreen, render statically for reduced motion, and dispose GPU resources.
+- Redesign case-study heroes for desktop/mobile; add immediate CSS art, local fonts and dimensioned lazy images.
+- Add asserting browser/input tests, before/after screenshots and raw hardware benchmark evidence.
+
 All notable changes to Shaunak Rane's Systems Portfolio will be documented in this file.
 
 ## [3.4.0] - 2026-10-14
