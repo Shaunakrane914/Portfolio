@@ -6,6 +6,7 @@
 // ZERO text panels. Pure cinematic geospatial art.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createCropNdviPrototype(scene) {
   const root = new THREE.Group();
@@ -238,14 +239,14 @@ export function createCropNdviPrototype(scene) {
 
   // ─── RETURN OBJECT ───────────────────────────────────────────────────
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       terrainUniforms.uTime.value = time;
 
       // Drone follows cursor (damped tracking)
       const targetX = pointerNorm.x * 6.0;
       const targetZ = -pointerNorm.y * 4.2;
-      droneGroup.position.x += (targetX - droneGroup.position.x) * 0.045;
-      droneGroup.position.z += (targetZ - droneGroup.position.z) * 0.045;
+      droneGroup.position.x += (targetX - droneGroup.position.x) * (1 - Math.exp(-2.76 * dt));
+      droneGroup.position.z += (targetZ - droneGroup.position.z) * (1 - Math.exp(-2.76 * dt));
       // Hover bob
       droneGroup.position.y = 4.2 + Math.sin(time * 1.8) * 0.18;
 
@@ -256,11 +257,11 @@ export function createCropNdviPrototype(scene) {
       droneLight.position.set(droneGroup.position.x, 3.8, droneGroup.position.z);
 
       // Rotors spin
-      rotorDiscs.forEach((r, idx) => { r.rotation.y += 0.28 * (idx % 2 === 0 ? 1 : -1); });
+      rotorDiscs.forEach((r, idx) => { r.rotation.y += 16.8 * dt * (idx % 2 === 0 ? 1 : -1); });
 
       // Gimbal and scan cone rotation
-      gimbal.rotation.y += 0.04;
-      frustum.rotation.y += 0.01;
+      gimbal.rotation.y += 2.4 * dt;
+      frustum.rotation.y += 0.6 * dt;
 
       // Subtle drone tilt in direction of movement
       droneGroup.rotation.z = (droneGroup.position.x - targetX) * -0.04;
@@ -275,7 +276,7 @@ export function createCropNdviPrototype(scene) {
       // Rainfall
       const pos = partGeo.attributes.position.array;
       for (let i = 0; i < particleCount; i++) {
-        pos[i * 3 + 1] -= 0.032;
+        pos[i * 3 + 1] -= 1.92 * dt;
         if (pos[i * 3 + 1] < -2.4) pos[i * 3 + 1] = 4.6;
       }
       partGeo.attributes.position.needsUpdate = true;
@@ -286,6 +287,7 @@ export function createCropNdviPrototype(scene) {
     },
     destroy() {
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }

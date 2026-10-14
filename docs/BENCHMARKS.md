@@ -1,100 +1,87 @@
-# WebGL & Observatory Runtime Benchmarks (v3.4.0)
+# Portfolio UX and rendering benchmarks - 14 October 2026
 
-This document records automated telemetry, Playwright performance profiling, and comparative before-and-after benchmarks across the 6 portfolio 3D scenes and case-study prototypes.
+Paired measurements compare original commit `c9a4d43` with this implementation. These are measurements from this workstation, not universal performance guarantees.
 
-## Test Environment & Reproducibility Specifications
+## Environment and method
 
-- **Operating System:** Windows 11 Home 64-bit
-- **Browser Backend:** Google Chrome 123+ (Chromium) with Hardware WebGL 2.0 Acceleration (`ANGLE Direct3D11`)
-- **Viewport:** 1440x900 (Desktop Default), 1920x1080 (Desktop FHD), 390x844 (Mobile Portrait Touch)
-- **Device Pixel Ratio (DPR) Cap:** 1.15 (Desktop), 1.00 (Touch/Mobile)
-- **Local Test Server:** Node / Python HTTP server (`http://127.0.0.1:8089`)
-- **Benchmark Suite:** [`scripts/profile_baseline.mjs`](../scripts/profile_baseline.mjs), [`scripts/capture_qa_evidence.mjs`](../scripts/capture_qa_evidence.mjs), [`scripts/validate_links.mjs`](../scripts/validate_links.mjs)
+- Windows desktop, Chrome 155.0.8059.41, headless Playwright; 1440x900 desktop and 390x844 touch emulation (DPR 2).
+- **Hardware acceleration confirmed:** ANGLE / Intel UHD Graphics (0x0000A78B) / Direct3D11. Renderer strings are retained in every raw sample.
+- Fresh browser processes, same local static server, sequential runs. No CPU/network throttling. Original code served from a `git archive` snapshot.
+- First contentful paint (FCP), browser requestAnimationFrame intervals and Long Tasks API measured independently of animation-clamped deltas. Initial-load samples include preparation; idle samples cover a separate 1.5-second window.
+- Scene first traversal restarts the world cache after wheel reproduction. It includes nearby prewarming, so "first traversal" does not mean every model was unprepared. Warm traversal revisits all six scenes. Each transition samples 1.2 seconds.
+- Handler time measures the synchronous semantic navigation handler, **not complete graphics arrival**. Per-page heap values are coarse Chromium estimates; GPU resource counts are not GPU utilization percentages.
+- Early SwiftShader software-rendering experiments were diagnostic only; their very low frame rates are not used to claim hardware performance improvements. They exposed the physical-glass/bloom cost and the old telemetry exclusion of >800ms frames.
 
----
+## Input reproduction
 
-## 1. Initial Page Load & Render Metrics
+The same precision-trackpad-like burst moved the original site from scene 0 to scene 3; this implementation ends at scene 1. Browser mouse-wheel API input and deterministic timestamped input sequences are also asserted in the interaction suite.
 
-| Metric | Baseline (v3.3.0) | Optimized (v3.4.0) | Delta / Improvement |
-|---|---|---|---|
-| **Navigation Duration** | 4,790 ms | 3,156 ms | **-34.1% (-1,634 ms)** |
-| **First Contentful Paint (FCP)** | 3,676 ms | 1,252 ms | **-65.9% (-2,424 ms)** |
-| **Largest Contentful Paint (LCP)** | 3,676 ms | 1,252 ms | **-65.9% (Well under 2.5s target)** |
-| **Initial JS Heap** | 12.9 MB | 16.2 MB | Stable (texture buffers cached) |
-| **Long Tasks during Load** | 2 tasks (117ms, 862ms) | 3 tasks (119ms, 1,019ms, 68ms) | Non-blocking post-FCP |
+## Desktop initial content and idle rendering
 
----
+| Page | FCP before / after (ms) | Idle FPS before / after | P95 before / after (ms) | P99 before / after (ms) | Initial long-task total before / after (ms) |
+|---|---:|---:|---:|---:|---:|
+| home | 3308 / 488 | 31.2 / 70.4 | 35.4 / 14.1 | 76.6 / 20.9 | 3473 / 189 |
+| aegis | 380 / 364 | 53.9 / 144.0 | 21.0 / 7.1 | 48.6 / 7.2 | 1699 / 155 |
+| gridium | 140 / 112 | 61.3 / 144.0 | 20.9 / 7.2 | 27.9 / 7.2 | 763 / 228 |
+| compressor-cbm | 148 / 116 | 41.5 / 107.7 | 27.9 / 14.0 | 41.6 / 14.1 | 1156 / 140 |
+| topoflow | 148 / 116 | 73.7 / 144.0 | 20.8 / 7.1 | 20.9 / 7.1 | 389 / 80 |
+| food | 156 / 96 | 83.1 / 144.0 | 20.7 / 7.1 | 20.9 / 7.2 | 276 / 171 |
+| yield | 140 / 112 | 52.2 / 72.0 | 21.0 / 14.1 | 28.0 / 20.9 | 576 / 68 |
+| sodexo | 196 / 136 | 92.7 / 144.0 | 14.1 / 7.1 | 20.9 / 7.2 | 210 / 83 |
 
-## 2. 3-Second Idle Frame-Time Distribution (Origin Scene)
+Origin draw calls fell from 119 to 38. Idle samples meet 60 FPS on this integrated GPU. The page-wide startup FPS is lower because it includes initialization, unlike the idle measurements above.
 
-| Metric | Baseline (v3.3.0) | Optimized (v3.4.0) | Status |
-|---|---|---|---|
-| **Average FPS** | 50 FPS | 44–50 FPS | Smooth & Stable |
-| **Average Frame Delta** | 20.18 ms | 22.72 ms | Consistent pacing |
-| **p50 Frame Time** | 20.80 ms | 20.90 ms | Highly stable |
-| **p95 Frame Time** | 28.00 ms | 28.00 ms | Controlled jitter |
-| **p99 Frame Time** | 63.30 ms | 28.10 ms | **-55.6% drop in tail latency** |
-| **Maximum Frame Delta** | 83.40 ms | 34.90 ms | **-58.1% drop in maximum frame drop** |
-| **Frames > 33.3ms (Jank)** | 6 frames | 1 frame | **-83.3% reduction in dropped frames** |
-| **Frames > 50.0ms (Stalls)** | 3 frames | 0 frames | **100% elimination of severe stalls** |
+## First and warm scene traversal
 
----
+| Destination | First handler before / after (ms) | First P99 before / after (ms) | Warm P99 before / after (ms) |
+|---|---:|---:|---:|
+| origin | 0.70 / 0.60 | 118.0 / 21.2 | 35.4 / 21.3 |
+| aegis | 0.60 / 0.80 | 125.0 / 20.9 | 62.6 / 20.8 |
+| gridium | 0.60 / 0.80 | 34.8 / 41.7 | 41.5 / 14.1 |
+| compressor | 0.70 / 0.80 | 69.6 / 69.4 | 76.6 / 27.8 |
+| topoflow | 0.70 / 0.60 | 90.3 / 20.9 | 90.3 / 41.7 |
+| profile | 0.50 / 0.70 | 35.6 / 20.9 | 27.9 / 27.7 |
 
-## 3. Cold Scene Transition Benchmarks
+No >50ms main-thread long task was recorded in the final six first-traversal windows. The compressor still produced a roughly 69ms P99 frame interval on first arrival. Warm TopoFlow also had a roughly 42ms tail frame. These remaining frame delays are reported rather than hidden.
 
-Measured on first traversal across all 6 scenes (0 $\to$ 1 $\to$ 2 $\to$ 3 $\to$ 4 $\to$ 5 $\to$ 0):
+## Verification and visual review
 
-| Transition | Target Scene | Baseline Max Frame | v3.4.0 Max Frame | Baseline FPS | v3.4.0 FPS | Draw Calls (Before $\to$ After) |
-|---|---|---|---|---|---|---|
-| **0 $\to$ 1** | Aegis | **1,228.8 ms (Freeze)** | **402.6 ms** | 2 FPS | **35 FPS** | 82 $\to$ 96 |
-| **1 $\to$ 2** | Gridium | 277.6 ms | **34.8 ms** | 55 FPS | **70 FPS** | 174 $\to$ 174 |
-| **2 $\to$ 3** | Compressor | 312.5 ms | **208.3 ms** | 26 FPS | **47 FPS** | **374 $\to$ 161 (-57%)** |
-| **3 $\to$ 4** | TopoFlow | 263.9 ms | **55.9 ms** | 92 FPS | **95 FPS** | 50 $\to$ 51 |
-| **4 $\to$ 5** | Profile | 20.8 ms | **27.6 ms** | 86 FPS | **85 FPS** | 35 $\to$ 35 |
-| **Warm Return** | Aegis | 28.0 ms | **20.7 ms** | 85 FPS | **89 FPS (0 hitches)** | 82 $\to$ 96 |
+The asserting suite covers browser wheel inertia, deterministic trackpad tails, continuous/large/small input, reversal, delta modes, native panel scrolling at its edge, rapid buttons, keyboard, touch, direct URLs, browser history, dialogs, focus restoration, no-WebGL content, reduced motion, offscreen pauses, readiness visibility and repeated GPU resource counts. The separate experimental lab is exercised across all prototypes and rapid switching.
 
-> **Key Discovery:** In v3.3.0, `ensureWorld()` deferred background prewarming until 2.8s of idle with 1.5s of zero mouse movement, and `compileAsync()` traversed invisible objects (`visible === false`), compiling 0 materials. In v3.4.0, proactive background prewarming compiles exact scene lighting and pre-uploads canvas textures via `renderer.initTexture`, cutting the first-visit stall by 67% and running subsequent transitions at 70–95 FPS.
+All seven case-study routes (including the food/sodexo alias) were checked on mobile without horizontal overflow. The final benchmark capture had zero runtime/console errors or HTTP asset errors. Local asset/link checks passed. External project services were preserved; their availability is not guaranteed by this local audit.
 
----
+Before/after screenshots of every homepage scene, every major case study and mobile pages were captured and inspected. The local complete evidence sets are `.audit/overhaul/baseline-final/` and `.audit/overhaul/release-final/`. Key review images and all raw measurements are committed below.
 
-## 4. Case-Study Hero Renderer Performance
+- [Before raw measurements](benchmarks/2026-10-14/before.json)
+- [After raw measurements](benchmarks/2026-10-14/after.json)
+- [Asserting interaction results](benchmarks/2026-10-14/interactions.json)
+- [Homepage before](benchmarks/2026-10-14/before-home.png) / [after](benchmarks/2026-10-14/after-home.png)
+- [Aegis before](benchmarks/2026-10-14/before-aegis.png) / [after](benchmarks/2026-10-14/after-aegis.png)
 
-Measured across standalone case study pages with WebGL hero scenes active:
+## Reproduction
 
-| Page | Document Load | Average FPS | Max Frame Delta | Hitches >33ms |
-|---|---|---|---|---|
-| [`aegis.html`](../aegis.html) | 1,110 ms | **76–84 FPS** | 27.7 ms | **0 hitches** |
-| [`gridium.html`](../gridium.html) | 673 ms | **95–102 FPS** | 20.6 ms | **0 hitches** |
-| [`compressor-cbm.html`](../compressor-cbm.html) | 959 ms | **74–82 FPS** | 20.9 ms | **0 hitches** |
-| [`topoflow.html`](../topoflow.html) | 767 ms | **121–133 FPS** | 14.2 ms | **0 hitches** |
-| [`food.html`](../food.html) | 701 ms | **131–145 FPS** | 14.3 ms | **0 hitches** |
-| [`yield.html`](../yield.html) | 696 ms | **86–96 FPS** | 20.9 ms | **0 hitches** |
+```powershell
+# Playwright must be installed or discoverable by scripts/lib/playwright_loader.mjs.
+# CHROME_PATH can override the default Windows Chrome executable.
+node scripts/test_wheel_gesture.mjs
+node scripts/overhaul_interactions.mjs
+node scripts/validate_links.mjs
+node scripts/check_asset_sizes.mjs
 
----
+# Each audit starts its own server on port 8091; run sequentially.
+$env:AUDIT_GPU = "1"
+node scripts/overhaul_audit.mjs after
 
-## 5. How to Reproduce Benchmarks Locally
+# Baseline: archive original c9a4d43 into a separate directory, then:
+$env:AUDIT_ROOT = ".audit/overhaul/baseline-src"
+node scripts/overhaul_audit.mjs before
+Remove-Item Env:AUDIT_ROOT
 
-1. Start local web server on port 8089:
-   ```bash
-   python -m http.server 8089
-   ```
+# Software rendering diagnostic:
+Remove-Item Env:AUDIT_GPU
+node scripts/overhaul_audit.mjs software
+```
 
-2. Run automated comprehensive benchmark profile:
-   ```bash
-   node scripts/profile_baseline.mjs
-   ```
+## Remaining limits
 
-3. Run full visual QA screenshot capture:
-   ```bash
-   node scripts/capture_qa_evidence.mjs
-   ```
-
-4. Run link and asset integrity validation:
-   ```bash
-   node scripts/validate_links.mjs
-   ```
-
-5. Run WebGL disabled fallback verification:
-   ```bash
-   node scripts/test_webgl_fallback.mjs
-   ```
+These are short, single-workstation samples. They do not replace real iOS/Android device testing, physical mouse/precision-trackpad trials, or a larger repeat-run performance distribution. Hardware rendering and browser touch emulation were used; touch tests include synthetic swipe events. Cold driver work can still stall individual frames, even with async batched compilation. Immediate content and CSS artwork remain available while graphics prepare. GPU resource counts plateaued in repeated traversal; a prolonged memory soak and actual GPU utilization were not measured. No merge or production deployment was performed.

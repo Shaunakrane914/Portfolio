@@ -5,6 +5,7 @@
 // ZERO text panels. Pure cinematic visual storytelling.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createAegisArtPrototype(scene) {
   const root = new THREE.Group();
@@ -102,7 +103,7 @@ export function createAegisArtPrototype(scene) {
 
     // Translucent glass plate
     const plateGeo = new THREE.PlaneGeometry(spec.scale[0], spec.scale[1]);
-    const plateMat = new THREE.MeshPhysicalMaterial({
+    const plateMat = new THREE.MeshStandardMaterial({
       color: 0x060d12,
       emissive: spec.col,
       emissiveIntensity: 0.18,
@@ -110,7 +111,7 @@ export function createAegisArtPrototype(scene) {
       opacity: 0.72,
       roughness: 0.12,
       metalness: 0.15,
-      transmission: 0.6,
+
       side: THREE.DoubleSide
     });
     sheetGroup.add(new THREE.Mesh(plateGeo, plateMat));
@@ -191,7 +192,7 @@ export function createAegisArtPrototype(scene) {
 
   // ─── RETURN OBJECT ────────────────────────────────────────────────────
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       // Claim core evolution
       innerCore.rotation.y = time * 0.3;
       innerCore.rotation.x = time * 0.19;
@@ -219,7 +220,7 @@ export function createAegisArtPrototype(scene) {
       // Intelligence signal pulses streaming along fiber conduits
       fiberLines.forEach(fl => {
         const t = (time * fl.speed + fl.offset) % 1.0;
-        fl.pulse.position.copy(fl.curve.getPoint(t));
+        fl.curve.getPoint(t, fl.pulse.position);
       });
 
       // Subtle spotlight animation — forensic illumination sweep
@@ -233,6 +234,7 @@ export function createAegisArtPrototype(scene) {
     },
     destroy() {
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }

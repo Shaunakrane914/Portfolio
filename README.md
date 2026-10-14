@@ -3,7 +3,7 @@
 [![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
 [![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Build Version](https://img.shields.io/badge/Version-v3.4.0-brightgreen?style=flat-square)](CHANGELOG.md)
+[![Build Version](https://img.shields.io/badge/Version-v4.0.0-brightgreen?style=flat-square)](CHANGELOG.md)
 
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 
@@ -94,19 +94,13 @@ The portfolio is architected as an interactive **WebGL Systems Observatory**: si
 The portfolio itself is built without heavy UI frameworks or CSS utility bloat. It runs on Vanilla HTML5, modern CSS custom properties, and modular ES6 JavaScript.
 
 ### Core Architectural Patterns:
-1. **Lazy 3D World Construction:** Instead of mounting 6 complex Three.js scenes at boot (which previously caused 15-second CPU stalls), each procedural scene is instantiated on-demand only when navigated to.
-2. **Asynchronous Shader Compilation:** Utilizes `renderer.compileAsync(scene, camera)` prior to scene transition, guaranteeing zero frame-drop or pipeline hitching during camera movement.
-3. **Adaptive DPR & Render Budgets:**
-   - DPR capped at $1.15\times\text{--}1.35\times$ to prevent fill-rate saturation on 4K/retina displays.
-   - Dynamic 60 FPS monitoring: if frame time exceeds 22ms over a sustained window, DPR scales down automatically.
-4. **Zero-Overhead Animation Loop:**
-   - Only the currently active scene executes an animation tick.
-   - `IntersectionObserver` and `document.hidden` pause the WebGL context entirely when scrolled away or minimized.
-5. **Memory-Conscious Post-Processing:**
-   - Halved bloom render target resolution with 16-bit HalfFloat targets (`THREE.HalfFloatType`).
-   - Eliminated `preserveDrawingBuffer` overhead to conserve GPU memory.
-6. **Telemetry & Real-Time Performance Monitor:**
-   - Built-in FPS, frame-delta, and active scene telemetry HUD for empirical performance verification (`Ctrl + Shift + P` or via developer console).
+1. Gesture-aware wheel navigation consumes one input burst, including its inertia. Buttons, keyboard, touch and history work independently of camera transitions.
+2. Scene preparation runs in a prioritized serial queue with small shader batches, explicit readiness and a hidden GPU upload render. CSS artwork and semantic content remain visible while graphics prepare.
+3. Lit standard materials, shared resources and instancing reduce work. Case studies use direct rendering with no bloom pass chain.
+4. Time-based motion, raw frame telemetry and adaptive DPR make performance observable. Offscreen/hidden heroes pause and reduced-motion heroes render statically.
+5. Local WOFF2 fonts and dimensioned lazy evidence images improve initial delivery. Desktop and mobile case-study heroes give text and art separate space.
+
+[Architecture](docs/ARCHITECTURE.md), [benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/test_wheel_gesture.mjs` and `node scripts/overhaul_interactions.mjs` for the regression suite; the latter starts its own local server.
 
 ---
 
@@ -118,7 +112,7 @@ The portfolio itself is built without heavy UI frameworks or CSS utility bloat. 
 | **Backend & APIs** | Python, FastAPI, Flask, Uvicorn, Node.js, Express, Socket.io, RESTful APIs, CORS Proxies |
 | **Databases & Storage** | Supabase (PostgreSQL + pgvector), MySQL, SQLite |
 | **Distributed & Web3** | Solidity (EVM), OpenZeppelin, Circom 2.0, Groth16, snarkjs, AMM bonding curves |
-| **Frontend & Graphics** | HTML5, Vanilla CSS3 (Custom Properties & Glassmorphism), Modern JavaScript (ES6 Modules), Three.js (r128), React 18, Vite |
+| **Frontend & Graphics** | HTML5, Vanilla CSS3 (Custom Properties & Glassmorphism), Modern JavaScript (ES6 Modules), Three.js (local pinned build), React 18, Vite |
 | **DevOps & Testing** | Docker, Git, GitHub Actions, Netlify Serverless Functions, Vercel, pytest, Playwright, Chrome DevTools Protocol |
 
 ---

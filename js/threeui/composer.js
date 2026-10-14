@@ -38,15 +38,16 @@ export function createBloomComposer(renderer, scene, camera, width, height) {
     0.70   // threshold (selective bloom for neon highlights)
   );
   bloomPass.renderToScreen = true;
+  bloomPass.setSize(Math.floor(width * renderer.getPixelRatio() * .5), Math.floor(height * renderer.getPixelRatio() * .5));
   composer.addPass(bloomPass);
 
   return {
     composer,
     bloomPass,
-    enabled: true,
+    enabled: !matchMedia("(pointer: coarse)").matches,
     setSize(w, h) {
       composer.setSize(w, h);
-      bloomPass.resolution.set(w, h);
+      bloomPass.setSize(Math.floor(w * renderer.getPixelRatio() * .5), Math.floor(h * renderer.getPixelRatio() * .5));
     },
     setBloom(strength, radius, threshold) {
       bloomPass.strength = strength;

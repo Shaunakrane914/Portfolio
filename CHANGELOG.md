@@ -1,5 +1,15 @@
 # Changelog
 
+
+## v4.0.0 - 2026-10-14
+
+- Replace transition cooldown scrolling with gesture consumption, delta normalization, tail hysteresis and native panel ownership.
+- Decouple semantic navigation/history from prioritized scene construction, batched shader preparation and GPU readiness.
+- Simplify glass and bloom, instance origin nodes, share materials, and record unclipped frame delays.
+- Share case-study graphics lifecycle, pause offscreen, render statically for reduced motion, and dispose GPU resources.
+- Redesign case-study heroes for desktop/mobile; add immediate CSS art, local fonts and dimensioned lazy images.
+- Add asserting browser/input tests, before/after screenshots and raw hardware benchmark evidence.
+
 All notable changes to Shaunak Rane's Systems Portfolio will be documented in this file.
 
 ## [3.4.0] - 2026-10-14

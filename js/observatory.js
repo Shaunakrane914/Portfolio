@@ -1,4 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
+import { WheelGesture, normalizeWheel, scrollableAncestor } from "./wheel-gesture.js";
+import { disposeScene, compileInBatches } from "./graphics-runtime.js";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,8 +23,7 @@ const lookVelocity = new THREE.Vector3();
 let activeWorld = null;
 let transitField = null;
 let lastSceneChange = 0;
-let lastFrameTime = performance.now();
-let transitionTimer = null;
+let lastFrameTime = 0;
 let pointerX = 0;
 let pointerY = 0;
 let dragStart = null;
@@ -77,13 +78,19 @@ function seededRandom(seed = 914) {
 }
 
 const random = seededRandom();
+const materialCache = new Map();
+function cachedMaterial(kind, color, options, create) {
+  const key = `${kind}:${color}:${JSON.stringify(options)}`;
+  if (!materialCache.has(key)) materialCache.set(key, create());
+  return materialCache.get(key);
+}
 
 function lineMaterial(color, opacity = 1) {
   return new THREE.LineBasicMaterial({ color, transparent: opacity < 1, opacity });
 }
 
 function meshMaterial(color, options = {}) {
-  return new THREE.MeshStandardMaterial({
+  return cachedMaterial("standard", color, options, () => new THREE.MeshStandardMaterial({
     color,
     roughness: options.roughness ?? 0.62,
     metalness: options.metalness ?? 0.42,
@@ -94,35 +101,29 @@ function meshMaterial(color, options = {}) {
     depthWrite: options.depthWrite ?? true,
     emissive: options.emissive ?? 0x000000,
     emissiveIntensity: options.emissiveIntensity ?? 0
-  });
+  }));
 }
 
 function physicalMaterial(color, options = {}) {
-  return new THREE.MeshPhysicalMaterial({
+  // Lit metal and tinted shells retain depth without a second transmission pass.
+  return cachedMaterial("metal", color, options, () => new THREE.MeshStandardMaterial({
     color,
     roughness: options.roughness ?? 0.3,
     metalness: options.metalness ?? 0.62,
-    clearcoat: options.clearcoat ?? 0.38,
-    clearcoatRoughness: options.clearcoatRoughness ?? 0.22,
-    transmission: options.transmission ?? 0,
-    thickness: options.thickness ?? 0,
-    ior: options.ior ?? 1.45,
     transparent: options.opacity !== undefined && options.opacity < 1,
     opacity: options.opacity ?? 1,
     side: options.side ?? THREE.FrontSide,
     depthWrite: options.depthWrite ?? true,
     emissive: options.emissive ?? 0x000000,
     emissiveIntensity: options.emissiveIntensity ?? 0
-  });
+  }));
 }
 
 function glass(color = palette.green, opacity = 0.18) {
-  return new THREE.MeshPhysicalMaterial({
+  return new THREE.MeshStandardMaterial({
     color,
     roughness: 0.08,
     metalness: 0.12,
-    transmission: 0.45,
-    thickness: 0.5,
     transparent: true,
     opacity,
     side: THREE.DoubleSide,
@@ -184,7 +185,9 @@ function createGlowSprite(color, size = 1, opacity = 0.75) {
 function addWorldLight(group, color, position, intensity = 32, distance = 18) {
   const light = new THREE.PointLight(color, intensity, distance, 2);
   light.position.fromArray(position);
-  group.add(light);
+  // A stable light count lets every world reuse the same lit shader programs.
+  group.userData.lightCount = (group.userData.lightCount || 0) + 1;
+  if (group.userData.lightCount <= 2) group.add(light);
   const glow = createGlowSprite(color, 1.2, 0.38);
   glow.position.copy(light.position);
   group.add(glow);
@@ -210,15 +213,21 @@ function getCachedCurvePoint(curve, progress) {
   }
   const samples = curve.userData.samples;
   const idx = Math.min(samples.length - 1, Math.max(0, Math.floor(progress * (samples.length - 1))));
-  return samples[idx];
+  return curveSample.copy(samples[idx]).lerp(samples[Math.min(idx + 1, samples.length - 1)], progress * (samples.length - 1) - idx);
 }
+const curveSample = new THREE.Vector3();
 
 const _springDisplacement = new THREE.Vector3();
 function springVector(current, target, velocity, dt, stiffness = 88, damping = 14.5) {
-  _springDisplacement.copy(target).sub(current);
-  velocity.addScaledVector(_springDisplacement, stiffness * dt);
-  velocity.multiplyScalar(Math.exp(-damping * dt));
-  current.addScaledVector(velocity, dt);
+  // Substeps keep the integration stable and consistent at 60/120/144Hz.
+  const steps = Math.max(1, Math.ceil(dt / (1 / 144)));
+  const step = dt / steps;
+  for (let i = 0; i < steps; i++) {
+    _springDisplacement.copy(target).sub(current);
+    velocity.addScaledVector(_springDisplacement, stiffness * step);
+    velocity.multiplyScalar(Math.exp(-damping * step));
+    current.addScaledVector(velocity, step);
+  }
 }
 
 function createTransitField() {
@@ -411,19 +420,22 @@ function createOriginWorld() {
     ringGeometry.setAttribute("position", new THREE.Float32BufferAttribute(ringPoints, 3));
     group.add(new THREE.LineLoop(ringGeometry, lineMaterial(layer.color, 0.46)));
 
+    const nodes = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 12, 12), nodeMaterial, layer.nodes);
+    const placement = new THREE.Object3D();
     for (let i = 0; i < layer.nodes; i += 1) {
       const angle = (i / layer.nodes) * Math.PI * 2 + layerIndex * 0.31;
-      const node = new THREE.Mesh(new THREE.SphereGeometry(0.085, 12, 12), nodeMaterial);
-      node.position.set(
+      placement.position.set(
         Math.cos(angle) * layer.radius,
         layer.y,
         Math.sin(angle) * layer.radius * 0.42
       );
-      group.add(node);
+      placement.updateMatrix();
+      nodes.setMatrixAt(i, placement.matrix);
       if (i % 3 === 0) {
-        verticals.push(node.position.x, node.position.y, node.position.z, 0, 0, 0);
+        verticals.push(placement.position.x, placement.position.y, placement.position.z, 0, 0, 0);
       }
     }
+    group.add(nodes);
   });
   group.add(linesFromArray(verticals, palette.white, 0.11));
 
@@ -1879,9 +1891,9 @@ function applyQualityTier(tier) {
   const maxDpr = coarsePointer ? 1.0 : 1.15;
   let targetDpr = maxDpr;
   if (tier === "low") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 0.95);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 0.65);
   } else if (tier === "medium") {
-    targetDpr = Math.min(window.devicePixelRatio || 1, 1.05);
+    targetDpr = Math.min(window.devicePixelRatio || 1, 0.85);
   } else {
     targetDpr = Math.min(window.devicePixelRatio || 1, maxDpr);
   }
@@ -1906,7 +1918,7 @@ function recordFrameTime(frameDeltaMs) {
     qualityTier = qualityTier === "high" ? "medium" : "low";
     applyQualityTier(qualityTier);
     slowFrameTally = 0;
-  } else if (fastFrameTally >= 80 && qualityTier !== "high") {
+  } else if (fastFrameTally >= 300 && qualityTier !== "high") {
     qualityTier = qualityTier === "low" ? "medium" : "high";
     applyQualityTier(qualityTier);
     fastFrameTally = 0;
@@ -1986,7 +1998,7 @@ function ensureWorld(index) {
     worldStatus[index] = "building";
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
-    world.visible = (index === currentScene);
+    world.visible = false;
     worlds[index] = world;
     worldStatus[index] = "built";
     if (scene) scene.add(world);
@@ -1998,139 +2010,94 @@ function ensureWorld(index) {
   return worlds[index];
 }
 
-async function prepareWorldAsync(index) {
-  if (index < 0 || index >= worldFactories.length) return null;
-  if (worlds[index]?.userData?.ready) return worlds[index];
+const yieldTask = () => new Promise(resolve => setTimeout(resolve, 0));
+const preparationQueue = [];
+let preparing = false;
+async function drainPreparationQueue() {
+  if (preparing || !webglReady || document.hidden) return;
+  preparing = true;
+  while (preparationQueue.length && webglReady && !document.hidden) {
+    const requested = preparationQueue.findIndex(job => job.index === currentScene);
+    const job = preparationQueue.splice(requested >= 0 ? requested : 0, 1)[0];
+    try { job.resolve(await job.execute()); }
+    catch (error) {
+      worldStatus[job.index] = "failed";
+      console.warn(`Scene ${sceneNames[job.index]} unavailable; content remains accessible.`, error);
+      job.resolve(null);
+    }
+  }
+  preparing = false;
+}
+let prewarmTimer = null;
+
+function prepareWorldAsync(index) {
+  if (index < 0 || index >= worldFactories.length) return Promise.resolve(null);
+  if (worlds[index]?.userData.ready) return Promise.resolve(worlds[index]);
   if (worldCompilePromises[index]) return worldCompilePromises[index];
-
-  if (!worlds[index]) {
-    const t0 = performance.now();
-    worldStatus[index] = "building";
-    const world = worldFactories[index]();
-    world.userData.baseScale = world.scale.clone();
+  // Even the requested scene is built outside the input handler. The finite,
+  // six-world cache reuses each world; preparation is serialized, never fanned out.
+  const execute = async () => {
+    await yieldTask();
+    const world = ensureWorld(index);
     world.visible = false;
-    worlds[index] = world;
-    worldStatus[index] = "built";
-    if (scene) scene.add(world);
-    world.userData.buildDuration = performance.now() - t0;
-    if (perfMode) {
-      console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) constructed in ${world.userData.buildDuration.toFixed(1)}ms`);
-    }
-  }
-
-  const world = worlds[index];
-  if (renderer && renderer.initTexture) {
-    world.traverse(child => {
-      if (child.material) {
-        const mats = Array.isArray(child.material) ? child.material : [child.material];
-        mats.forEach(mat => {
-          if (mat.map && mat.map.isTexture) {
-            try { renderer.initTexture(mat.map); } catch {}
-          }
-        });
-      }
-    });
-  }
-  if (renderer && camera && renderer.compileAsync && !world.userData.ready) {
+    await yieldTask();
     worldStatus[index] = "compiling";
-
-    // Temporarily configure scene visibility for target world so Three.js compiles with exact local lights and fog
-    const prevVisibilities = worlds.map(w => w ? w.visible : false);
-    worlds.forEach((w, i) => { if (w) w.visible = (i === index); });
-
-    // Call compileAsync: Three.js initiates GPU shader compilation synchronously
-    const p = renderer.compileAsync(scene, camera).then(() => {
-      worldStatus[index] = "ready";
-      world.userData.ready = true;
-      if (perfMode) {
-        console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) async compiled with full lighting & fog`);
-      }
-      return world;
-    }).catch(() => {
-      worldStatus[index] = "ready";
-      world.userData.ready = true;
-      return world;
+    await compileInBatches(renderer, scene, camera, world, () => {
+      const visibilities = worlds.map(w => w?.visible || false);
+      worlds.forEach((w, i) => { if (w) w.visible = i === index; });
+      return () => worlds.forEach((w, i) => { if (w) w.visible = visibilities[i]; });
     });
-
-    // Immediately restore active scene visibility for the render loop
-    worlds.forEach((w, i) => { if (w) w.visible = prevVisibilities[i]; });
-
-    worldCompilePromises[index] = p;
-    return p;
-  } else {
-    world.visible = (index === currentScene);
-    if (!world.parent && scene) scene.add(world);
-    worldStatus[index] = "ready";
-    world.userData.ready = true;
-    return world;
-  }
-}
-
-let compileScene = null;
-let prewarmRunning = false;
-let prewarmQueue = [];
-
-function computePrewarmSequence(centerIdx) {
-  const seq = [];
-  const total = worldFactories.length;
-  const next = (centerIdx + 1) % total;
-  if (!worlds[next]?.userData?.ready) seq.push(next);
-  const prev = (centerIdx - 1 + total) % total;
-  if (prev !== next && !worlds[prev]?.userData?.ready) seq.push(prev);
-  for (let i = 0; i < total; i++) {
-    const idx = (centerIdx + i) % total;
-    if (idx !== centerIdx && !seq.includes(idx) && !worlds[idx]?.userData?.ready) {
-      seq.push(idx);
-    }
-  }
-  return seq;
-}
-
-function processPrewarmStep() {
-  if (document.hidden || isSceneTransitioning) {
-    setTimeout(processPrewarmStep, 150);
-    return;
-  }
-
-  prewarmQueue = prewarmQueue.filter(idx => !worlds[idx]?.userData?.ready);
-  if (prewarmQueue.length === 0) {
-    prewarmQueue = computePrewarmSequence(currentScene);
-    if (prewarmQueue.length === 0) {
-      prewarmRunning = false;
-      return;
-    }
-  }
-
-  const targetIdx = prewarmQueue.shift();
-  if (worlds[targetIdx]?.userData?.ready) {
-    setTimeout(processPrewarmStep, 40);
-    return;
-  }
-
-  const executeWarm = async () => {
+    await yieldTask();
+    // Compilation does not upload buffers. Warm the actual output pipeline:
+    // an offscreen target changes tone-mapping/color-space shader variants.
+    // Restore and draw the active world in this same task, before browser paint.
+    const warmCamera = camera.clone();
+    const state = getCameraTarget(index);
+    warmCamera.position.fromArray(state.position);
+    warmCamera.lookAt(new THREE.Vector3(...state.look));
+    const visible = worlds.map(w => w?.visible || false);
     try {
-      await prepareWorldAsync(targetIdx);
-    } catch (err) {
-      console.warn("[prewarm] error warming world", targetIdx, err);
+      worlds.forEach((w, i) => { if (w) w.visible = i === index; });
+      renderer.render(scene, warmCamera);
+    } finally {
+      worlds.forEach((w, i) => { if (w) w.visible = visible[i]; });
+      renderer.render(scene, camera);
     }
-    setTimeout(processPrewarmStep, 200);
+    world.userData.ready = true;
+    worldStatus[index] = "ready";
+    if (index === currentScene) revealWorld(index);
+    return world;
   };
+  const job = new Promise(resolve => preparationQueue.push({ index, execute, resolve }));
+  worldCompilePromises[index] = job;
+  setTimeout(drainPreparationQueue, 0);
+  return job;
+}
 
-  if (typeof requestIdleCallback !== "undefined") {
-    requestIdleCallback(() => {
-      executeWarm();
-    }, { timeout: 1500 });
-  } else {
-    setTimeout(executeWarm, 80);
-  }
+function revealWorld(index) {
+  if (index !== currentScene || !worlds[index]?.userData.ready) return;
+  activeWorld = worlds[index];
+  activeWorld.visible = true;
+  document.body.dataset.graphicsReady = "true";
+  if (reduceMotion) render(performance.now());
 }
 
 function startBackgroundPrewarm() {
-  prewarmQueue = computePrewarmSequence(currentScene);
-  if (!prewarmRunning && prewarmQueue.length > 0) {
-    prewarmRunning = true;
-    setTimeout(processPrewarmStep, 250);
-  }
+  clearTimeout(prewarmTimer);
+  if (!webglReady || reduceMotion || document.hidden) return;
+  // Only the next likely destination and previous scene are prepared. Distant
+  // archive jumps keep the CSS centerpiece visible while their model prepares.
+  prewarmTimer = setTimeout(() => {
+    const next = currentScene + 1;
+    const previous = currentScene - 1;
+    const run = async () => {
+      if (document.hidden || !webglReady) return;
+      if (next < worlds.length) await prepareWorldAsync(next);
+      if (previous >= 0) await prepareWorldAsync(previous);
+    };
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 1000 });
+    else run();
+  }, 120);
 }
 
 function initializeThree() {
@@ -2175,27 +2142,8 @@ function initializeThree() {
     accent.position.set(1.5, 2.5, 6);
     scene.add(accent);
 
-    compileScene = new THREE.Scene();
-    compileScene.add(new THREE.HemisphereLight(0xcde4d8, 0x091410, 1.35));
-    const cKey = new THREE.DirectionalLight(0xf0f7f3, 4.2);
-    cKey.position.set(8, 11, 12);
-    compileScene.add(cKey);
-    const cRim = new THREE.DirectionalLight(0x7596ff, 2.4);
-    cRim.position.set(-9, 3, -8);
-    compileScene.add(cRim);
-    const cWarm = new THREE.DirectionalLight(0xff946b, 1.8);
-    cWarm.position.set(6, -2, -6);
-    compileScene.add(cWarm);
-    const cAccent = new THREE.PointLight(palette.green, 28, 26, 2);
-    cAccent.position.set(1.5, 2.5, 6);
-    compileScene.add(cAccent);
-
-    scene.add(createAmbientField());
-    ensureWorld(currentScene);
-    activeWorld = worlds[currentScene];
-    startBackgroundPrewarm();
     window.__observatory = {
-      version: "3.4.0",
+      version: "4.0.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2210,20 +2158,31 @@ function initializeThree() {
       cameraStates,
       THREE
     };
-    console.log("%c[Observatory 3D] v3.4.0 initialized (async prewarm pipeline, 220ms lockout, 28px threshold, zero-alloc springs, instanced meshes)", "color: #47e6a5; font-weight: bold;");
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
     window.addEventListener("orientationchange", resizeRenderer, { passive: true });
+    canvas.addEventListener("webglcontextlost", event => { event.preventDefault(); webglReady = false; renderer.setAnimationLoop(null); document.body.dataset.graphicsReady = "false"; });
+    canvas.addEventListener("webglcontextrestored", () => location.reload());
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         renderer.setAnimationLoop(null);
-      } else if (webglReady) {
-        lastFrameTime = performance.now();
+      } else if (webglReady && !reduceMotion) {
+        lastFrameTime = 0;
         renderer.setAnimationLoop(render);
       }
+      if (!document.hidden) drainPreparationQueue();
     });
-    renderer.setAnimationLoop(render);
+    window.addEventListener("pagehide", event => {
+      if (event.persisted) return;
+      clearTimeout(prewarmTimer);
+      renderer.setAnimationLoop(null);
+      disposeScene(scene);
+      renderer.dispose();
+      webglReady = false;
+    });
+    prepareWorldAsync(currentScene).then(() => startBackgroundPrewarm());
+    if (!reduceMotion) renderer.setAnimationLoop(render);
   } catch (error) {
     document.body.classList.add("webgl-unavailable");
     console.warn("Interactive scene unavailable; content fallback remains active.", error);
@@ -2279,7 +2238,7 @@ function render(timeMs) {
 
   // 0: Origin
   if (activeIdx === 0 && worlds[0]) {
-    worlds[0].rotation.y += reduceMotion ? 0 : 0.0012;
+    worlds[0].rotation.y += reduceMotion ? 0 : 0.072 * dt;
     worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
     worlds[0].userData.rings?.forEach((ring) => {
       ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
@@ -2290,8 +2249,8 @@ function render(timeMs) {
 
   // 1: Aegis
   else if (activeIdx === 1 && worlds[1]) {
-    if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.01;
-    if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.006;
+    if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.6 * dt;
+    if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.36 * dt;
     if (worlds[1].userData.inspectionShell) {
       worlds[1].userData.inspectionShell.rotation.x = reduceMotion ? 0 : time * 0.08;
       worlds[1].userData.inspectionShell.rotation.y = reduceMotion ? 0 : -time * 0.11;
@@ -2386,7 +2345,7 @@ function render(timeMs) {
   // 3: Compressor
   else if (activeIdx === 3 && worlds[3]) {
     worlds[3].userData.rotors?.forEach((rotor, index) => {
-      rotor.rotation.z += reduceMotion ? 0 : 0.008 + index * 0.0016;
+      rotor.rotation.z += reduceMotion ? 0 : (0.48 + index * 0.096) * dt;
     });
     worlds[3].userData.instrumentRings?.forEach((ring) => {
       ring.rotation.x += reduceMotion ? 0 : ring.userData.speed * dt;
@@ -2406,7 +2365,7 @@ function render(timeMs) {
 
   // 4: TopoFlow
   else if (activeIdx === 4 && worlds[4]) {
-    worlds[4].rotation.y += reduceMotion ? 0 : 0.0017;
+    worlds[4].rotation.y += reduceMotion ? 0 : 0.102 * dt;
     worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
     if (worlds[4].userData.flowCurve && worlds[4].userData.flowParticles) {
       worlds[4].userData.flowParticles.forEach((particle) => {
@@ -2421,7 +2380,7 @@ function render(timeMs) {
 
   // 5: Profile
   else if (activeIdx === 5 && worlds[5]) {
-    worlds[5].rotation.y += reduceMotion ? 0 : 0.0014;
+    worlds[5].rotation.y += reduceMotion ? 0 : 0.084 * dt;
     worlds[5].userData.rings?.forEach((ring) => {
       ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
       ring.rotation.z += reduceMotion ? 0 : ring.userData.speed * dt * 0.22;
@@ -2432,7 +2391,7 @@ function render(timeMs) {
   }
 
   if (activeWorld && !reduceMotion) {
-    activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * 0.025;
+    activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * (1 - Math.exp(-8 * dt));
     const baseScale = activeWorld.userData.baseScale;
     const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 300, 0, 1);
     const eased = 1 - Math.pow(1 - transitionProgress, 3);
@@ -2440,19 +2399,21 @@ function render(timeMs) {
   }
 
   renderer.render(scene, camera);
-  if (!document.hidden && rawFrameDeltaMs < 800) {
+  if (!document.hidden) {
     recordFrameTime(rawFrameDeltaMs);
   }
   updatePerfHud();
 }
 
 function setScene(index, options = {}) {
+  if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
   if (next === currentScene && !options.force) return;
   const previousScene = currentScene;
   currentScene = next;
-  ensureWorld(currentScene);
-  activeWorld = worlds[currentScene] || null;
+  activeWorld = worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
+  document.body.dataset.graphicsReady = String(Boolean(activeWorld));
+  if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
   if (activeWorld?.userData.baseScale) {
     activeWorld.scale.copy(activeWorld.userData.baseScale);
     if (!reduceMotion) activeWorld.scale.multiplyScalar(0.93);
@@ -2460,7 +2421,7 @@ function setScene(index, options = {}) {
   lastSceneChange = performance.now();
   document.body.dataset.currentScene = String(currentScene);
   worlds.forEach((world, worldIndex) => {
-    if (world) world.visible = worldIndex === currentScene;
+    if (world) world.visible = worldIndex === currentScene && Boolean(world.userData.ready);
   });
 
   if (perfMode && renderer) {
@@ -2474,12 +2435,13 @@ function setScene(index, options = {}) {
     cameraVelocity.x += direction * 0.2;
     triggerScanEffect();
   }
-  lockSceneTransition(220);
+
 
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
     panel.classList.toggle("is-active", active);
     panel.setAttribute("aria-hidden", String(!active));
+    panel.inert = !active;
   });
 
   railButtons.forEach((button) => {
@@ -2492,9 +2454,10 @@ function setScene(index, options = {}) {
   if (sceneAnnouncer && !options.force) sceneAnnouncer.textContent = `${sceneNames[currentScene]} scene selected`;
 
   if (!options.skipHistory) {
-    history.replaceState(null, "", `#${sceneHashes[currentScene]}`);
+    history.pushState(null, "", `#${sceneHashes[currentScene]}`);
   }
   startBackgroundPrewarm();
+  if (reduceMotion && webglReady) render(performance.now());
 }
 
 const transitionLine = document.querySelector(".scene-transition-line");
@@ -2517,26 +2480,9 @@ function triggerScanEffect() {
   });
 }
 
-let isSceneTransitioning = false;
-let lastTransitionAt = 0;
-let sceneLockTimer = null;
-
-function lockSceneTransition(duration = 220) {
-  isSceneTransitioning = true;
-  lastTransitionAt = performance.now();
-  wheelAccumulator = 0;
-  window.clearTimeout(sceneLockTimer);
-  sceneLockTimer = window.setTimeout(() => {
-    isSceneTransitioning = false;
-  }, duration);
-}
-
 function stepScene(direction) {
-  if (isSceneTransitioning) return;
   const target = currentScene + direction;
-  if (target >= 0 && target < sceneNames.length) {
-    setScene(target);
-  }
+  if (target >= 0 && target < sceneNames.length) setScene(target);
 }
 
 // Global Event Delegation for all interactive action attributes
@@ -2599,55 +2545,16 @@ document.addEventListener("click", (event) => {
   }
 });
 
-let wheelAccumulator = 0;
-let wheelQuietTimer = null;
-
-window.addEventListener("wheel", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-
-  // Check if wheel event originates from within an active scrollable panel
-  const activePanel = panels[currentScene];
-  if (activePanel && activePanel.contains(event.target)) {
-    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
-    if (isScrollable) {
-      const atTop = activePanel.scrollTop <= 0 && event.deltaY < 0;
-      const atBottom = activePanel.scrollTop + activePanel.clientHeight >= activePanel.scrollHeight - 4 && event.deltaY > 0;
-      if (!atTop && !atBottom) {
-        // Allow native smooth scrolling inside the panel
-        return;
-      }
-    }
-  }
-
-  const now = performance.now();
-  const timeSinceTransition = now - lastTransitionAt;
-
-  // If transitioning or within the 220ms lockout window, dump all wheel inertia immediately
-  if (isSceneTransitioning || timeSinceTransition < 220) {
-    wheelAccumulator = 0;
-    return;
-  }
-
-  // Reset accumulator on direction change
-  if (Math.sign(event.deltaY) !== Math.sign(wheelAccumulator) && wheelAccumulator !== 0) {
-    wheelAccumulator = 0;
-  }
-
-  wheelAccumulator += event.deltaY;
-
-  // Responsive step threshold: 28px guarantees immediate, snappy action without false firing
-  if (Math.abs(wheelAccumulator) >= 28) {
-    const dir = wheelAccumulator > 0 ? 1 : -1;
-    wheelAccumulator = 0;
-    stepScene(dir);
-  }
-
-  // When scrolling stops for 120ms, reset accumulator so subsequent motions start clean
-  window.clearTimeout(wheelQuietTimer);
-  wheelQuietTimer = window.setTimeout(() => {
-    wheelAccumulator = 0;
-  }, 120);
-}, { passive: true });
+const wheelGesture = new WheelGesture();
+window.addEventListener("wheel", event => {
+  if (event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+  const delta = normalizeWheel(event, window.innerHeight);
+  const native = Boolean(document.querySelector("dialog[open]") || scrollableAncestor(event.target));
+  const direction = wheelGesture.feed(delta, event.timeStamp, native);
+  if (native) return;
+  if (event.cancelable) event.preventDefault();
+  if (direction) stepScene(direction);
+}, { passive: false });
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -2664,7 +2571,6 @@ window.addEventListener("touchstart", (event) => {
 
 window.addEventListener("touchend", (event) => {
   if (document.querySelector("dialog[open]")) return;
-  if (isSceneTransitioning) return;
   if (!touchStartTime || event.changedTouches.length === 0) return;
 
   const activePanel = panels[currentScene];
@@ -2691,7 +2597,8 @@ window.addEventListener("touchend", (event) => {
 }, { passive: true });
 
 window.addEventListener("keydown", (event) => {
-  if (document.querySelector("dialog[open]")) return;
+  if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
+  if (scrollableAncestor(event.target) && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End"].includes(event.key)) return;
   if (["ArrowDown", "ArrowRight", "PageDown"].includes(event.key)) {
     event.preventDefault();
     stepScene(1);
@@ -2700,8 +2607,8 @@ window.addEventListener("keydown", (event) => {
     event.preventDefault();
     stepScene(-1);
   }
-  if (event.key === "Home") setScene(0);
-  if (event.key === "End") setScene(sceneNames.length - 1);
+  if (event.key === "Home") { event.preventDefault(); setScene(0); }
+  if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1); }
 });
 
 canvas.addEventListener("pointerdown", (event) => {
@@ -2735,9 +2642,7 @@ canvas.addEventListener("pointerup", (event) => {
   const dx = event.clientX - dragStart.startX;
   const dy = event.clientY - dragStart.startY;
   const elapsed = performance.now() - dragStart.at;
-  if (!isSceneTransitioning && coarsePointer && elapsed < 650 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-    stepScene(dx < 0 ? 1 : -1);
-  }
+
   dragStart = null;
 });
 
@@ -2745,7 +2650,7 @@ canvas.addEventListener("pointercancel", () => {
   dragStart = null;
 });
 
-window.addEventListener("resize", resizeRenderer);
+
 window.addEventListener("hashchange", () => {
   const index = sceneHashes.indexOf(window.location.hash.slice(1));
   if (index >= 0) setScene(index, { skipHistory: true });
@@ -2807,5 +2712,6 @@ const evidenceMetadata = {
   dialog.addEventListener("close", () => document.body.classList.remove("dialog-open"));
 });
 
-initializeThree();
+// Content and controls are usable before WebGL context creation or scene builds.
 setScene(currentScene, { force: true, skipHistory: true });
+requestAnimationFrame(() => requestAnimationFrame(initializeThree));

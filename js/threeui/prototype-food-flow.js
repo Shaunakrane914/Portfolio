@@ -6,6 +6,7 @@
 // Extremely clean and restrained. NO futuristic clutter. NO text panels.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createFoodFlowPrototype(scene) {
   const root = new THREE.Group();
@@ -42,13 +43,13 @@ export function createFoodFlowPrototype(scene) {
 
   // Outer translucent shell (inventory layer)
   const shellGeo = new THREE.SphereGeometry(1.3, 32, 24);
-  const shellMat = new THREE.MeshPhysicalMaterial({
+  const shellMat = new THREE.MeshStandardMaterial({
     color: 0x041108,
     emissive: 0x10b981,
     emissiveIntensity: 0.2,
     metalness: 0.3,
     roughness: 0.1,
-    transmission: 0.75,
+
     transparent: true,
     opacity: 0.45,
     wireframe: false
@@ -229,7 +230,7 @@ export function createFoodFlowPrototype(scene) {
 
   // ─── RETURN OBJECT ───────────────────────────────────────────────────
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       floorUniforms.uTime.value = time;
 
       // Nucleus core pulsing
@@ -255,7 +256,7 @@ export function createFoodFlowPrototype(scene) {
       // Token flow along conduits
       tokenMeshes.forEach(t => {
         const progress = ((time * t.speed + t.offset) % 1.0);
-        t.mesh.position.copy(t.curve.getPoint(progress));
+        t.curve.getPoint(progress, t.mesh.position);
         t.mesh.rotation.x = time * 2.0;
         t.mesh.rotation.z = time * 1.4;
       });
@@ -269,6 +270,7 @@ export function createFoodFlowPrototype(scene) {
     },
     destroy() {
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }

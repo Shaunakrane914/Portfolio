@@ -8,11 +8,9 @@
   <title>Shaunak Rane | Machine-Learning Systems Engineer</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/observatory.css?v=3.3" />
-  <link rel="modulepreload" href="js/observatory.js?v=3.4" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/observatory.css?v=4.0" />
+  <link rel="modulepreload" href="js/observatory.js?v=4.0" />
   <link rel="modulepreload" href="assets/vendor/three.module.min.js" />
   <script type="application/ld+json">
   {
@@ -46,7 +44,6 @@
     <div class="system-status" aria-label="Core stack">
       <span class="live-pulse" aria-hidden="true"></span>
       ML systems &middot; scientific computing &middot; backend engineering
-      <span class="version-badge" style="margin-left: 8px; padding: 2px 7px; background: rgba(71,230,165,0.12); border: 1px solid rgba(71,230,165,0.32); border-radius: 3px; color: #47e6a5; font-size: 0.58rem; letter-spacing: 0.06em; font-weight: 600;">v3.4</span>
     </div>
     <nav class="header-actions" aria-label="Primary navigation">
       <button class="header-link" type="button" data-open-archive>Projects</button>
@@ -173,7 +170,7 @@
   </nav>
 
   <section class="systems-console" aria-label="System selector">
-    <div class="systems-console-intro"><span>Systems console</span><p>Select a system to inspect.</p></div>
+    <div class="systems-console-intro"><span>Systems console</span><p>Scroll once to explore. Arrow keys or select a system.</p></div>
     <div class="systems-console-grid">
       <button type="button" data-scene-jump="1" style="--console-accent:var(--orange)"><span>01</span><strong>Aegis</strong><small>Claim investigation</small></button>
       <button type="button" data-scene-jump="2" style="--console-accent:var(--yellow)"><span>02</span><strong>Gridium</strong><small>Distributed energy</small></button>
@@ -207,12 +204,12 @@
         <button type="button" class="icon-button" data-close-archive aria-label="Close project archive">&#215;</button>
       </header>
       <div class="archive-grid">
-        <a href="aegis.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/aegis-dashboard-live.png" loading="lazy" alt="Aegis investigation dashboard" /><span>01 / Multi-Agent Systems</span><strong>Project Aegis</strong><p>Deterministic SHA-256 claim identity, two-stage Gemini swarm, rolling Z-score financial anomaly engine, and Supabase vector persistence.</p><b>&#8594;</b></a>
-        <a href="gridium.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/gridium-overview-live.png" loading="lazy" alt="Gridium microgrid command center" /><span>02 / Continuous RL &amp; DePIN</span><strong>Gridium Protocol</strong><p>15-node Ohm's law physics simulation, continuous PyTorch DDPG actor-critic control, 500ms Socket.io gateway, EVM AMM, and Groth16 zk-SNARKs.</p><b>&#8594;</b></a>
-        <a href="compressor-cbm.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/compressor-fouling-candidate-b.png" loading="lazy" alt="Compressor fouling index trace" /><span>03 / Industrial diagnostics</span><strong>Compressor CBM</strong><p>Reconciled thermodynamics, explainable fouling scores, plant-specific instability contracts, and frozen validation.</p><b>&#8594;</b></a>
-        <a href="topoflow.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/topoflow-pore-network-hero.webp" loading="lazy" alt="TopoFlow pore-network graph" /><span>04 / Geometric deep learning</span><strong>TopoFlow GNN</strong><p>GraphSAGE permeability inference across 1,231 pore graphs with a retained Kozeny-Carman comparator.</p><b>&#8594;</b></a>
-        <a href="sodexo.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/food-dashboard-live.png" loading="lazy" alt="Food operations dashboard" /><span>05 / Operations software</span><strong>Food optimization</strong><p>FastAPI workflows for menus, BOM rollups, inventory, procurement context, and Random Forest pax estimation.</p><b>&#8594;</b></a>
-        <a href="yield.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/yield-farm-setup-live.png" loading="lazy" alt="Agricultural farm boundary interface" /><span>06 / Geospatial product</span><strong>KrushiMitra</strong><p>React and FastAPI scenario workflow with geospatial farm boundaries and a versioned model-adapter contract.</p><b>&#8594;</b></a>
+        <a href="aegis.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/aegis-dashboard-live.png" loading="lazy" alt="Aegis investigation dashboard" width="1440" height="900" decoding="async" /><span>01 / Multi-Agent Systems</span><strong>Project Aegis</strong><p>Deterministic SHA-256 claim identity, two-stage Gemini swarm, rolling Z-score financial anomaly engine, and Supabase vector persistence.</p><b>&#8594;</b></a>
+        <a href="gridium.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/gridium-overview-live.png" loading="lazy" alt="Gridium microgrid command center" width="1440" height="900" decoding="async" /><span>02 / Continuous RL &amp; DePIN</span><strong>Gridium Protocol</strong><p>15-node Ohm's law physics simulation, continuous PyTorch DDPG actor-critic control, 500ms Socket.io gateway, EVM AMM, and Groth16 zk-SNARKs.</p><b>&#8594;</b></a>
+        <a href="compressor-cbm.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/compressor-fouling-candidate-b.png" loading="lazy" alt="Compressor fouling index trace" width="2380" height="935" decoding="async" /><span>03 / Industrial diagnostics</span><strong>Compressor CBM</strong><p>Reconciled thermodynamics, explainable fouling scores, plant-specific instability contracts, and frozen validation.</p><b>&#8594;</b></a>
+        <a href="topoflow.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/topoflow-pore-network-hero.webp" loading="lazy" alt="TopoFlow pore-network graph" width="1448" height="1086" decoding="async" /><span>04 / Geometric deep learning</span><strong>TopoFlow GNN</strong><p>GraphSAGE permeability inference across 1,231 pore graphs with a retained Kozeny-Carman comparator.</p><b>&#8594;</b></a>
+        <a href="sodexo.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/food-dashboard-live.png" loading="lazy" alt="Food operations dashboard" width="1440" height="1024" decoding="async" /><span>05 / Operations software</span><strong>Food optimization</strong><p>FastAPI workflows for menus, BOM rollups, inventory, procurement context, and Random Forest pax estimation.</p><b>&#8594;</b></a>
+        <a href="yield.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3C/svg%3E" data-src="assets/yield-farm-setup-live.png" loading="lazy" alt="Agricultural farm boundary interface" width="1440" height="1024" decoding="async" /><span>06 / Geospatial product</span><strong>KrushiMitra</strong><p>React and FastAPI scenario workflow with geospatial farm boundaries and a versioned model-adapter contract.</p><b>&#8594;</b></a>
       </div>
       <footer class="archive-footer">
         <div><span>Core stack</span><strong>Python / FastAPI / PyTorch / Agentic AI &amp; RAG / DePIN / zk-SNARKs / Docker / SQL</strong></div>
@@ -231,8 +228,8 @@
         <a href="compressor-cbm.html">Read complete field report &#8594;</a>
       </div>
       <div class="evidence-media-stack">
-        <figure><img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling history and evidence thresholds" /><figcaption>Continuous fouling evidence with maintenance and recovery context.</figcaption></figure>
-        <figure><img src="assets/compressor-surge-review-index.png" alt="Plant-specific instability review index" /><figcaption>Daily review ranking. It does not claim confirmed aerodynamic surge.</figcaption></figure>
+        <figure><img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling history and evidence thresholds" width="2380" height="935" loading="lazy" decoding="async" /><figcaption>Continuous fouling evidence with maintenance and recovery context.</figcaption></figure>
+        <figure><img src="assets/compressor-surge-review-index.png" alt="Plant-specific instability review index" width="1010" height="343" loading="lazy" decoding="async" /><figcaption>Daily review ranking. It does not claim confirmed aerodynamic surge.</figcaption></figure>
       </div>
     </div>
   </template>
@@ -247,8 +244,8 @@
         <a href="topoflow.html">Read complete case study &#8594;</a>
       </div>
       <div class="evidence-media-stack">
-        <figure class="figure-large"><img src="assets/topoflow-pore-network-hero.webp" alt="Graph representation of a sandstone pore network" /><figcaption>Micro-CT pore topology represented as a learnable graph.</figcaption></figure>
-        <div class="evidence-pair"><figure><img src="assets/topoflow-regime-classification.png" alt="TopoFlow regime classification plot" /><figcaption>Regime selection.</figcaption></figure><figure><img src="assets/topoflow-savonnieres-benchmark.png" alt="TopoFlow Savonnieres benchmark" /><figcaption>Physics benchmark.</figcaption></figure></div>
+        <figure class="figure-large"><img src="assets/topoflow-pore-network-hero.webp" alt="Graph representation of a sandstone pore network" width="1448" height="1086" loading="lazy" decoding="async" /><figcaption>Micro-CT pore topology represented as a learnable graph.</figcaption></figure>
+        <div class="evidence-pair"><figure><img src="assets/topoflow-regime-classification.png" alt="TopoFlow regime classification plot" width="4168" height="1770" loading="lazy" decoding="async" /><figcaption>Regime selection.</figcaption></figure><figure><img src="assets/topoflow-savonnieres-benchmark.png" alt="TopoFlow Savonnieres benchmark" width="3000" height="1800" loading="lazy" decoding="async" /><figcaption>Physics benchmark.</figcaption></figure></div>
       </div>
     </div>
   </template>
@@ -340,6 +337,6 @@
   </template>
 
   <noscript><div class="noscript-message">This portfolio uses an interactive WebGL scene. JavaScript is required; the project reports remain available through the direct links above.</div></noscript>
-  <script type="module" src="js/observatory.js?v=3.3"></script>
+  <script type="module" src="js/observatory.js?v=4.0"></script>
 </body>
 </html>

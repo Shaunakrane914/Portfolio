@@ -1,0 +1,1033 @@
+{
+  "label": "release-final",
+  "date": "2026-10-14",
+  "backend": "Default ANGLE (inspect gpu field)",
+  "browser": "155.0.8059.41",
+  "pages": [
+    {
+      "page": "home",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 488,
+      "frames": 192,
+      "fps": 68.72852233676977,
+      "p95": 34.69999999999993,
+      "p99": 175.79999999999998,
+      "max": 187.60000000000002,
+      "longTasks": [
+        {
+          "start": 115.60000000149012,
+          "duration": 138
+        },
+        {
+          "start": 485.6000000014901,
+          "duration": 51
+        }
+      ],
+      "telemetry": {
+        "fps": 71,
+        "avgFrameMs": 14.119999999999997,
+        "p95FrameMs": 20.800000000000182,
+        "p99FrameMs": 20.90000000000009,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 71,
+        "textures": 9,
+        "activeScene": "ORIGIN"
+      },
+      "heapMB": 8.59406852722168,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 488,
+        "frames": 106,
+        "fps": 70.35242583128692,
+        "p95": 14.100000000000364,
+        "p99": 20.899999999999636,
+        "max": 27.699999999999818,
+        "longTasks": [],
+        "telemetry": {
+          "fps": 71,
+          "avgFrameMs": 14.119999999999997,
+          "p95FrameMs": 14.100000000000364,
+          "p99FrameMs": 20.899999999999636,
+          "qualityTier": "high",
+          "dpr": 1,
+          "calls": 38,
+          "triangles": 23396,
+          "geometries": 71,
+          "textures": 9,
+          "activeScene": "ORIGIN"
+        },
+        "heapMB": 7.185003280639648,
+        "overflow": false
+      }
+    },
+    {
+      "page": "aegis",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 364,
+      "frames": 248,
+      "fps": 115.5799972037098,
+      "p95": 7.5,
+      "p99": 69.40000000000009,
+      "max": 236.2,
+      "longTasks": [
+        {
+          "start": 365.6000000014901,
+          "duration": 86
+        },
+        {
+          "start": 1087.6000000014901,
+          "duration": 69
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 155,
+        "dpr": 1,
+        "calls": 112,
+        "geometries": 103,
+        "textures": 1,
+        "p95": 7.100000000000136,
+        "p99": 16.67
+      },
+      "heapMB": 10.353385925292969,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 364,
+        "frames": 217,
+        "fps": 144.023362314993,
+        "p95": 7.100000000000364,
+        "p99": 7.199999999999818,
+        "max": 7.199999999999818,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 373,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 7.100000000000364,
+          "p99": 7.199999999999818
+        },
+        "heapMB": 13.504352569580078,
+        "overflow": false
+      }
+    },
+    {
+      "page": "gridium",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 112,
+      "frames": 283,
+      "fps": 125.0276121051469,
+      "p95": 7.399999999999977,
+      "p99": 27.600000000000023,
+      "max": 138.99999999999997,
+      "longTasks": [
+        {
+          "start": 130.10000000149012,
+          "duration": 141
+        },
+        {
+          "start": 769.6000000014901,
+          "duration": 87
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 210,
+        "dpr": 1,
+        "calls": 197,
+        "geometries": 156,
+        "textures": 1,
+        "p95": 7.2000000000000455,
+        "p99": 16.67
+      },
+      "heapMB": 21.9645357131958,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 112,
+        "frames": 216,
+        "fps": 144.00960064004266,
+        "p95": 7.199999999999818,
+        "p99": 7.200000000000273,
+        "max": 7.200000000000273,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 428,
+          "dpr": 1,
+          "calls": 197,
+          "geometries": 156,
+          "textures": 1,
+          "p95": 7.199999999999818,
+          "p99": 7.200000000000273
+        },
+        "heapMB": 25.12609577178955,
+        "overflow": false
+      }
+    },
+    {
+      "page": "compressor-cbm",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 116,
+      "frames": 237,
+      "fps": 109.74254491572516,
+      "p95": 14.099999999999909,
+      "p99": 48.5,
+      "max": 69.5,
+      "longTasks": [
+        {
+          "start": 169.30000000074506,
+          "duration": 67
+        },
+        {
+          "start": 933.3000000007451,
+          "duration": 73
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 133,
+        "dpr": 1,
+        "calls": 124,
+        "geometries": 123,
+        "textures": 1,
+        "p95": 14.099999999999909,
+        "p99": 48.5
+      },
+      "heapMB": 21.348037719726562,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 116,
+        "frames": 163,
+        "fps": 107.6831604677281,
+        "p95": 14,
+        "p99": 14.099999999999909,
+        "max": 14.099999999999909,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 298,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 14,
+          "p99": 14.099999999999909
+        },
+        "heapMB": 21.79135513305664,
+        "overflow": false
+      }
+    },
+    {
+      "page": "topoflow",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 116,
+      "frames": 287,
+      "fps": 130.3834272215156,
+      "p95": 7.699999999999932,
+      "p99": 34.60000000000002,
+      "max": 76.4,
+      "longTasks": [
+        {
+          "start": 133.19999999925494,
+          "duration": 80
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 177,
+        "dpr": 1,
+        "calls": 31,
+        "geometries": 30,
+        "textures": 1,
+        "p95": 7.100000000000136,
+        "p99": 28
+      },
+      "heapMB": 15.672371864318848,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 116,
+        "frames": 217,
+        "fps": 144.023362314993,
+        "p95": 7.099999999999909,
+        "p99": 7.100000000000364,
+        "max": 7.200000000000273,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 395,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 7.099999999999909,
+          "p99": 7.100000000000364
+        },
+        "heapMB": 10.875943183898926,
+        "overflow": false
+      }
+    },
+    {
+      "page": "food",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 96,
+      "frames": 285,
+      "fps": 128.6681715575621,
+      "p95": 7.2000000000000455,
+      "p99": 34.69999999999999,
+      "max": 83.4,
+      "longTasks": [
+        {
+          "start": 117.19999999925494,
+          "duration": 88
+        },
+        {
+          "start": 421.19999999925494,
+          "duration": 83
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 252,
+        "dpr": 1,
+        "calls": 82,
+        "geometries": 81,
+        "textures": 4,
+        "p95": 7.100000000000136,
+        "p99": 7.2000000000000455
+      },
+      "heapMB": 17.41646385192871,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 96,
+        "frames": 217,
+        "fps": 144.01380408813378,
+        "p95": 7.100000000000364,
+        "p99": 7.200000000000273,
+        "max": 7.300000000000182,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 471,
+          "dpr": 1,
+          "calls": 82,
+          "geometries": 81,
+          "textures": 4,
+          "p95": 7.100000000000364,
+          "p99": 7.200000000000273
+        },
+        "heapMB": 15.692338943481445,
+        "overflow": false
+      }
+    },
+    {
+      "page": "yield",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 112,
+      "frames": 170,
+      "fps": 77.72139167009551,
+      "p95": 21,
+      "p99": 34.80000000000018,
+      "max": 62.5,
+      "longTasks": [
+        {
+          "start": 137.5,
+          "duration": 68
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 128,
+        "dpr": 1,
+        "calls": 28,
+        "geometries": 26,
+        "textures": 1,
+        "p95": 20.800000000000182,
+        "p99": 34.799999999999955
+      },
+      "heapMB": 11.12393856048584,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 112,
+        "frames": 108,
+        "fps": 72.00480032002133,
+        "p95": 14.099999999999909,
+        "p99": 20.90000000000009,
+        "max": 21,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 238,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 20.799999999999955,
+          "p99": 34.799999999999955
+        },
+        "heapMB": 13.60297679901123,
+        "overflow": false
+      }
+    },
+    {
+      "page": "sodexo",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 136,
+      "frames": 277,
+      "fps": 129.52398765547557,
+      "p95": 7.2000000000000455,
+      "p99": 27.900000000000006,
+      "max": 76.30000000000001,
+      "longTasks": [
+        {
+          "start": 377.6000000014901,
+          "duration": 83
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 253,
+        "dpr": 1,
+        "calls": 82,
+        "geometries": 81,
+        "textures": 4,
+        "p95": 7.100000000000136,
+        "p99": 7.2000000000000455
+      },
+      "heapMB": 16.74284267425537,
+      "overflow": false,
+      "idle": {
+        "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "fcp": 136,
+        "frames": 216,
+        "fps": 144,
+        "p95": 7.099999999999909,
+        "p99": 7.199999999999818,
+        "max": 7.200000000000273,
+        "longTasks": [],
+        "hero": {
+          "ready": true,
+          "running": true,
+          "rendered": 470,
+          "dpr": 1,
+          "calls": 82,
+          "geometries": 81,
+          "textures": 4,
+          "p95": 7.099999999999909,
+          "p99": 7.199999999999818
+        },
+        "heapMB": 27.65854549407959,
+        "overflow": false
+      }
+    },
+    {
+      "page": "mobile-home",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 260,
+      "frames": 139,
+      "fps": 76.99124847679187,
+      "p95": 41.5,
+      "p99": 104.10000000000002,
+      "max": 139,
+      "longTasks": [
+        {
+          "start": 40.69999999925494,
+          "duration": 142
+        },
+        {
+          "start": 260.29999999701977,
+          "duration": 107
+        },
+        {
+          "start": 588.1999999992549,
+          "duration": 58
+        }
+      ],
+      "telemetry": {
+        "fps": 100,
+        "avgFrameMs": 9.953333333333335,
+        "p95FrameMs": 14,
+        "p99FrameMs": 14.100000000000136,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 71,
+        "textures": 9,
+        "activeScene": "ORIGIN"
+      },
+      "heapMB": 8.9179105758667,
+      "overflow": false
+    },
+    {
+      "page": "mobile-aegis",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 176,
+      "frames": 178,
+      "fps": 113.433596737191,
+      "p95": 13.799999999999955,
+      "p99": 97.39999999999998,
+      "max": 117.90000000000003,
+      "longTasks": [
+        {
+          "start": 70.40000000223517,
+          "duration": 52
+        },
+        {
+          "start": 220,
+          "duration": 110
+        },
+        {
+          "start": 677,
+          "duration": 96
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 124,
+        "dpr": 1,
+        "calls": 112,
+        "geometries": 103,
+        "textures": 1,
+        "p95": 7.100000000000136,
+        "p99": 16.67
+      },
+      "heapMB": 14.535242080688477,
+      "overflow": false
+    },
+    {
+      "page": "mobile-gridium",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 164,
+      "fps": 107.84507134872102,
+      "p95": 14.100000000000023,
+      "p99": 104.20000000000002,
+      "max": 131.70000000000005,
+      "longTasks": [
+        {
+          "start": 165.79999999701977,
+          "duration": 104
+        },
+        {
+          "start": 686.5,
+          "duration": 126
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 105,
+        "dpr": 1,
+        "calls": 201,
+        "geometries": 159,
+        "textures": 1,
+        "p95": 14.100000000000023,
+        "p99": 27.899999999999864
+      },
+      "heapMB": 20.33296775817871,
+      "overflow": false
+    },
+    {
+      "page": "mobile-compressor-cbm",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 104,
+      "frames": 183,
+      "fps": 111.66025993044116,
+      "p95": 14,
+      "p99": 83.29999999999995,
+      "max": 97.29999999999998,
+      "longTasks": [
+        {
+          "start": 149.30000000074506,
+          "duration": 102
+        },
+        {
+          "start": 629,
+          "duration": 90
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 125,
+        "dpr": 1,
+        "calls": 124,
+        "geometries": 123,
+        "textures": 1,
+        "p95": 14,
+        "p99": 34.700000000000045
+      },
+      "heapMB": 16.88280487060547,
+      "overflow": false
+    },
+    {
+      "page": "mobile-topoflow",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 100,
+      "frames": 204,
+      "fps": 126.09716899493142,
+      "p95": 7.199999999999989,
+      "p99": 34.5,
+      "max": 83.5,
+      "longTasks": [
+        {
+          "start": 154.60000000149012,
+          "duration": 85
+        },
+        {
+          "start": 448.5,
+          "duration": 53
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 169,
+        "dpr": 1,
+        "calls": 31,
+        "geometries": 30,
+        "textures": 1,
+        "p95": 7.100000000000136,
+        "p99": 16.67
+      },
+      "heapMB": 27.066472053527832,
+      "overflow": false
+    },
+    {
+      "page": "mobile-food",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 116,
+      "frames": 189,
+      "fps": 113.41814690350459,
+      "p95": 13.800000000000068,
+      "p99": 118,
+      "max": 145.79999999999995,
+      "longTasks": [
+        {
+          "start": 168.29999999701977,
+          "duration": 122
+        },
+        {
+          "start": 564.5,
+          "duration": 150
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 145,
+        "dpr": 1,
+        "calls": 82,
+        "geometries": 81,
+        "textures": 4,
+        "p95": 7.199999999999932,
+        "p99": 16.67
+      },
+      "heapMB": 25.786115646362305,
+      "overflow": false
+    },
+    {
+      "page": "mobile-yield",
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 120,
+      "frames": 161,
+      "fps": 99.51171271401199,
+      "p95": 14.100000000000023,
+      "p99": 55.599999999999966,
+      "max": 69.39999999999998,
+      "longTasks": [
+        {
+          "start": 166,
+          "duration": 70
+        },
+        {
+          "start": 420.3999999985099,
+          "duration": 57
+        }
+      ],
+      "hero": {
+        "ready": true,
+        "running": true,
+        "rendered": 130,
+        "dpr": 1,
+        "calls": 28,
+        "geometries": 26,
+        "textures": 1,
+        "p95": 14.100000000000023,
+        "p99": 34.90000000000009
+      },
+      "heapMB": 33.829938888549805,
+      "overflow": false
+    }
+  ],
+  "transitions": [
+    {
+      "traversal": "cold",
+      "scene": "origin",
+      "handlerMs": 0.6000000014901161,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 83,
+      "fps": 68.30713521520863,
+      "p95": 20.899999999999864,
+      "p99": 21.199999999999818,
+      "max": 21.199999999999818,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 69,
+        "avgFrameMs": 14.58,
+        "p95FrameMs": 21,
+        "p99FrameMs": 21.199999999999818,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 71,
+        "textures": 9,
+        "activeScene": "ORIGIN"
+      },
+      "heapMB": 10.491549491882324,
+      "overflow": false
+    },
+    {
+      "traversal": "cold",
+      "scene": "aegis",
+      "handlerMs": 0.8000000007450581,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 163,
+      "fps": 131.86635385486608,
+      "p95": 7.200000000000273,
+      "p99": 20.899999999999636,
+      "max": 41.59999999999991,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 144,
+        "avgFrameMs": 6.945000000000005,
+        "p95FrameMs": 7.099999999999909,
+        "p99FrameMs": 7.100000000000364,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 54,
+        "triangles": 2272,
+        "geometries": 101,
+        "textures": 10,
+        "activeScene": "AEGIS"
+      },
+      "heapMB": 11.381814002990723,
+      "overflow": false
+    },
+    {
+      "traversal": "cold",
+      "scene": "gridium",
+      "handlerMs": 0.8000000007450581,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 134,
+      "fps": 109.64732836920052,
+      "p95": 14,
+      "p99": 41.69999999999982,
+      "max": 48.600000000000364,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 102,
+        "avgFrameMs": 9.835000000000006,
+        "p95FrameMs": 14.100000000000364,
+        "p99FrameMs": 48.600000000000364,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 102,
+        "triangles": 16820,
+        "geometries": 151,
+        "textures": 10,
+        "activeScene": "GRIDIUM"
+      },
+      "heapMB": 15.751360893249512,
+      "overflow": false
+    },
+    {
+      "traversal": "cold",
+      "scene": "compressor",
+      "handlerMs": 0.8000000007450581,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 78,
+      "fps": 63.471397184473894,
+      "p95": 28,
+      "p99": 69.39999999999964,
+      "max": 69.39999999999964,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 56,
+        "avgFrameMs": 17.705000000000002,
+        "p95FrameMs": 34.599999999999454,
+        "p99FrameMs": 69.39999999999964,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 93,
+        "triangles": 84516,
+        "geometries": 160,
+        "textures": 11,
+        "activeScene": "COMPRESSOR"
+      },
+      "heapMB": 15.131200790405273,
+      "overflow": false
+    },
+    {
+      "traversal": "cold",
+      "scene": "topoflow",
+      "handlerMs": 0.6000000014901161,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 81,
+      "fps": 66.27393225331366,
+      "p95": 20.900000000000546,
+      "p99": 20.900000000001455,
+      "max": 20.900000000001455,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 64,
+        "avgFrameMs": 15.625000000000016,
+        "p95FrameMs": 20.899999999999636,
+        "p99FrameMs": 20.900000000001455,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 44,
+        "triangles": 26364,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "TOPOFLOW"
+      },
+      "heapMB": 14.792024612426758,
+      "overflow": false
+    },
+    {
+      "traversal": "cold",
+      "scene": "profile",
+      "handlerMs": 0.6999999992549419,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 144,
+      "fps": 119.17570139865917,
+      "p95": 14,
+      "p99": 20.899999999999636,
+      "max": 21,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 118,
+        "avgFrameMs": 8.446666666666685,
+        "p95FrameMs": 14,
+        "p99FrameMs": 14.200000000000728,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 21,
+        "triangles": 9518,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "PROFILE"
+      },
+      "heapMB": 13.233301162719727,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "origin",
+      "handlerMs": 0.6999999992549419,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 100,
+      "fps": 81.81297553792037,
+      "p95": 20.700000000000728,
+      "p99": 21.299999999999272,
+      "max": 21.299999999999272,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 70,
+        "avgFrameMs": 14.235000000000007,
+        "p95FrameMs": 20.700000000000728,
+        "p99FrameMs": 21.299999999999272,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "ORIGIN"
+      },
+      "heapMB": 17.25126838684082,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "aegis",
+      "handlerMs": 1.3999999985098839,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 167,
+      "fps": 135.88283157038242,
+      "p95": 7.200000000000728,
+      "p99": 20.799999999999272,
+      "max": 21,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 144,
+        "avgFrameMs": 6.943333333333309,
+        "p95FrameMs": 7.100000000000364,
+        "p99FrameMs": 7.199999999998909,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 54,
+        "triangles": 2272,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "AEGIS"
+      },
+      "heapMB": 12.015233993530273,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "gridium",
+      "handlerMs": 1.5,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 139,
+      "fps": 114.39387704715658,
+      "p95": 14,
+      "p99": 14.100000000000364,
+      "max": 21.100000000000364,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 105,
+        "avgFrameMs": 9.491666666666667,
+        "p95FrameMs": 14,
+        "p99FrameMs": 14.100000000000364,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 103,
+        "triangles": 17000,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "GRIDIUM"
+      },
+      "heapMB": 13.608854293823242,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "compressor",
+      "handlerMs": 1.3999999985098839,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 83,
+      "fps": 67.92699893608317,
+      "p95": 27.69999999999891,
+      "p99": 27.80000000000109,
+      "max": 27.80000000000109,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 58,
+        "avgFrameMs": 17.358333333333334,
+        "p95FrameMs": 27.799999999999272,
+        "p99FrameMs": 27.80000000000109,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 93,
+        "triangles": 84516,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "COMPRESSOR"
+      },
+      "heapMB": 17.239473342895508,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "topoflow",
+      "handlerMs": 1.0999999977648258,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 83,
+      "fps": 67.91588249734073,
+      "p95": 20.900000000001455,
+      "p99": 41.69999999999891,
+      "max": 41.69999999999891,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 65,
+        "avgFrameMs": 15.391666666666636,
+        "p95FrameMs": 20.899999999999636,
+        "p99FrameMs": 21,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 44,
+        "triangles": 26364,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "TOPOFLOW"
+      },
+      "heapMB": 14.239496231079102,
+      "overflow": false
+    },
+    {
+      "traversal": "warm",
+      "scene": "profile",
+      "handlerMs": 1,
+      "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fcp": 124,
+      "frames": 148,
+      "fps": 119.76047904191626,
+      "p95": 14,
+      "p99": 27.700000000000728,
+      "max": 27.80000000000291,
+      "longTasks": [],
+      "telemetry": {
+        "fps": 117,
+        "avgFrameMs": 8.564999999999964,
+        "p95FrameMs": 14,
+        "p99FrameMs": 14.099999999998545,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 21,
+        "triangles": 9518,
+        "geometries": 173,
+        "textures": 11,
+        "activeScene": "PROFILE"
+      },
+      "heapMB": 17.55443000793457,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "scroll": {
+    "initial": 0,
+    "final": 1,
+    "expected": 1
+  }
+}

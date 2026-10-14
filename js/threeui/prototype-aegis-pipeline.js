@@ -4,6 +4,7 @@
 // -> Specialist Agents (Scout Market Volatility + Trending RSS) -> Reviewable Verdict Dossier.
 
 import * as THREE from "three";
+import { disposeScene } from "../graphics-runtime.js";
 
 export function createAegisPipelinePrototype(scene) {
   const root = new THREE.Group();
@@ -369,16 +370,16 @@ export function createAegisPipelinePrototype(scene) {
   let lastHudUpdate = 0;
 
   return {
-    update(time, pointerNorm) {
+    update(time, pointerNorm, dt = 1 / 60) {
       // 1. Rotate Hasher and Hash rings
-      hasherMesh.rotation.y += 0.012;
-      hashRing1.rotation.y += 0.02;
-      hashRing2.rotation.z += 0.018;
+      hasherMesh.rotation.y += 0.72 * dt;
+      hashRing1.rotation.y += 1.2 * dt;
+      hashRing2.rotation.z += 1.08 * dt;
 
       // 2. Animate claim stream particles into Hasher
       const pos = streamGeo.attributes.position.array;
       for (let i = 0; i < streamCount; i++) {
-        pos[i * 3 + 1] -= 0.06;
+        pos[i * 3 + 1] -= 3.6 * dt;
         if (pos[i * 3 + 1] < 0) {
           pos[i * 3 + 1] = 4.5;
         }
@@ -386,15 +387,15 @@ export function createAegisPipelinePrototype(scene) {
       streamGeo.attributes.position.needsUpdate = true;
 
       // 3. Animate Specialist Terminals (Scout & Trending)
-      scoutCore.rotation.y += 0.02;
-      scoutRing.rotation.z += 0.025;
-      trendCore.rotation.y += 0.015;
-      trendRing.rotation.x += 0.02;
+      scoutCore.rotation.y += 1.2 * dt;
+      scoutRing.rotation.z += 1.5 * dt;
+      trendCore.rotation.y += 0.9 * dt;
+      trendRing.rotation.x += 1.2 * dt;
 
       // 4. Advance packets along evidence cords
       evidenceCords.forEach(cord => {
         const t = (time * 0.85 + cord.offset) % 1.0;
-        cord.packet.position.copy(cord.curve.getPoint(t));
+        cord.curve.getPoint(t, cord.packet.position);
       });
 
       // 5. Interactive root tilt
@@ -411,28 +412,8 @@ export function createAegisPipelinePrototype(scene) {
       }
     },
     destroy() {
-      trackGeo.dispose();
-      trackMat.dispose();
-      hasherGeo.dispose();
-      hasherMat.dispose();
-      hashRingGeo.dispose();
-      hashRingMat.dispose();
-      streamGeo.dispose();
-      streamMat.dispose();
-      scoutCoreGeo.dispose();
-      scoutCoreMat.dispose();
-      scoutRingGeo.dispose();
-      scoutRingMat.dispose();
-      trendCoreGeo.dispose();
-      trendCoreMat.dispose();
-      trendRingGeo.dispose();
-      trendRingMat.dispose();
-      rackFrameGeo.dispose();
-      rackFrameMat.dispose();
-      hudGeo.dispose();
-      hudMat.dispose();
-      hudTexture.dispose();
       scene.remove(root);
+      disposeScene(root);
     }
   };
 }
