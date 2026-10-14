@@ -1,5 +1,7 @@
 # Project navigation and layout verification
 
+This is the archived v4.1 verification. The current v4.2 implementation uses [native document scrolling and an optional 3D explorer](NATIVE-SCROLL-VERIFICATION.md).
+
 The v4.1 follow-up fixes the Aegis scrolling trap reported after the initial rendering overhaul. An oversized panel backdrop created horizontal and vertical scrollable overflow even when the text fitted. Input handling then gave that panel ownership of every vertical gesture, including fresh gestures pointing out of its boundaries.
 
 Panels now scroll only when their content needs it. A fresh wheel gesture or touch swipe at a content edge navigates to the adjacent scene. A gesture that starts as native reading keeps ownership through its momentum, and a navigation gesture cannot scroll the newly selected panel mid-burst. Buttons and keyboard navigation remain independent. Keyboard navigation moves focus to the selected heading so the case-study action is next in the tab order.

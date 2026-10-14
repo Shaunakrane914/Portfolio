@@ -1,13 +1,23 @@
 # Changelog
 
 
+## v4.2.0 - 2026-10-14
+
+- Replace wheel/touch scene hijacking with native document browsing after repeated wheel ticks, gentle follow-up input and quick reversals could be ignored. Six viewport-sized sections grow with their content; large gestures may cross several sections.
+- Remove nested panel scrolling and scroll snap. Keep vertical arrows and page keys native; retain explicit section controls, left/right/Home/End shortcuts, keyboard focus, direct links and browser history.
+- Select the fixed 3D backdrop from a passive reading-line observer. Passive changes replace the current history entry; explicit navigation scrolls immediately and adds an entry.
+- Replace long camera travel and scan/streak effects with a 280ms ease-out cubic dolly near the destination. Reframe mobile models above the narrative.
+- Add explicit Explore 3D camera orbit, labeled subsystem views with explanations, Reset and Escape. Wheel and touch remain native during exploration; Pause stops continuous rendering while interactions still update the view. Reuse existing geometry and materials.
+- Verify 54 browser interaction groups, 30 chapter layouts and five expanded-explorer layouts in the [native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md), including a separate focused hardware scrolling sample. Earlier performance tables remain historical.
+
+
 ## v4.1.0 - 2026-10-14
 
 - Fix false panel overflow from oversized backdrops and allow fresh wheel/touch gestures at content edges to navigate.
 - Keep momentum owned by its original gesture even when events target the next scene's content.
 - Remove panel outlines, scrollbar tracks and dense metric dividers; put case-study links first and add named next-project controls.
 - Keep keyboard focus in the selected project and compact header/rail controls on narrow screens.
-- Audit panel overflow across six scenes at five viewports, including short landscape, and add direct-over-text navigation regressions.
+- Audit panel overflow across six scenes at five viewports, including short landscape, and add direct-over-text navigation regressions. The archived [verification](docs/UX-VERIFICATION.md) records 44 interaction groups and 30 scene/viewport captures for this earlier navigation contract.
 
 
 ## v4.0.0 - 2026-10-14

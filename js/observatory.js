@@ -1,5 +1,4 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
-import { WheelGesture, normalizeWheel, scrollableAncestor, canScroll } from "./wheel-gesture.js";
 import { disposeScene, compileInBatches } from "./graphics-runtime.js";
 
 const canvas = document.getElementById("observatory-canvas");
@@ -28,6 +27,48 @@ let pointerX = 0;
 let pointerY = 0;
 let dragStart = null;
 let webglReady = false;
+let motionPaused = false;
+let modelExploring = false;
+const exploration = { yaw: 0, pitch: 0 };
+const orbitRotation = new THREE.Euler(0, 0, 0, "YXZ");
+const cameraStart = new THREE.Vector3();
+const lookStart = new THREE.Vector3();
+let cameraTransitionAt = 0;
+let animationTime = 0;
+let renderedFrames = 0;
+
+const modelPoints = [
+  [
+    ["Data", "Every system begins with a physical or operational signal."],
+    ["Validation", "Models earn trust through evaluation and visible baselines."],
+    ["Delivery", "APIs, interfaces and evidence turn a model into a usable system."]
+  ],
+  [
+    ["Ingest", "Claims and supporting evidence enter the investigation pipeline."],
+    ["Investigate", "Independent stages check anomalies before a verdict is assembled."],
+    ["Verdict", "An auditable trail connects the final decision to its evidence."]
+  ],
+  [
+    ["Producers", "Distributed energy sources connect to a shared exchange."],
+    ["Energy pool", "The network coordinates supply and demand across participants."],
+    ["Settlement", "Signed records make the exchange traceable."]
+  ],
+  [
+    ["Intake", "Operating signals enter the compressor monitoring pipeline."],
+    ["Compression", "The rotor makes the physical system behind the data visible."],
+    ["Diagnostics", "Stage diagnostics turn anomalies into maintenance evidence."]
+  ],
+  [
+    ["Pores", "Pore geometry captures the heterogeneity of the material."],
+    ["Connections", "Graph edges describe how the pore network is connected."],
+    ["Flow", "Permeability predictions are compared with the physics baseline."]
+  ],
+  [
+    ["Build", "Move from an investigation to a working backend and interface."],
+    ["Evaluate", "Test the model, document its limits and preserve the evidence."],
+    ["Ship", "Make technical work understandable and useful to a team."]
+  ]
+];
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -39,12 +80,12 @@ const cameraStates = [
 ];
 
 const mobileCameraStates = [
-  { position: [4.8, 1.4, 15.5], look: [4.8, -1.8, 0] },
-  { position: [-3.8, 1.6, 16.5], look: [-3.8, -2.5, -0.22] },
-  { position: [-2.05, 7.2, 4.2], look: [-2.05, 1.7, -10.18] },
-  { position: [15.42, 1.8, 18.2], look: [15.42, -2.4, -0.24] },
-  { position: [9.6, 1.8, -0.2], look: [9.6, -2.4, -16.44] },
-  { position: [6.2, 9.2, 15.6], look: [6.2, 5.0, -0.15] }
+  { position: [4.8, 1.4, 20], look: [4.8, -6, 0] },
+  { position: [-3.8, 1.6, 16.5], look: [-3.8, -5.6, -0.22] },
+  { position: [-2.05, 7.2, 4.2], look: [-2.05, -1.4, -10.18] },
+  { position: [15.42, 1.8, 18.2], look: [15.42, -5.5, -0.24] },
+  { position: [9.6, 1.8, -0.2], look: [9.6, -5.5, -16.44] },
+  { position: [6.2, 9.2, 15.6], look: [6.2, 2.0, -0.15] }
 ];
 
 function getCameraTarget(sceneIndex) {
@@ -216,19 +257,6 @@ function getCachedCurvePoint(curve, progress) {
   return curveSample.copy(samples[idx]).lerp(samples[Math.min(idx + 1, samples.length - 1)], progress * (samples.length - 1) - idx);
 }
 const curveSample = new THREE.Vector3();
-
-const _springDisplacement = new THREE.Vector3();
-function springVector(current, target, velocity, dt, stiffness = 88, damping = 14.5) {
-  // Substeps keep the integration stable and consistent at 60/120/144Hz.
-  const steps = Math.max(1, Math.ceil(dt / (1 / 144)));
-  const step = dt / steps;
-  for (let i = 0; i < steps; i++) {
-    _springDisplacement.copy(target).sub(current);
-    velocity.addScaledVector(_springDisplacement, stiffness * step);
-    velocity.multiplyScalar(Math.exp(-damping * step));
-    current.addScaledVector(velocity, step);
-  }
-}
 
 function createTransitField() {
   const values = [];
@@ -1983,6 +2011,9 @@ window.__perfTelemetry = {
       triangles: renderer?.info?.render?.triangles || 0,
       geometries: renderer?.info?.memory?.geometries || 0,
       textures: renderer?.info?.memory?.textures || 0,
+      renderedFrames,
+      motionPaused,
+      animationRunning: webglReady && !reduceMotion && !motionPaused && !document.hidden,
       activeScene: sceneNames[currentScene]
     };
   }
@@ -2075,11 +2106,11 @@ function prepareWorldAsync(index) {
 }
 
 function revealWorld(index) {
-  if (index !== currentScene || !worlds[index]?.userData.ready) return;
+  if (!webglReady || index !== currentScene || !worlds[index]?.userData.ready) return;
   activeWorld = worlds[index];
   activeWorld.visible = true;
   document.body.dataset.graphicsReady = "true";
-  if (reduceMotion) render(performance.now());
+  if (reduceMotion || motionPaused) render(performance.now());
 }
 
 function startBackgroundPrewarm() {
@@ -2124,6 +2155,9 @@ function initializeThree() {
     camera.position.fromArray(initialTarget.position);
     currentLook.fromArray(initialTarget.look);
     camera.lookAt(currentLook);
+    cameraStart.copy(camera.position);
+    lookStart.copy(currentLook);
+    cameraTransitionAt = performance.now() - 280;
     transitField = createTransitField();
     camera.add(transitField);
     scene.add(camera);
@@ -2143,7 +2177,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.1.0",
+      version: "4.2.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2156,6 +2190,7 @@ function initializeThree() {
       currentLook,
       mobileCameraStates,
       cameraStates,
+      exploration,
       THREE
     };
     webglReady = true;
@@ -2167,7 +2202,7 @@ function initializeThree() {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         renderer.setAnimationLoop(null);
-      } else if (webglReady && !reduceMotion) {
+      } else if (webglReady && !reduceMotion && !motionPaused) {
         lastFrameTime = 0;
         renderer.setAnimationLoop(render);
       }
@@ -2182,7 +2217,7 @@ function initializeThree() {
       webglReady = false;
     });
     prepareWorldAsync(currentScene).then(() => startBackgroundPrewarm());
-    if (!reduceMotion) renderer.setAnimationLoop(render);
+    if (!reduceMotion && !motionPaused) renderer.setAnimationLoop(render);
   } catch (error) {
     document.body.classList.add("webgl-unavailable");
     console.warn("Interactive scene unavailable; content fallback remains active.", error);
@@ -2199,43 +2234,53 @@ function resizeRenderer() {
     camera.fov = window.innerWidth <= 820 ? 64 : 42;
     camera.updateProjectionMatrix();
   }
+  if (webglReady && (reduceMotion || motionPaused)) render(performance.now());
 }
 
 function render(timeMs) {
   if (!webglReady) return;
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
-  const time = timeMs * 0.001;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
+  if (!reduceMotion && !motionPaused) animationTime += dt;
+  const time = animationTime;
 
   const state = getCameraTarget(currentScene);
   targetCamera.fromArray(state.position);
   targetLook.fromArray(state.look);
 
-  if (!reduceMotion) {
-    targetCamera.x += pointerX * 0.42;
-    targetCamera.y += pointerY * 0.28;
+  if (activeWorld && modelExploring) {
+    orbitRotation.set(exploration.pitch, exploration.yaw, 0);
+    targetCamera.sub(activeWorld.position).applyEuler(orbitRotation).add(activeWorld.position);
+    targetLook.sub(activeWorld.position).applyEuler(orbitRotation).add(activeWorld.position);
+  } else if (!reduceMotion && !motionPaused) {
+    targetCamera.x += pointerX * 0.2;
+    targetCamera.y += pointerY * 0.14;
   }
 
-  if (reduceMotion) {
+  if (reduceMotion || motionPaused || modelExploring) {
     camera.position.copy(targetCamera);
     currentLook.copy(targetLook);
     cameraVelocity.set(0, 0, 0);
     lookVelocity.set(0, 0, 0);
   } else {
-    springVector(camera.position, targetCamera, cameraVelocity, dt, 88, 14.5);
-    springVector(currentLook, targetLook, lookVelocity, dt, 78, 13.5);
+    // Travel between spatially distant worlds has a bounded duration. An
+    // asymptotic spring previously kept chasing a destination for over a second.
+    const progress = THREE.MathUtils.clamp((timeMs - cameraTransitionAt) / 280, 0, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    camera.position.lerpVectors(cameraStart, targetCamera, eased);
+    currentLook.lerpVectors(lookStart, targetLook, eased);
   }
   camera.lookAt(currentLook);
 
   if (transitField) {
-    const motionEnergy = THREE.MathUtils.clamp(cameraVelocity.length() / 10, 0, 1);
-    transitField.material.opacity = reduceMotion ? 0 : motionEnergy * 0.38;
-    transitField.scale.z = 0.7 + motionEnergy * 3.8;
+    // Keep the model legible during travel rather than covering it with streaks.
+    transitField.material.opacity = 0;
   }
 
   const activeIdx = currentScene;
 
+  if (!motionPaused) {
   // 0: Origin
   if (activeIdx === 0 && worlds[0]) {
     worlds[0].rotation.y += reduceMotion ? 0 : 0.072 * dt;
@@ -2389,17 +2434,19 @@ function render(timeMs) {
       module.position.x = module.userData.baseX + (reduceMotion ? 0 : Math.sin(time * 0.42 + module.userData.phase) * 0.08);
     });
   }
+  }
 
-  if (activeWorld && !reduceMotion) {
+  if (activeWorld && !reduceMotion && !motionPaused) {
     activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * (1 - Math.exp(-8 * dt));
     const baseScale = activeWorld.userData.baseScale;
-    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 300, 0, 1);
+    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 240, 0, 1);
     const eased = 1 - Math.pow(1 - transitionProgress, 3);
     activeWorld.scale.copy(baseScale).multiplyScalar(0.93 + eased * 0.07);
   }
 
   renderer.render(scene, camera);
-  if (!document.hidden) {
+  renderedFrames++;
+  if (!document.hidden && !reduceMotion && !motionPaused) {
     recordFrameTime(rawFrameDeltaMs);
   }
   updatePerfHud();
@@ -2408,10 +2455,24 @@ function render(timeMs) {
 function setScene(index, options = {}) {
   if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
-  if (next === currentScene && !options.force) return;
-  const previousScene = currentScene;
-  const focusWasInPanel = panels[previousScene]?.contains(document.activeElement);
+  if (!options.observed) {
+    // Explicit navigation jumps immediately. Ordinary browsing stays native.
+    window.scrollTo({ top: panels[next].offsetTop, behavior: "instant" });
+  }
+  if (next === currentScene && !options.force) {
+    if (options.focus) focusSceneHeading(next);
+    return;
+  }
+  if (camera) {
+    const destination = getCameraTarget(next);
+    cameraStart.fromArray(destination.position);
+    cameraStart.x += 0.35;
+    cameraStart.z += 0.55;
+    lookStart.fromArray(destination.look);
+  }
+  cameraTransitionAt = performance.now();
   currentScene = next;
+  resetModelView();
   activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
   document.body.dataset.graphicsReady = String(Boolean(activeWorld));
   if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
@@ -2430,20 +2491,11 @@ function setScene(index, options = {}) {
     console.log(`[PERF SCENE] Switched to ${sceneNames[currentScene]} | Calls: ${info.render.calls} | Tris: ${(info.render.triangles / 1000).toFixed(1)}k | Geometries: ${info.memory.geometries} | Textures: ${info.memory.textures} | DPR: ${renderer.getPixelRatio().toFixed(2)}`);
   }
 
-  if (!options.force && !reduceMotion) {
-    const direction = Math.sign(currentScene - previousScene) || 1;
-    cameraVelocity.y += direction * 0.4;
-    cameraVelocity.x += direction * 0.2;
-    triggerScanEffect();
-  }
-
-
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
     panel.classList.toggle("is-active", active);
-    panel.setAttribute("aria-hidden", String(!active));
-    panel.inert = !active;
-    if (active && previousScene !== currentScene) panel.scrollTop = 0;
+    panel.removeAttribute("aria-hidden");
+    panel.inert = false;
   });
 
   railButtons.forEach((button) => {
@@ -2454,10 +2506,7 @@ function setScene(index, options = {}) {
   });
 
   if (sceneAnnouncer && !options.force) sceneAnnouncer.textContent = `${sceneNames[currentScene]} scene selected`;
-  if (!options.force && (options.focus || focusWasInPanel)) {
-    const heading = panels[currentScene]?.querySelector("h1, h2");
-    if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
-  }
+  if (options.focus) focusSceneHeading(currentScene);
 
   const flow = document.querySelector(".scene-flow");
   if (flow) {
@@ -2470,30 +2519,56 @@ function setScene(index, options = {}) {
   }
 
   if (!options.skipHistory) {
-    history.pushState(null, "", `#${sceneHashes[currentScene]}`);
+    history[options.observed ? "replaceState" : "pushState"](null, "", `#${sceneHashes[currentScene]}`);
   }
+  updateModelTools();
   startBackgroundPrewarm();
-  if (reduceMotion && webglReady) render(performance.now());
+  if ((reduceMotion || motionPaused) && webglReady) render(performance.now());
 }
 
-const transitionLine = document.querySelector(".scene-transition-line");
-let scanAnimation = null;
+function focusSceneHeading(index) {
+  const heading = panels[index]?.querySelector("h1, h2");
+  if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+}
 
-function triggerScanEffect() {
-  if (!transitionLine || reduceMotion) return;
-  if (scanAnimation) {
-    try { scanAnimation.cancel(); } catch {}
-  }
-  scanAnimation = transitionLine.animate([
-    { transform: "translateX(0) skewX(-8deg)", opacity: 0 },
-    { opacity: 1, offset: 0.12 },
-    { opacity: 0.62, offset: 0.86 },
-    { transform: "translateX(126vw) skewX(-8deg)", opacity: 0 }
-  ], {
-    duration: 320,
-    easing: "cubic-bezier(0.22, 0.8, 0.24, 1)",
-    fill: "none"
-  });
+let scrollFrame = 0;
+function syncSceneToScroll() {
+  scrollFrame = 0;
+  if (document.querySelector("dialog[open]")) return;
+  const readingLine = window.scrollY + window.innerHeight * 0.4;
+  let next = 0;
+  panels.forEach((panel, index) => { if (panel.offsetTop <= readingLine) next = index; });
+  if (next !== currentScene) setScene(next, { observed: true });
+}
+window.addEventListener("scroll", () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
+}, { passive: true });
+window.addEventListener("resize", () => {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
+}, { passive: true });
+history.scrollRestoration = "manual";
+
+function resetModelView() {
+  exploration.yaw = 0;
+  exploration.pitch = 0;
+  dragStart = null;
+  document.querySelectorAll("[data-model-point]").forEach(button => button.setAttribute("aria-pressed", "false"));
+}
+
+function updateModelTools() {
+  const points = modelPoints[currentScene];
+  document.querySelectorAll("[data-model-point]").forEach((button, index) => { button.textContent = points[index][0]; });
+  const description = document.querySelector("[data-model-description]");
+  if (description) description.textContent = coarsePointer
+    ? "Choose a part of the system to change the view. Swipe to keep browsing."
+    : "Choose a part of the system, or drag the model to rotate. Scroll to keep browsing.";
+}
+
+function syncMotion() {
+  if (!webglReady) return;
+  lastFrameTime = 0;
+  renderer.setAnimationLoop(!reduceMotion && !motionPaused && !document.hidden ? render : null);
+  render(performance.now());
 }
 
 function stepScene(direction, options = {}) {
@@ -2561,79 +2636,59 @@ document.addEventListener("click", (event) => {
   }
 });
 
-const wheelGesture = new WheelGesture();
-window.addEventListener("wheel", event => {
-  if (event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-  const delta = normalizeWheel(event, window.innerHeight);
-  const native = Boolean(document.querySelector("dialog[open]") || canScroll(scrollableAncestor(event.target), delta));
-  const direction = wheelGesture.feed(delta, event.timeStamp, native);
-  if (native && wheelGesture.owner !== "scene") return;
-  if (event.cancelable) event.preventDefault();
-  if (direction) stepScene(direction);
-}, { passive: false });
-
-let touchStartX = 0;
-let touchStartY = 0;
-let touchStartTime = 0;
-let touchScrollState = null;
-
-window.addEventListener("touchstart", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (event.touches.length === 1) {
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-    touchStartTime = performance.now();
-    const scroller = scrollableAncestor(event.target);
-    touchScrollState = scroller ? { top: scroller.scrollTop, remaining: scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop } : null;
-  } else {
-    touchStartTime = 0;
-    touchScrollState = null;
-  }
-}, { passive: true });
-
-window.addEventListener("touchend", (event) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (!touchStartTime || event.changedTouches.length === 0 || event.touches.length) return;
-
-  const dx = event.changedTouches[0].clientX - touchStartX;
-  const dy = event.changedTouches[0].clientY - touchStartY;
-  const dt = performance.now() - touchStartTime;
-  touchStartTime = 0;
-  // The gesture's starting position owns native scrolling. A later swipe that
-  // starts at an edge can navigate; reaching an edge mid-swipe never skips scenes.
-  const nativeVertical = touchScrollState && (dy < 0 ? touchScrollState.remaining > 2 : touchScrollState.top > 2);
-  touchScrollState = null;
-
-  // Guarded single scene step per swipe gesture
-  if (dt < 600) {
-    if (!nativeVertical && Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx) * 1.25) {
-      stepScene(dy < 0 ? 1 : -1);
-    } else if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-      stepScene(dx < 0 ? 1 : -1);
-    }
-  }
-  touchStartTime = 0;
-}, { passive: true });
-window.addEventListener("touchcancel", () => { touchStartTime = 0; touchScrollState = null; }, { passive: true });
-
+// Vertical scrolling belongs to the browser: no wheel cancellation, cooldown,
+// or touch swipe threshold. Direction changes and gentle trackpad input always
+// move the document. Horizontal arrow keys remain explicit project shortcuts.
 window.addEventListener("keydown", (event) => {
   if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
-  const scroller = scrollableAncestor(event.target);
-  const keyDirection = ["ArrowDown", "PageDown"].includes(event.key) ? 1 : ["ArrowUp", "PageUp"].includes(event.key) ? -1 : 0;
-  if (scroller && (["Home", "End"].includes(event.key) || canScroll(scroller, keyDirection))) return;
-  if (["ArrowDown", "ArrowRight", "PageDown"].includes(event.key)) {
-    event.preventDefault();
-    stepScene(1, { focus: true });
-  }
-  if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) {
-    event.preventDefault();
-    stepScene(-1, { focus: true });
-  }
+  if (event.key === "ArrowRight") { event.preventDefault(); stepScene(1, { focus: true }); }
+  if (event.key === "ArrowLeft") { event.preventDefault(); stepScene(-1, { focus: true }); }
   if (event.key === "Home") { event.preventDefault(); setScene(0, { focus: true }); }
   if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1, { focus: true }); }
+  if (event.key === "Escape" && modelExploring) {
+    const button = document.querySelector("[data-model-explore]");
+    button.click();
+    button.focus({ preventScroll: true });
+  }
+});
+
+document.addEventListener("click", event => {
+  const explore = event.target.closest("[data-model-explore]");
+  if (explore) {
+    modelExploring = !modelExploring;
+    document.body.dataset.modelExploring = String(modelExploring);
+    explore.setAttribute("aria-pressed", String(modelExploring));
+    explore.textContent = modelExploring ? "Close 3D explorer" : "Explore 3D";
+    resetModelView();
+    updateModelTools();
+    if (webglReady) render(performance.now());
+  }
+  const pause = event.target.closest("[data-motion-toggle]");
+  if (pause) {
+    motionPaused = !motionPaused;
+    document.body.dataset.motionPaused = String(motionPaused);
+    pause.setAttribute("aria-pressed", String(motionPaused));
+    pause.textContent = motionPaused ? "Resume motion" : "Pause motion";
+    syncMotion();
+  }
+  if (event.target.closest("[data-model-reset]")) {
+    resetModelView();
+    updateModelTools();
+    if (webglReady) render(performance.now());
+  }
+  const point = event.target.closest("[data-model-point]");
+  if (point) {
+    const index = Number(point.dataset.modelPoint);
+    exploration.yaw = [-0.35, 0, 0.35][index];
+    exploration.pitch = [0.08, -0.12, 0.08][index];
+    document.querySelectorAll("[data-model-point]").forEach(button => button.setAttribute("aria-pressed", String(button === point)));
+    document.querySelector("[data-model-description]").textContent = modelPoints[currentScene][index][1];
+    if (webglReady) render(performance.now());
+  }
 });
 
 canvas.addEventListener("pointerdown", (event) => {
+  if (!modelExploring || !activeWorld || event.pointerType === "touch" || event.button !== 0) return;
   dragStart = {
     startX: event.clientX,
     startY: event.clientY,
@@ -2650,11 +2705,12 @@ window.addEventListener("pointermove", (event) => {
 }, { passive: true });
 
 canvas.addEventListener("pointermove", (event) => {
-  if (!dragStart || !activeWorld || reduceMotion) return;
+  if (!dragStart || !activeWorld || !modelExploring) return;
   const dx = (event.clientX - dragStart.lastX) * 0.0025;
   const dy = (event.clientY - dragStart.lastY) * 0.0018;
-  activeWorld.rotation.y += dx;
-  activeWorld.rotation.x += dy;
+  exploration.yaw = THREE.MathUtils.clamp(exploration.yaw + dx * 2, -0.8, 0.8);
+  exploration.pitch = THREE.MathUtils.clamp(exploration.pitch + dy * 2, -0.4, 0.4);
+  if (reduceMotion || motionPaused) render(performance.now());
   dragStart.lastX = event.clientX;
   dragStart.lastY = event.clientY;
 });
@@ -2674,7 +2730,8 @@ canvas.addEventListener("pointercancel", () => {
 
 
 window.addEventListener("hashchange", () => {
-  const index = sceneHashes.indexOf(window.location.hash.slice(1));
+  const hash = window.location.hash.slice(1);
+  const index = hash ? sceneHashes.indexOf(hash) : 0;
   if (index >= 0) setScene(index, { skipHistory: true });
 });
 
