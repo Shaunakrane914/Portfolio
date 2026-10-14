@@ -202,6 +202,17 @@ function createTechRing(radius, color, opacity = 0.45, segments = 128) {
   return new THREE.LineLoop(geometry, lineMaterial(color, opacity));
 }
 
+function getCachedCurvePoint(curve, progress) {
+  if (!curve) return null;
+  if (!curve.userData) curve.userData = {};
+  if (!curve.userData.samples) {
+    curve.userData.samples = curve.getPoints(120);
+  }
+  const samples = curve.userData.samples;
+  const idx = Math.min(samples.length - 1, Math.max(0, Math.floor(progress * (samples.length - 1))));
+  return samples[idx];
+}
+
 const _springDisplacement = new THREE.Vector3();
 function springVector(current, target, velocity, dt, stiffness = 88, damping = 14.5) {
   _springDisplacement.copy(target).sub(current);
@@ -228,29 +239,29 @@ function createTransitField() {
 
 function createCodeTexture(title, lines, accent = "#47e6a5") {
   const textureCanvas = document.createElement("canvas");
-  textureCanvas.width = 1024;
-  textureCanvas.height = 620;
+  textureCanvas.width = 512;
+  textureCanvas.height = 310;
   const context = textureCanvas.getContext("2d");
   context.fillStyle = "#070a08";
   context.fillRect(0, 0, textureCanvas.width, textureCanvas.height);
   context.fillStyle = "#0d1511";
-  context.fillRect(0, 0, textureCanvas.width, 82);
+  context.fillRect(0, 0, textureCanvas.width, 42);
   context.fillStyle = accent;
-  context.fillRect(0, 80, textureCanvas.width, 3);
-  context.font = "500 24px monospace";
+  context.fillRect(0, 40, textureCanvas.width, 2);
+  context.font = "500 13px monospace";
   context.fillStyle = "#b9c5bf";
-  context.fillText(title.toUpperCase(), 42, 51);
-  context.font = "24px monospace";
+  context.fillText(title.toUpperCase(), 20, 26);
+  context.font = "12px monospace";
   lines.forEach((line, index) => {
-    const y = 140 + index * 57;
+    const y = 72 + index * 28;
     context.fillStyle = "#44514b";
-    context.fillText(String(index + 1).padStart(2, "0"), 42, y);
+    context.fillText(String(index + 1).padStart(2, "0"), 20, y);
     context.fillStyle = line.accent ? accent : "#d5dfda";
-    context.fillText(line.text, 98, y);
+    context.fillText(line.text, 50, y);
   });
   const texture = new THREE.CanvasTexture(textureCanvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = 2;
   return texture;
 }
 
@@ -582,14 +593,19 @@ function createCompressorWorld() {
       emissiveIntensity: stage === 4 ? 0.26 : 0.08
     });
     const bladeCount = 26;
+    const instancedBlades = new THREE.InstancedMesh(bladeGeometry, bladeMaterial, bladeCount);
+    const dummyObj = new THREE.Object3D();
+    const bladeScale = 0.7 + stage * 0.026;
     for (let blade = 0; blade < bladeCount; blade += 1) {
       const angle = (blade / bladeCount) * Math.PI * 2;
-      const mesh = new THREE.Mesh(bladeGeometry, bladeMaterial);
-      mesh.scale.setScalar(0.7 + stage * 0.026);
-      mesh.position.set(Math.cos(angle) * 0.76, Math.sin(angle) * 0.76, 0);
-      mesh.rotation.z = angle - 0.24 + stage * 0.018;
-      rotor.add(mesh);
+      dummyObj.position.set(Math.cos(angle) * 0.76, Math.sin(angle) * 0.76, 0);
+      dummyObj.rotation.set(0, 0, angle - 0.24 + stage * 0.018);
+      dummyObj.scale.setScalar(bladeScale);
+      dummyObj.updateMatrix();
+      instancedBlades.setMatrixAt(blade, dummyObj.matrix);
     }
+    instancedBlades.instanceMatrix.needsUpdate = true;
+    rotor.add(instancedBlades);
 
     const sensorGeometry = new THREE.SphereGeometry(0.055, 8, 8);
     const sensorMaterial = physicalMaterial(stage === 4 ? palette.yellow : palette.blue, {
@@ -598,12 +614,17 @@ function createCompressorWorld() {
       emissive: stage === 4 ? palette.yellow : palette.blueDim,
       emissiveIntensity: 0.72
     });
+    const instancedSensors = new THREE.InstancedMesh(sensorGeometry, sensorMaterial, 6);
     for (let s = 0; s < 6; s += 1) {
       const angle = (s / 6) * Math.PI * 2;
-      const sensor = new THREE.Mesh(sensorGeometry, sensorMaterial);
-      sensor.position.set(Math.cos(angle) * 1.72, Math.sin(angle) * 1.72, 0.18);
-      rotor.add(sensor);
+      dummyObj.position.set(Math.cos(angle) * 1.72, Math.sin(angle) * 1.72, 0.18);
+      dummyObj.rotation.set(0, 0, 0);
+      dummyObj.scale.setScalar(1);
+      dummyObj.updateMatrix();
+      instancedSensors.setMatrixAt(s, dummyObj.matrix);
     }
+    instancedSensors.instanceMatrix.needsUpdate = true;
+    rotor.add(instancedSensors);
 
     group.userData.rotors.push(rotor);
     group.add(rotor);
@@ -1487,11 +1508,12 @@ function createAegisInvestigationWorld() {
     group.add(packet);
   }
 
+  const packetGeometry = new THREE.OctahedronGeometry(0.075, 0);
   evidenceCurves.forEach((curve, curveIndex) => {
     for (let i = 0; i < 3; i += 1) {
       const color = agentDefinitions[curveIndex].color;
       const packet = new THREE.Mesh(
-        new THREE.OctahedronGeometry(0.075, 0),
+        packetGeometry,
         meshMaterial(color, { emissive: color, emissiveIntensity: 1.25 })
       );
       packet.userData.route = curve;
@@ -1584,26 +1606,34 @@ function createGridiumLivingNetworkWorld() {
   ];
   const nodeTypes = ["solar", "home", "battery", "home", "solar", "battery", "home", "solar", "home", "battery", "solar", "home", "battery", "home", "solar"];
   const routes = [];
+  const padGeometry = new THREE.CylinderGeometry(0.48, 0.55, 0.12, 24);
+  const haloGeometry = new THREE.TorusGeometry(0.58, 0.022, 6, 42);
+  const solarMastGeom = new THREE.BoxGeometry(0.07, 0.48, 0.07);
+  const solarPanelGeom = new THREE.BoxGeometry(0.78, 0.055, 0.52);
+  const batteryRackGeom = new THREE.BoxGeometry(0.52, 0.78, 0.48);
+  const batteryCellGeom = new THREE.BoxGeometry(0.36, 0.045, 0.025);
+  const homeBodyGeom = new THREE.BoxGeometry(0.62, 0.62, 0.56);
+  const homeRoofGeom = new THREE.ConeGeometry(0.5, 0.35, 4);
 
   coordinates.forEach(([x, z], index) => {
     const node = new THREE.Group();
     node.position.set(x, -1.7, z);
     const padColor = nodeTypes[index] === "solar" ? palette.orange : nodeTypes[index] === "battery" ? palette.green : palette.blue;
     const pad = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.48, 0.55, 0.12, 24),
+      padGeometry,
       physicalMaterial(0x172022, { roughness: 0.3, metalness: 0.72, emissive: padColor, emissiveIntensity: 0.08 })
     );
     node.add(pad);
-    const halo = new THREE.Mesh(new THREE.TorusGeometry(0.58, 0.022, 6, 42), lineMaterial(padColor, 0.68));
+    const halo = new THREE.Mesh(haloGeometry, lineMaterial(padColor, 0.68));
     halo.rotation.x = Math.PI / 2;
     halo.position.y = 0.08;
     node.add(halo);
 
     if (nodeTypes[index] === "solar") {
-      const mast = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.48, 0.07), physicalMaterial(0x76817f, { roughness: 0.28, metalness: 0.8 }));
+      const mast = new THREE.Mesh(solarMastGeom, physicalMaterial(0x76817f, { roughness: 0.28, metalness: 0.8 }));
       mast.position.y = 0.3;
       const panel = new THREE.Mesh(
-        new THREE.BoxGeometry(0.78, 0.055, 0.52),
+        solarPanelGeom,
         physicalMaterial(0x173a58, { roughness: 0.12, metalness: 0.58, emissive: palette.blueDim, emissiveIntensity: 0.3 })
       );
       panel.position.y = 0.62;
@@ -1611,24 +1641,24 @@ function createGridiumLivingNetworkWorld() {
       node.add(mast, panel);
     } else if (nodeTypes[index] === "battery") {
       const rack = new THREE.Mesh(
-        new THREE.BoxGeometry(0.52, 0.78, 0.48),
+        batteryRackGeom,
         physicalMaterial(0x183129, { roughness: 0.2, metalness: 0.76, emissive: palette.greenDim, emissiveIntensity: 0.22 })
       );
       rack.position.y = 0.46;
       node.add(rack);
       for (let cell = 0; cell < 3; cell += 1) {
-        const charge = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.045, 0.025), meshMaterial(palette.green, { emissive: palette.green, emissiveIntensity: 0.8 }));
+        const charge = new THREE.Mesh(batteryCellGeom, meshMaterial(palette.green, { emissive: palette.green, emissiveIntensity: 0.8 }));
         charge.position.set(0, 0.28 + cell * 0.18, 0.255);
         node.add(charge);
       }
     } else {
       const home = new THREE.Mesh(
-        new THREE.BoxGeometry(0.62, 0.62, 0.56),
+        homeBodyGeom,
         physicalMaterial(0x24303a, { roughness: 0.42, metalness: 0.46, emissive: palette.blueDim, emissiveIntensity: 0.1 })
       );
       home.position.y = 0.38;
       const roof = new THREE.Mesh(
-        new THREE.ConeGeometry(0.5, 0.35, 4),
+        homeRoofGeom,
         physicalMaterial(0x34506a, { roughness: 0.26, metalness: 0.55 })
       );
       roof.position.y = 0.86;
@@ -1675,9 +1705,10 @@ function createGridiumLivingNetworkWorld() {
   group.userData.poolLiquid = poolLiquid;
   group.add(pool);
 
+  const packetGeom = new THREE.SphereGeometry(0.052, 10, 10);
   routes.forEach((route, index) => {
     const packet = new THREE.Mesh(
-      new THREE.SphereGeometry(0.052, 10, 10),
+      packetGeom,
       meshMaterial(index % 3 === 0 ? palette.orange : index % 3 === 1 ? palette.blue : palette.green, {
         emissive: index % 3 === 0 ? palette.orange : index % 3 === 1 ? palette.blue : palette.green,
         emissiveIntensity: 1.1
@@ -1692,9 +1723,10 @@ function createGridiumLivingNetworkWorld() {
 
   const proofGate = new THREE.Group();
   proofGate.position.set(4.25, -0.8, 1.65);
+  const pillarGeom = new THREE.BoxGeometry(0.18, 1.65, 0.22);
   [-0.42, 0.42].forEach((x) => {
     const pillar = new THREE.Mesh(
-      new THREE.BoxGeometry(0.18, 1.65, 0.22),
+      pillarGeom,
       physicalMaterial(0x1a2730, { roughness: 0.2, metalness: 0.85, emissive: palette.blueDim, emissiveIntensity: 0.18 })
     );
     pillar.position.x = x;
@@ -1789,9 +1821,13 @@ function createProfileWorld() {
     ring.userData.speed = (index % 2 ? -1 : 1) * (0.06 + index * 0.015);
     group.userData.rings.push(ring);
     group.add(ring);
+  }
 
+  const moduleGeometry = new THREE.BoxGeometry(1.45, 0.34, 0.12);
+  for (let index = 0; index < 6; index += 1) {
+    const y = -3.4 + index * 1.36;
     const module = new THREE.Mesh(
-      new THREE.BoxGeometry(1.45, 0.34, 0.12),
+      moduleGeometry,
       physicalMaterial(0x17201c, {
         roughness: 0.3,
         metalness: 0.76,
@@ -1921,9 +1957,14 @@ function updatePerfHud() {
 window.__perfTelemetry = {
   getSnapshot: () => {
     const avg = frameWindow.length ? (frameWindow.reduce((a, b) => a + b, 0) / frameWindow.length) : 16.6;
+    const sorted = [...frameWindow].sort((a, b) => a - b);
+    const p95 = sorted.length ? sorted[Math.floor(sorted.length * 0.95)] : avg;
+    const p99 = sorted.length ? sorted[Math.floor(sorted.length * 0.99)] : avg;
     return {
       fps: Math.round(1000 / Math.max(avg, 1)),
       avgFrameMs: avg,
+      p95FrameMs: p95,
+      p99FrameMs: p99,
       qualityTier,
       dpr: renderer ? renderer.getPixelRatio() : 1,
       calls: renderer?.info?.render?.calls || 0,
@@ -1935,21 +1976,20 @@ window.__perfTelemetry = {
   }
 };
 
+const worldStatus = new Array(6).fill("unbuilt");
+const worldCompilePromises = new Array(6).fill(null);
+
 function ensureWorld(index) {
   if (index < 0 || index >= worldFactories.length) return null;
   if (!worlds[index]) {
     const t0 = performance.now();
+    worldStatus[index] = "building";
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
-    world.visible = index === currentScene;
+    world.visible = (index === currentScene);
     worlds[index] = world;
+    worldStatus[index] = "built";
     if (scene) scene.add(world);
-
-    // Asynchronously pre-compile shaders to remove the first-render hitch
-    if (renderer && camera && renderer.compileAsync) {
-      renderer.compileAsync(world, camera).catch(() => {});
-    }
-
     world.userData.buildDuration = performance.now() - t0;
     if (perfMode) {
       console.log(`[PERF BUILD] World ${index} (${sceneNames[index]}) built in ${world.userData.buildDuration.toFixed(1)}ms`);
@@ -1958,59 +1998,139 @@ function ensureWorld(index) {
   return worlds[index];
 }
 
-let lastUserInteraction = performance.now();
-function markUserInteraction() {
-  lastUserInteraction = performance.now();
-}
-window.addEventListener("pointermove", markUserInteraction, { passive: true });
-window.addEventListener("pointerdown", markUserInteraction, { passive: true });
-window.addEventListener("keydown", markUserInteraction, { passive: true });
-window.addEventListener("wheel", markUserInteraction, { passive: true });
-window.addEventListener("touchstart", markUserInteraction, { passive: true });
+async function prepareWorldAsync(index) {
+  if (index < 0 || index >= worldFactories.length) return null;
+  if (worlds[index]?.userData?.ready) return worlds[index];
+  if (worldCompilePromises[index]) return worldCompilePromises[index];
 
-function isUserIdle(idleThresholdMs = 1500) {
-  return (performance.now() - lastUserInteraction) > idleThresholdMs;
-}
-
-function scheduleIdlePrewarm() {
-  function tryPrewarmNext() {
-    // Never prewarm while user is actively moving pointer, scrolling, or during transitions
-    if (!isUserIdle(1500) || isSceneTransitioning || document.hidden) {
-      setTimeout(tryPrewarmNext, 800);
-      return;
-    }
-
-    // Prioritize the adjacent next scene first, then any remaining unbuilt scenes
-    const nextAdjacent = (currentScene + 1) % worldFactories.length;
-    let targetIdx = -1;
-    if (!worlds[nextAdjacent]) {
-      targetIdx = nextAdjacent;
-    } else {
-      for (let i = 0; i < worldFactories.length; i++) {
-        if (!worlds[i]) {
-          targetIdx = i;
-          break;
-        }
-      }
-    }
-
-    if (targetIdx !== -1) {
-      if (typeof requestIdleCallback !== "undefined") {
-        requestIdleCallback((deadline) => {
-          if (deadline.timeRemaining() > 10 && isUserIdle(1500)) {
-            ensureWorld(targetIdx);
-          }
-          setTimeout(tryPrewarmNext, 1600);
-        }, { timeout: 4000 });
-      } else {
-        ensureWorld(targetIdx);
-        setTimeout(tryPrewarmNext, 1600);
-      }
+  if (!worlds[index]) {
+    const t0 = performance.now();
+    worldStatus[index] = "building";
+    const world = worldFactories[index]();
+    world.userData.baseScale = world.scale.clone();
+    world.visible = false;
+    worlds[index] = world;
+    worldStatus[index] = "built";
+    if (scene) scene.add(world);
+    world.userData.buildDuration = performance.now() - t0;
+    if (perfMode) {
+      console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) constructed in ${world.userData.buildDuration.toFixed(1)}ms`);
     }
   }
 
-  // Defer first check by 2.8s so initial hero rendering and page load have zero main-thread contention
-  setTimeout(tryPrewarmNext, 2800);
+  const world = worlds[index];
+  if (renderer && renderer.initTexture) {
+    world.traverse(child => {
+      if (child.material) {
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach(mat => {
+          if (mat.map && mat.map.isTexture) {
+            try { renderer.initTexture(mat.map); } catch {}
+          }
+        });
+      }
+    });
+  }
+  if (renderer && camera && renderer.compileAsync && !world.userData.ready) {
+    worldStatus[index] = "compiling";
+
+    // Temporarily configure scene visibility for target world so Three.js compiles with exact local lights and fog
+    const prevVisibilities = worlds.map(w => w ? w.visible : false);
+    worlds.forEach((w, i) => { if (w) w.visible = (i === index); });
+
+    // Call compileAsync: Three.js initiates GPU shader compilation synchronously
+    const p = renderer.compileAsync(scene, camera).then(() => {
+      worldStatus[index] = "ready";
+      world.userData.ready = true;
+      if (perfMode) {
+        console.log(`[PERF PREPARE] World ${index} (${sceneNames[index]}) async compiled with full lighting & fog`);
+      }
+      return world;
+    }).catch(() => {
+      worldStatus[index] = "ready";
+      world.userData.ready = true;
+      return world;
+    });
+
+    // Immediately restore active scene visibility for the render loop
+    worlds.forEach((w, i) => { if (w) w.visible = prevVisibilities[i]; });
+
+    worldCompilePromises[index] = p;
+    return p;
+  } else {
+    world.visible = (index === currentScene);
+    if (!world.parent && scene) scene.add(world);
+    worldStatus[index] = "ready";
+    world.userData.ready = true;
+    return world;
+  }
+}
+
+let compileScene = null;
+let prewarmRunning = false;
+let prewarmQueue = [];
+
+function computePrewarmSequence(centerIdx) {
+  const seq = [];
+  const total = worldFactories.length;
+  const next = (centerIdx + 1) % total;
+  if (!worlds[next]?.userData?.ready) seq.push(next);
+  const prev = (centerIdx - 1 + total) % total;
+  if (prev !== next && !worlds[prev]?.userData?.ready) seq.push(prev);
+  for (let i = 0; i < total; i++) {
+    const idx = (centerIdx + i) % total;
+    if (idx !== centerIdx && !seq.includes(idx) && !worlds[idx]?.userData?.ready) {
+      seq.push(idx);
+    }
+  }
+  return seq;
+}
+
+function processPrewarmStep() {
+  if (document.hidden || isSceneTransitioning) {
+    setTimeout(processPrewarmStep, 150);
+    return;
+  }
+
+  prewarmQueue = prewarmQueue.filter(idx => !worlds[idx]?.userData?.ready);
+  if (prewarmQueue.length === 0) {
+    prewarmQueue = computePrewarmSequence(currentScene);
+    if (prewarmQueue.length === 0) {
+      prewarmRunning = false;
+      return;
+    }
+  }
+
+  const targetIdx = prewarmQueue.shift();
+  if (worlds[targetIdx]?.userData?.ready) {
+    setTimeout(processPrewarmStep, 40);
+    return;
+  }
+
+  const executeWarm = async () => {
+    try {
+      await prepareWorldAsync(targetIdx);
+    } catch (err) {
+      console.warn("[prewarm] error warming world", targetIdx, err);
+    }
+    setTimeout(processPrewarmStep, 200);
+  };
+
+  if (typeof requestIdleCallback !== "undefined") {
+    requestIdleCallback(() => {
+      executeWarm();
+    }, { timeout: 1500 });
+  } else {
+    setTimeout(executeWarm, 80);
+  }
+}
+
+function startBackgroundPrewarm() {
+  prewarmQueue = computePrewarmSequence(currentScene);
+  if (!prewarmRunning && prewarmQueue.length > 0) {
+    prewarmRunning = true;
+    setTimeout(processPrewarmStep, 250);
+  }
 }
 
 function initializeThree() {
@@ -2055,14 +2175,33 @@ function initializeThree() {
     accent.position.set(1.5, 2.5, 6);
     scene.add(accent);
 
+    compileScene = new THREE.Scene();
+    compileScene.add(new THREE.HemisphereLight(0xcde4d8, 0x091410, 1.35));
+    const cKey = new THREE.DirectionalLight(0xf0f7f3, 4.2);
+    cKey.position.set(8, 11, 12);
+    compileScene.add(cKey);
+    const cRim = new THREE.DirectionalLight(0x7596ff, 2.4);
+    cRim.position.set(-9, 3, -8);
+    compileScene.add(cRim);
+    const cWarm = new THREE.DirectionalLight(0xff946b, 1.8);
+    cWarm.position.set(6, -2, -6);
+    compileScene.add(cWarm);
+    const cAccent = new THREE.PointLight(palette.green, 28, 26, 2);
+    cAccent.position.set(1.5, 2.5, 6);
+    compileScene.add(cAccent);
+
     scene.add(createAmbientField());
     ensureWorld(currentScene);
     activeWorld = worlds[currentScene];
-    scheduleIdlePrewarm();
+    startBackgroundPrewarm();
     window.__observatory = {
-      version: "3.3.0",
+      version: "3.4.0",
       buildDate: "2026-10-14",
       worlds,
+      worldStatus,
+      prepareWorldAsync,
+      ensureWorld,
+      startBackgroundPrewarm,
       camera,
       targetCamera,
       targetLook,
@@ -2071,7 +2210,7 @@ function initializeThree() {
       cameraStates,
       THREE
     };
-    console.log("%c[Observatory 3D] v3.3.0 initialized (220ms lockout, 28px threshold, zero-alloc springs, global parallax)", "color: #47e6a5; font-weight: bold;");
+    console.log("%c[Observatory 3D] v3.4.0 initialized (async prewarm pipeline, 220ms lockout, 28px threshold, zero-alloc springs, instanced meshes)", "color: #47e6a5; font-weight: bold;");
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
@@ -2105,8 +2244,9 @@ function resizeRenderer() {
 
 function render(timeMs) {
   if (!webglReady) return;
+  const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
   const time = timeMs * 0.001;
-  const dt = Math.min((timeMs - lastFrameTime) / 1000, 0.034);
+  const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
 
   const state = getCameraTarget(currentScene);
@@ -2187,11 +2327,13 @@ function render(timeMs) {
     });
     worlds[1].userData.claimPackets?.forEach((packet) => {
       const progress = (packet.userData.offset + time * 0.18) % 1;
-      packet.position.copy(packet.userData.route.getPointAt(progress));
+      const pt = getCachedCurvePoint(packet.userData.route, progress);
+      if (pt) packet.position.copy(pt);
     });
     worlds[1].userData.evidencePackets?.forEach((packet) => {
       const progress = (packet.userData.offset + time * packet.userData.speed) % 1;
-      packet.position.copy(packet.userData.route.getPointAt(progress));
+      const pt = getCachedCurvePoint(packet.userData.route, progress);
+      if (pt) packet.position.copy(pt);
       packet.rotation.x = time * 1.3;
       packet.rotation.y = time * 1.7;
     });
@@ -2216,7 +2358,8 @@ function render(timeMs) {
     worlds[2].userData.dataParticles?.forEach((packet) => {
       const progress = (packet.userData.offset + time * (packet.userData.speed || 0.065)) % 1;
       if (packet.userData.route) {
-        packet.position.copy(packet.userData.route.getPointAt(progress));
+        const pt = getCachedCurvePoint(packet.userData.route, progress);
+        if (pt) packet.position.copy(pt);
       } else {
         packet.position.set(-3.2 + progress * 6.4, -2.05 + Math.sin(progress * Math.PI) * 0.18, -0.12);
       }
@@ -2268,7 +2411,8 @@ function render(timeMs) {
     if (worlds[4].userData.flowCurve && worlds[4].userData.flowParticles) {
       worlds[4].userData.flowParticles.forEach((particle) => {
         const progress = (particle.userData.offset + time * particle.userData.speed) % 1;
-        particle.position.copy(worlds[4].userData.flowCurve.getPointAt(progress));
+        const pt = getCachedCurvePoint(worlds[4].userData.flowCurve, progress);
+        if (pt) particle.position.copy(pt);
         const pulse = 0.7 + Math.sin(progress * Math.PI) * 0.8;
         particle.scale.setScalar(pulse);
       });
@@ -2296,7 +2440,9 @@ function render(timeMs) {
   }
 
   renderer.render(scene, camera);
-  recordFrameTime(dt * 1000);
+  if (!document.hidden && rawFrameDeltaMs < 800) {
+    recordFrameTime(rawFrameDeltaMs);
+  }
   updatePerfHud();
 }
 
@@ -2348,6 +2494,7 @@ function setScene(index, options = {}) {
   if (!options.skipHistory) {
     history.replaceState(null, "", `#${sceneHashes[currentScene]}`);
   }
+  startBackgroundPrewarm();
 }
 
 const transitionLine = document.querySelector(".scene-transition-line");

@@ -86,7 +86,7 @@ function init() {
     powerPreference: "high-performance"
   });
   renderer.setSize(width, height, false);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;
@@ -179,6 +179,7 @@ function setPrototype(index) {
   // Build 3D visual art
   if (proto.factory) {
     activePrototype = proto.factory(scene);
+    if (renderer.compileAsync) renderer.compileAsync(scene, camera).catch(() => {});
   }
 }
 

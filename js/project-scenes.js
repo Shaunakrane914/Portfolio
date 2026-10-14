@@ -1583,6 +1583,9 @@ if (canvas) {
   });
 
   resize();
+  if (renderer.compileAsync) {
+    renderer.compileAsync(scene, camera).catch(() => {});
+  }
   if (visible && !document.hidden) {
     renderer.setAnimationLoop(render);
   }

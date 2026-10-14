@@ -21,7 +21,7 @@ export function createBloomComposer(renderer, scene, camera, width, height) {
     type: THREE.HalfFloatType,
     format: THREE.RGBAFormat,
     colorSpace: THREE.SRGBColorSpace,
-    samples: 4
+    samples: 0
   });
 
   const composer = new EffectComposer(renderer, renderTarget);
