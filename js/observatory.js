@@ -1,5 +1,5 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
-import { WheelGesture, normalizeWheel, scrollableAncestor } from "./wheel-gesture.js";
+import { WheelGesture, normalizeWheel, scrollableAncestor, canScroll } from "./wheel-gesture.js";
 import { disposeScene, compileInBatches } from "./graphics-runtime.js";
 
 const canvas = document.getElementById("observatory-canvas");
@@ -2143,7 +2143,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.0.0",
+      version: "4.1.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2410,8 +2410,9 @@ function setScene(index, options = {}) {
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
   if (next === currentScene && !options.force) return;
   const previousScene = currentScene;
+  const focusWasInPanel = panels[previousScene]?.contains(document.activeElement);
   currentScene = next;
-  activeWorld = worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
+  activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
   document.body.dataset.graphicsReady = String(Boolean(activeWorld));
   if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
   if (activeWorld?.userData.baseScale) {
@@ -2442,6 +2443,7 @@ function setScene(index, options = {}) {
     panel.classList.toggle("is-active", active);
     panel.setAttribute("aria-hidden", String(!active));
     panel.inert = !active;
+    if (active && previousScene !== currentScene) panel.scrollTop = 0;
   });
 
   railButtons.forEach((button) => {
@@ -2452,6 +2454,20 @@ function setScene(index, options = {}) {
   });
 
   if (sceneAnnouncer && !options.force) sceneAnnouncer.textContent = `${sceneNames[currentScene]} scene selected`;
+  if (!options.force && (options.focus || focusWasInPanel)) {
+    const heading = panels[currentScene]?.querySelector("h1, h2");
+    if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+  }
+
+  const flow = document.querySelector(".scene-flow");
+  if (flow) {
+    flow.hidden = currentScene === 0;
+    flow.querySelector("[data-scene-position]").textContent = `${String(currentScene + 1).padStart(2, "0")} / 06`;
+    const nextButton = flow.querySelector("[data-next-scene]");
+    nextButton.querySelector("span").textContent = currentScene === 5 ? "Back to introduction" : `Next: ${sceneNames[currentScene + 1]}`;
+    if (currentScene === 5) nextButton.dataset.sceneJump = "0";
+    else nextButton.removeAttribute("data-scene-jump");
+  }
 
   if (!options.skipHistory) {
     history.pushState(null, "", `#${sceneHashes[currentScene]}`);
@@ -2480,9 +2496,9 @@ function triggerScanEffect() {
   });
 }
 
-function stepScene(direction) {
+function stepScene(direction, options = {}) {
   const target = currentScene + direction;
-  if (target >= 0 && target < sceneNames.length) setScene(target);
+  if (target >= 0 && target < sceneNames.length) setScene(target, options);
 }
 
 // Global Event Delegation for all interactive action attributes
@@ -2490,21 +2506,21 @@ document.addEventListener("click", (event) => {
   const jumpBtn = event.target.closest("[data-scene-jump]");
   if (jumpBtn) {
     event.preventDefault();
-    setScene(Number(jumpBtn.dataset.sceneJump));
+    setScene(Number(jumpBtn.dataset.sceneJump), { focus: event.detail === 0 });
     return;
   }
 
   const nextBtn = event.target.closest("[data-next-scene]");
   if (nextBtn) {
     event.preventDefault();
-    stepScene(1);
+    stepScene(1, { focus: event.detail === 0 });
     return;
   }
 
   const prevBtn = event.target.closest("[data-prev-scene]");
   if (prevBtn) {
     event.preventDefault();
-    stepScene(-1);
+    stepScene(-1, { focus: event.detail === 0 });
     return;
   }
 
@@ -2549,9 +2565,9 @@ const wheelGesture = new WheelGesture();
 window.addEventListener("wheel", event => {
   if (event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
   const delta = normalizeWheel(event, window.innerHeight);
-  const native = Boolean(document.querySelector("dialog[open]") || scrollableAncestor(event.target));
+  const native = Boolean(document.querySelector("dialog[open]") || canScroll(scrollableAncestor(event.target), delta));
   const direction = wheelGesture.feed(delta, event.timeStamp, native);
-  if (native) return;
+  if (native && wheelGesture.owner !== "scene") return;
   if (event.cancelable) event.preventDefault();
   if (direction) stepScene(direction);
 }, { passive: false });
@@ -2559,6 +2575,7 @@ window.addEventListener("wheel", event => {
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
+let touchScrollState = null;
 
 window.addEventListener("touchstart", (event) => {
   if (document.querySelector("dialog[open]")) return;
@@ -2566,28 +2583,30 @@ window.addEventListener("touchstart", (event) => {
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
     touchStartTime = performance.now();
+    const scroller = scrollableAncestor(event.target);
+    touchScrollState = scroller ? { top: scroller.scrollTop, remaining: scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop } : null;
+  } else {
+    touchStartTime = 0;
+    touchScrollState = null;
   }
 }, { passive: true });
 
 window.addEventListener("touchend", (event) => {
   if (document.querySelector("dialog[open]")) return;
-  if (!touchStartTime || event.changedTouches.length === 0) return;
-
-  const activePanel = panels[currentScene];
-  if (activePanel && activePanel.contains(event.target)) {
-    const isScrollable = activePanel.scrollHeight > activePanel.clientHeight + 4;
-    if (isScrollable) {
-      return;
-    }
-  }
+  if (!touchStartTime || event.changedTouches.length === 0 || event.touches.length) return;
 
   const dx = event.changedTouches[0].clientX - touchStartX;
   const dy = event.changedTouches[0].clientY - touchStartY;
   const dt = performance.now() - touchStartTime;
+  touchStartTime = 0;
+  // The gesture's starting position owns native scrolling. A later swipe that
+  // starts at an edge can navigate; reaching an edge mid-swipe never skips scenes.
+  const nativeVertical = touchScrollState && (dy < 0 ? touchScrollState.remaining > 2 : touchScrollState.top > 2);
+  touchScrollState = null;
 
   // Guarded single scene step per swipe gesture
   if (dt < 600) {
-    if (Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx) * 1.25) {
+    if (!nativeVertical && Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx) * 1.25) {
       stepScene(dy < 0 ? 1 : -1);
     } else if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
       stepScene(dx < 0 ? 1 : -1);
@@ -2595,20 +2614,23 @@ window.addEventListener("touchend", (event) => {
   }
   touchStartTime = 0;
 }, { passive: true });
+window.addEventListener("touchcancel", () => { touchStartTime = 0; touchScrollState = null; }, { passive: true });
 
 window.addEventListener("keydown", (event) => {
   if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
-  if (scrollableAncestor(event.target) && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End"].includes(event.key)) return;
+  const scroller = scrollableAncestor(event.target);
+  const keyDirection = ["ArrowDown", "PageDown"].includes(event.key) ? 1 : ["ArrowUp", "PageUp"].includes(event.key) ? -1 : 0;
+  if (scroller && (["Home", "End"].includes(event.key) || canScroll(scroller, keyDirection))) return;
   if (["ArrowDown", "ArrowRight", "PageDown"].includes(event.key)) {
     event.preventDefault();
-    stepScene(1);
+    stepScene(1, { focus: true });
   }
   if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) {
     event.preventDefault();
-    stepScene(-1);
+    stepScene(-1, { focus: true });
   }
-  if (event.key === "Home") { event.preventDefault(); setScene(0); }
-  if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1); }
+  if (event.key === "Home") { event.preventDefault(); setScene(0, { focus: true }); }
+  if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1, { focus: true }); }
 });
 
 canvas.addEventListener("pointerdown", (event) => {

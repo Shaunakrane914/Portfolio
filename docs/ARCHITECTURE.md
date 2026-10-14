@@ -8,9 +8,9 @@ The portfolio is a static HTML site with a progressively enhanced Three.js obser
 
 WheelEvent has no OS gesture identifier or gesture-end signal. This is a conservative heuristic, tested against browser mouse-wheel events and deterministic precision-trackpad sequences; physical-device testing is still needed. Rapid button and keyboard commands never wait on wheel state or animation. Held keyboard repeats are ignored. Text-entry controls and overflowing panels keep native vertical keys.
 
-An overflowing element or open dialog owns its whole wheel burst, including its boundary. Use the rail/buttons or a gesture outside the panel to change scenes. This avoids handing a content scroll's inertia to scene navigation. Ctrl-wheel zoom and predominantly horizontal wheel gestures remain native. Touch has one owner (touchend); pointerup no longer duplicates a touch swipe.
+An overflowing element owns its wheel burst while it can scroll in the input direction. Reaching an edge within that burst never hands its inertia to navigation; a fresh outward gesture at the edge changes scenes. A scene-navigation burst also suppresses native scrolling if subsequent momentum targets the newly revealed panel. Subpixel input participates in ownership rearming. Open dialogs retain native scrolling. Ctrl-wheel zoom and predominantly horizontal wheel gestures remain native. Touch uses its starting scroll position to choose native reading or scene navigation, and pointerup never duplicates a swipe.
 
-`setScene` immediately changes semantic panels, inert state, current navigation and history. `pushState` retains scene entries; hash navigation restores browser back/forward and direct URLs. Preparation never constructs a world inside this handler. Dialogs use native focus containment and restore focus on close.
+`setScene` immediately changes semantic panels, inert state, current navigation and history. `pushState` retains scene entries; hash navigation restores browser back/forward and direct URLs. Preparation never constructs a world inside this handler. Dialogs use native focus containment and restore focus on close. Keyboard scene changes focus the selected heading so Tab reaches its case-study action; focus never remains inside an inert panel.
 
 ## Graphics preparation
 
@@ -35,3 +35,9 @@ Animation delta is clamped for numerical stability; telemetry records raw frame 
 Case-study desktop heroes place art beside readable narrative. Mobile heroes reserve a separate 250px art region above normal-flow content. Copy is visible immediately; only graphics fade in after readiness. Local OFL-licensed WOFF2 fonts remove third-party font CSS from the critical path. Evidence images have intrinsic dimensions, lazy loading and asynchronous decoding.
 
 See [BENCHMARKS.md](BENCHMARKS.md) for measured results, limitations, raw evidence and reproduction commands. Async shader compilation reduces rendering stalls; it cannot guarantee that a browser driver never blocks the main thread. See the [Three.js renderer contract](https://threejs.org/docs/pages/WebGLRenderer.html) for compilation, lighting and disposal semantics.
+
+## Recruiter-facing navigation and layout
+
+Project summaries use an open layout with readable stage-level contrast. Oversized panel pseudo-elements are removed because they contributed to scrollable overflow even when the actual text fitted. Real overflowing content stays scrollable on small/short viewports, with no decorative card outlines or visible scrollbars. The case-study action is primary, with live deployments and detailed evidence still available. A separate previous/next control names the next project. Numbered rail controls retain accessible names and tooltips without labels overlapping the narrative.
+
+See [UX verification](UX-VERIFICATION.md) for the five-viewport panel audit and input regressions.

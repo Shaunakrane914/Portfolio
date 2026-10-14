@@ -10,10 +10,11 @@ export class WheelGesture {
     this.peak = 0;
     this.consumed = false;
     this.probe = null;
+    this.owner = null;
   }
-  consume() { this.consumed = true; this.total = 0; }
+  consume(owner = 'scene') { this.owner ||= owner; this.consumed = true; this.total = 0; }
   feed(delta, now, native = false) {
-    if (!Number.isFinite(delta) || !Number.isFinite(now) || Math.abs(delta) < 0.5) return 0;
+    if (!Number.isFinite(delta) || !Number.isFinite(now) || delta === 0) return 0;
     const gap = now - this.lastAt;
     const magnitude = Math.abs(delta);
     const direction = Math.sign(delta);
@@ -30,6 +31,7 @@ export class WheelGesture {
         if (this.probe.growth >= 2 && magnitude >= this.probe.start * 1.75) {
           // A new small gesture accelerates; a residual tail decelerates.
           this.consumed = false;
+          this.owner = null;
           this.total = this.probe.total;
           this.peak = magnitude;
           this.probe = null;
@@ -41,6 +43,7 @@ export class WheelGesture {
       this.peak = 0;
       this.direction = direction;
       this.consumed = false;
+      this.owner = null;
       this.probe = null;
     }
     if (gap < quiet) this.cadence += (Math.max(8, gap) - this.cadence) * 0.25;
@@ -49,7 +52,7 @@ export class WheelGesture {
     this.peak = Math.max(this.peak, magnitude);
     if (this.probe) this.probe.total += magnitude;
     // A native content scroll owns the whole gesture, even after reaching its edge.
-    if (native) this.consume();
+    if (native) this.consume('native');
     if (this.consumed) return 0;
     if (direction !== this.direction) { this.total = 0; this.direction = direction; }
     this.total += magnitude;
@@ -71,4 +74,9 @@ export function scrollableAncestor(target, boundary = document.body) {
     node = node.parentElement;
   }
   return null;
+}
+
+export function canScroll(element, delta) {
+  if (!element || !delta) return false;
+  return delta < 0 ? element.scrollTop > 2 : element.scrollTop + element.clientHeight < element.scrollHeight - 2;
 }

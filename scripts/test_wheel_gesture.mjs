@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { WheelGesture, normalizeWheel } from '../js/wheel-gesture.js';
+import { WheelGesture, normalizeWheel, canScroll } from '../js/wheel-gesture.js';
 
 function burst(gesture, values, start = 0, interval = 16, native = false) {
   return values.map((v,i) => gesture.feed(v, start+i*interval, native)).filter(Boolean);
@@ -27,4 +27,18 @@ assert.equal(normalizeWheel({ deltaY: 1, deltaMode: 2 }, 900), 900);
 assert.equal(normalizeWheel({ deltaY: 24, deltaMode: 0 }, 900), 24);
 g = new WheelGesture();
 assert.deepEqual(burst(g, [120,120,120], 0, 180), [1,1,1], 'distinct mouse-wheel gestures have no animation lock');
-console.log('PASS: wheel bursts, inertia, sparse tails, reversals, native ownership, delta modes, distinct gestures');
+assert.equal(canScroll({ scrollTop: 0, clientHeight: 100, scrollHeight: 400 }, -1), false);
+assert.equal(canScroll({ scrollTop: 0, clientHeight: 100, scrollHeight: 400 }, 1), true);
+assert.equal(canScroll({ scrollTop: 300, clientHeight: 100, scrollHeight: 400 }, 1), false);
+assert.equal(canScroll({ scrollTop: 300, clientHeight: 100, scrollHeight: 400 }, -1), true);
+g = new WheelGesture();
+assert.equal(g.feed(100, 0), 1);
+assert.equal(g.feed(80, 16, true), 0);
+assert.equal(g.owner, 'scene', 'scene gesture owns momentum even over newly revealed scrollable content');
+assert.equal(g.feed(50, 300, true), 0);
+assert.equal(g.owner, 'native', 'fresh gesture can scroll the new content');
+g = new WheelGesture();
+g.feed(100,0);
+assert.equal(g.feed(.3,1200,true),0);
+assert.equal(g.owner,'native','subpixel native input releases stale scene ownership');
+console.log('PASS: wheel bursts, inertia, sparse tails, reversals, edge ownership, subpixel input, delta modes');

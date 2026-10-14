@@ -1,6 +1,15 @@
 # Changelog
 
 
+## v4.1.0 - 2026-10-14
+
+- Fix false panel overflow from oversized backdrops and allow fresh wheel/touch gestures at content edges to navigate.
+- Keep momentum owned by its original gesture even when events target the next scene's content.
+- Remove panel outlines, scrollbar tracks and dense metric dividers; put case-study links first and add named next-project controls.
+- Keep keyboard focus in the selected project and compact header/rail controls on narrow screens.
+- Audit panel overflow across six scenes at five viewports, including short landscape, and add direct-over-text navigation regressions.
+
+
 ## v4.0.0 - 2026-10-14
 
 - Replace transition cooldown scrolling with gesture consumption, delta normalization, tail hysteresis and native panel ownership.

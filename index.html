@@ -9,8 +9,8 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="css/fonts.css" />
-  <link rel="stylesheet" href="css/observatory.css?v=4.0" />
-  <link rel="modulepreload" href="js/observatory.js?v=4.0" />
+  <link rel="stylesheet" href="css/observatory.css?v=4.1" />
+  <link rel="modulepreload" href="js/observatory.js?v=4.1" />
   <link rel="modulepreload" href="assets/vendor/three.module.min.js" />
   <script type="application/ld+json">
   {
@@ -77,9 +77,9 @@
         <div><span>RSS Ingestion</span><strong>15 min loop</strong></div>
       </div>
       <div class="scene-actions">
+        <a class="primary-action" href="aegis.html">Case study <span aria-hidden="true">&#8594;</span></a>
         <a class="live-action" href="https://aegis-protocol-110.pages.dev" target="_blank" rel="noopener" title="Open live Aegis deployment in new tab"><span class="live-dot" aria-hidden="true"></span>Live System <span aria-hidden="true">&#8599;</span></a>
-        <button class="primary-action" type="button" data-open-evidence="aegis">Inspect claim flow <span aria-hidden="true">&#8599;</span></button>
-        <a class="quiet-action" href="aegis.html">Case study <span aria-hidden="true">&#8594;</span></a>
+        <button class="quiet-action" type="button" data-open-evidence="aegis">Inspect claim flow <span aria-hidden="true">&#8599;</span></button>
       </div>
       <p class="scene-footnote">Production engineering: serverless edge key cycling, structured JSON Schema contracts, and pgvector semantic recall.</p>
     </section>
@@ -95,9 +95,9 @@
         <div><strong>15</strong><span>Ohm's law nodes</span></div>
       </div>
       <div class="scene-actions">
+        <a class="primary-action" href="gridium.html">Case study <span aria-hidden="true">&#8594;</span></a>
         <a class="live-action" href="https://live-ai-1-7tcy.vercel.app" target="_blank" rel="noopener" title="Open live production Gridium deployment in new tab"><span class="live-dot" aria-hidden="true"></span>Live Website <span aria-hidden="true">&#8599;</span></a>
-        <button class="primary-action" type="button" data-open-evidence="gridium">Inspect microgrid <span aria-hidden="true">&#8599;</span></button>
-        <a class="quiet-action" href="gridium.html">Case study <span aria-hidden="true">&#8594;</span></a>
+        <button class="quiet-action" type="button" data-open-evidence="gridium">Inspect microgrid <span aria-hidden="true">&#8599;</span></button>
       </div>
       <p class="scene-footnote">Closed-loop stability: DDPG steers AMM swap fees dynamically to avert localized microgrid brownouts.</p>
     </section>
@@ -113,8 +113,8 @@
         <div><strong>17/17</strong><span>validation gates</span></div>
       </div>
       <div class="scene-actions">
-        <button class="primary-action" type="button" data-open-evidence="compressor">Inspect evidence <span aria-hidden="true">&#8599;</span></button>
-        <a class="quiet-action" href="compressor-cbm.html">Full field report <span aria-hidden="true">&#8594;</span></a>
+        <a class="primary-action" href="compressor-cbm.html">Full field report <span aria-hidden="true">&#8594;</span></a>
+        <button class="quiet-action" type="button" data-open-evidence="compressor">Inspect evidence <span aria-hidden="true">&#8599;</span></button>
       </div>
       <p class="scene-footnote">Forecasting remains an experimental visualization and never drives maintenance alerts.</p>
     </section>
@@ -130,8 +130,8 @@
         <div><strong>46.2%</strong><span>best MSE reduction</span></div>
       </div>
       <div class="scene-actions">
-        <button class="primary-action" type="button" data-open-evidence="topoflow">Inspect topology <span aria-hidden="true">&#8599;</span></button>
-        <a class="quiet-action" href="topoflow.html">Technical case study <span aria-hidden="true">&#8594;</span></a>
+        <a class="primary-action" href="topoflow.html">Technical case study <span aria-hidden="true">&#8594;</span></a>
+        <button class="quiet-action" type="button" data-open-evidence="topoflow">Inspect topology <span aria-hidden="true">&#8599;</span></button>
       </div>
       <p class="scene-footnote">Benchmark result: learned topology helps in heterogeneous media; it is not a universal replacement for physics.</p>
     </section>
@@ -161,12 +161,12 @@
   </aside>
 
   <nav class="scene-rail" aria-label="Portfolio scenes">
-    <button type="button" class="is-current" data-scene-jump="0" data-short="Origin" aria-current="step"><span>00</span><strong>Origin</strong></button>
-    <button type="button" data-scene-jump="1" data-short="Aegis"><span>01</span><strong>Aegis</strong></button>
-    <button type="button" data-scene-jump="2" data-short="Grid"><span>02</span><strong>Gridium</strong></button>
-    <button type="button" data-scene-jump="3" data-short="CBM"><span>03</span><strong>Compressor</strong></button>
-    <button type="button" data-scene-jump="4" data-short="Topo"><span>04</span><strong>TopoFlow</strong></button>
-    <button type="button" data-scene-jump="5" data-short="Profile"><span>05</span><strong>Profile</strong></button>
+    <button type="button" class="is-current" data-scene-jump="0" data-short="Origin" aria-current="step" aria-label="Introduction" title="Introduction"><span>00</span><strong>Origin</strong></button>
+    <button type="button" data-scene-jump="1" data-short="Aegis" aria-label="Aegis" title="Aegis"><span>01</span><strong>Aegis</strong></button>
+    <button type="button" data-scene-jump="2" data-short="Grid" aria-label="Gridium" title="Gridium"><span>02</span><strong>Gridium</strong></button>
+    <button type="button" data-scene-jump="3" data-short="CBM" aria-label="Compressor CBM" title="Compressor CBM"><span>03</span><strong>Compressor</strong></button>
+    <button type="button" data-scene-jump="4" data-short="Topo" aria-label="TopoFlow" title="TopoFlow"><span>04</span><strong>TopoFlow</strong></button>
+    <button type="button" data-scene-jump="5" data-short="Profile" aria-label="About Shaunak" title="About Shaunak"><span>05</span><strong>Profile</strong></button>
   </nav>
 
   <section class="systems-console" aria-label="System selector">
@@ -179,6 +179,12 @@
     </div>
     <div class="console-controls"><button type="button" data-prev-scene aria-label="Previous system">&#8592;</button><button type="button" data-next-scene aria-label="Next system">&#8594;</button></div>
   </section>
+
+  <nav class="scene-flow" aria-label="Continue exploring" hidden>
+    <button type="button" data-prev-scene aria-label="Previous project">&#8592;</button>
+    <small data-scene-position>02 / 06</small>
+    <button type="button" data-next-scene><span>Next: GRIDIUM</span><b aria-hidden="true">&#8594;</b></button>
+  </nav>
 
   <footer class="observatory-footer">
     <span><i aria-hidden="true"></i>Available for technical collaborations</span>
@@ -337,6 +343,6 @@
   </template>
 
   <noscript><div class="noscript-message">This portfolio uses an interactive WebGL scene. JavaScript is required; the project reports remain available through the direct links above.</div></noscript>
-  <script type="module" src="js/observatory.js?v=4.0"></script>
+  <script type="module" src="js/observatory.js?v=4.1"></script>
 </body>
 </html>

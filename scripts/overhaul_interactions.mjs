@@ -57,6 +57,17 @@ try {
   await expectScene(page,2,'rapid buttons do not depend on wheel lock');
   await page.goBack(); await expectScene(page,4,'browser back restores scene');
   await page.goForward(); await expectScene(page,2,'browser forward restores scene');
+  await page.locator('.scene-flow [data-next-scene]').click();
+  await expectScene(page,3,'visible next-project control');
+  await page.locator('.scene-flow [data-prev-scene]').click();
+  await expectScene(page,2,'visible previous-project control');
+  await page.locator('.scene-flow [data-next-scene]').focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#scene-title-3').evaluate(e=>e===document.activeElement),true,'keyboard scene control focuses the new heading');
+  await page.keyboard.press('Tab');
+  assert.equal(await page.locator('[data-scene-panel="3"] .primary-action').evaluate(e=>e===document.activeElement),true,'next Tab reaches the case study');
+  checks.push('keyboard scene navigation keeps the case-study action in focus order');
+  await page.locator('.scene-flow [data-prev-scene]').click();
   await page.locator('body').click({position:{x:1350,y:400}});
   await page.keyboard.press('ArrowDown'); await expectScene(page,3,'keyboard forward');
   await page.keyboard.press('Home'); await expectScene(page,0,'keyboard Home');
@@ -78,6 +89,34 @@ try {
   await page.evaluate(() => { const p=document.querySelector('[data-scene-panel="1"]'); p.scrollTop=p.scrollHeight; });
   await burst(page,[100,60,20],16,'[data-scene-panel="1"]');
   await expectScene(page,1,'native scroll gesture cannot escape panel at boundary');
+  await burst(page,[100,60,20],16,'[data-scene-panel="1"]');
+  await expectScene(page,2,'fresh gesture at panel bottom advances to the next scene');
+  await page.evaluate(() => { document.querySelector('[data-scene-panel="2"]').style.maxHeight='140px'; });
+  const prevented = await page.evaluate(() => {
+    document.querySelector('[data-scene-jump="1"]').click();
+    const oldPanel=document.querySelector('[data-scene-panel="1"]');
+    oldPanel.scrollTop=oldPanel.scrollHeight;
+    const start=performance.now();
+    const first=new WheelEvent('wheel',{deltaY:100,bubbles:true,cancelable:true});
+    Object.defineProperty(first,'timeStamp',{value:start});
+    oldPanel.dispatchEvent(first);
+    const panel=document.querySelector('[data-scene-panel="2"]');
+    const event=new WheelEvent('wheel',{deltaY:60,bubbles:true,cancelable:true});
+    Object.defineProperty(event,'timeStamp',{value:start+16});
+    panel.dispatchEvent(event);
+    return event.defaultPrevented;
+  });
+  assert.equal(prevented,true,'remaining scene-gesture momentum cannot scroll the newly revealed panel');
+  checks.push('scene gesture momentum remains suppressed when its target changes');
+  await page.evaluate(() => { document.querySelector('[data-scene-panel="2"]').style.maxHeight=''; });
+  await page.waitForTimeout(200);
+  await burst(page,[-100,-60,-20],16,'[data-scene-panel="2"]');
+  await expectScene(page,1,'fresh gesture at panel top returns to the previous scene');
+  await page.evaluate(()=>document.querySelector('[data-scene-panel="1"]').style.maxHeight='');
+  await page.locator('[data-scene-panel="1"] .scene-lead').hover();
+  await page.waitForTimeout(650);
+  await page.mouse.wheel(0,100);
+  await expectScene(page,2,'wheel over Aegis text advances instead of trapping navigation');
   const mobile = await noGL.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   mobile.on('pageerror',e=>errors.push(String(e)));
   await mobile.goto(base+'/#gridium'); await expectScene(mobile,2,'direct scene URL without WebGL');
@@ -89,6 +128,24 @@ try {
     canvas.dispatchEvent(new TouchEvent('touchend',{changedTouches:[b],bubbles:true}));
   });
   await expectScene(mobile,3,'touch swipe advances once');
+  await mobile.evaluate(() => {
+    const panel=document.querySelector('[data-scene-panel="3"]');
+    panel.style.maxHeight='120px'; panel.scrollTop=40;
+    const a=new Touch({identifier:1,target:panel,clientX:190,clientY:620});
+    const b=new Touch({identifier:1,target:panel,clientX:190,clientY:520});
+    panel.dispatchEvent(new TouchEvent('touchstart',{touches:[a],bubbles:true}));
+    panel.scrollTop=panel.scrollHeight;
+    panel.dispatchEvent(new TouchEvent('touchend',{changedTouches:[b],bubbles:true}));
+  });
+  await expectScene(mobile,3,'content swipe reaching its edge remains native');
+  await mobile.evaluate(() => {
+    const panel=document.querySelector('[data-scene-panel="3"]');
+    const a=new Touch({identifier:1,target:panel,clientX:190,clientY:620});
+    const b=new Touch({identifier:1,target:panel,clientX:190,clientY:520});
+    panel.dispatchEvent(new TouchEvent('touchstart',{touches:[a],bubbles:true}));
+    panel.dispatchEvent(new TouchEvent('touchend',{changedTouches:[b],bubbles:true}));
+  });
+  await expectScene(mobile,4,'fresh swipe at content edge advances to the next scene');
   assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'mobile home overflow');
   for (const file of ['aegis','gridium','compressor-cbm','topoflow','food','yield','sodexo']) {
     await mobile.goto(`${base}/${file}.html`);
@@ -124,6 +181,9 @@ try {
   await graphics.evaluate(()=>document.querySelector('canvas').getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
   await graphics.waitForFunction(()=>document.body.dataset.graphicsReady==='false');
   await expectScene(graphics,sceneBeforeLoss,'context loss preserves content');
+  await graphics.locator('.scene-flow [data-next-scene]').click();
+  await expectScene(graphics,4,'navigation continues after context loss');
+  assert.equal(await graphics.evaluate(()=>document.body.dataset.graphicsReady),'false','context loss keeps the fallback visible during navigation');
   for (const file of ['aegis','gridium','compressor-cbm','topoflow','food','yield','sodexo']) {
     await graphics.goto(`${base}/${file}.html`);
     await graphics.waitForFunction(()=>window.__heroTelemetry?.().ready,null,{timeout:30000});

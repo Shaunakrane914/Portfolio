@@ -1,6 +1,6 @@
 # Portfolio UX and rendering benchmarks - 14 October 2026
 
-Paired measurements compare original commit `c9a4d43` with this implementation. These are measurements from this workstation, not universal performance guarantees.
+Paired measurements compare original commit `c9a4d43` with the rendering overhaul in `bc3b307`. Subsequent navigation and visual corrections are recorded in [UX verification](UX-VERIFICATION.md). These are measurements from this workstation, not universal performance guarantees.
 
 ## Environment and method
 
