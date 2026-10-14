@@ -2,10 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import path from "node:path";
 
-const playwrightRoot = process.env.PLAYWRIGHT_ROOT;
-if (!playwrightRoot) throw new Error("PLAYWRIGHT_ROOT is required");
-
-const { chromium } = await import(pathToFileURL(path.join(playwrightRoot, "index.mjs")).href);
+const { chromium } = await (await import("./lib/playwright_loader.mjs")).getPlaywright();
 const baseUrl = process.env.AUDIT_URL || "http://127.0.0.1:8094";
 const outputDir = path.resolve(process.env.AUDIT_OUTPUT || ".audit/current");
 const chromePath = process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";

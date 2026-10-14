@@ -1,8 +1,7 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const playwrightRoot = process.env.PLAYWRIGHT_ROOT || "C:\\Users\\Shaunak Rane\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright";
-const { chromium } = await import(pathToFileURL(path.join(playwrightRoot, "index.mjs")).href);
+const { chromium } = await (await import("./lib/playwright_loader.mjs")).getPlaywright();
 
 // Launch Chrome with native hardware GPU acceleration
 const browser = await chromium.launch({

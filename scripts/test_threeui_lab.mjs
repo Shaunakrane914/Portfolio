@@ -1,8 +1,7 @@
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const playwrightRoot = "C:\\Users\\Shaunak Rane\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright";
-const { chromium } = await import(pathToFileURL(path.join(playwrightRoot, "index.mjs")).href);
+const { chromium } = await (await import("./lib/playwright_loader.mjs")).getPlaywright();
 
 const browser = await chromium.launch({
   headless: true,
