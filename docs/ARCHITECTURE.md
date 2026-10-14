@@ -1,10 +1,10 @@
-# Portfolio runtime architecture (v4.3)
+# Portfolio runtime architecture (v4.4)
 
-The portfolio is a static HTML site with an editorial layout, native document scrolling and a restrained Three.js backdrop. Four featured projects connect concise summaries to real images, implementation details and case studies. Project claims, evidence and resume content are retained.
+The portfolio is a static HTML site with an editorial layout, native document scrolling and visible Three.js models. Four featured projects connect concise summaries to implementation evidence and case studies. Project claims, evidence and resume content are retained.
 
 ## Input and scene state
 
-Six normal-flow sections have a `100svh` minimum height and expand with their content. Their `.scene-copy` elements hold the narrative; the canvas stays fixed behind them. Panels have no independent scrollers, hidden content or inert state. There is no scroll snap and no wheel/touch navigation listener: the browser handles reading, momentum, reversals, zoom and panning.
+Six normal-flow sections have a `100svh` minimum height and expand with their content. Narrative remains normal HTML; the introduction and four featured projects reserve empty, transparent `.model-view` regions for WebGL. The shared canvas stays fixed and rasterizes into the selected region as it moves through the viewport. Panels have no independent scrollers, hidden content or inert state. There is no scroll snap and no wheel/touch navigation listener: the browser handles reading, momentum, reversals, zoom and panning.
 
 The earlier burst classifier could discard repeated wheel ticks, gentle follow-up movement and quick reversals. Native browsing replaces that input contract. Short movement visibly scrolls the document; large gestures may cross several sections. Browsing no longer enforces one gesture per scene.
 
@@ -28,24 +28,28 @@ Lit standard materials and tinted transparent shells replace physical glass/tran
 
 Scene arrival uses a 280ms ease-out cubic camera move from a small dolly offset near the destination. It does not traverse the distance between spatial worlds or add a scan/streak effect. Rotation and pointer damping use elapsed time, and cached curve samples interpolate continuously into a reused vector. Case-study prototypes receive elapsed time, smoothed pointers and delta seconds. Hidden/offscreen heroes stop their animation loop; reduced-motion heroes render a static frame, including after resize. Homepage reduced motion also stops continuous rendering.
 
-The fixed canvas is decorative, with `pointer-events: none`; it never captures dragging or wheel input. Automatic motion remains restrained. Pointer position adds a small bounded tilt to interface previews, and hover reveals their case-study destination. Reduced motion removes preview transitions and transforms as well as continuous WebGL animation.
+The fixed canvas is decorative, with `pointer-events: none`; it never captures dragging or wheel input. Cached region dimensions determine the camera aspect and render viewport; a scissor rectangle clips drawing to the visible region below the header and above mobile navigation. Text and models occupy separate areas. No screenshot panel or browser frame sits over the geometry.
+
+Each world caches local bounding-box corners when built, including bounds for instanced meshes. Camera fitting projects those corners against the selected view direction and available aspect ratio, leaving a framing margin. The fit is reused until viewport dimensions change. Homepage exposure is 1.2 and fog density is 0.012; TopoFlow's material is brighter. Origin and TopoFlow use gentle bounded oscillation. Reduced motion stops continuous animation while preserving a visible static model.
 
 Animation delta is clamped for numerical stability; telemetry records raw frame intervals, including stalls longer than 800ms. The homepage exposes `window.__perfTelemetry.getSnapshot()` and the `?perf` HUD. Heroes expose `window.__heroTelemetry()`, including readiness, render count and running state. Desktop DPR is capped at 1.15, touch DPR at 1.0; sustained slow frames reduce resolution toward 0.65. Homepage recovery requires a longer stable fast period to avoid rapid quality oscillation.
 
 ## Content and delivery
 
-Case-study desktop heroes place art beside readable narrative. Mobile heroes reserve a separate 250px art region above normal-flow content. Copy is visible immediately; only graphics fade in after readiness. Local OFL-licensed WOFF2 fonts remove third-party font CSS from the critical path. Evidence images have intrinsic dimensions, lazy loading and asynchronous decoding.
+Case-study desktop heroes reserve the right side for art and constrain metrics and direct CTAs to the left 44% text lane. Metrics have no panel background, blur or divider borders; the art shade and decorative left border are removed. Mobile heroes reserve a separate 250px art region above normal-flow content. Both case renderers fit the model on resize, including portrait/desktop changes. Food and Sodexo no longer draw their three illustrative UI screens. Report evidence images remain in their ordinary content sections.
+
+Copy is visible immediately; only graphics fade in after readiness. Local OFL-licensed WOFF2 fonts remove third-party font CSS from the critical path. Evidence images have intrinsic dimensions, lazy loading and asynchronous decoding.
 
 See [BENCHMARKS.md](BENCHMARKS.md) for measured results, limitations, raw evidence and reproduction commands. Async shader compilation reduces rendering stalls; it cannot guarantee that a browser driver never blocks the main thread. See the [Three.js renderer contract](https://threejs.org/docs/pages/WebGLRenderer.html) for compilation, lighting and disposal semantics.
 
 ## Recruiter-facing navigation and layout
 
-`css/editorial.css` owns the identity, work previews and contact presentation above the base observatory styles. The opening pairs a large serif headline with the full name in the header and eyebrow, a clear engineering role and a full-width four-project index. A thin 2px reading-progress bar follows document progress without accepting input.
+`css/editorial.css` owns the identity, model regions and contact presentation above the base observatory styles. The opening pairs a large serif headline with the full name in the header and eyebrow, a clear engineering role and a full-width four-project index. A thin 2px reading-progress bar follows document progress without accepting input.
 
-Each featured chapter has a short lead and a directly linked image preview. Aegis uses its agent interface; Gridium uses the microgrid overview; Compressor CBM uses the flat Candidate B evidence chart; TopoFlow uses a clearly labeled pore-network illustration. Images reserve their dimensions and load lazily. Original technical descriptions remain visible in `.project-implementation` paragraphs, alongside existing metrics, evidence and live links.
+Each featured chapter has a short lead and a clear model region. The earlier four image-preview figures are removed. Original technical descriptions remain visible in `.project-implementation` paragraphs, alongside existing metrics, evidence, case-study and live links.
 
-Desktop places narrative and preview beside one another. On mobile, `.scene-copy` uses `display: contents` for the featured chapters so `.project-intro`, the image and `.project-details` follow the title/summary → image → metrics/links reading order. Content grows naturally with the document; it has no panel-local scrolling or hidden sections. The case-study action is primary, and rail controls keep accessible names and tooltips.
+Desktop places narrative and model beside one another. On mobile, `.scene-copy` uses `display: contents` for the featured chapters so `.project-intro`, the model region and `.project-details` follow the title/summary, model, then metrics/links reading order. Content grows naturally with the document; it has no panel-local scrolling or hidden sections. The case-study action is primary, and rail controls keep accessible names and tooltips.
 
 The profile combines the internship timeline with three engineering-practice groups. The contact ending exposes the real email address, resume, GitHub and LinkedIn. Copy email reports success through a status element; clipboard rejection or an unavailable API focuses the existing email link and presents a useful fallback.
 
-See [editorial-design verification](EDITORIAL-DESIGN-VERIFICATION.md) for current layout, links and interaction checks. The archived [v4.2 native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) records the introduction of the native browsing contract, which v4.3 retains. Its explorer-specific checks and hardware sample describe that earlier presentation. The [v4.1 UX verification](UX-VERIFICATION.md) preserves the preceding panel and gesture audit.
+See [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md) for current status and design rationale. Final v4.4 layout, case and performance verification is pending. The archived [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](NATIVE-SCROLL-VERIFICATION.md) and [v4.1 UX report](UX-VERIFICATION.md) describe earlier presentations and experiments. Their measurements do not establish current frame rates.

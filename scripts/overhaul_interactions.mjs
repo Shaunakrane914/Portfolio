@@ -215,33 +215,20 @@ try {
   await workIndex.locator('[data-scene-jump="2"]').click();
   await expectScene(page,2,'curated work index takes readers directly to Gridium');
   checks.push('curated work index provides four working project shortcuts');
-  const previews = [
-    [1,'aegis.html'], [2,'gridium.html'], [3,'compressor-cbm.html'], [4,'topoflow.html']
-  ];
-  assert.equal(await page.locator('.project-visual').count(),4,'four featured projects have visual previews');
-  for(const [index,file] of previews) {
+  assert.equal(await page.locator('.project-visual, [class*="artifact-"]').count(),0,'project screenshot frames have been removed');
+  assert.deepEqual(await page.locator('[data-model-view]').evaluateAll(views=>views.map(view=>+view.dataset.modelView)),[0,1,2,3,4],'introduction and four projects reserve a dedicated model space');
+  for(const [index,file] of [[1,'aegis.html'],[2,'gridium.html'],[3,'compressor-cbm.html'],[4,'topoflow.html']]) {
     await jump(page,index);
-    const preview=page.locator(`[data-scene-panel="${index}"] .project-visual`);
-    const link=preview.locator('a[href]');
-    assert.equal(await link.count(),1,'preview exposes one case-study destination');
-    assert.equal(new URL(await link.getAttribute('href'),base).pathname,`/${file}`,'preview links to the corresponding case study');
-    await preview.locator('img').scrollIntoViewIfNeeded();
-    await preview.locator('img').evaluate(image=>image.decode());
-    const image=await preview.locator('img').evaluate(image=>({
-      width:image.naturalWidth,height:image.naturalHeight,
-      declaredWidth:+image.getAttribute('width'),declaredHeight:+image.getAttribute('height'),
-      alt:image.alt,src:image.getAttribute('src')
-    }));
-    assert.ok(image.width>0 && image.height>0 && image.declaredWidth>0 && image.declaredHeight>0,'project image loads with intrinsic and declared dimensions');
-    assert.ok(image.alt.trim() && image.src.startsWith('assets/'),'project preview uses a described local image');
+    const link=page.locator(`[data-scene-panel="${index}"] .primary-action`);
+    assert.equal(new URL(await link.getAttribute('href'),base).pathname,`/${file}`,'primary action still links to the corresponding case study');
     await link.click();
     await page.waitForURL(url=>url.pathname===`/${file}`);
-    assert.ok((await page.locator('h1').innerText()).trim(),'preview opens a readable project report');
+    assert.ok((await page.locator('h1').innerText()).trim(),'primary action opens a readable project report');
     await page.locator('.nav-back').click();
     await page.waitForFunction(()=>document.body.dataset.currentScene!==undefined);
-    await expectScene(page,0,`${file} preview returns to the portfolio`);
+    await expectScene(page,0,`${file} case study returns to the portfolio`);
   }
-  checks.push('all four loaded project previews open their corresponding reports');
+  checks.push('screenshot frames are absent while all four primary case-study actions work');
   await jump(page,5);
   assert.ok((await page.locator('.profile-practice').innerText()).trim(),'profile explains engineering skills and practice');
   const contact=page.locator('.contact-finale');
@@ -338,6 +325,39 @@ try {
   });
   assert.equal(decorativePrevented,false,'decorative 3D never cancels wheel navigation');
   checks.push('automatic 3D preserves uncancelled native scrolling');
+  for(let index=0;index<5;index++) {
+    await jump(graphics,index);
+    await graphics.waitForFunction(index=>window.__observatory.worldStatus[index]==='ready' && document.body.dataset.graphicsReady==='true',index,{timeout:30000});
+    await graphics.waitForFunction(()=>getComputedStyle(document.querySelector('#observatory-canvas')).opacity==='1');
+    await graphics.waitForTimeout(350);
+    const surface=await graphics.locator(`[data-model-view="${index}"]`).evaluate(view=>{
+      const style=getComputedStyle(view), rect=view.getBoundingClientRect();
+      const canvas=document.querySelector('#observatory-canvas'), canvasStyle=getComputedStyle(canvas);
+      return {
+        background:style.backgroundColor,backgroundImage:style.backgroundImage,
+        hasCover:!!view.querySelector('img,video,iframe,button,input,a[href],canvas'),
+        display:style.display,visibility:style.visibility,
+        rect:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom,width:rect.width,height:rect.height},
+        viewport:window.__observatory.getModelViewportRect(),
+        projected:window.__observatory.getProjectedModelBounds(),
+        canvasDisplay:canvasStyle.display,canvasVisibility:canvasStyle.visibility,canvasOpacity:canvasStyle.opacity
+      };
+    });
+    assert.equal(surface.hasCover,false,'model space contains no image frame or interaction controls');
+    assert.equal(surface.background,'rgba(0, 0, 0, 0)','model space is transparent');
+    assert.equal(surface.backgroundImage,'none','model space has no image or gradient cover');
+    assert.notEqual(surface.display,'none','model space is rendered');
+    assert.equal(surface.visibility,'visible','model space is visible');
+    assert.ok(surface.rect.width>100 && surface.rect.height>100,'model space has useful dimensions');
+    assert.ok(surface.viewport.width>100 && surface.viewport.height>100,'rendered model viewport has useful dimensions');
+    assert.ok(surface.projected,'camera reports the selected model projection');
+    assert.ok(surface.projected.left>=surface.viewport.left-2 && surface.projected.right<=surface.viewport.right+2 && surface.projected.top>=surface.viewport.top-2 && surface.projected.bottom<=surface.viewport.bottom+2,'camera keeps the complete model bounds inside its viewport');
+    assert.ok(surface.projected.width>=surface.viewport.width*.1 && surface.projected.height>=surface.viewport.height*.1,'camera does not reduce the model to a tiny background detail');
+    assert.notEqual(surface.canvasDisplay,'none','model canvas is rendered');
+    assert.equal(surface.canvasVisibility,'visible','model canvas is visible');
+    assert.equal(surface.canvasOpacity,'1','model canvas is revealed');
+  }
+  checks.push('all five model spaces stay transparent, visible, and free of screenshot frames or controls');
   for(let round=0;round<3;round++) for(let i=0;i<6;i++) {
     await graphics.evaluate(i=>document.querySelector(`[data-scene-jump="${i}"]`).click(),i);
     await graphics.waitForFunction(i=>window.__observatory.worldStatus[i]==='ready' && document.body.dataset.graphicsReady==='true',i,{timeout:30000});
@@ -372,9 +392,14 @@ try {
   await reduced.goto(base+'/#topoflow');
   await reduced.waitForFunction(()=>document.body.dataset.graphicsReady==='true',null,{timeout:30000});
   assert.equal(await reduced.evaluate(()=>window.__perfTelemetry.getSnapshot().animationRunning),false,'homepage reduced motion stops continuous WebGL rendering');
-  await reduced.locator('[data-scene-panel="4"] .artifact-link').hover();
-  assert.equal(await reduced.locator('[data-scene-panel="4"] .artifact-link').evaluate(link=>getComputedStyle(link).transform),'none','reduced motion keeps the project preview flat, including hover');
-  checks.push('homepage artwork and project previews respect reduced motion');
+  assert.equal(await reduced.locator('.project-visual, [class*="artifact-"]').count(),0,'reduced-motion browsing also contains no screenshot frames');
+  assert.equal(await reduced.locator('[data-model-view="4"]').evaluate(view=>getComputedStyle(view).backgroundColor),'rgba(0, 0, 0, 0)','reduced-motion model remains uncovered');
+  await reduced.locator('[data-model-view="4"]').evaluate(view=>view.scrollIntoView({block:'center',behavior:'instant'}));
+  await settleScroll(reduced);
+  await reduced.waitForFunction(()=>window.__observatory.getModelViewportRect()?.height>100);
+  const reducedModel=await reduced.evaluate(()=>({viewport:window.__observatory.getModelViewportRect(),projected:window.__observatory.getProjectedModelBounds()}));
+  assert.ok(reducedModel.projected.left>=reducedModel.viewport.left-2 && reducedModel.projected.right<=reducedModel.viewport.right+2 && reducedModel.projected.top>=reducedModel.viewport.top-2 && reducedModel.projected.bottom<=reducedModel.viewport.bottom+2,'reduced-motion camera preserves model framing after native scrolling to the mobile band');
+  checks.push('homepage automatic models remain uncovered and static for reduced motion');
   await reduced.goto(base+'/yield.html');
   await reduced.waitForFunction(()=>window.__heroTelemetry?.().ready,null,{timeout:30000});
   assert.equal(await reduced.evaluate(()=>window.__heroTelemetry().running),false);

@@ -1,6 +1,15 @@
 # Changelog
 
 
+## v4.4.0 - 2026-10-14
+
+- Remove the four browser-style screenshot previews so the procedural models remain the primary project visuals. Preserve direct case-study, live and evidence links.
+- Reserve transparent `.model-view` regions for the introduction and four featured projects. Render real WebGL geometry only inside its own scissored rectangle, following native document scrolling without covering text or capturing input.
+- Cache model geometry bounds, including instanced geometry, and fit cameras to the available responsive viewport. Improve model visibility through exposure, lighter fog, brighter TopoFlow material and gentle bounded Origin/TopoFlow motion.
+- Keep case-study metrics and direct CTAs in the desktop text lane, with plain borderless metrics and no art shade or decorative left border. Fit both case renderers on resize and remove Food/Sodexo's three illustrative in-world UI displays.
+- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups; final layout, case and performance runs are pending in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
+
+
 ## v4.3.0 - 2026-10-14
 
 - Introduce an editorial portfolio layout with a large serif headline, full-name identity, a full-width four-project index and restrained automatic 3D.

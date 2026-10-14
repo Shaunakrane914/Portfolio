@@ -1,5 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
 import { mountHero } from "./graphics-runtime.js";
+import { fitModelCamera } from "./model-framing.js";
 
 const canvas = document.querySelector(".project-hero-canvas[data-project-scene]");
 
@@ -49,7 +50,7 @@ function initialize() {
   const root = new THREE.Group();
   scene.add(root);
 
-  const ambient = new THREE.HemisphereLight(0xd6e8ff, 0x090d0b, 1.05);
+  const ambient = new THREE.HemisphereLight(0xe4eee9, 0x17231d, 1.5);
   scene.add(ambient);
   const key = new THREE.DirectionalLight(0xffffff, 3.4);
   key.position.set(4, 8, 9);
@@ -944,16 +945,11 @@ function initialize() {
     }
 
     const processCells = [];
-    const cellDefinitions = [
-      { x: -2.15, title: "Demand", accent: "#f6c85f", rows: [["PAX", "1,248"], ["FORECAST", "+3.8%"], ["SERVICE", "DINNER"], ["CONF", "0.92"]] },
-      { x: 0, title: "Inventory", accent: "#6fd7ff", rows: [["STOCK", "86.4%"], ["RISK SKU", "04"], ["INBOUND", "312 kg"], ["WASTE", "-18.7%"]] },
-      { x: 2.15, title: "Cost", accent: "#7fe4ba", rows: [["TODAY", "52.8k"], ["BUDGET", "55.0k"], ["VAR", "-4.1%"], ["MARGIN", "12.6%"]] }
-    ];
-    cellDefinitions.forEach((definition, index) => {
+    [-2.15, 0, 2.15].forEach((x, index) => {
       const cell = new THREE.Group();
       const body = new THREE.Mesh(
         new THREE.BoxGeometry(1.66, 1.72, 1.55),
-        metal(0x1b2021, { roughness: 0.32, metalness: 0.78 })
+        metal(0x50636a, { roughness: 0.42, metalness: 0.48 })
       );
       body.position.y = -0.38;
       cell.add(body);
@@ -963,14 +959,13 @@ function initialize() {
       );
       trim.position.y = -0.38;
       cell.add(trim);
-      addInstrumentScreen(cell, [0, -0.25, 0.79], [0, 0, 0], [1.34, 0.76], definition.title, definition.rows, definition.accent);
       const status = new THREE.Mesh(
         new THREE.BoxGeometry(0.72, 0.028, 0.035),
         glow(index === 0 ? palette.accent : index === 1 ? 0x6fd7ff : 0x7fe4ba, 1, 0.72)
       );
       status.position.set(0, -1.08, 0.83);
       cell.add(status);
-      cell.position.x = definition.x;
+      cell.position.x = x;
       cell.userData.phase = index * 1.7;
       cell.userData.status = status;
       machine.add(cell);
@@ -1523,6 +1518,7 @@ function initialize() {
 
   const baseRotation = root.rotation.clone();
   const basePosition = root.position.clone();
+  const viewDirection = new THREE.Vector3(.22, .14, 1);
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -1536,7 +1532,7 @@ function initialize() {
     root.position.x = 0;
     root.position.y = basePosition.y;
     root.position.z = basePosition.z;
-    camera.updateProjectionMatrix();
+    fitModelCamera(camera, root, viewDirection);
   }
 
   mountHero({ canvas, renderer, scene, camera, resize,

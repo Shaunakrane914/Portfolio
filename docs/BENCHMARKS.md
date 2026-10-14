@@ -1,8 +1,8 @@
 # Historical portfolio UX and rendering benchmarks - 14 October 2026
 
-Paired measurements compare original commit `c9a4d43` with the rendering overhaul in `bc3b307`. Every performance table below belongs to those snapshots. They do not measure the current v4.3 editorial portfolio, and no new v4.3 FPS claim is made here.
+Paired measurements compare original commit `c9a4d43` with the rendering overhaul in `bc3b307`. Every performance table below belongs to those snapshots. They do not measure current v4.4 model visibility; its focused performance run is pending, and no v4.4 FPS claim is made here.
 
-The archived [v4.1 UX verification](UX-VERIFICATION.md) records 44 interaction groups and 30 scene/viewport captures. The separate [v4.2 native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) preserves its input checks and focused hardware scrolling sample. That earlier presentation included model controls, which v4.3 removes while retaining native browsing. Current layout, project previews, contact behavior and input checks are recorded in [v4.3 editorial-design verification](EDITORIAL-DESIGN-VERIFICATION.md). Historical samples do not establish current frame rates.
+The archived [v4.1 UX verification](UX-VERIFICATION.md), [v4.2 native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial-design verification](EDITORIAL-DESIGN-VERIFICATION.md) preserve earlier checks, captures and focused hardware samples. V4.4 retains native browsing, removes screenshot-preview frames and gives models clear render regions. Current verification status is recorded in [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md). Historical samples do not establish current frame rates.
 
 ## Environment and method
 
@@ -16,7 +16,7 @@ The archived [v4.1 UX verification](UX-VERIFICATION.md) records 44 interaction g
 
 ## Input reproduction
 
-The same precision-trackpad-like burst moved the original site from scene 0 to scene 3; snapshot `bc3b307` ended at scene 1. That was the earlier gesture-consumption contract. V4.2 introduced native scroll distance, retained in v4.3: short movement scrolls visibly, while large gestures may cover several sections. The historical one-burst result is not a claim about current browsing.
+The same precision-trackpad-like burst moved the original site from scene 0 to scene 3; snapshot `bc3b307` ended at scene 1. That was the earlier gesture-consumption contract. V4.2 introduced native scroll distance, retained through v4.4: short movement scrolls visibly, while large gestures may cover several sections. The historical one-burst result is not a claim about current browsing.
 
 ## Desktop initial content and idle rendering
 
@@ -48,7 +48,7 @@ No >50ms main-thread long task was recorded in the final six first-traversal win
 
 ## Verification and visual review
 
-The historical asserting suite covered browser wheel inertia, deterministic trackpad tails, continuous/large/small input, reversal, delta modes, native panel scrolling at its edge, rapid buttons, keyboard, touch, direct URLs, browser history, dialogs, focus restoration, no-WebGL content, reduced motion, offscreen pauses, readiness visibility and repeated GPU resource counts. The separate experimental lab was exercised across all prototypes and rapid switching. Current tests retain lifecycle checks and use trusted browser wheel/touch input for native document movement, with project-preview, work-index and contact checks. Their results belong to the v4.3 report linked above.
+The historical asserting suite covered browser wheel inertia, deterministic trackpad tails, continuous/large/small input, reversal, delta modes, native panel scrolling at its edge, rapid buttons, keyboard, touch, direct URLs, browser history, dialogs, focus restoration, no-WebGL content, reduced motion, offscreen pauses, readiness visibility and repeated GPU resource counts. The separate experimental lab was exercised across all prototypes and rapid switching. Current tests retain lifecycle checks and use trusted browser wheel/touch input for native movement, with model-region, work-index and contact checks. Final v4.4 results are pending in the model-visibility report linked above.
 
 All seven case-study routes (including the food/sodexo alias) were checked on mobile without horizontal overflow. The historical final benchmark capture had zero runtime/console errors or HTTP asset errors. Local asset/link checks passed. External project services were preserved; their availability is not guaranteed by this local audit.
 
@@ -62,7 +62,7 @@ Historical before/after screenshots of every homepage scene, every major case st
 
 ## Current verification and historical reproduction
 
-The current interaction suite starts its own server and tests native document browsing, linked previews and contact behavior. The layout audit records the editorial chapters and project previews in `.audit/editorial-design/after/`. Run browser suites sequentially:
+The current interaction suite starts its own server and tests native document browsing, clear model regions and contact behavior. The layout audit writes `.audit/model-visibility/after/`; the case audit writes `.audit/model-visibility/cases/`. Run browser suites sequentially:
 
 ```powershell
 # Playwright must be installed or discoverable by scripts/lib/playwright_loader.mjs.
@@ -72,7 +72,7 @@ node scripts/validate_links.mjs
 node scripts/check_asset_sizes.mjs
 ```
 
-To reproduce the tables, use a separate checkout or archive of `bc3b307` for the following historical commands. Running the audit against current v4.3 source produces a different experiment:
+To reproduce the tables, use a separate checkout or archive of `bc3b307` for the following historical commands. Running the audit against current v4.4 source produces a different experiment:
 
 ```powershell
 node scripts/test_wheel_gesture.mjs

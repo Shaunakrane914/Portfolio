@@ -1,6 +1,8 @@
-# Editorial portfolio verification (v4.3)
+# Historical editorial portfolio verification (v4.3)
 
-The homepage presents the work directly. The model explorer, manual orbit, pause/reset controls and configuration state are removed. Automatic Three.js artwork remains decorative with `pointer-events: none`; browsing keeps the native document scrolling introduced in v4.2.
+This report records the v4.3 presentation before v4.4 removed its four screenshot-preview frames and reserved clear model regions. Its checks, captures and rendering samples are historical. See [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md) for current status; final v4.4 validation is pending.
+
+V4.3 removed the model explorer, manual orbit, pause/reset controls and configuration state. Automatic Three.js artwork remained decorative with `pointer-events: none`; browsing retained the native document scrolling introduced in v4.2.
 
 ## Presentation
 
@@ -11,7 +13,7 @@ The homepage presents the work directly. The model explorer, manual orbit, pause
 - Three engineering-practice groups and a contact ending with direct email, LinkedIn, GitHub and resume links. Email copying announces success; denied clipboard access focuses the existing email link and supplies a useful status message.
 - Subtle hover destinations, a 2px document-progress line and reduced-motion behavior. No additional Three.js geometries or materials are introduced.
 
-`css/editorial.css` owns this presentation above the base observatory stylesheet. The progress line updates its own transform, avoiding an inherited CSS-variable update across the document. The renderer controls backdrop brightness through exposure, avoiding persistent CSS opacity over the full-screen canvas. The ready/fallback regression verifies that fallback art cannot cover a ready model.
+In this snapshot, `css/editorial.css` owned the presentation above the base observatory stylesheet. The progress line updated its own transform, avoiding an inherited CSS-variable update across the document. The renderer controlled backdrop brightness through exposure, avoiding persistent CSS opacity over the full-screen canvas. The ready/fallback regression verified that fallback art could not cover a ready model.
 
 ## Interaction and layout checks
 
@@ -31,11 +33,11 @@ The audit also verifies loaded images, declared dimensions, alternative text, co
 
 Selected artifacts: [desktop opening](benchmarks/2026-10-14/editorial/hero-desktop.png), [compact opening](benchmarks/2026-10-14/editorial/hero-compact.png), [Aegis desktop](benchmarks/2026-10-14/editorial/aegis-desktop.png), [Aegis mobile](benchmarks/2026-10-14/editorial/aegis-mobile.png), [compressor](benchmarks/2026-10-14/editorial/compressor-desktop.png), [TopoFlow](benchmarks/2026-10-14/editorial/topoflow-desktop.png), and contact on [desktop](benchmarks/2026-10-14/editorial/contact-desktop.png) / [mobile](benchmarks/2026-10-14/editorial/contact-mobile.png).
 
-JavaScript syntax and diff whitespace checks pass. Local link validation checks 157 references across eight HTML pages with no broken internal links/assets.
+At this snapshot, JavaScript syntax and diff whitespace checks passed. Local link validation checked 157 references across eight HTML pages with no broken internal links/assets.
 
 ## Focused rendering sample
 
-The [current scrolling sample](benchmarks/2026-10-14/editorial/performance.json) uses Chrome 155.0.8059.41, confirmed Intel UHD / ANGLE D3D11 hardware acceleration and a 1440 × 900 viewport. Each traversal sends 49 trusted 100px wheel events down, then 49 up, at 30ms intervals, covering all six chapters and returning to the document top. Across first/warm traversal, all 196 events remained uncancelled and no main-thread long task above 50ms was recorded within the sampled windows.
+The [v4.3 scrolling sample](benchmarks/2026-10-14/editorial/performance.json) used Chrome 155.0.8059.41, confirmed Intel UHD / ANGLE D3D11 hardware acceleration and a 1440 × 900 viewport. Each traversal sent 49 trusted 100px wheel events down, then 49 up, at 30ms intervals, covering all six chapters and returning to the document top. Across first/warm traversal, all 196 events remained uncancelled and no main-thread long task above 50ms was recorded within the sampled windows.
 
 | Window | Browser frame average | P95 | P99 | Maximum interval |
 |---|---:|---:|---:|---:|
@@ -44,9 +46,11 @@ The [current scrolling sample](benchmarks/2026-10-14/editorial/performance.json)
 
 The [earlier compositing diagnostic](benchmarks/2026-10-14/editorial/performance-before-compositing.json) used the same scrolling sequence before the progress/exposure correction, recording averages of 68.7 and 70.7 FPS. These are short sequential headless samples on one workstation, not a controlled multi-run distribution or a guarantee about physical display smoothness. Longer frame intervals remain in the evidence; no claim is made that all visible lag is eliminated. Physical trackpads, real mobile devices and a long memory soak remain unverified.
 
-The [original rendering tables](BENCHMARKS.md) and [v4.2 native-scroll capture](NATIVE-SCROLL-VERIFICATION.md) describe older snapshots and different experiments. Their numbers do not establish current frame rates.
+The [original rendering tables](BENCHMARKS.md) and [v4.2 native-scroll capture](NATIVE-SCROLL-VERIFICATION.md) describe still earlier snapshots and different experiments. None of these measurements establishes v4.4 frame rates.
 
 ## Reproduction
+
+Run these commands from the v4.3 source snapshot to reproduce this report. Current scripts validate v4.4 and write model-visibility artifacts instead.
 
 ```powershell
 node scripts/overhaul_interactions.mjs

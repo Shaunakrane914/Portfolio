@@ -32,6 +32,12 @@ const lookStart = new THREE.Vector3();
 let cameraTransitionAt = 0;
 let animationTime = 0;
 let renderedFrames = 0;
+const modelViews = Array.from(document.querySelectorAll("[data-model-view]"));
+const modelLayouts = [];
+let modelViewport = null;
+let headerBottom = 0;
+let footerHeight = 0;
+const modelAngles = [[.24, .16, 1], [.12, .32, 1], [.12, .5, 1], [.42, .28, 1], [.48, .25, 1]];
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -52,10 +58,99 @@ const mobileCameraStates = [
 ];
 
 function getCameraTarget(sceneIndex) {
+  const world = worlds[sceneIndex];
+  const layout = modelLayouts[sceneIndex];
+  if (world?.userData.modelCorners && layout?.width && layout?.height) {
+    const key = `${layout.width}:${layout.height}`;
+    if (world.userData.cameraFit?.key !== key) {
+      const direction = new THREE.Vector3(...modelAngles[sceneIndex]).normalize();
+      const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction).normalize();
+      const up = new THREE.Vector3().crossVectors(direction, right);
+      const center = world.userData.modelCenter;
+      const tan = Math.tan(THREE.MathUtils.degToRad(42) / 2);
+      const aspect = layout.width / layout.height;
+      let distance = 0;
+      world.userData.modelCorners.forEach(corner => {
+        const relative = corner.clone().applyMatrix4(world.userData.modelMatrix).sub(center);
+        const depth = relative.dot(direction);
+        distance = Math.max(distance, Math.abs(relative.dot(right)) / (tan * aspect * .84) + depth,
+          Math.abs(relative.dot(up)) / (tan * .84) + depth);
+      });
+      const position = center.clone().addScaledVector(direction, distance);
+      const state = { position: position.toArray(), look: center.toArray() };
+      world.userData.cameraFit = { key, state };
+      // Keep the diagnostic camera presets consistent with the actual fit.
+      cameraStates[sceneIndex] = state;
+      mobileCameraStates[sceneIndex] = state;
+    }
+    return world.userData.cameraFit.state;
+  }
   if (window.innerWidth <= 820) {
     return mobileCameraStates[sceneIndex] || mobileCameraStates[0];
   }
   return cameraStates[sceneIndex] || cameraStates[0];
+}
+
+function measureModelViews() {
+  headerBottom = document.querySelector(".observatory-header").getBoundingClientRect().bottom;
+  const rail = document.querySelector(".scene-rail").getBoundingClientRect();
+  footerHeight = window.innerWidth <= 820 ? rail.height : 0;
+  modelViews.forEach(view => {
+    const rect = view.getBoundingClientRect();
+    modelLayouts[Number(view.dataset.modelView)] = {
+      left: rect.left, top: rect.top + window.scrollY, width: rect.width, height: rect.height
+    };
+  });
+}
+
+function getModelViewportRect() {
+  const layout = modelLayouts[currentScene];
+  if (!layout) return null;
+  const left = Math.max(0, layout.left);
+  const right = Math.min(window.innerWidth, layout.left + layout.width);
+  const top = Math.max(headerBottom, layout.top - window.scrollY);
+  const bottom = Math.min(window.innerHeight - footerHeight, layout.top - window.scrollY + layout.height);
+  return { left, top, right, bottom, width: Math.max(0, right - left), height: Math.max(0, bottom - top) };
+}
+
+function updateModelViewport() {
+  modelViewport = getModelViewportRect();
+  const layout = modelLayouts[currentScene];
+  if (layout && camera.aspect !== layout.width / layout.height) {
+    camera.aspect = layout.width / layout.height;
+    camera.fov = 42;
+    camera.updateProjectionMatrix();
+  }
+}
+
+function drawModel(renderCamera = camera) {
+  // Clear once, then rasterize only the model's own transparent space. The
+  // viewport follows native document scroll; text never covers the model.
+  renderer.setScissorTest(false);
+  renderer.clear();
+  const layout = modelLayouts[currentScene];
+  if (!layout || !modelViewport?.width || !modelViewport.height) return;
+  renderer.setViewport(layout.left, window.innerHeight - (layout.top - window.scrollY + layout.height), layout.width, layout.height);
+  renderer.setScissor(modelViewport.left, window.innerHeight - modelViewport.bottom, modelViewport.width, modelViewport.height);
+  renderer.setScissorTest(true);
+  renderer.render(scene, renderCamera);
+  renderer.setScissorTest(false);
+}
+
+function getProjectedModelBounds() {
+  const world = worlds[currentScene];
+  const layout = modelLayouts[currentScene];
+  if (!world?.userData.modelCorners || !layout || !camera) return null;
+  world.updateWorldMatrix(true, false);
+  camera.updateMatrixWorld();
+  const points = world.userData.modelCorners.map(corner => {
+    const p = corner.clone().applyMatrix4(world.matrixWorld).project(camera);
+    return { x: layout.left + (p.x + 1) * layout.width / 2,
+      y: layout.top - window.scrollY + (1 - p.y) * layout.height / 2 };
+  });
+  const left = Math.min(...points.map(p => p.x)), right = Math.max(...points.map(p => p.x));
+  const top = Math.min(...points.map(p => p.y)), bottom = Math.max(...points.map(p => p.y));
+  return { left, top, right, bottom, width: right - left, height: bottom - top };
 }
 
 const palette = {
@@ -771,7 +866,7 @@ function createTopoWorld() {
   });
 
   const poreGeometry = new THREE.IcosahedronGeometry(0.1, 2);
-  const poreMaterial = physicalMaterial(0x335d7d, {
+  const poreMaterial = physicalMaterial(0x9ab8d2, {
     roughness: 0.24,
     metalness: 0.38,
     clearcoat: 0.5,
@@ -815,11 +910,11 @@ function createTopoWorld() {
   group.add(poreShell);
 
   const matrixGeometry = new THREE.IcosahedronGeometry(0.78, 1);
-  const matrixMaterial = physicalMaterial(0x202a2b, {
+  const matrixMaterial = physicalMaterial(0x465657, {
     roughness: 0.78,
     metalness: 0.14,
     clearcoat: 0.08,
-    opacity: 0.52,
+    opacity: 0.38,
     emissive: 0x071011,
     emissiveIntensity: 0.1
   });
@@ -1991,6 +2086,25 @@ function ensureWorld(index) {
     worldStatus[index] = "building";
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
+    if (index < 5) {
+      // Fit all actual geometry, including instance bounds, once per world.
+      // Cache local corners so projection checks also follow its gentle motion.
+      world.updateWorldMatrix(true, true);
+      const inverse = world.matrixWorld.clone().invert();
+      const bounds = new THREE.Box3();
+      world.traverse(object => {
+        if (!object.geometry) return;
+        if (object.isInstancedMesh) object.computeBoundingBox();
+        else if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+        const box = (object.isInstancedMesh ? object.boundingBox : object.geometry.boundingBox)?.clone();
+        if (box) bounds.union(box.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld)));
+      });
+      const corners = [];
+      for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z));
+      world.userData.modelCorners = corners;
+      world.userData.modelMatrix = world.matrixWorld.clone();
+      world.userData.modelCenter = bounds.getCenter(new THREE.Vector3()).applyMatrix4(world.matrixWorld);
+    }
     world.visible = false;
     worlds[index] = world;
     worldStatus[index] = "built";
@@ -2051,10 +2165,10 @@ function prepareWorldAsync(index) {
     const visible = worlds.map(w => w?.visible || false);
     try {
       worlds.forEach((w, i) => { if (w) w.visible = i === index; });
-      renderer.render(scene, warmCamera);
+      drawModel(warmCamera);
     } finally {
       worlds.forEach((w, i) => { if (w) w.visible = visible[i]; });
-      renderer.render(scene, camera);
+      drawModel();
     }
     world.userData.ready = true;
     worldStatus[index] = "ready";
@@ -2071,6 +2185,11 @@ function revealWorld(index) {
   if (!webglReady || index !== currentScene || !worlds[index]?.userData.ready) return;
   activeWorld = worlds[index];
   activeWorld.visible = true;
+  const state = getCameraTarget(index);
+  cameraStart.fromArray(state.position);
+  if (!reduceMotion) cameraStart.add(new THREE.Vector3(.2, .08, .35));
+  lookStart.fromArray(state.look);
+  cameraTransitionAt = performance.now();
   document.body.dataset.graphicsReady = "true";
   if (reduceMotion) render(performance.now());
 }
@@ -2101,15 +2220,16 @@ function initializeThree() {
       alpha: false,
       powerPreference: "high-performance"
     });
-    renderer.setClearColor(0x020403, 1);
+    renderer.setClearColor(0x050706, 1);
+    renderer.autoClear = false;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = currentScene === 0 ? (coarsePointer ? .75 : 1.2) : (coarsePointer ? .55 : .75);
+    renderer.toneMappingExposure = 1.2;
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x020403);
-    scene.fog = new THREE.FogExp2(0x020403, 0.021);
+    scene.background = new THREE.Color(0x050706);
+    scene.fog = new THREE.FogExp2(0x050706, 0.012);
 
     const isMobile = window.innerWidth <= 820;
     camera = new THREE.PerspectiveCamera(isMobile ? 64 : 42, 1, 0.1, 120);
@@ -2139,7 +2259,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.3.0",
+      version: "4.4.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2152,12 +2272,23 @@ function initializeThree() {
       currentLook,
       mobileCameraStates,
       cameraStates,
+      getModelViewportRect,
+      getProjectedModelBounds,
       THREE
     };
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
     window.addEventListener("orientationchange", resizeRenderer, { passive: true });
+    const modelObserver = new ResizeObserver(() => {
+      measureModelViews();
+      if (webglReady && reduceMotion) render(performance.now());
+    });
+    modelViews.forEach(view => modelObserver.observe(view));
+    document.fonts.ready.then(() => {
+      measureModelViews();
+      if (webglReady && reduceMotion) render(performance.now());
+    });
     canvas.addEventListener("webglcontextlost", event => { event.preventDefault(); webglReady = false; renderer.setAnimationLoop(null); document.body.dataset.graphicsReady = "false"; });
     canvas.addEventListener("webglcontextrestored", () => location.reload());
     document.addEventListener("visibilitychange", () => {
@@ -2172,6 +2303,7 @@ function initializeThree() {
     window.addEventListener("pagehide", event => {
       if (event.persisted) return;
       clearTimeout(prewarmTimer);
+      modelObserver.disconnect();
       renderer.setAnimationLoop(null);
       disposeScene(scene);
       renderer.dispose();
@@ -2191,15 +2323,14 @@ function resizeRenderer() {
   const height = canvas.clientHeight;
   if (canvas.width !== Math.floor(width * renderer.getPixelRatio()) || canvas.height !== Math.floor(height * renderer.getPixelRatio())) {
     renderer.setSize(width, height, false);
-    camera.aspect = width / Math.max(height, 1);
-    camera.fov = window.innerWidth <= 820 ? 64 : 42;
-    camera.updateProjectionMatrix();
   }
+  measureModelViews();
   if (webglReady && reduceMotion) render(performance.now());
 }
 
 function render(timeMs) {
   if (!webglReady) return;
+  updateModelViewport();
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
@@ -2239,7 +2370,7 @@ function render(timeMs) {
 
   // 0: Origin
   if (activeIdx === 0 && worlds[0]) {
-    worlds[0].rotation.y += reduceMotion ? 0 : 0.072 * dt;
+    worlds[0].rotation.y = reduceMotion ? 0 : Math.sin(time * .16) * .14;
     worlds[0].rotation.x = Math.sin(time * 0.18) * 0.12;
     worlds[0].userData.rings?.forEach((ring) => {
       ring.rotation.y += reduceMotion ? 0 : ring.userData.speed * dt;
@@ -2366,7 +2497,7 @@ function render(timeMs) {
 
   // 4: TopoFlow
   else if (activeIdx === 4 && worlds[4]) {
-    worlds[4].rotation.y += reduceMotion ? 0 : 0.102 * dt;
+    worlds[4].rotation.y = reduceMotion ? 0 : Math.sin(time * .18) * .14;
     worlds[4].rotation.x = Math.sin(time * 0.2) * 0.08;
     if (worlds[4].userData.flowCurve && worlds[4].userData.flowParticles) {
       worlds[4].userData.flowParticles.forEach((particle) => {
@@ -2399,7 +2530,7 @@ function render(timeMs) {
     activeWorld.scale.copy(baseScale).multiplyScalar(0.93 + eased * 0.07);
   }
 
-  renderer.render(scene, camera);
+  drawModel();
   renderedFrames++;
   if (!document.hidden && !reduceMotion) {
     recordFrameTime(rawFrameDeltaMs);
@@ -2427,9 +2558,6 @@ function setScene(index, options = {}) {
   }
   cameraTransitionAt = performance.now();
   currentScene = next;
-  // Dim the automatic backdrop in the renderer. CSS opacity over a full-screen
-  // WebGL canvas required an extra compositor blend beneath every work preview.
-  if (renderer) renderer.toneMappingExposure = currentScene === 0 ? (coarsePointer ? .75 : 1.2) : (coarsePointer ? .55 : .75);
   activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
   document.body.dataset.graphicsReady = String(Boolean(activeWorld));
   if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
@@ -2497,6 +2625,7 @@ function syncSceneToScroll() {
   let next = 0;
   panels.forEach((panel, index) => { if (panel.offsetTop <= readingLine) next = index; });
   if (next !== currentScene) setScene(next, { observed: true });
+  else if (reduceMotion && webglReady) render(performance.now());
 }
 window.addEventListener("scroll", () => {
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
@@ -2588,11 +2717,6 @@ window.addEventListener("pointermove", event => {
   if (event.pointerType === "touch" || reduceMotion) return;
   pointerX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2;
   pointerY = -(event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2;
-  const visual = panels[currentScene]?.querySelector(".project-visual");
-  if (visual) {
-    visual.style.setProperty("--tilt-x", `${pointerY * 1.6}deg`);
-    visual.style.setProperty("--tilt-y", `${pointerX * 2}deg`);
-  }
 }, { passive: true });
 
 document.addEventListener("click", async event => {

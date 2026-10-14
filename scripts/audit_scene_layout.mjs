@@ -3,12 +3,13 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { getPlaywright } from './lib/playwright_loader.mjs';
 const label = process.argv[2] || 'after';
-const out = path.resolve('.audit/editorial-design', label);
+const out = path.resolve('.audit/model-visibility', label);
 await fs.mkdir(out,{recursive:true});
 const { chromium } = await getPlaywright();
 const browser = await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--enable-webgl','--ignore-gpu-blocklist']});
 const results = [];
 const errors = [];
+const intersects = (a,b) => a.left < b.right-1 && a.right > b.left+1 && a.top < b.bottom-1 && a.bottom > b.top+1;
 try {
   for (const viewport of [{width:1440,height:900},{width:1280,height:720},{width:1024,height:600},{width:390,height:844},{width:844,height:390}]) {
     const page = await browser.newPage({viewport,hasTouch:viewport.width<900,isMobile:viewport.width<900});
@@ -19,64 +20,90 @@ try {
     assert.equal(chapterHeights.length,6,'all six editorial chapters are present');
     if(label==='after') {
       assert.equal(await page.locator('.model-tools, [data-model-explore], [data-model-point], [data-model-reset], [data-motion-toggle]').count(),0,'model control widgets are absent');
-      assert.equal(await page.locator('.project-visual').count(),4,'four project previews are present');
+      assert.equal(await page.locator('.project-visual, [class*="artifact-"]').count(),0,'project screenshot frames are absent');
+      assert.deepEqual(await page.locator('[data-model-view]').evaluateAll(views=>views.map(view=>+view.dataset.modelView)),[0,1,2,3,4],'five chapters reserve model space');
     }
     for (let i=0;i<6;i++) {
       await page.evaluate(i=>document.querySelector(`[data-scene-jump="${i}"]`).click(),i);
       await page.waitForFunction(i=>window.__observatory?.worldStatus[i]==='ready' && document.body.dataset.graphicsReady==='true',i,{timeout:30000});
-      if(await page.locator(`[data-scene-panel="${i}"] .project-visual img`).count()) {
-        await page.locator(`[data-scene-panel="${i}"] .project-visual img`).evaluate(image=>image.decode());
-      }
       await page.waitForTimeout(450);
+      const navigation=await page.locator(`[data-scene-panel="${i}"]`).evaluate(panel=>{
+        const copy=panel.querySelector('.scene-copy');
+        const narrative=panel.querySelector('.project-intro') || (getComputedStyle(copy).display==='contents' ? copy.firstElementChild : copy);
+        return {chapterTop:panel.getBoundingClientRect().top,narrativeTop:narrative.getBoundingClientRect().top,headerBottom:document.querySelector('.observatory-header').getBoundingClientRect().bottom};
+      });
+      await page.screenshot({path:path.join(out,`${viewport.width}x${viewport.height}-scene-${i}.png`),animations:'disabled'});
+      const modelView=page.locator(`[data-scene-panel="${i}"] [data-model-view]`);
+      if(viewport.width<=820 && await modelView.count()) {
+        await modelView.evaluate(view=>view.scrollIntoView({block:'center',behavior:'instant'}));
+        await page.waitForTimeout(450);
+      }
       const result = await page.evaluate(() => {
+        const serialize = element => {
+          if(!element) return null;
+          const r=element.getBoundingClientRect();
+          return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height};
+        };
         const p=document.querySelector('.scene-panel.is-active'), style=getComputedStyle(p);
-        const rect=p.getBoundingClientRect();
-        const copy=(p.querySelector('.project-intro') || p.querySelector('.scene-copy')).getBoundingClientRect();
-        const visual=p.querySelector('.project-visual');
-        let preview=null;
-        if(visual) {
-          const r=visual.getBoundingClientRect(), image=visual.querySelector('img'), link=visual.querySelector('a[href]');
-          preview={top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height,
-            href:link?.getAttribute('href'),naturalWidth:image?.naturalWidth,naturalHeight:image?.naturalHeight,
-            declaredWidth:+image?.getAttribute('width'),declaredHeight:+image?.getAttribute('height'),alt:image?.alt};
-        }
+        const model=p.querySelector('[data-model-view]'), modelStyle=model && getComputedStyle(model);
+        const canvasStyle=getComputedStyle(document.querySelector('#observatory-canvas'));
+        const copy=p.querySelector('.scene-copy');
+        const narrative=[...p.querySelectorAll('.project-intro,.project-details')];
+        if(!narrative.length) narrative.push(copy);
+        const viewport=window.__observatory?.getModelViewportRect?.() || null;
         const header=document.querySelector('.observatory-header').getBoundingClientRect();
         return {scene:+document.body.dataset.currentScene,scrollY,panelWidth:p.clientWidth,panelHeight:p.clientHeight,contentHeight:p.scrollHeight,
           chapterHeights:[...document.querySelectorAll('[data-scene-panel]')].map(panel=>panel.clientHeight),
           accessible:[...document.querySelectorAll('[data-scene-panel]')].every(panel=>!panel.inert && panel.getAttribute('aria-hidden')!=='true'),
           horizontalOverflow:p.scrollWidth>p.clientWidth+1,verticalOverflow:p.scrollHeight>p.clientHeight+2,overflowY:style.overflowY,
-          scrollbars:style.scrollbarWidth,border:style.borderWidth,rect:{top:rect.top,bottom:rect.bottom},
-          copy:{top:copy.top,bottom:copy.bottom,left:copy.left,right:copy.right,width:copy.width},preview,
-          headerBottom:header.bottom,canvasPointerEvents:getComputedStyle(document.querySelector('canvas')).pointerEvents,
+          scrollbars:style.scrollbarWidth,border:style.borderWidth,rect:serialize(p),copy:serialize(copy),narrative:narrative.map(serialize),
+          model:model ? {rect:serialize(model),viewport,projected:window.__observatory?.getProjectedModelBounds?.() || null,index:+model.dataset.modelView,
+            background:modelStyle.backgroundColor,backgroundImage:modelStyle.backgroundImage,display:modelStyle.display,visibility:modelStyle.visibility,
+            hasCover:!!model.querySelector('img,video,iframe,button,input,a[href],canvas')} : null,
+          headerBottom:header.bottom,canvas:{pointerEvents:canvasStyle.pointerEvents,display:canvasStyle.display,visibility:canvasStyle.visibility,opacity:canvasStyle.opacity},
+          graphicsReady:document.body.dataset.graphicsReady,
           viewportOverflow:document.documentElement.scrollWidth>innerWidth};
       });
-      results.push({viewport,...result});
-      await page.screenshot({path:path.join(out,`${viewport.width}x${viewport.height}-scene-${i}.png`),animations:'disabled'});
+      results.push({viewport,navigation,...result});
+      if(await modelView.count()) await page.screenshot({path:path.join(out,`${viewport.width}x${viewport.height}-scene-${i}-model.png`),animations:'disabled'});
       if (label==='after') {
         assert.equal(result.horizontalOverflow,false,'panel horizontal overflow');
         assert.equal(result.viewportOverflow,false,'viewport horizontal overflow');
         assert.equal(result.border,'0px','panel card border removed');
         assert.equal(result.verticalOverflow,false,'no nested vertical scroller');
         assert.equal(result.overflowY,'visible','content remains in document flow');
-        assert.ok(result.rect.top >= -1 && result.rect.top < 2,'explicit navigation aligns the selected chapter');
-        assert.ok(result.copy.top >= result.headerBottom,'content clears the fixed header');
+        assert.ok(navigation.chapterTop >= -1 && navigation.chapterTop < 2,'explicit navigation aligns the selected chapter');
+        assert.ok(navigation.narrativeTop >= navigation.headerBottom-1,'content clears the fixed header after navigation');
         assert.equal(result.accessible,true,'all chapters remain accessible');
-        assert.equal(result.canvasPointerEvents,'none','3D stays decorative');
+        assert.equal(result.canvas.pointerEvents,'none','3D leaves native browsing alone');
+        assert.equal(result.graphicsReady,'true','selected world has finished preparation');
+        assert.equal(result.canvas.visibility,'visible','canvas is visible');
+        assert.equal(result.canvas.opacity,'1','canvas is revealed');
         assert.deepEqual(result.chapterHeights,chapterHeights,'active scene changes do not shift chapter heights');
-        if(i>=1 && i<=4) {
-          const expected=['aegis.html','gridium.html','compressor-cbm.html','topoflow.html'][i-1];
-          assert.ok(result.preview,'featured chapter has a visual preview');
-          assert.equal(new URL(result.preview.href,'http://localhost').pathname,`/${expected}`,'visual links to its case study');
-          assert.ok(result.preview.naturalWidth>0 && result.preview.naturalHeight>0,'project image has loaded');
-          assert.ok(result.preview.declaredWidth>0 && result.preview.declaredHeight>0,'project image reserves its dimensions');
-          assert.ok(result.preview.alt?.trim(),'project image has useful alternative text');
-          assert.ok(result.preview.width>0 && result.preview.height>0,'preview is rendered');
-          assert.ok(result.preview.left>=-1 && result.preview.right<=viewport.width+1,'preview fits the viewport');
-          assert.ok(result.preview.top>=result.headerBottom,'preview clears the header');
-          if(viewport.width<=820 && viewport.height>520) assert.ok(result.preview.top>=result.copy.bottom-1,'mobile narrative precedes the preview');
-        }
+        if(i<5) {
+          const model=result.model;
+          assert.ok(model,'chapter reserves model space');
+          assert.equal(model.index,i,'model space belongs to the selected chapter');
+          assert.equal(model.hasCover,false,'model space has no screenshot, link, or control covering it');
+          assert.equal(model.background,'rgba(0, 0, 0, 0)','model space is transparent');
+          assert.equal(model.backgroundImage,'none','model space has no image or gradient cover');
+          assert.notEqual(model.display,'none','model space is rendered');
+          assert.equal(model.visibility,'visible','model space is visible');
+          assert.ok(model.rect.width>100 && model.rect.height>100,'model space has useful dimensions');
+          assert.ok(model.viewport,'renderer reports its model viewport');
+          const area=model.viewport;
+          assert.ok(area.width>100 && area.height>100,'rendered model viewport has useful dimensions');
+          assert.ok(area.left>=-1 && area.right<=viewport.width+1,'rendered model fits the viewport horizontally');
+          assert.ok(area.top>=result.headerBottom-1 && area.bottom<=viewport.height+1,'model viewport clears header and remains on screen');
+          assert.ok(area.left>=model.rect.left-1 && area.right<=model.rect.right+1 && area.top>=model.rect.top-1 && area.bottom<=model.rect.bottom+1,'renderer keeps the model in its reserved space');
+          const projected=model.projected;
+          assert.ok(projected,'renderer reports fitted model bounds');
+          assert.ok(projected.left>=area.left-2 && projected.right<=area.right+2 && projected.top>=area.top-2 && projected.bottom<=area.bottom+2,'complete projected model remains inside its viewport');
+          assert.ok(projected.width>=area.width*.1 && projected.height>=area.height*.1,'projected model remains large enough to read');
+          for(const narrative of result.narrative) assert.equal(intersects(area,narrative),false,'model viewport does not overlap narrative');
+          if(viewport.width>820) assert.equal(intersects(area,result.copy),false,'desktop model has a clear column beside the copy');
+        } else assert.equal(result.model,null,'profile has no redundant model frame');
       }
-      if(await page.locator(`[data-scene-panel="${i}"] .project-visual`).count()) await page.locator(`[data-scene-panel="${i}"] .project-visual`).screenshot({path:path.join(out,`${viewport.width}x${viewport.height}-scene-${i}-preview.png`),animations:'disabled'});
     }
     await page.evaluate(()=>window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));
     await page.waitForTimeout(100);
