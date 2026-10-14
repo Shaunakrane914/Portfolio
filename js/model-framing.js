@@ -2,7 +2,7 @@ import * as THREE from '../assets/vendor/three.module.min.js';
 
 // Refit the complete model after a portrait/desktop resize. Ambient particles
 // decorate the surrounding space and must not force the subject into the distance.
-export function fitModelCamera(camera, subject, direction, margin = .82) {
+export function fitModelCamera(camera, subject, direction, margin = .94) {
   subject.updateWorldMatrix(true, true);
   const bounds = new THREE.Box3();
   subject.traverse(object => {
