@@ -11,7 +11,8 @@ try {
   const page = await browser.newPage({viewport:{width:1440,height:900}});
   page.on('pageerror',error=>errors.push(String(error)));
   await page.addInitScript(() => {
-    window.__scrollAudit = {frames:[],tasks:[],events:[]};
+    window.__scrollAudit = {frames:[],tasks:[],events:[],scenes:[]};
+    addEventListener('DOMContentLoaded',()=>new MutationObserver(()=>window.__scrollAudit.scenes.push({at:performance.now(),scene:+document.body.dataset.currentScene})).observe(document.body,{attributes:true,attributeFilter:['data-current-scene']}));
     new PerformanceObserver(list=>window.__scrollAudit.tasks.push(...list.getEntries().map(t=>({at:t.startTime,ms:t.duration})))).observe({type:'longtask',buffered:true});
     let last;
     const frame=now=>{if(last) window.__scrollAudit.frames.push({at:now,ms:now-last});last=now;requestAnimationFrame(frame);};
@@ -25,12 +26,13 @@ try {
     return e ? gl.getParameter(e.UNMASKED_RENDERER_WEBGL) : null;
   });
   const windows=[];
+  const steps=await page.evaluate(()=>Math.ceil((document.documentElement.scrollHeight-innerHeight)/100));
   for(const traversal of ['first','warm']) {
     await page.evaluate(()=>document.querySelector('.scene-rail [data-scene-jump="0"]').click());
     await page.waitForTimeout(500);
     const start=await page.evaluate(()=>performance.now());
     await page.mouse.move(1300,400);
-    for(const sign of [1,-1]) for(let i=0;i<45;i++) {
+    for(const sign of [1,-1]) for(let i=0;i<steps;i++) {
       await page.mouse.wheel(0,sign*100);
       await page.waitForTimeout(30);
     }
@@ -38,9 +40,10 @@ try {
     const sample=await page.evaluate(start=>{
       const frames=window.__scrollAudit.frames.filter(f=>f.at>=start).map(f=>f.ms).sort((a,b)=>a-b);
       const events=window.__scrollAudit.events.filter(e=>e.at>=start);
-      return {frames:frames.length,fps:1000/(frames.reduce((a,b)=>a+b,0)/frames.length),p95:frames[Math.floor(frames.length*.95)],p99:frames[Math.floor(frames.length*.99)],max:frames.at(-1),longTasks:window.__scrollAudit.tasks.filter(t=>t.at>=start),wheelEvents:events.length,cancelledWheelEvents:events.filter(e=>e.prevented).length,finalScrollY:scrollY,telemetry:window.__perfTelemetry.getSnapshot()};
+      return {frames:frames.length,fps:1000/(frames.reduce((a,b)=>a+b,0)/frames.length),p95:frames[Math.floor(frames.length*.95)],p99:frames[Math.floor(frames.length*.99)],max:frames.at(-1),longTasks:window.__scrollAudit.tasks.filter(t=>t.at>=start),wheelEvents:events.length,cancelledWheelEvents:events.filter(e=>e.prevented).length,visitedScenes:[...new Set(window.__scrollAudit.scenes.filter(s=>s.at>=start).map(s=>s.scene))].sort(),finalScrollY:scrollY,telemetry:window.__perfTelemetry.getSnapshot()};
     },start);
     assert.equal(sample.cancelledWheelEvents,0,'trusted wheel events stay native');
+    assert.deepEqual(sample.visitedScenes,[0,1,2,3,4,5],'scroll traversal visits every chapter');
     windows.push({traversal,...sample});
   }
   await page.evaluate(()=>document.querySelector('.scene-rail [data-scene-jump="3"]').click());
@@ -55,7 +58,8 @@ try {
   assert.ok(cameraError<.3,'camera arrival settles within 350ms on a ready world');
   assert.deepEqual(errors,[]);
   const result={date:new Date().toISOString(),browser:browser.version(),gpu,viewport:{width:1440,height:900},windows,cameraErrorAfter350ms:cameraError,errors};
-  await fs.mkdir('.audit/native-scroll',{recursive:true});
-  await fs.writeFile('.audit/native-scroll/performance.json',JSON.stringify(result,null,2));
+  const directory=process.env.SCROLL_AUDIT_DIR || '.audit/native-scroll';
+  await fs.mkdir(directory,{recursive:true});
+  await fs.writeFile(`${directory}/performance.json`,JSON.stringify(result,null,2));
   console.log(JSON.stringify(result,null,2));
 } finally { await browser.close(); }

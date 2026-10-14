@@ -1,0 +1,176 @@
+/* The portfolio's editorial layer. Native chapter layout and renderer lifecycle
+   stay in observatory.css; this file owns identity, work previews and contact. */
+:root { --ink: #f2f1e8; --muted: #a5afa8; --folio-accent: #c5eca2; }
+.observatory-header { padding-inline: 5.5%; background: rgba(5, 7, 6, .96); }
+.brand-lockup { gap: 12px; }
+.brand-lockup strong { border: 0; width: auto; height: auto; font-size: 1.8rem; font-family: var(--serif); }
+.brand-lockup span { font-family: var(--sans); font-size: .82rem; text-transform: none; letter-spacing: -.02em; }
+.header-actions { font-family: var(--sans); font-size: .78rem; text-transform: none; }
+.header-actions .header-link, .header-actions .archive-trigger { font: inherit; text-transform: none; }
+.reading-progress { position: fixed; z-index: 52; top: var(--header-height); left: 0; height: 2px; width: 100%; background: var(--folio-accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.scene-stage::before { background: linear-gradient(90deg, #050706 0%, rgba(5, 7, 6, .92) 28%, rgba(5, 7, 6, .25) 72%, transparent); }
+body:not([data-graphics-ready="true"]):not([data-current-scene="0"]) .canvas-fallback { opacity: .45; }
+.scene-stage .scene-panel { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(32px, 5vw, 90px); padding: 140px 8% 110px; }
+.scene-copy, .scene-panel-intro .scene-copy, .scene-panel-profile .scene-copy { width: 100%; }
+.scene-stage .scene-panel-intro { align-content: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); row-gap: 50px; }
+.scene-panel-intro .scene-copy { grid-column: 1; }
+.hero-eyebrow { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: .63rem; color: var(--muted); margin: 0 0 28px; text-transform: uppercase; }
+.availability-dot { display: block; flex: 0 0 6px; width: 6px; height: 6px; background: var(--folio-accent); border-radius: 50%; box-shadow: 0 0 14px rgba(197, 236, 162, .3); }
+.scene-stage .scene-panel-intro h1 { font-size: clamp(4.5rem, 7.7vw, 7.5rem); line-height: .92; letter-spacing: -.055em; white-space: nowrap; }
+.scene-stage .scene-panel-intro h1 em { font-weight: 400; color: var(--folio-accent); }
+.scene-stage .intro-role { margin: 25px 0 12px; font-family: var(--sans); font-size: .88rem; text-transform: none; letter-spacing: 0; color: var(--ink); }
+.scene-stage .scene-panel-intro .scene-lead { max-width: 460px; font-size: .92rem; line-height: 1.65; color: var(--muted); }
+.scene-stage .intro-actions { margin-top: 26px; gap: 22px; }
+.scene-stage .primary-action { min-height: 46px; display: inline-flex; align-items: center; gap: 22px; font-family: var(--sans); font-size: .76rem; text-transform: none; letter-spacing: 0; border-radius: 3px; }
+.scene-stage .quiet-action, .scene-stage .live-action { font-family: var(--sans); font-size: .75rem; text-transform: none; letter-spacing: 0; }
+.scene-stage .scene-coordinate { font-size: .63rem; color: var(--muted); letter-spacing: .08em; margin-bottom: 17px; }
+.scene-stage .scene-status { gap: 8px 12px; margin-bottom: 25px; }
+.scene-stage .scene-status span { font-family: var(--sans); color: #a6b3aa; font-size: .7rem; }
+.scene-stage .scene-panel h2 { font-size: clamp(3.8rem, 5.8vw, 6.2rem); line-height: .98; letter-spacing: -.05em; margin: 0; }
+.scene-stage .scene-panel h2 > span { display: block; }
+.scene-stage .scene-panel h2 > small { display: block; font-family: var(--sans); font-size: clamp(1.25rem, 1.85vw, 1.9rem); line-height: 1.3; letter-spacing: -.035em; margin: 12px 0 0; color: var(--muted); font-weight: 400; }
+.scene-stage .scene-panel .scene-lead { font-size: .94rem; line-height: 1.75; margin-top: 22px; }
+.scene-stage .scene-panel .scene-footnote { font-size: .69rem; color: var(--muted); line-height: 1.65; margin-top: 20px; }
+.project-implementation { font-size: .72rem; line-height: 1.75; color: #87978d; margin: 14px 0 0; }
+.scene-stage .metric-strip, .scene-stage .signal-readout { margin-top: 28px; gap: 16px; }
+.scene-stage .metric-strip strong { font-family: var(--serif); font-size: 2.45rem; font-weight: 400; line-height: 1.1; letter-spacing: -.05em; }
+.scene-stage .metric-strip span, .scene-stage .signal-readout span { font-family: var(--sans); font-size: .62rem; line-height: 1.4; text-transform: none; }
+.scene-stage .signal-readout strong { font-family: var(--sans); font-size: .73rem; font-weight: 500; text-transform: none; }
+.scene-stage .scene-actions { margin-top: 26px; gap: 12px 18px; }
+.scene-stage .hero-work-index { grid-column: 1 / -1; margin: 0; min-height: 0; pointer-events: auto; }
+.scene-stage .hero-work-index .systems-console-intro { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+.scene-stage .hero-work-index .systems-console-intro > span { display: block; color: var(--muted); font-size: .59rem; font-family: var(--mono); letter-spacing: .08em; }
+.scene-stage .hero-work-index .systems-console-intro p { font-size: .7rem; max-width: none; text-align: right; }
+.scene-stage .hero-work-index .systems-console-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.scene-stage .hero-work-index .systems-console-grid button { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; min-height: 84px; padding: 18px 20px; border-radius: 0; background: rgba(13, 21, 16, .7); text-align: left; font-family: var(--sans); text-transform: none; transition: background 180ms, transform 180ms; }
+.scene-stage .hero-work-index .systems-console-grid button > div { display: grid; min-width: 0; }
+.scene-stage .hero-work-index .systems-console-grid button + button { border-left: 1px solid rgba(225, 238, 231, .08); }
+.scene-stage .hero-work-index .systems-console-grid button span { display: block; color: var(--console-accent); font-family: var(--serif); font-size: 1.7rem; line-height: 1; letter-spacing: -.08em; }
+.scene-stage .hero-work-index .systems-console-grid button strong { font-size: .8rem; color: var(--ink); }
+.scene-stage .hero-work-index .systems-console-grid button small { display: block; font-family: var(--sans); text-transform: none; font-size: .62rem; margin-top: 6px; line-height: 1.35; color: #9ba99f; }
+.scene-stage .hero-work-index .systems-console-grid button b { color: var(--muted); font-weight: 400; font-size: 1rem; }
+.scene-stage .hero-work-index .systems-console-grid button:hover { background: rgba(44, 62, 47, .7); transform: translateY(-4px); }
+.project-visual { position: relative; margin: 0; min-width: 0; width: 100%; pointer-events: auto; perspective: 1400px; }
+.visual-index { position: absolute; top: -105px; right: -25px; font-family: var(--serif); font-size: clamp(10rem, 20vw, 20rem); letter-spacing: -.08em; line-height: 1; color: rgba(213, 228, 219, .045); pointer-events: none; z-index: -1; }
+.artifact-link { position: relative; display: block; overflow: hidden; border: 1px solid rgba(203, 225, 212, .16); border-radius: 8px; background: #0b100d; box-shadow: 0 28px 70px rgba(0, 0, 0, .6); transition: transform 240ms ease-out, border-color 180ms; }
+.artifact-interface .artifact-link { transform: rotateY(calc(-6deg + var(--tilt-y, 0deg))) rotateX(calc(2deg + var(--tilt-x, 0deg))) rotateZ(-2deg); }
+.artifact-interface .artifact-link:hover { transform: rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg)) rotateZ(0deg) translateY(-5px); border-color: rgba(203, 225, 212, .45); }
+.artifact-link img { display: block; width: 100%; height: auto; }
+.artifact-topline { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 36px; padding: 10px 14px; color: var(--muted); background: #101712; }
+.artifact-topline > span { display: flex; gap: 4px; }
+.artifact-topline i { width: 4px; height: 4px; border-radius: 50%; background: #64776b; }
+.artifact-topline small { font-size: .57rem; font-family: var(--mono); font-weight: 400; letter-spacing: .03em; }
+.artifact-topline b { font-weight: 400; font-size: .8rem; }
+.artifact-open { position: absolute; inset: auto 14px 14px auto; display: flex; align-items: center; gap: 14px; min-height: 36px; padding: 8px 14px; border-radius: 3px; background: rgba(5, 10, 7, .94); color: var(--ink); font-family: var(--sans); font-size: .65rem; opacity: 0; transform: translateY(5px); transition: opacity 160ms, transform 160ms; }
+.artifact-link:hover .artifact-open, .artifact-link:focus-visible .artifact-open { opacity: 1; transform: none; }
+.project-visual figcaption { display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; letter-spacing: .03em; margin-top: 24px; }
+.artifact-chart { align-self: end; padding-bottom: 40px; }
+.artifact-chart .artifact-link { border-radius: 4px; transform: none; }
+.artifact-rock .artifact-link { transform: rotateZ(-1deg); background: #101212; border: 0; box-shadow: 0 25px 90px rgba(12, 32, 25, .45); }
+.artifact-rock img { aspect-ratio: 4 / 3; object-fit: cover; }
+.scene-rail button { min-width: 38px; min-height: 44px; }
+.scene-flow { bottom: 75px; }
+.scene-flow button { background: rgba(10, 17, 12, .85); font-family: var(--sans); font-size: .7rem; }
+body[data-current-scene="5"] .scene-flow { display: none; }
+.scene-stage .scene-panel-profile { row-gap: 75px; }
+.scene-stage .scene-panel-profile h2 { font-size: clamp(3.4rem, 5vw, 5.3rem); }
+.scene-stage .trajectory { margin-top: 24px; }
+.scene-stage .trajectory article { display: grid; grid-template-columns: 44px 1fr; padding: 12px 0; gap: 15px; }
+.scene-stage .trajectory time { font-size: .65rem; color: var(--folio-accent); }
+.scene-stage .trajectory strong { font-size: .82rem; }
+.scene-stage .trajectory span { font-size: .76rem; line-height: 1.6; }
+.profile-practice { pointer-events: auto; padding-left: 20px; }
+.practice-eyebrow { color: var(--muted); font-family: var(--mono); font-size: .63rem; text-transform: uppercase; letter-spacing: .08em; }
+.profile-practice h3 { font-family: var(--serif); font-size: clamp(2rem, 3.2vw, 3.5rem); line-height: 1.06; font-weight: 400; letter-spacing: -.04em; margin: 20px 0 30px; }
+.profile-practice > div { display: grid; grid-template-columns: 130px 1fr; gap: 18px; padding: 14px 0; }
+.profile-practice > div > span { color: var(--folio-accent); font-family: var(--mono); font-size: .61rem; }
+.profile-practice p { font-size: .78rem; line-height: 1.7; margin: 0; color: var(--muted); }
+.contact-finale { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; gap: 35px; padding-top: 48px; pointer-events: auto; }
+.contact-finale > div:first-child > p { font-family: var(--mono); font-size: .63rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.contact-finale h3 { margin: 20px 0 0; font-family: var(--serif); font-size: clamp(3.2rem, 5.7vw, 6rem); line-height: .98; letter-spacing: -.055em; font-weight: 400; }
+.contact-finale h3 em { color: var(--folio-accent); font-weight: 400; }
+.contact-details { flex: 0 1 340px; padding-bottom: 2px; }
+.contact-finale .profile-contact { font-family: var(--sans); font-size: .73rem; line-height: 2; max-width: 100%; text-transform: none; letter-spacing: 0; }
+.contact-finale .profile-contact .contact-email { border: 0; }
+.contact-socials { display: flex; gap: 20px; flex-wrap: wrap; }
+.contact-email { display: block; font-family: var(--sans); font-size: 1rem; margin-bottom: 15px; color: var(--ink); letter-spacing: -.025em; }
+.contact-finale [data-copy-email] { min-height: 44px; padding: 8px 0; border: 0; background: none; color: var(--folio-accent); cursor: pointer; font: .73rem var(--sans); }
+.contact-finale [data-copy-email] span { padding-left: 20px; }
+[data-copy-status] { font: .68rem var(--sans); color: var(--muted); min-height: 1.5em; }
+@media (min-width: 821px) and (max-height: 780px) {
+  .scene-stage .scene-panel { padding-top: 115px; padding-bottom: 95px; }
+  .scene-stage .scene-panel-intro { row-gap: 34px; }
+  .scene-stage .scene-panel-intro h1 { font-size: clamp(4rem, 6.8vw, 6.3rem); }
+  .hero-eyebrow { margin-bottom: 20px; }
+  .scene-stage .scene-panel .scene-lead { font-size: .88rem; line-height: 1.65; }
+  .scene-stage .scene-status { margin-bottom: 18px; }
+  .scene-stage .metric-strip, .scene-stage .signal-readout { margin-top: 23px; }
+  .scene-stage .hero-work-index .systems-console-grid button { min-height: 76px; padding: 14px 12px; gap: 10px; }
+}
+@media (max-width: 1180px) and (min-width: 821px) {
+  .scene-stage .scene-panel { padding-inline: 8%; gap: 40px; }
+  .scene-stage .scene-panel h2 { font-size: 3.5rem; }
+  .scene-stage .scene-panel-intro h1 { font-size: 5.9vw; }
+  .scene-stage .hero-work-index .systems-console-grid button { gap: 8px; }
+  .scene-stage .hero-work-index .systems-console-grid button small { font-size: .57rem; }
+  .profile-practice { padding-left: 0; }
+  .profile-practice > div { grid-template-columns: 95px 1fr; gap: 12px; }
+}
+@media (max-width: 820px) {
+  .observatory-header { padding-inline: 6%; }
+  .scene-rail { background: rgba(5, 7, 6, .97); }
+  .scene-rail button, .scene-rail button.is-current { background: transparent; }
+  .scene-rail button.is-current { color: var(--folio-accent); box-shadow: inset 0 2px var(--folio-accent); }
+  .brand-lockup span { display: block; font-size: .7rem; }
+  .scene-stage::before { background: linear-gradient(180deg, rgba(5, 7, 6, .28), #050706 68%); }
+  .scene-stage .scene-panel, .scene-stage .scene-panel-intro, .scene-stage .scene-panel-profile { display: flex; flex-direction: column; align-items: stretch; gap: 28px; padding: 112px 6% 110px; }
+  .scene-stage .scene-panel-intro { padding-top: 160px; gap: 56px; }
+  .scene-copy, .scene-panel-intro .scene-copy, .scene-panel-profile .scene-copy { width: 100%; }
+  .hero-eyebrow { font-size: .56rem; line-height: 1.7; margin-bottom: 28px; }
+  .scene-stage .scene-panel-intro h1 { font-size: clamp(3rem, 12.4vw, 5.5rem); }
+  .scene-stage .intro-role { font-size: .8rem; }
+  .scene-stage .scene-panel .scene-lead { font-size: .94rem; line-height: 1.75; }
+  .scene-stage .scene-panel h2 { font-size: 3.9rem; }
+  .scene-stage .scene-panel h2 > small { font-size: 1.25rem; }
+  .scene-stage .scene-panel:not(.scene-panel-intro):not(.scene-panel-profile) > .scene-copy { display: contents; }
+  .project-intro { order: 0; }
+  .project-visual { order: 1; padding: 0; }
+  .project-details { order: 2; }
+  .project-visual .artifact-link, .project-visual .artifact-link:hover { transform: none; }
+  .visual-index { display: none; }
+  .project-visual figcaption { margin-top: 12px; font-size: .51rem; }
+  .scene-stage .scene-status { margin-bottom: 20px; }
+  .scene-stage .scene-footnote { font-size: .74rem; }
+  .project-implementation { font-size: .78rem; }
+  .scene-stage .metric-strip, .scene-stage .signal-readout { margin-top: 0; gap: 14px; }
+  .scene-stage .signal-readout strong { font-size: .72rem; }
+  .scene-stage .metric-strip strong { font-size: 2.2rem; }
+  .scene-stage .metric-strip span, .scene-stage .signal-readout span { font-size: .65rem; }
+  .scene-stage .hero-work-index .systems-console-intro { display: block; }
+  .scene-stage .hero-work-index .systems-console-intro p { margin-top: 8px; font-size: .73rem; line-height: 1.6; text-align: left; }
+  .scene-stage .hero-work-index .systems-console-grid { grid-template-columns: 1fr; gap: 6px; }
+  .scene-stage .hero-work-index .systems-console-grid button { min-height: 78px; padding: 18px; }
+  .scene-stage .hero-work-index .systems-console-grid button + button { border-left: 0; }
+  .scene-stage .hero-work-index .systems-console-grid button small { font-size: .67rem; }
+  .profile-practice { padding-left: 0; margin-top: 16px; }
+  .profile-practice h3 { font-size: 2.5rem; }
+  .profile-practice > div { grid-template-columns: 120px 1fr; }
+  .profile-practice p { font-size: .74rem; }
+  .contact-finale { display: block; padding-top: 25px; }
+  .contact-finale h3 { font-size: clamp(2.65rem, 10.6vw, 4.5rem); }
+  .contact-details { margin-top: 35px; }
+  .contact-email { font-size: 1rem; }
+}
+@media (max-height: 520px) and (min-width: 821px) {
+  .scene-stage .scene-panel { align-items: start; padding-top: 105px; }
+  .scene-stage .scene-panel-intro { grid-template-columns: 1fr 1fr; }
+  .scene-stage .scene-panel-intro h1 { font-size: 4.5rem; }
+  .project-visual { margin-top: 60px; }
+  .artifact-chart { align-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .artifact-link, .artifact-open, .scene-stage .hero-work-index .systems-console-grid button { transition: none; }
+  .artifact-interface .artifact-link, .artifact-interface .artifact-link:hover,
+  .artifact-rock .artifact-link, .artifact-rock .artifact-link:hover,
+  .scene-stage .hero-work-index .systems-console-grid button:hover { transform: none; }
+}

@@ -9,8 +9,9 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="css/fonts.css" />
-  <link rel="stylesheet" href="css/observatory.css?v=4.2" />
-  <link rel="modulepreload" href="js/observatory.js?v=4.2" />
+  <link rel="stylesheet" href="css/observatory.css?v=4.3" />
+  <link rel="stylesheet" href="css/editorial.css?v=4.3" />
+  <link rel="modulepreload" href="js/observatory.js?v=4.3" />
   <link rel="modulepreload" href="assets/vendor/three.module.min.js" />
   <script type="application/ld+json">
   {
@@ -34,11 +35,12 @@
   <canvas id="observatory-canvas" aria-hidden="true"></canvas>
   <div class="canvas-fallback" aria-hidden="true"></div>
   <div class="screen-noise" aria-hidden="true"></div>
+  <div class="reading-progress" aria-hidden="true"></div>
 
   <header class="observatory-header">
     <button class="brand-lockup" type="button" data-scene-jump="0" aria-label="Return to introduction">
       <strong>SR</strong>
-      <span>Systems Portfolio</span>
+      <span>Shaunak Rane</span>
     </button>
     <div class="system-status" aria-label="Core stack">
       <span class="live-pulse" aria-hidden="true"></span>
@@ -56,34 +58,38 @@
   <main class="scene-stage" id="scene-stage" tabindex="-1">
     <section class="scene-panel scene-panel-intro is-active" data-scene-panel="0" aria-labelledby="scene-title-0" id="origin">
       <div class="scene-copy">
-        <p class="scene-coordinate">00 / Origin</p>
-        <h1 id="scene-title-0">Shaunak<br />Rane</h1>
+        <p class="hero-eyebrow"><span class="availability-dot" aria-hidden="true"></span> Shaunak Rane &nbsp; / &nbsp; Applied ML &amp; systems</p>
+        <h1 id="scene-title-0"><span>Intelligence,</span><br /><em>put to work.</em></h1>
         <p class="intro-role">Machine-learning systems engineer</p>
         <p class="scene-lead">I build validated ML systems that turn complex physical and operational data into reliable decisions across industrial diagnostics, agent orchestration, graph learning, and distributed energy.</p>
         <div class="intro-actions">
-          <button class="primary-action" type="button" data-next-scene>Explore systems <span aria-hidden="true">&#8594;</span></button>
+          <button class="primary-action" type="button" data-next-scene>View selected work <span aria-hidden="true">&#8594;</span></button>
           <a class="quiet-action" href="mailto:shaunakrane914@gmail.com">Start a conversation <span aria-hidden="true">&#8599;</span></a>
         </div>
-        <section class="systems-console" aria-label="System selector">
-          <div class="systems-console-intro"><span>Systems console</span><p>Scroll to browse, or choose a project.</p></div>
+        <nav class="chapter-next" aria-label="Continue from Introduction"><button type="button" data-scene-jump="1">Next: Aegis <span aria-hidden="true">&#8594;</span></button></nav>
+      </div>
+        <section class="systems-console hero-work-index" aria-label="Selected work">
+          <div class="systems-console-intro"><span>Selected work</span><p>Four systems. Different scales. One engineering mindset.</p></div>
           <div class="systems-console-grid">
-            <button type="button" data-scene-jump="1" style="--console-accent:var(--orange)"><span>01</span><strong>Aegis</strong><small>Claim investigation</small></button>
-            <button type="button" data-scene-jump="2" style="--console-accent:var(--yellow)"><span>02</span><strong>Gridium</strong><small>Distributed energy</small></button>
-            <button type="button" data-scene-jump="3" style="--console-accent:var(--green)"><span>03</span><strong>Compressor CBM</strong><small>Industrial diagnostics</small></button>
-            <button type="button" data-scene-jump="4" style="--console-accent:var(--blue)"><span>04</span><strong>TopoFlow</strong><small>Graph permeability</small></button>
+            <button type="button" data-scene-jump="1" style="--console-accent:var(--orange)"><span>01</span><div><strong>Aegis</strong><small>Claim investigation</small></div><b aria-hidden="true">&#8599;</b></button>
+            <button type="button" data-scene-jump="2" style="--console-accent:var(--yellow)"><span>02</span><div><strong>Gridium</strong><small>Microgrid simulation</small></div><b aria-hidden="true">&#8599;</b></button>
+            <button type="button" data-scene-jump="3" style="--console-accent:var(--green)"><span>03</span><div><strong>Compressor CBM</strong><small>Industrial diagnostics</small></div><b aria-hidden="true">&#8599;</b></button>
+            <button type="button" data-scene-jump="4" style="--console-accent:var(--blue)"><span>04</span><div><strong>TopoFlow</strong><small>Permeability prediction</small></div><b aria-hidden="true">&#8599;</b></button>
           </div>
           <div class="console-controls"><button type="button" data-prev-scene aria-label="Previous system">&#8592;</button><button type="button" data-next-scene aria-label="Next system">&#8594;</button></div>
         </section>
-        <nav class="chapter-next" aria-label="Continue from Introduction"><button type="button" data-scene-jump="1">Next: Aegis <span aria-hidden="true">&#8594;</span></button></nav>
-      </div>
+
     </section>
 
     <section class="scene-panel scene-panel-aegis" data-scene-panel="1" aria-labelledby="scene-title-1" id="aegis">
       <div class="scene-copy">
+        <div class="project-intro">
         <p class="scene-coordinate">01 / Agent systems</p>
         <div class="scene-status"><span>Multi-agent swarm</span><span>Gemini 2.5 Gateway</span><span>Supabase pgvector</span></div>
-        <h2 id="scene-title-1">Aegis<br />threat intelligence</h2>
-        <p class="scene-lead">Autonomous investigation system combining SHA-256 claim deduplication, quantitative market anomaly detection (Z-scores), and 15-minute RSS ingestion with an asynchronous two-stage Gemini verification swarm.</p>
+        <h2 id="scene-title-1"><span>Aegis</span><small>threat intelligence</small></h2>
+        <p class="scene-lead">An investigation platform that turns noisy claims into traceable, evidence-backed verdicts.</p>
+        </div>
+        <div class="project-details">
         <div class="signal-readout" aria-label="Aegis implementation evidence">
           <div><span>Agent Swarm</span><strong>2-stage decoupled</strong></div>
           <div><span>Market ML</span><strong>Z-score anomalies</strong></div>
@@ -95,16 +101,30 @@
           <button class="quiet-action" type="button" data-open-evidence="aegis">Inspect claim flow <span aria-hidden="true">&#8599;</span></button>
         </div>
         <p class="scene-footnote">Production engineering: serverless edge key cycling, structured JSON Schema contracts, and pgvector semantic recall.</p>
+          <p class="project-implementation">Autonomous investigation system combining SHA-256 claim deduplication, quantitative market anomaly detection (Z-scores), and 15-minute RSS ingestion with an asynchronous two-stage Gemini verification swarm.</p>
         <nav class="chapter-next" aria-label="Continue from Aegis"><button type="button" data-scene-jump="2">Next: Gridium <span aria-hidden="true">&#8594;</span></button></nav>
+        </div>
       </div>
+      <figure class="project-visual artifact-interface">
+        <span class="visual-index" aria-hidden="true">01</span>
+        <a class="artifact-link" href="aegis.html" aria-label="Read the Aegis case study">
+          <div class="artifact-topline"><span><i></i><i></i><i></i></span><small>Product interface</small><b aria-hidden="true">&#8599;</b></div>
+          <img src="assets/aegis-agents-live.png" alt="Aegis agent workspace interface" width="1440" height="900" loading="lazy" decoding="async" />
+          <span class="artifact-open" aria-hidden="true">View project <b>&#8599;</b></span>
+        </a>
+        <figcaption><span>Agent intelligence</span><span>Aegis / 01</span></figcaption>
+      </figure>
     </section>
 
     <section class="scene-panel scene-panel-gridium" data-scene-panel="2" aria-labelledby="scene-title-2" id="gridium">
       <div class="scene-copy">
+        <div class="project-intro">
         <p class="scene-coordinate">02 / Energy systems</p>
         <div class="scene-status"><span>Continuous RL</span><span>DePIN Architecture</span><span>zk-SNARKs</span></div>
-        <h2 id="scene-title-2">Gridium<br />protocol</h2>
-        <p class="scene-lead">A distributed microgrid economy pairing a 15-node Ohm's law physics simulator with a continuous-control PyTorch DDPG agent, 500ms Socket.io gateway, constant-product EVM AMM, and Groth16 zk-SNARK settlement.</p>
+        <h2 id="scene-title-2"><span>Gridium</span><small>protocol</small></h2>
+        <p class="scene-lead">A simulated energy market where learning agents coordinate local power and respond to network imbalance.</p>
+        </div>
+        <div class="project-details">
         <div class="metric-strip" aria-label="Gridium project metrics">
           <div><strong>500ms</strong><span>physics tick rate</span></div>
           <div><strong>7D &rarr; 1D</strong><span>DDPG continuous fee</span></div>
@@ -116,16 +136,30 @@
           <button class="quiet-action" type="button" data-open-evidence="gridium">Inspect microgrid <span aria-hidden="true">&#8599;</span></button>
         </div>
         <p class="scene-footnote">Closed-loop stability: DDPG steers AMM swap fees dynamically to avert localized microgrid brownouts.</p>
+          <p class="project-implementation">A distributed microgrid economy pairing a 15-node Ohm's law physics simulator with a continuous-control PyTorch DDPG agent, 500ms Socket.io gateway, constant-product EVM AMM, and Groth16 zk-SNARK settlement.</p>
         <nav class="chapter-next" aria-label="Continue from Gridium"><button type="button" data-scene-jump="3">Next: Compressor <span aria-hidden="true">&#8594;</span></button></nav>
+        </div>
       </div>
+      <figure class="project-visual artifact-interface">
+        <span class="visual-index" aria-hidden="true">02</span>
+        <a class="artifact-link" href="gridium.html" aria-label="Read the Gridium case study">
+          <div class="artifact-topline"><span><i></i><i></i><i></i></span><small>Product interface</small><b aria-hidden="true">&#8599;</b></div>
+          <img src="assets/gridium-overview-live.png" alt="Gridium microgrid simulation interface" width="1440" height="900" loading="lazy" decoding="async" />
+          <span class="artifact-open" aria-hidden="true">View project <b>&#8599;</b></span>
+        </a>
+        <figcaption><span>Distributed energy</span><span>Gridium / 02</span></figcaption>
+      </figure>
     </section>
 
     <section class="scene-panel scene-panel-compressor" data-scene-panel="3" aria-labelledby="scene-title-3" id="compressor">
       <div class="scene-copy">
+        <div class="project-intro">
         <p class="scene-coordinate">03 / Industrial intelligence</p>
         <div class="scene-status"><span>AI internship</span><span>Industrial ML</span><span>Flask</span></div>
-        <h2 id="scene-title-3">Compressor<br />evidence system</h2>
-        <p class="scene-lead">A condition-monitoring platform that separates what the thermodynamics support from what a polished forecast merely suggests.</p>
+        <h2 id="scene-title-3"><span>Compressor</span><small>evidence system</small></h2>
+        <p class="scene-lead">Turning compressor operating data into evidence a maintenance team can review.</p>
+        </div>
+        <div class="project-details">
         <div class="metric-strip" aria-label="Compressor project metrics">
           <div><strong>3</strong><span>plant-specific contracts</span></div>
           <div><strong>3,879</strong><span>DFI rows reproduced</span></div>
@@ -136,16 +170,30 @@
           <button class="quiet-action" type="button" data-open-evidence="compressor">Inspect evidence <span aria-hidden="true">&#8599;</span></button>
         </div>
         <p class="scene-footnote">Forecasting remains an experimental visualization and never drives maintenance alerts.</p>
+          <p class="project-implementation">A condition-monitoring platform that separates what the thermodynamics support from what a polished forecast merely suggests.</p>
         <nav class="chapter-next" aria-label="Continue from Compressor"><button type="button" data-scene-jump="4">Next: TopoFlow <span aria-hidden="true">&#8594;</span></button></nav>
+        </div>
       </div>
+      <figure class="project-visual artifact-chart">
+        <span class="visual-index" aria-hidden="true">03</span>
+        <a class="artifact-link" href="compressor-cbm.html" aria-label="Read the Compressor CBM case study">
+          <div class="artifact-topline"><span><i></i><i></i><i></i></span><small>Measured evidence</small><b aria-hidden="true">&#8599;</b></div>
+          <img src="assets/compressor-fouling-candidate-b.png" alt="Candidate B fouling index with recorded references and recovery boundaries" width="2380" height="935" loading="lazy" decoding="async" />
+          <span class="artifact-open" aria-hidden="true">View project <b>&#8599;</b></span>
+        </a>
+        <figcaption><span>Condition monitoring</span><span>Compressor CBM / 03</span></figcaption>
+      </figure>
     </section>
 
     <section class="scene-panel scene-panel-topoflow" data-scene-panel="4" aria-labelledby="scene-title-4" id="topoflow">
       <div class="scene-copy">
+        <div class="project-intro">
         <p class="scene-coordinate">04 / Graph intelligence</p>
         <div class="scene-status"><span>Independent study</span><span>Graph ML</span><span>Physics benchmark</span></div>
-        <h2 id="scene-title-4">TopoFlow<br />pore network</h2>
-        <p class="scene-lead">A permeability study where the topology is learned, the classical baseline stays visible, and pore heterogeneity decides which model deserves trust.</p>
+        <h2 id="scene-title-4"><span>TopoFlow</span><small>pore network</small></h2>
+        <p class="scene-lead">Learning how fluid moves through rock, and testing when graph models improve on a physics baseline.</p>
+        </div>
+        <div class="project-details">
         <div class="metric-strip" aria-label="TopoFlow project metrics">
           <div><strong>1,231</strong><span>pore-network graphs</span></div>
           <div><strong>5</strong><span>rock families tested</span></div>
@@ -156,13 +204,24 @@
           <button class="quiet-action" type="button" data-open-evidence="topoflow">Inspect topology <span aria-hidden="true">&#8599;</span></button>
         </div>
         <p class="scene-footnote">Benchmark result: learned topology helps in heterogeneous media; it is not a universal replacement for physics.</p>
+          <p class="project-implementation">A permeability study where the topology is learned, the classical baseline stays visible, and pore heterogeneity decides which model deserves trust.</p>
         <nav class="chapter-next" aria-label="Continue from TopoFlow"><button type="button" data-scene-jump="5">Next: Profile <span aria-hidden="true">&#8594;</span></button></nav>
+        </div>
       </div>
+      <figure class="project-visual artifact-rock">
+        <span class="visual-index" aria-hidden="true">04</span>
+        <a class="artifact-link" href="topoflow.html" aria-label="Read the TopoFlow case study">
+          <div class="artifact-topline"><span><i></i><i></i><i></i></span><small>Network visualization</small><b aria-hidden="true">&#8599;</b></div>
+          <img src="assets/topoflow-pore-network-hero.webp" alt="Illustration of a pore network within rock" width="1448" height="1086" loading="lazy" decoding="async" />
+          <span class="artifact-open" aria-hidden="true">View project <b>&#8599;</b></span>
+        </a>
+        <figcaption><span>Geometric intelligence</span><span>TopoFlow / 04</span></figcaption>
+      </figure>
     </section>
 
     <section class="scene-panel scene-panel-profile" data-scene-panel="5" aria-labelledby="scene-title-5" id="profile">
       <div class="scene-copy">
-        <p class="scene-coordinate">05 / Trajectory</p>
+        <p class="scene-coordinate">05 / Beyond the projects</p>
         <h2 id="scene-title-5">What I bring<br />to a team</h2>
         <p class="scene-lead">I move comfortably between investigation and implementation: data forensics, ML evaluation, APIs, Docker, responsive interfaces, and the documentation that keeps claims honest.</p>
         <div class="trajectory" aria-label="Internship timeline">
@@ -174,18 +233,26 @@
           <button class="primary-action" type="button" data-open-archive>Explore project archive <span aria-hidden="true">&#8599;</span></button>
           <button class="quiet-action" type="button" data-open-evidence="studio">Engineering practice <span aria-hidden="true">&#8599;</span></button>
         </div>
-        <p class="profile-contact"><a href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a> &middot; <a href="https://www.linkedin.com/in/shaunak-rane-3980582ba/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">GitHub</a> &middot; <a href="Shaunak_Rane_Resume.pdf" target="_blank" rel="noopener">Resume</a></p>
         <nav class="chapter-next" aria-label="Continue from Profile"><button type="button" data-scene-jump="0">Back to introduction <span aria-hidden="true">&#8594;</span></button></nav>
+      </div>
+      <aside class="profile-practice" aria-label="Engineering capabilities">
+        <p class="practice-eyebrow">Across the stack</p>
+        <h3>From an idea<br />to a working system.</h3>
+        <div><span>01 / Applied ML</span><p>PyTorch &middot; graph learning<br />Evaluation &middot; scientific computing</p></div>
+        <div><span>02 / Backend</span><p>FastAPI &middot; Flask &middot; PostgreSQL<br />APIs &middot; agent orchestration</p></div>
+        <div><span>03 / Delivery</span><p>Docker &middot; testing &middot; interfaces<br />Documentation &middot; reproducible evidence</p></div>
+      </aside>
+      <div class="contact-finale">
+        <div><p>Have a meaningful problem to solve?</p><h3>Let’s build<br /><em>something useful.</em></h3></div>
+        <div class="contact-details">
+          <p class="profile-contact"><a class="contact-email" href="mailto:shaunakrane914@gmail.com">shaunakrane914@gmail.com</a><span class="contact-socials"><a href="https://www.linkedin.com/in/shaunak-rane-3980582ba/" target="_blank" rel="noopener">LinkedIn</a> <a href="https://github.com/Shaunakrane914" target="_blank" rel="noopener">GitHub</a> <a href="Shaunak_Rane_Resume.pdf" target="_blank" rel="noopener">Resume</a></span></p>
+          <button type="button" data-copy-email>Copy email <span aria-hidden="true">&#8599;</span></button>
+          <p data-copy-status role="status"></p>
+        </div>
       </div>
     </section>
   </main>
 
-  <aside class="origin-layer-map" aria-hidden="true">
-    <div class="origin-layer origin-layer-validation"><strong>04 / Validation layer</strong><span>Evidence &middot; tests &middot; decisions</span></div>
-    <div class="origin-layer origin-layer-service"><strong>03 / API &amp; services layer</strong><span>Agents &middot; jobs &middot; endpoints</span></div>
-    <div class="origin-layer origin-layer-model"><strong>02 / Model layer</strong><span>Models &middot; graphs &middot; features</span></div>
-    <div class="origin-layer origin-layer-data"><strong>01 / Data layer</strong><span>Sources &middot; streams &middot; context</span></div>
-  </aside>
 
   <nav class="scene-rail" aria-label="Portfolio scenes">
     <button type="button" class="is-current" data-scene-jump="0" data-short="Origin" aria-current="step" aria-label="Introduction" title="Introduction"><span>00</span><strong>Origin</strong></button>
@@ -197,21 +264,6 @@
   </nav>
 
 
-  <aside class="model-tools" aria-label="3D model controls">
-    <div class="model-toolbar">
-      <button type="button" data-model-explore aria-pressed="false">Explore 3D</button>
-      <button type="button" data-motion-toggle aria-pressed="false">Pause motion</button>
-    </div>
-    <div class="model-explorer">
-      <div class="model-points" aria-label="Explore parts of the system">
-        <button type="button" data-model-point="0" aria-pressed="false">Data</button>
-        <button type="button" data-model-point="1" aria-pressed="false">Validation</button>
-        <button type="button" data-model-point="2" aria-pressed="false">Delivery</button>
-      </div>
-      <p data-model-description>Choose a part of the system, or drag the model to rotate. Scroll to keep browsing.</p>
-      <button type="button" data-model-reset>Reset view</button>
-    </div>
-  </aside>
 
   <nav class="scene-flow" aria-label="Continue exploring" hidden>
     <button type="button" data-prev-scene aria-label="Previous project">&#8592;</button>
@@ -376,6 +428,6 @@
   </template>
 
   <noscript><div class="noscript-message">This portfolio uses an interactive WebGL scene. JavaScript is required; the project reports remain available through the direct links above.</div></noscript>
-  <script type="module" src="js/observatory.js?v=4.2"></script>
+  <script type="module" src="js/observatory.js?v=4.3"></script>
 </body>
 </html>

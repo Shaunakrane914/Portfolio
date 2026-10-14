@@ -1,6 +1,16 @@
 # Changelog
 
 
+## v4.3.0 - 2026-10-14
+
+- Introduce an editorial portfolio layout with a large serif headline, full-name identity, a full-width four-project index and restrained automatic 3D.
+- Remove the 3D explorer controls and manual orbit/pause state. Keep the canvas decorative and preserve the v4.2 native scrolling, history, focus and keyboard contract.
+- Add directly linked project previews using the Aegis agent interface, Gridium overview, flat compressor evidence chart and labeled TopoFlow illustration. Retain original technical claims in visible implementation paragraphs.
+- Order mobile project reading as title/summary, image, then metrics and links. Add subtle bounded preview tilt, hover destinations and a 2px reading-progress indicator; respect reduced motion.
+- Add three engineering-practice groups and a contact ending with direct email, resume and social links. Email copying announces success and focuses the existing email link if clipboard access fails.
+- Record 62 passing browser interaction groups, 30 chapter layout checks and a separate focused scrolling sample in the [editorial-design report](docs/EDITORIAL-DESIGN-VERIFICATION.md). Update the progress indicator and canvas dimming to reduce compositing/style overhead. Earlier benchmark and native-scroll samples remain historical.
+
+
 ## v4.2.0 - 2026-10-14
 
 - Replace wheel/touch scene hijacking with native document browsing after repeated wheel ticks, gentle follow-up input and quick reversals could be ignored. Six viewport-sized sections grow with their content; large gestures may cross several sections.

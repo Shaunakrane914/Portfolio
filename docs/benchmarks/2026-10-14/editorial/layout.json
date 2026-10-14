@@ -1,0 +1,1465 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1440,
+      "panelHeight": 913,
+      "contentHeight": 913,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 913.359375
+      },
+      "copy": {
+        "top": 140,
+        "bottom": 633.734375,
+        "left": 115.1875,
+        "right": 711.078125,
+        "width": 595.890625
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 1,
+      "scrollY": 913,
+      "panelWidth": 1440,
+      "panelHeight": 900,
+      "contentHeight": 900,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.359375,
+        "bottom": 900.359375
+      },
+      "copy": {
+        "top": 192.171875,
+        "bottom": 470.265625,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875
+      },
+      "preview": {
+        "top": 230.34375,
+        "bottom": 700.359375,
+        "left": 699.109375,
+        "right": 1324.8125,
+        "width": 625.703125,
+        "height": 470.015625,
+        "href": "aegis.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Aegis agent workspace interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 2,
+      "scrollY": 1813,
+      "panelWidth": 1440,
+      "panelHeight": 900,
+      "contentHeight": 900,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.359375,
+        "bottom": 900.359375
+      },
+      "copy": {
+        "top": 180.375,
+        "bottom": 458.46875,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875
+      },
+      "preview": {
+        "top": 230.34375,
+        "bottom": 700.359375,
+        "left": 699.109375,
+        "right": 1324.8125,
+        "width": 625.703125,
+        "height": 470.015625,
+        "href": "gridium.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Gridium microgrid simulation interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 3,
+      "scrollY": 2713,
+      "panelWidth": 1440,
+      "panelHeight": 900,
+      "contentHeight": 900,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.359375,
+        "bottom": 900.359375
+      },
+      "copy": {
+        "top": 199.5625,
+        "bottom": 477.65625,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875
+      },
+      "preview": {
+        "top": 425.140625,
+        "bottom": 790.359375,
+        "left": 699.109375,
+        "right": 1324.8125,
+        "width": 625.703125,
+        "height": 365.21875,
+        "href": "compressor-cbm.html",
+        "naturalWidth": 2380,
+        "naturalHeight": 935,
+        "declaredWidth": 2380,
+        "declaredHeight": 935,
+        "alt": "Candidate B fouling index with recorded references and recovery boundaries"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 4,
+      "scrollY": 3613,
+      "panelWidth": 1440,
+      "panelHeight": 900,
+      "contentHeight": 900,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.359375,
+        "bottom": 900.359375
+      },
+      "copy": {
+        "top": 190.453125,
+        "bottom": 468.546875,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875
+      },
+      "preview": {
+        "top": 191.625,
+        "bottom": 739.09375,
+        "left": 699.109375,
+        "right": 1324.8125,
+        "width": 625.703125,
+        "height": 547.46875,
+        "href": "topoflow.html",
+        "naturalWidth": 1448,
+        "naturalHeight": 1086,
+        "declaredWidth": 1448,
+        "declaredHeight": 1086,
+        "alt": "Illustration of a pore network within rock"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scene": 5,
+      "scrollY": 4513,
+      "panelWidth": 1440,
+      "panelHeight": 1206,
+      "contentHeight": 1206,
+      "chapterHeights": [
+        913,
+        900,
+        900,
+        900,
+        900,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.359375,
+        "bottom": 1206.234375
+      },
+      "copy": {
+        "top": 140.359375,
+        "bottom": 766.703125,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1280,
+      "panelHeight": 762,
+      "contentHeight": 762,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 761.859375
+      },
+      "copy": {
+        "top": 115,
+        "bottom": 521.234375,
+        "left": 102.390625,
+        "right": 632.0625,
+        "width": 529.671875
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 1,
+      "scrollY": 762,
+      "panelWidth": 1280,
+      "panelHeight": 725,
+      "contentHeight": 725,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.140625,
+        "bottom": 725.0625
+      },
+      "copy": {
+        "top": 114.859375,
+        "bottom": 366.78125,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875
+      },
+      "preview": {
+        "top": 159.1875,
+        "bottom": 585.734375,
+        "left": 621.4375,
+        "right": 1177.609375,
+        "width": 556.171875,
+        "height": 426.546875,
+        "href": "aegis.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Aegis agent workspace interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 2,
+      "scrollY": 1487,
+      "panelWidth": 1280,
+      "panelHeight": 792,
+      "contentHeight": 792,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.0625,
+        "bottom": 791.953125
+      },
+      "copy": {
+        "top": 115.0625,
+        "bottom": 366.984375,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875
+      },
+      "preview": {
+        "top": 192.734375,
+        "bottom": 619.28125,
+        "left": 621.4375,
+        "right": 1177.609375,
+        "width": 556.171875,
+        "height": 426.546875,
+        "href": "gridium.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Gridium microgrid simulation interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 3,
+      "scrollY": 2279,
+      "panelWidth": 1280,
+      "panelHeight": 720,
+      "contentHeight": 720,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.046875,
+        "bottom": 719.953125
+      },
+      "copy": {
+        "top": 119.734375,
+        "bottom": 371.65625,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875
+      },
+      "preview": {
+        "top": 287.046875,
+        "bottom": 624.953125,
+        "left": 621.4375,
+        "right": 1177.609375,
+        "width": 556.171875,
+        "height": 337.90625,
+        "href": "compressor-cbm.html",
+        "naturalWidth": 2380,
+        "naturalHeight": 935,
+        "declaredWidth": 2380,
+        "declaredHeight": 935,
+        "alt": "Candidate B fouling index with recorded references and recovery boundaries"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 4,
+      "scrollY": 2999,
+      "panelWidth": 1280,
+      "panelHeight": 729,
+      "contentHeight": 729,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.046875,
+        "bottom": 728.59375
+      },
+      "copy": {
+        "top": 114.953125,
+        "bottom": 366.875,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875
+      },
+      "preview": {
+        "top": 126.609375,
+        "bottom": 621.9375,
+        "left": 621.4375,
+        "right": 1177.609375,
+        "width": 556.171875,
+        "height": 495.328125,
+        "href": "topoflow.html",
+        "naturalWidth": 1448,
+        "naturalHeight": 1086,
+        "declaredWidth": 1448,
+        "declaredHeight": 1086,
+        "alt": "Illustration of a pore network within rock"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "scene": 5,
+      "scrollY": 3728,
+      "panelWidth": 1280,
+      "panelHeight": 1123,
+      "contentHeight": 1123,
+      "chapterHeights": [
+        762,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.40625,
+        "bottom": 1122.609375
+      },
+      "copy": {
+        "top": 114.59375,
+        "bottom": 715.953125,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1024,
+      "panelHeight": 742,
+      "contentHeight": 742,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 742.078125
+      },
+      "copy": {
+        "top": 115,
+        "bottom": 495.453125,
+        "left": 81.90625,
+        "right": 511.515625,
+        "width": 429.609375
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 1,
+      "scrollY": 742,
+      "panelWidth": 1024,
+      "panelHeight": 773,
+      "contentHeight": 773,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.078125,
+        "bottom": 772.78125
+      },
+      "copy": {
+        "top": 115.078125,
+        "bottom": 344.359375,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125
+      },
+      "preview": {
+        "top": 215.984375,
+        "bottom": 576.875,
+        "left": 490.984375,
+        "right": 942.09375,
+        "width": 451.109375,
+        "height": 360.890625,
+        "href": "aegis.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Aegis agent workspace interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 2,
+      "scrollY": 1515,
+      "panelWidth": 1024,
+      "panelHeight": 863,
+      "contentHeight": 863,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.21875,
+        "bottom": 862.390625
+      },
+      "copy": {
+        "top": 114.78125,
+        "bottom": 367.28125,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125
+      },
+      "preview": {
+        "top": 260.640625,
+        "bottom": 621.53125,
+        "left": 490.984375,
+        "right": 942.09375,
+        "width": 451.109375,
+        "height": 360.890625,
+        "href": "gridium.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Gridium microgrid simulation interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 3,
+      "scrollY": 2377,
+      "panelWidth": 1024,
+      "panelHeight": 726,
+      "contentHeight": 726,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.390625,
+        "bottom": 726.53125
+      },
+      "copy": {
+        "top": 115.390625,
+        "bottom": 344.671875,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125
+      },
+      "preview": {
+        "top": 334.90625,
+        "bottom": 631.53125,
+        "left": 490.984375,
+        "right": 942.09375,
+        "width": 451.109375,
+        "height": 296.625,
+        "href": "compressor-cbm.html",
+        "naturalWidth": 2380,
+        "naturalHeight": 935,
+        "declaredWidth": 2380,
+        "declaredHeight": 935,
+        "alt": "Candidate B fouling index with recorded references and recovery boundaries"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 4,
+      "scrollY": 3104,
+      "panelWidth": 1024,
+      "panelHeight": 726,
+      "contentHeight": 726,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.46875,
+        "bottom": 725.671875
+      },
+      "copy": {
+        "top": 114.53125,
+        "bottom": 343.8125,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125
+      },
+      "preview": {
+        "top": 164.328125,
+        "bottom": 580.859375,
+        "left": 490.984375,
+        "right": 942.09375,
+        "width": 451.109375,
+        "height": 416.53125,
+        "href": "topoflow.html",
+        "naturalWidth": 1448,
+        "naturalHeight": 1086,
+        "declaredWidth": 1448,
+        "declaredHeight": 1086,
+        "alt": "Illustration of a pore network within rock"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "scene": 5,
+      "scrollY": 3830,
+      "panelWidth": 1024,
+      "panelHeight": 1098,
+      "contentHeight": 1098,
+      "chapterHeights": [
+        742,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.328125,
+        "bottom": 1097.4375
+      },
+      "copy": {
+        "top": 114.671875,
+        "bottom": 743,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 390,
+      "panelHeight": 1252,
+      "contentHeight": 1252,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 1251.96875
+      },
+      "copy": {
+        "top": 160,
+        "bottom": 696.65625,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": null,
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 1,
+      "scrollY": 1252,
+      "panelWidth": 390,
+      "panelHeight": 1275,
+      "contentHeight": 1275,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.03125,
+        "bottom": 1274.46875
+      },
+      "copy": {
+        "top": 111.96875,
+        "bottom": 381.109375,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": {
+        "top": 409.109375,
+        "bottom": 688.828125,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 279.71875,
+        "href": "aegis.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Aegis agent workspace interface"
+      },
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 2,
+      "scrollY": 2526,
+      "panelWidth": 390,
+      "panelHeight": 1334,
+      "contentHeight": 1334,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.46875,
+        "bottom": 1334.109375
+      },
+      "copy": {
+        "top": 112.46875,
+        "bottom": 382.578125,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": {
+        "top": 410.578125,
+        "bottom": 690.296875,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 279.71875,
+        "href": "gridium.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Gridium microgrid simulation interface"
+      },
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 3,
+      "scrollY": 3860,
+      "panelWidth": 390,
+      "panelHeight": 1126,
+      "contentHeight": 1126,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.109375,
+        "bottom": 1126.21875
+      },
+      "copy": {
+        "top": 112.109375,
+        "bottom": 355.890625,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": {
+        "top": 383.890625,
+        "bottom": 584.40625,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 200.515625,
+        "href": "compressor-cbm.html",
+        "naturalWidth": 2380,
+        "naturalHeight": 935,
+        "declaredWidth": 2380,
+        "declaredHeight": 935,
+        "alt": "Candidate B fouling index with recorded references and recovery boundaries"
+      },
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 4,
+      "scrollY": 4986,
+      "panelWidth": 390,
+      "panelHeight": 1259,
+      "contentHeight": 1259,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.21875,
+        "bottom": 1259.453125
+      },
+      "copy": {
+        "top": 112.21875,
+        "bottom": 382.328125,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": {
+        "top": 410.328125,
+        "bottom": 732.203125,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 321.875,
+        "href": "topoflow.html",
+        "naturalWidth": 1448,
+        "naturalHeight": 1086,
+        "declaredWidth": 1448,
+        "declaredHeight": 1086,
+        "alt": "Illustration of a pore network within rock"
+      },
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scene": 5,
+      "scrollY": 6245,
+      "panelWidth": 390,
+      "panelHeight": 1795,
+      "contentHeight": 1795,
+      "chapterHeights": [
+        1252,
+        1275,
+        1334,
+        1126,
+        1259,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.453125,
+        "bottom": 1795.78125
+      },
+      "copy": {
+        "top": 112.453125,
+        "bottom": 889.78125,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875
+      },
+      "preview": null,
+      "headerBottom": 62,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 844,
+      "panelHeight": 753,
+      "contentHeight": 753,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 753.390625
+      },
+      "copy": {
+        "top": 105,
+        "bottom": 506.765625,
+        "left": 67.515625,
+        "right": 410.25,
+        "width": 342.734375
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 1,
+      "scrollY": 753,
+      "panelWidth": 844,
+      "panelHeight": 847,
+      "contentHeight": 847,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.390625,
+        "bottom": 847.421875
+      },
+      "copy": {
+        "top": 105.390625,
+        "bottom": 383.25,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125
+      },
+      "preview": {
+        "top": 165.390625,
+        "bottom": 474.296875,
+        "left": 408.546875,
+        "right": 776.484375,
+        "width": 367.9375,
+        "height": 308.90625,
+        "href": "aegis.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Aegis agent workspace interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 2,
+      "scrollY": 1600,
+      "panelWidth": 844,
+      "panelHeight": 910,
+      "contentHeight": 910,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.421875,
+        "bottom": 910.03125
+      },
+      "copy": {
+        "top": 105.421875,
+        "bottom": 357.921875,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125
+      },
+      "preview": {
+        "top": 165.421875,
+        "bottom": 474.328125,
+        "left": 408.546875,
+        "right": 776.484375,
+        "width": 367.9375,
+        "height": 308.90625,
+        "href": "gridium.html",
+        "naturalWidth": 1440,
+        "naturalHeight": 900,
+        "declaredWidth": 1440,
+        "declaredHeight": 900,
+        "alt": "Gridium microgrid simulation interface"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 3,
+      "scrollY": 2510,
+      "panelWidth": 844,
+      "panelHeight": 730,
+      "contentHeight": 730,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.03125,
+        "bottom": 730.0625
+      },
+      "copy": {
+        "top": 105.03125,
+        "bottom": 334.3125,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125
+      },
+      "preview": {
+        "top": 165.03125,
+        "bottom": 428.984375,
+        "left": 408.546875,
+        "right": 776.484375,
+        "width": 367.9375,
+        "height": 263.953125,
+        "href": "compressor-cbm.html",
+        "naturalWidth": 2380,
+        "naturalHeight": 935,
+        "declaredWidth": 2380,
+        "declaredHeight": 935,
+        "alt": "Candidate B fouling index with recorded references and recovery boundaries"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 4,
+      "scrollY": 3240,
+      "panelWidth": 844,
+      "panelHeight": 847,
+      "contentHeight": 847,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.0625,
+        "bottom": 846.890625
+      },
+      "copy": {
+        "top": 105.0625,
+        "bottom": 382.921875,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125
+      },
+      "preview": {
+        "top": 165.0625,
+        "bottom": 519.21875,
+        "left": 408.546875,
+        "right": 776.484375,
+        "width": 367.9375,
+        "height": 354.15625,
+        "href": "topoflow.html",
+        "naturalWidth": 1448,
+        "naturalHeight": 1086,
+        "declaredWidth": 1448,
+        "declaredHeight": 1086,
+        "alt": "Illustration of a pore network within rock"
+      },
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "scene": 5,
+      "scrollY": 4087,
+      "panelWidth": 844,
+      "panelHeight": 1201,
+      "contentHeight": 1201,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.109375,
+        "bottom": 1201.296875
+      },
+      "copy": {
+        "top": 104.890625,
+        "bottom": 822.09375,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125
+      },
+      "preview": null,
+      "headerBottom": 72,
+      "canvasPointerEvents": "none",
+      "viewportOverflow": false
+    }
+  ],
+  "errors": []
+}

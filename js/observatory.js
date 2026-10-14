@@ -7,6 +7,7 @@ const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 const panels = Array.from(document.querySelectorAll("[data-scene-panel]"));
 const railButtons = Array.from(document.querySelectorAll("[data-scene-jump]"));
 const sceneAnnouncer = document.getElementById("scene-announcer");
+const readingProgress = document.querySelector(".reading-progress");
 const sceneNames = ["ORIGIN", "AEGIS", "GRIDIUM", "COMPRESSOR", "TOPOFLOW", "PROFILE"];
 const sceneHashes = ["origin", "aegis", "gridium", "compressor", "topoflow", "profile"];
 
@@ -25,50 +26,12 @@ let lastSceneChange = 0;
 let lastFrameTime = 0;
 let pointerX = 0;
 let pointerY = 0;
-let dragStart = null;
 let webglReady = false;
-let motionPaused = false;
-let modelExploring = false;
-const exploration = { yaw: 0, pitch: 0 };
-const orbitRotation = new THREE.Euler(0, 0, 0, "YXZ");
 const cameraStart = new THREE.Vector3();
 const lookStart = new THREE.Vector3();
 let cameraTransitionAt = 0;
 let animationTime = 0;
 let renderedFrames = 0;
-
-const modelPoints = [
-  [
-    ["Data", "Every system begins with a physical or operational signal."],
-    ["Validation", "Models earn trust through evaluation and visible baselines."],
-    ["Delivery", "APIs, interfaces and evidence turn a model into a usable system."]
-  ],
-  [
-    ["Ingest", "Claims and supporting evidence enter the investigation pipeline."],
-    ["Investigate", "Independent stages check anomalies before a verdict is assembled."],
-    ["Verdict", "An auditable trail connects the final decision to its evidence."]
-  ],
-  [
-    ["Producers", "Distributed energy sources connect to a shared exchange."],
-    ["Energy pool", "The network coordinates supply and demand across participants."],
-    ["Settlement", "Signed records make the exchange traceable."]
-  ],
-  [
-    ["Intake", "Operating signals enter the compressor monitoring pipeline."],
-    ["Compression", "The rotor makes the physical system behind the data visible."],
-    ["Diagnostics", "Stage diagnostics turn anomalies into maintenance evidence."]
-  ],
-  [
-    ["Pores", "Pore geometry captures the heterogeneity of the material."],
-    ["Connections", "Graph edges describe how the pore network is connected."],
-    ["Flow", "Permeability predictions are compared with the physics baseline."]
-  ],
-  [
-    ["Build", "Move from an investigation to a working backend and interface."],
-    ["Evaluate", "Test the model, document its limits and preserve the evidence."],
-    ["Ship", "Make technical work understandable and useful to a team."]
-  ]
-];
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -2012,8 +1975,7 @@ window.__perfTelemetry = {
       geometries: renderer?.info?.memory?.geometries || 0,
       textures: renderer?.info?.memory?.textures || 0,
       renderedFrames,
-      motionPaused,
-      animationRunning: webglReady && !reduceMotion && !motionPaused && !document.hidden,
+      animationRunning: webglReady && !reduceMotion && !document.hidden,
       activeScene: sceneNames[currentScene]
     };
   }
@@ -2110,7 +2072,7 @@ function revealWorld(index) {
   activeWorld = worlds[index];
   activeWorld.visible = true;
   document.body.dataset.graphicsReady = "true";
-  if (reduceMotion || motionPaused) render(performance.now());
+  if (reduceMotion) render(performance.now());
 }
 
 function startBackgroundPrewarm() {
@@ -2143,7 +2105,7 @@ function initializeThree() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = currentScene === 0 ? (coarsePointer ? .75 : 1.2) : (coarsePointer ? .55 : .75);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x020403);
@@ -2177,7 +2139,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.2.0",
+      version: "4.3.0",
       buildDate: "2026-10-14",
       worlds,
       worldStatus,
@@ -2190,7 +2152,6 @@ function initializeThree() {
       currentLook,
       mobileCameraStates,
       cameraStates,
-      exploration,
       THREE
     };
     webglReady = true;
@@ -2202,7 +2163,7 @@ function initializeThree() {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         renderer.setAnimationLoop(null);
-      } else if (webglReady && !reduceMotion && !motionPaused) {
+      } else if (webglReady && !reduceMotion) {
         lastFrameTime = 0;
         renderer.setAnimationLoop(render);
       }
@@ -2217,7 +2178,7 @@ function initializeThree() {
       webglReady = false;
     });
     prepareWorldAsync(currentScene).then(() => startBackgroundPrewarm());
-    if (!reduceMotion && !motionPaused) renderer.setAnimationLoop(render);
+    if (!reduceMotion) renderer.setAnimationLoop(render);
   } catch (error) {
     document.body.classList.add("webgl-unavailable");
     console.warn("Interactive scene unavailable; content fallback remains active.", error);
@@ -2234,7 +2195,7 @@ function resizeRenderer() {
     camera.fov = window.innerWidth <= 820 ? 64 : 42;
     camera.updateProjectionMatrix();
   }
-  if (webglReady && (reduceMotion || motionPaused)) render(performance.now());
+  if (webglReady && reduceMotion) render(performance.now());
 }
 
 function render(timeMs) {
@@ -2242,23 +2203,19 @@ function render(timeMs) {
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
-  if (!reduceMotion && !motionPaused) animationTime += dt;
+  if (!reduceMotion) animationTime += dt;
   const time = animationTime;
 
   const state = getCameraTarget(currentScene);
   targetCamera.fromArray(state.position);
   targetLook.fromArray(state.look);
 
-  if (activeWorld && modelExploring) {
-    orbitRotation.set(exploration.pitch, exploration.yaw, 0);
-    targetCamera.sub(activeWorld.position).applyEuler(orbitRotation).add(activeWorld.position);
-    targetLook.sub(activeWorld.position).applyEuler(orbitRotation).add(activeWorld.position);
-  } else if (!reduceMotion && !motionPaused) {
+  if (!reduceMotion) {
     targetCamera.x += pointerX * 0.2;
     targetCamera.y += pointerY * 0.14;
   }
 
-  if (reduceMotion || motionPaused || modelExploring) {
+  if (reduceMotion) {
     camera.position.copy(targetCamera);
     currentLook.copy(targetLook);
     cameraVelocity.set(0, 0, 0);
@@ -2280,7 +2237,6 @@ function render(timeMs) {
 
   const activeIdx = currentScene;
 
-  if (!motionPaused) {
   // 0: Origin
   if (activeIdx === 0 && worlds[0]) {
     worlds[0].rotation.y += reduceMotion ? 0 : 0.072 * dt;
@@ -2434,9 +2390,8 @@ function render(timeMs) {
       module.position.x = module.userData.baseX + (reduceMotion ? 0 : Math.sin(time * 0.42 + module.userData.phase) * 0.08);
     });
   }
-  }
 
-  if (activeWorld && !reduceMotion && !motionPaused) {
+  if (activeWorld && !reduceMotion) {
     activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * (1 - Math.exp(-8 * dt));
     const baseScale = activeWorld.userData.baseScale;
     const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 240, 0, 1);
@@ -2446,7 +2401,7 @@ function render(timeMs) {
 
   renderer.render(scene, camera);
   renderedFrames++;
-  if (!document.hidden && !reduceMotion && !motionPaused) {
+  if (!document.hidden && !reduceMotion) {
     recordFrameTime(rawFrameDeltaMs);
   }
   updatePerfHud();
@@ -2472,7 +2427,9 @@ function setScene(index, options = {}) {
   }
   cameraTransitionAt = performance.now();
   currentScene = next;
-  resetModelView();
+  // Dim the automatic backdrop in the renderer. CSS opacity over a full-screen
+  // WebGL canvas required an extra compositor blend beneath every work preview.
+  if (renderer) renderer.toneMappingExposure = currentScene === 0 ? (coarsePointer ? .75 : 1.2) : (coarsePointer ? .55 : .75);
   activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
   document.body.dataset.graphicsReady = String(Boolean(activeWorld));
   if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
@@ -2521,9 +2478,8 @@ function setScene(index, options = {}) {
   if (!options.skipHistory) {
     history[options.observed ? "replaceState" : "pushState"](null, "", `#${sceneHashes[currentScene]}`);
   }
-  updateModelTools();
   startBackgroundPrewarm();
-  if ((reduceMotion || motionPaused) && webglReady) render(performance.now());
+  if ((reduceMotion) && webglReady) render(performance.now());
 }
 
 function focusSceneHeading(index) {
@@ -2536,6 +2492,8 @@ function syncSceneToScroll() {
   scrollFrame = 0;
   if (document.querySelector("dialog[open]")) return;
   const readingLine = window.scrollY + window.innerHeight * 0.4;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  if (readingProgress) readingProgress.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
   let next = 0;
   panels.forEach((panel, index) => { if (panel.offsetTop <= readingLine) next = index; });
   if (next !== currentScene) setScene(next, { observed: true });
@@ -2547,29 +2505,6 @@ window.addEventListener("resize", () => {
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 history.scrollRestoration = "manual";
-
-function resetModelView() {
-  exploration.yaw = 0;
-  exploration.pitch = 0;
-  dragStart = null;
-  document.querySelectorAll("[data-model-point]").forEach(button => button.setAttribute("aria-pressed", "false"));
-}
-
-function updateModelTools() {
-  const points = modelPoints[currentScene];
-  document.querySelectorAll("[data-model-point]").forEach((button, index) => { button.textContent = points[index][0]; });
-  const description = document.querySelector("[data-model-description]");
-  if (description) description.textContent = coarsePointer
-    ? "Choose a part of the system to change the view. Swipe to keep browsing."
-    : "Choose a part of the system, or drag the model to rotate. Scroll to keep browsing.";
-}
-
-function syncMotion() {
-  if (!webglReady) return;
-  lastFrameTime = 0;
-  renderer.setAnimationLoop(!reduceMotion && !motionPaused && !document.hidden ? render : null);
-  render(performance.now());
-}
 
 function stepScene(direction, options = {}) {
   const target = currentScene + direction;
@@ -2645,89 +2580,33 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") { event.preventDefault(); stepScene(-1, { focus: true }); }
   if (event.key === "Home") { event.preventDefault(); setScene(0, { focus: true }); }
   if (event.key === "End") { event.preventDefault(); setScene(sceneNames.length - 1, { focus: true }); }
-  if (event.key === "Escape" && modelExploring) {
-    const button = document.querySelector("[data-model-explore]");
-    button.click();
-    button.focus({ preventScroll: true });
-  }
+
 });
 
-document.addEventListener("click", event => {
-  const explore = event.target.closest("[data-model-explore]");
-  if (explore) {
-    modelExploring = !modelExploring;
-    document.body.dataset.modelExploring = String(modelExploring);
-    explore.setAttribute("aria-pressed", String(modelExploring));
-    explore.textContent = modelExploring ? "Close 3D explorer" : "Explore 3D";
-    resetModelView();
-    updateModelTools();
-    if (webglReady) render(performance.now());
-  }
-  const pause = event.target.closest("[data-motion-toggle]");
-  if (pause) {
-    motionPaused = !motionPaused;
-    document.body.dataset.motionPaused = String(motionPaused);
-    pause.setAttribute("aria-pressed", String(motionPaused));
-    pause.textContent = motionPaused ? "Resume motion" : "Pause motion";
-    syncMotion();
-  }
-  if (event.target.closest("[data-model-reset]")) {
-    resetModelView();
-    updateModelTools();
-    if (webglReady) render(performance.now());
-  }
-  const point = event.target.closest("[data-model-point]");
-  if (point) {
-    const index = Number(point.dataset.modelPoint);
-    exploration.yaw = [-0.35, 0, 0.35][index];
-    exploration.pitch = [0.08, -0.12, 0.08][index];
-    document.querySelectorAll("[data-model-point]").forEach(button => button.setAttribute("aria-pressed", String(button === point)));
-    document.querySelector("[data-model-description]").textContent = modelPoints[currentScene][index][1];
-    if (webglReady) render(performance.now());
-  }
-});
-
-canvas.addEventListener("pointerdown", (event) => {
-  if (!modelExploring || !activeWorld || event.pointerType === "touch" || event.button !== 0) return;
-  dragStart = {
-    startX: event.clientX,
-    startY: event.clientY,
-    lastX: event.clientX,
-    lastY: event.clientY,
-    at: performance.now()
-  };
-  canvas.setPointerCapture?.(event.pointerId);
-});
-
-window.addEventListener("pointermove", (event) => {
+// Subtle parallax is automatic; the canvas never captures pointer or wheel input.
+window.addEventListener("pointermove", event => {
+  if (event.pointerType === "touch" || reduceMotion) return;
   pointerX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2;
   pointerY = -(event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2;
+  const visual = panels[currentScene]?.querySelector(".project-visual");
+  if (visual) {
+    visual.style.setProperty("--tilt-x", `${pointerY * 1.6}deg`);
+    visual.style.setProperty("--tilt-y", `${pointerX * 2}deg`);
+  }
 }, { passive: true });
 
-canvas.addEventListener("pointermove", (event) => {
-  if (!dragStart || !activeWorld || !modelExploring) return;
-  const dx = (event.clientX - dragStart.lastX) * 0.0025;
-  const dy = (event.clientY - dragStart.lastY) * 0.0018;
-  exploration.yaw = THREE.MathUtils.clamp(exploration.yaw + dx * 2, -0.8, 0.8);
-  exploration.pitch = THREE.MathUtils.clamp(exploration.pitch + dy * 2, -0.4, 0.4);
-  if (reduceMotion || motionPaused) render(performance.now());
-  dragStart.lastX = event.clientX;
-  dragStart.lastY = event.clientY;
+document.addEventListener("click", async event => {
+  const button = event.target.closest("[data-copy-email]");
+  if (!button) return;
+  const status = document.querySelector("[data-copy-status]");
+  try {
+    await navigator.clipboard.writeText("shaunakrane914@gmail.com");
+    status.textContent = "Email copied.";
+  } catch {
+    status.textContent = "Use the email link to get in touch.";
+    document.querySelector(".contact-email").focus({ preventScroll: true });
+  }
 });
-
-canvas.addEventListener("pointerup", (event) => {
-  if (!dragStart) return;
-  const dx = event.clientX - dragStart.startX;
-  const dy = event.clientY - dragStart.startY;
-  const elapsed = performance.now() - dragStart.at;
-
-  dragStart = null;
-});
-
-canvas.addEventListener("pointercancel", () => {
-  dragStart = null;
-});
-
 
 window.addEventListener("hashchange", () => {
   const hash = window.location.hash.slice(1);

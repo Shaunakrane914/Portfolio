@@ -1,5 +1,7 @@
 # Native scrolling and 3D exploration (v4.2)
 
+This is the historical v4.2 capture. The current [v4.3 editorial portfolio](EDITORIAL-DESIGN-VERIFICATION.md) retains native browsing and removes the model controls. Use commit `72b4e18` to reproduce the archived v4.2 experiment; current scripts also cover newer presentation behavior.
+
 Trackpad feedback after v4.1 exposed the cost of gesture guessing: repeated 100ms ticks, a quick reversal and a steady 5px follow-up could be consumed as inertia. The classifier passed its one-burst assertions while still discarding input people intended as navigation. Its touch path also rejected drags longer than 600ms.
 
 The homepage now has six normal document sections with a fixed 3D canvas behind them. All narrative stays in document flow and expands with its content. There are no global wheel/touch navigation handlers, nested narrative scrollers, swipe thresholds or cooldowns. A passive scroll listener selects the model at a reading line 40% down the viewport. Small input visibly moves the document; a large fling may traverse several sections by normal browser scrolling. The previous one-gesture/one-scene rule is retired. Explicit project controls still select a precise destination immediately.

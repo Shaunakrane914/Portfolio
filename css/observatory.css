@@ -2259,8 +2259,6 @@ html { height: auto; scroll-behavior: auto; scroll-padding-top: var(--header-hei
 body { height: auto; min-height: 100%; overflow-x: hidden; overflow-y: auto; }
 body.dialog-open { overflow: hidden; }
 #observatory-canvas { pointer-events: none; touch-action: auto; }
-body[data-model-exploring="true"][data-graphics-ready="true"] #observatory-canvas { pointer-events: auto; cursor: grab; }
-body[data-model-exploring="true"] #observatory-canvas:active { cursor: grabbing; }
 .scene-stage, body[data-current-scene="0"] .scene-stage {
   position: relative;
   inset: auto;
@@ -2311,18 +2309,7 @@ body[data-model-exploring="true"] #observatory-canvas:active { cursor: grabbing;
 .scene-stage .systems-console-grid strong { font-family: var(--sans); font-size: .78rem; }
 .scene-stage .systems-console-grid small { margin-top: 2px; font-size: .56rem; }
 .scene-stage .systems-console-grid button:hover { background: rgba(71, 230, 165, .12); }
-.model-tools { position: fixed; z-index: 28; right: 5%; bottom: 146px; width: min(360px, 36vw); }
-.model-toolbar, .model-points { display: flex; gap: 8px; justify-content: flex-end; }
-.model-tools button { min-height: 44px; padding: 8px 12px; border: 1px solid rgba(225, 238, 231, .12); border-radius: 4px; background: rgba(4, 12, 8, .9); color: var(--muted); font-family: var(--mono); font-size: .6rem; cursor: pointer; }
-.model-tools button:hover, .model-tools button[aria-pressed="true"] { color: var(--green); border-color: rgba(71, 230, 165, .4); }
-.model-explorer { display: none; margin-top: 12px; padding: 14px; border-radius: 6px; background: rgba(4, 12, 8, .95); }
-body[data-model-exploring="true"] .model-explorer { display: block; }
-.model-points { justify-content: flex-start; gap: 6px; flex-wrap: wrap; }
-.model-points button { flex: 1; min-width: 60px; padding-inline: 8px; }
-.model-explorer p { color: #b5c6bc; font-size: .72rem; line-height: 1.55; margin: 12px 0; }
-.model-explorer [data-model-reset] { border: 0; padding-left: 0; background: transparent; }
 .chapter-next { display: none; }
-body.webgl-unavailable .model-tools, body:not([data-graphics-ready="true"]) .model-tools { display: none; }
 @media (min-width: 821px) and (max-height: 760px) {
   .scene-stage .scene-panel { padding-top: calc(var(--header-height) + 28px); padding-bottom: 90px; }
   .scene-panel-intro .scene-copy { width: min(560px, 47vw); }
@@ -2337,9 +2324,6 @@ body.webgl-unavailable .model-tools, body:not([data-graphics-ready="true"]) .mod
   .scene-flow { display: none; }
   .chapter-next { display: block; margin-top: 24px; }
   .chapter-next button { display: flex; align-items: center; gap: 18px; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--green); font-family: var(--mono); font-size: .68rem; cursor: pointer; }
-  .model-tools { top: calc(var(--header-height) + 12px); bottom: auto; right: 4%; width: min(360px, 92%); }
-  .model-tools button { padding: 8px 10px; }
-  .model-explorer { position: fixed; left: 4%; right: 4%; bottom: 80px; margin: 0; padding: 12px; }
   .scene-stage .scene-panel h1 { font-size: clamp(3.3rem, 15vw, 5rem); line-height: .85; }
   .scene-stage .scene-panel h2 { font-size: clamp(2rem, 8vw, 3rem); line-height: 1; }
   .scene-stage .scene-panel .scene-lead { font-size: .93rem; line-height: 1.6; }
@@ -2347,11 +2331,6 @@ body.webgl-unavailable .model-tools, body:not([data-graphics-ready="true"]) .mod
   .scene-stage .systems-console-grid small { font-size: .6rem; }
 }
 @media (max-height: 520px) {
-  .model-tools { top: calc(var(--header-height) + 8px); bottom: auto; width: min(340px, 44vw); }
-  .model-toolbar { flex-wrap: wrap; }
-  .model-explorer { position: fixed; top: calc(var(--header-height) + 8px); bottom: auto; left: 8%; right: auto; width: 40%; max-height: calc(100svh - var(--header-height) - 80px); overflow-y: auto; overscroll-behavior: contain; }
-  body[data-model-exploring="true"] .scene-copy { opacity: .16; }
-  body[data-model-exploring="true"] .scene-flow { visibility: hidden; }
   .scene-stage .scene-panel { padding: calc(var(--header-height) + 24px) 8% 110px; }
   .scene-copy, .scene-panel-intro .scene-copy, .scene-panel-profile .scene-copy { width: 48%; }
   .scene-stage .scene-panel h1 { font-size: 3.5rem; }

@@ -207,6 +207,68 @@ try {
   assert.ok(nativeWheelEvents.every(event=>!event.prevented),'trusted wheel events are never cancelled');
   checks.push('trusted wheel input remains uncancelled throughout browsing');
 
+  assert.equal(await page.locator('.model-tools, [data-model-explore], [data-model-point], [data-model-reset], [data-motion-toggle]').count(),0,'homepage has no model control widgets');
+  const workIndex = page.locator('.hero-work-index');
+  assert.equal(await workIndex.count(),1,'introduction offers one curated work index');
+  assert.deepEqual(await workIndex.locator('[data-scene-jump]').evaluateAll(buttons=>buttons.map(button=>+button.dataset.sceneJump).sort()),[1,2,3,4],'work index links directly to the four featured projects');
+  await jump(page,0);
+  await workIndex.locator('[data-scene-jump="2"]').click();
+  await expectScene(page,2,'curated work index takes readers directly to Gridium');
+  checks.push('curated work index provides four working project shortcuts');
+  const previews = [
+    [1,'aegis.html'], [2,'gridium.html'], [3,'compressor-cbm.html'], [4,'topoflow.html']
+  ];
+  assert.equal(await page.locator('.project-visual').count(),4,'four featured projects have visual previews');
+  for(const [index,file] of previews) {
+    await jump(page,index);
+    const preview=page.locator(`[data-scene-panel="${index}"] .project-visual`);
+    const link=preview.locator('a[href]');
+    assert.equal(await link.count(),1,'preview exposes one case-study destination');
+    assert.equal(new URL(await link.getAttribute('href'),base).pathname,`/${file}`,'preview links to the corresponding case study');
+    await preview.locator('img').scrollIntoViewIfNeeded();
+    await preview.locator('img').evaluate(image=>image.decode());
+    const image=await preview.locator('img').evaluate(image=>({
+      width:image.naturalWidth,height:image.naturalHeight,
+      declaredWidth:+image.getAttribute('width'),declaredHeight:+image.getAttribute('height'),
+      alt:image.alt,src:image.getAttribute('src')
+    }));
+    assert.ok(image.width>0 && image.height>0 && image.declaredWidth>0 && image.declaredHeight>0,'project image loads with intrinsic and declared dimensions');
+    assert.ok(image.alt.trim() && image.src.startsWith('assets/'),'project preview uses a described local image');
+    await link.click();
+    await page.waitForURL(url=>url.pathname===`/${file}`);
+    assert.ok((await page.locator('h1').innerText()).trim(),'preview opens a readable project report');
+    await page.locator('.nav-back').click();
+    await page.waitForFunction(()=>document.body.dataset.currentScene!==undefined);
+    await expectScene(page,0,`${file} preview returns to the portfolio`);
+  }
+  checks.push('all four loaded project previews open their corresponding reports');
+  await jump(page,5);
+  assert.ok((await page.locator('.profile-practice').innerText()).trim(),'profile explains engineering skills and practice');
+  const contact=page.locator('.contact-finale');
+  assert.equal(await contact.count(),1,'portfolio ends with a direct contact invitation');
+  const email=contact.locator('.contact-email');
+  assert.equal(await email.getAttribute('href'),'mailto:shaunakrane914@gmail.com','contact invitation exposes the real email address');
+  const profileLinks=await page.locator('[data-scene-panel="5"] a[href]').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+  assert.ok(profileLinks.some(href=>href.includes('Shaunak_Rane_Resume.pdf')),'profile provides a direct resume link');
+  assert.ok(profileLinks.some(href=>href.startsWith('https://github.com/Shaunakrane914')),'profile provides the real GitHub link');
+  assert.ok(profileLinks.some(href=>href.startsWith('https://www.linkedin.com/in/shaunak-rane-3980582ba/')),'profile provides the real LinkedIn link');
+  checks.push('engineering practice and contact ending expose real professional links');
+  await page.context().grantPermissions(['clipboard-read','clipboard-write'],{origin:base});
+  await page.locator('[data-copy-email]').click();
+  await page.waitForFunction(()=>document.querySelector('[data-copy-status]').textContent.trim()==='Email copied.');
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),'shaunakrane914@gmail.com','copy action writes the contact email');
+  checks.push('contact email copies successfully through the browser clipboard');
+  await page.evaluate(()=>{
+    window.__originalClipboardWrite=navigator.clipboard.writeText;
+    navigator.clipboard.writeText=()=>Promise.reject(new DOMException('Clipboard denied for regression test','NotAllowedError'));
+  });
+  await page.locator('[data-copy-email]').click();
+  await page.waitForFunction(()=>document.querySelector('[data-copy-status]').textContent.trim()==='Use the email link to get in touch.');
+  assert.equal(await email.evaluate(link=>link===document.activeElement),true,'denied copy focuses the existing email link');
+  assert.equal(await email.getAttribute('href'),'mailto:shaunakrane914@gmail.com','denied clipboard permission keeps contact available');
+  await page.evaluate(()=>{navigator.clipboard.writeText=window.__originalClipboardWrite;delete window.__originalClipboardWrite;});
+  checks.push('clipboard rejection gives an accessible email-link fallback');
+
   const mobile = await noGL.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   mobile.on('pageerror',e=>errors.push(String(e)));
   await mobile.goto(base+'/#gridium'); await expectScene(mobile,2,'direct scene URL scrolls to Gridium without WebGL');
@@ -255,59 +317,27 @@ try {
   await expectScene(graphics,1,'native document scrolling selects Aegis with active WebGL');
   await graphics.waitForFunction(()=>window.__observatory.worldStatus[1]==='ready' && document.body.dataset.graphicsReady==='true',null,{timeout:30000});
   assert.equal(await graphics.locator('canvas').evaluate(c=>getComputedStyle(c).pointerEvents),'none','decorative canvas leaves normal document browsing alone');
-  await graphics.locator('[data-model-explore]').click();
-  assert.equal(await graphics.evaluate(()=>document.body.dataset.modelExploring),'true','model interaction requires explicit opt-in');
-  const modelTargets = await graphics.locator('[data-model-explore], [data-motion-toggle], [data-model-reset], [data-model-point]').evaluateAll(buttons=>buttons.map(button=>{
-    const rect=button.getBoundingClientRect(); return {width:rect.width,height:rect.height};
-  }));
-  assert.ok(modelTargets.length>=6 && modelTargets.every(rect=>rect.width>=43.5 && rect.height>=43.5),'model controls offer at least 44px targets');
-  const explorationBefore = await graphics.evaluate(()=>({...window.__observatory.exploration}));
-  await graphics.mouse.move(1160,350);
+  assert.equal(await graphics.locator('.model-tools, [data-model-explore], [data-model-point], [data-model-reset], [data-motion-toggle]').count(),0,'no model control panel or rotation/pause controls remain');
+  await graphics.locator('canvas').evaluate(canvas=>{
+    window.__canvasPointerEvents=[];
+    for(const type of ['pointerdown','gotpointercapture']) canvas.addEventListener(type,event=>window.__canvasPointerEvents.push(event.type));
+  });
+  await graphics.mouse.move(1390,200);
   await graphics.mouse.down();
-  await graphics.mouse.move(1290,420,{steps:8});
+  await graphics.mouse.move(1405,300,{steps:8});
   await graphics.mouse.up();
-  const explorationAfter = await graphics.evaluate(()=>({...window.__observatory.exploration}));
-  assert.ok(Math.abs(explorationAfter.yaw-explorationBefore.yaw)>.01 || Math.abs(explorationAfter.pitch-explorationBefore.pitch)>.01,'mouse drag rotates the opted-in model');
-  checks.push('explicit model interaction allows dragging with accessible control targets');
-  const exploringScrollStart = await graphics.evaluate(()=>scrollY);
+  assert.deepEqual(await graphics.evaluate(()=>window.__canvasPointerEvents),[],'decorative model never receives pointerdown or captures a drag');
+  assert.equal(await graphics.locator('canvas').evaluate(c=>getComputedStyle(c).pointerEvents),'none','dragging does not activate a model interaction mode');
+  checks.push('automatic 3D remains decorative without model-control widgets or pointer capture');
+  const decorativeScrollStart = await graphics.evaluate(()=>scrollY);
   await wheel(graphics,[120]);
-  assert.ok(await graphics.evaluate(()=>scrollY)>exploringScrollStart+80,'wheel still scrolls the document while exploring the model');
-  const exploringPrevented = await graphics.locator('canvas').evaluate(canvas=>{
+  assert.ok(await graphics.evaluate(()=>scrollY)>decorativeScrollStart+80,'wheel keeps scrolling after dragging over the decorative backdrop');
+  const decorativePrevented = await graphics.locator('canvas').evaluate(canvas=>{
     const event=new WheelEvent('wheel',{deltaY:12,bubbles:true,cancelable:true});
     canvas.dispatchEvent(event); return event.defaultPrevented;
   });
-  assert.equal(exploringPrevented,false,'model exploration never captures wheel navigation');
-  checks.push('model interaction preserves uncancelled native scrolling');
-  const pausedBefore = await graphics.evaluate(()=>document.body.dataset.motionPaused==='true');
-  await graphics.locator('[data-motion-toggle]').click();
-  assert.equal(await graphics.evaluate(()=>document.body.dataset.motionPaused==='true'),!pausedBefore,'pause control changes motion state');
-  assert.equal(await graphics.locator('[data-motion-toggle]').getAttribute('aria-pressed'),String(!pausedBefore),'pause state is announced accessibly');
-  const pausedFrameCount = await graphics.evaluate(()=>window.__perfTelemetry.getSnapshot().renderedFrames);
-  await graphics.waitForTimeout(200);
-  assert.equal(await graphics.evaluate(()=>window.__perfTelemetry.getSnapshot().renderedFrames),pausedFrameCount,'pause stops the continuous rendering loop');
-  assert.equal(await graphics.evaluate(()=>window.__perfTelemetry.getSnapshot().animationRunning),false,'pause disables continuous animation');
-  await graphics.locator('[data-motion-toggle]').click();
-  assert.equal(await graphics.evaluate(()=>document.body.dataset.motionPaused==='true'),pausedBefore,'pause control restores its original state');
-  checks.push('motion pause stops continuous rendering and announces its state');
-  for(let i=0;i<3;i++) {
-    await graphics.locator(`[data-model-point="${i}"]`).click();
-    assert.equal(await graphics.locator(`[data-model-point="${i}"]`).getAttribute('aria-pressed'),'true','selected subsystem view is announced');
-    assert.ok((await graphics.locator('[data-model-description]').innerText()).trim(),'subsystem view has a readable explanation');
-  }
-  await graphics.locator('[data-model-reset]').click();
-  const resetExploration = await graphics.evaluate(()=>({...window.__observatory.exploration}));
-  assert.ok(Math.abs(resetExploration.yaw)<.0001 && Math.abs(resetExploration.pitch)<.0001,'reset restores the default model angle');
-  assert.ok(await graphics.locator('[data-model-point]').evaluateAll(buttons=>buttons.every(button=>button.getAttribute('aria-pressed')==='false')),'reset clears subsystem selection');
-  await graphics.locator('[data-model-explore]').click();
-  assert.equal(await graphics.evaluate(()=>document.body.dataset.modelExploring),'false','exploration can be exited');
-  assert.equal(await graphics.locator('canvas').evaluate(c=>getComputedStyle(c).pointerEvents),'none','exit restores the decorative canvas');
-  checks.push('subsystem views explain the model and Reset restores browsing');
-  await graphics.locator('[data-model-explore]').click();
-  await graphics.locator('[data-model-point="1"]').focus();
-  await graphics.keyboard.press('Escape');
-  assert.equal(await graphics.evaluate(()=>document.body.dataset.modelExploring),'false','Escape exits exploration');
-  assert.equal(await graphics.locator('[data-model-explore]').evaluate(button=>button===document.activeElement),true,'Escape restores focus to the visible explorer trigger');
-  checks.push('Escape restores focus when leaving model exploration');
+  assert.equal(decorativePrevented,false,'decorative 3D never cancels wheel navigation');
+  checks.push('automatic 3D preserves uncancelled native scrolling');
   for(let round=0;round<3;round++) for(let i=0;i<6;i++) {
     await graphics.evaluate(i=>document.querySelector(`[data-scene-jump="${i}"]`).click(),i);
     await graphics.waitForFunction(i=>window.__observatory.worldStatus[i]==='ready' && document.body.dataset.graphicsReady==='true',i,{timeout:30000});
@@ -341,6 +371,10 @@ try {
   const reduced=await browser.newPage({reducedMotion:'reduce',viewport:{width:390,height:844},hasTouch:true});
   await reduced.goto(base+'/#topoflow');
   await reduced.waitForFunction(()=>document.body.dataset.graphicsReady==='true',null,{timeout:30000});
+  assert.equal(await reduced.evaluate(()=>window.__perfTelemetry.getSnapshot().animationRunning),false,'homepage reduced motion stops continuous WebGL rendering');
+  await reduced.locator('[data-scene-panel="4"] .artifact-link').hover();
+  assert.equal(await reduced.locator('[data-scene-panel="4"] .artifact-link').evaluate(link=>getComputedStyle(link).transform),'none','reduced motion keeps the project preview flat, including hover');
+  checks.push('homepage artwork and project previews respect reduced motion');
   await reduced.goto(base+'/yield.html');
   await reduced.waitForFunction(()=>window.__heroTelemetry?.().ready,null,{timeout:30000});
   assert.equal(await reduced.evaluate(()=>window.__heroTelemetry().running),false);

@@ -3,11 +3,11 @@
 [![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
 [![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Build Version](https://img.shields.io/badge/Version-v4.2.0-brightgreen?style=flat-square)](CHANGELOG.md)
+[![Build Version](https://img.shields.io/badge/Version-v4.3.0-brightgreen?style=flat-square)](CHANGELOG.md)
 
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 
-The **WebGL Systems Observatory** combines six naturally scrolling sections with a fixed procedural 3D backdrop. Recruiters can read projects with normal browser scrolling, open case studies, or explicitly explore the models through camera orbit and explained subsystem views.
+The portfolio combines six naturally scrolling sections, an editorial identity and a restrained procedural 3D backdrop. A curated work index and directly linked project images help recruiters scan the work, read its evidence and reach the case studies. The closing profile presents engineering practice and direct professional contact links.
 
 - **Primary Custom Domain:** [shaunakrane.is-a.dev](https://shaunakrane.is-a.dev)
 - **Author:** Shaunak Rane ([GitHub](https://github.com/Shaunakrane914) · [LinkedIn](https://www.linkedin.com/in/shaunak-rane-3980582ba/) · [Resume PDF](Shaunak_Rane_Resume.pdf) · `shaunakrane914@gmail.com`)
@@ -94,13 +94,15 @@ The **WebGL Systems Observatory** combines six naturally scrolling sections with
 The portfolio itself is built without heavy UI frameworks or CSS utility bloat. It runs on Vanilla HTML5, modern CSS custom properties, and modular ES6 JavaScript.
 
 ### Core Architectural Patterns:
+
 1. Native document scrolling handles wheel, touch, vertical arrows and page keys. Six sections grow with their content; a passive reading-line observer selects the visible 3D scene. Large gestures can cover several sections, with no gesture lock or nested panel scroller.
 2. Scene preparation runs in a prioritized serial queue with small shader batches, explicit readiness and a hidden GPU upload render. CSS artwork and semantic content remain visible while graphics prepare.
 3. Lit standard materials, shared resources and instancing reduce work. Case studies use direct rendering with no bloom pass chain.
-4. A short camera dolly near each destination replaces long spatial travel. Explore 3D adds mouse orbit, labeled subsystem views and Reset; Pause stops continuous animation. Normal scrolling stays available during exploration. Offscreen/hidden heroes pause and reduced-motion heroes render statically.
+4. A short camera dolly near each destination supports restrained automatic 3D. The decorative canvas never captures pointer or wheel input. Interface previews use a small tilt and hover treatment; reduced motion removes those transforms. Offscreen/hidden heroes pause and reduced-motion heroes render statically.
 5. Local WOFF2 fonts and dimensioned lazy evidence images improve initial delivery. Desktop and mobile case-study heroes give text and art separate space.
+6. `css/editorial.css` presents four linked work previews, preserves detailed implementation evidence, and orders mobile content as summary, image, then metrics and links. The contact ending includes email copying with an accessible email-link fallback.
 
-[Architecture](docs/ARCHITECTURE.md), [v4.2 native-scroll verification](docs/NATIVE-SCROLL-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. The archived performance tables measure `bc3b307`, not v4.2.
+[Architecture](docs/ARCHITECTURE.md), [v4.3 editorial-design verification](docs/EDITORIAL-DESIGN-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. The archived performance tables measure `bc3b307`; the separate [v4.2 native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md) preserves the earlier presentation's measurements. Neither is a v4.3 FPS result.
 
 ---
 

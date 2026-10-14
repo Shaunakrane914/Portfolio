@@ -1,6 +1,6 @@
-# Portfolio runtime architecture (v4.2)
+# Portfolio runtime architecture (v4.3)
 
-The portfolio is a static HTML site with native document scrolling and a progressively enhanced Three.js observatory. Project claims, links, evidence and resume content are retained.
+The portfolio is a static HTML site with an editorial layout, native document scrolling and a restrained Three.js backdrop. Four featured projects connect concise summaries to real images, implementation details and case studies. Project claims, evidence and resume content are retained.
 
 ## Input and scene state
 
@@ -28,7 +28,7 @@ Lit standard materials and tinted transparent shells replace physical glass/tran
 
 Scene arrival uses a 280ms ease-out cubic camera move from a small dolly offset near the destination. It does not traverse the distance between spatial worlds or add a scan/streak effect. Rotation and pointer damping use elapsed time, and cached curve samples interpolate continuously into a reused vector. Case-study prototypes receive elapsed time, smoothed pointers and delta seconds. Hidden/offscreen heroes stop their animation loop; reduced-motion heroes render a static frame, including after resize. Homepage reduced motion also stops continuous rendering.
 
-Explore 3D explicitly enables mouse camera orbit and three labeled subsystem views with explanations. Reset restores the default view; Escape exits exploration and restores focus to its trigger. Wheel and touch continue scrolling even during exploration. Pause stops the animation loop while interactions still render an updated frame. These controls reuse the existing worlds and introduce no geometries or materials.
+The fixed canvas is decorative, with `pointer-events: none`; it never captures dragging or wheel input. Automatic motion remains restrained. Pointer position adds a small bounded tilt to interface previews, and hover reveals their case-study destination. Reduced motion removes preview transitions and transforms as well as continuous WebGL animation.
 
 Animation delta is clamped for numerical stability; telemetry records raw frame intervals, including stalls longer than 800ms. The homepage exposes `window.__perfTelemetry.getSnapshot()` and the `?perf` HUD. Heroes expose `window.__heroTelemetry()`, including readiness, render count and running state. Desktop DPR is capped at 1.15, touch DPR at 1.0; sustained slow frames reduce resolution toward 0.65. Homepage recovery requires a longer stable fast period to avoid rapid quality oscillation.
 
@@ -40,6 +40,12 @@ See [BENCHMARKS.md](BENCHMARKS.md) for measured results, limitations, raw eviden
 
 ## Recruiter-facing navigation and layout
 
-Project summaries use an open layout with readable stage-level contrast. Oversized panel pseudo-elements and decorative card outlines are removed. Longer text expands the section and uses the document scrollbar. On mobile, models are reframed above the narrative. The case-study action is primary, with live deployments and detailed evidence still available. A separate previous/next control names the next project. Numbered rail controls retain accessible names and tooltips without labels overlapping the narrative.
+`css/editorial.css` owns the identity, work previews and contact presentation above the base observatory styles. The opening pairs a large serif headline with the full name in the header and eyebrow, a clear engineering role and a full-width four-project index. A thin 2px reading-progress bar follows document progress without accepting input.
 
-See [native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) for v4.2 behavior and validation. The [v4.1 UX verification](UX-VERIFICATION.md) preserves the earlier panel and gesture audit; its input contract is historical.
+Each featured chapter has a short lead and a directly linked image preview. Aegis uses its agent interface; Gridium uses the microgrid overview; Compressor CBM uses the flat Candidate B evidence chart; TopoFlow uses a clearly labeled pore-network illustration. Images reserve their dimensions and load lazily. Original technical descriptions remain visible in `.project-implementation` paragraphs, alongside existing metrics, evidence and live links.
+
+Desktop places narrative and preview beside one another. On mobile, `.scene-copy` uses `display: contents` for the featured chapters so `.project-intro`, the image and `.project-details` follow the title/summary → image → metrics/links reading order. Content grows naturally with the document; it has no panel-local scrolling or hidden sections. The case-study action is primary, and rail controls keep accessible names and tooltips.
+
+The profile combines the internship timeline with three engineering-practice groups. The contact ending exposes the real email address, resume, GitHub and LinkedIn. Copy email reports success through a status element; clipboard rejection or an unavailable API focuses the existing email link and presents a useful fallback.
+
+See [editorial-design verification](EDITORIAL-DESIGN-VERIFICATION.md) for current layout, links and interaction checks. The archived [v4.2 native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) records the introduction of the native browsing contract, which v4.3 retains. Its explorer-specific checks and hardware sample describe that earlier presentation. The [v4.1 UX verification](UX-VERIFICATION.md) preserves the preceding panel and gesture audit.
