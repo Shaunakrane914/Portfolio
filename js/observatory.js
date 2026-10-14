@@ -202,9 +202,10 @@ function createTechRing(radius, color, opacity = 0.45, segments = 128) {
   return new THREE.LineLoop(geometry, lineMaterial(color, opacity));
 }
 
-function springVector(current, target, velocity, dt, stiffness = 56, damping = 11) {
-  const displacement = target.clone().sub(current);
-  velocity.addScaledVector(displacement, stiffness * dt);
+const _springDisplacement = new THREE.Vector3();
+function springVector(current, target, velocity, dt, stiffness = 88, damping = 14.5) {
+  _springDisplacement.copy(target).sub(current);
+  velocity.addScaledVector(_springDisplacement, stiffness * dt);
   velocity.multiplyScalar(Math.exp(-damping * dt));
   current.addScaledVector(velocity, dt);
 }
@@ -1839,7 +1840,7 @@ let fastFrameTally = 0;
 
 function applyQualityTier(tier) {
   if (!renderer) return;
-  const maxDpr = coarsePointer ? 1.0 : 1.20;
+  const maxDpr = coarsePointer ? 1.0 : 1.15;
   let targetDpr = maxDpr;
   if (tier === "low") {
     targetDpr = Math.min(window.devicePixelRatio || 1, 0.95);
@@ -2021,7 +2022,7 @@ function initializeThree() {
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x020403, 1);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.20));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -2059,8 +2060,8 @@ function initializeThree() {
     activeWorld = worlds[currentScene];
     scheduleIdlePrewarm();
     window.__observatory = {
-      version: "3.2.0",
-      buildDate: "2026-10-13",
+      version: "3.3.0",
+      buildDate: "2026-10-14",
       worlds,
       camera,
       targetCamera,
@@ -2070,7 +2071,7 @@ function initializeThree() {
       cameraStates,
       THREE
     };
-    console.log("%c[Observatory 3D] v3.2.0 initialized (380ms transition lockout, DPR 1.2, spring physics active)", "color: #47e6a5; font-weight: bold;");
+    console.log("%c[Observatory 3D] v3.3.0 initialized (220ms lockout, 28px threshold, zero-alloc springs, global parallax)", "color: #47e6a5; font-weight: bold;");
     webglReady = true;
     resizeRenderer();
     window.addEventListener("resize", resizeRenderer, { passive: true });
@@ -2123,8 +2124,8 @@ function render(timeMs) {
     cameraVelocity.set(0, 0, 0);
     lookVelocity.set(0, 0, 0);
   } else {
-    springVector(camera.position, targetCamera, cameraVelocity, dt, 82, 13.8);
-    springVector(currentLook, targetLook, lookVelocity, dt, 72, 12.8);
+    springVector(camera.position, targetCamera, cameraVelocity, dt, 88, 14.5);
+    springVector(currentLook, targetLook, lookVelocity, dt, 78, 13.5);
   }
   camera.lookAt(currentLook);
 
@@ -2289,7 +2290,7 @@ function render(timeMs) {
   if (activeWorld && !reduceMotion) {
     activeWorld.rotation.z += (pointerX * 0.04 - activeWorld.rotation.z) * 0.025;
     const baseScale = activeWorld.userData.baseScale;
-    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 620, 0, 1);
+    const transitionProgress = THREE.MathUtils.clamp((performance.now() - lastSceneChange) / 300, 0, 1);
     const eased = 1 - Math.pow(1 - transitionProgress, 3);
     activeWorld.scale.copy(baseScale).multiplyScalar(0.93 + eased * 0.07);
   }
@@ -2323,11 +2324,11 @@ function setScene(index, options = {}) {
 
   if (!options.force && !reduceMotion) {
     const direction = Math.sign(currentScene - previousScene) || 1;
-    cameraVelocity.y += direction * 1.9;
-    cameraVelocity.x += direction * 0.7;
+    cameraVelocity.y += direction * 0.4;
+    cameraVelocity.x += direction * 0.2;
     triggerScanEffect();
   }
-  lockSceneTransition(380);
+  lockSceneTransition(220);
 
   panels.forEach((panel, panelIndex) => {
     const active = panelIndex === currentScene;
@@ -2363,7 +2364,7 @@ function triggerScanEffect() {
     { opacity: 0.62, offset: 0.86 },
     { transform: "translateX(126vw) skewX(-8deg)", opacity: 0 }
   ], {
-    duration: 620,
+    duration: 320,
     easing: "cubic-bezier(0.22, 0.8, 0.24, 1)",
     fill: "none"
   });
@@ -2373,7 +2374,7 @@ let isSceneTransitioning = false;
 let lastTransitionAt = 0;
 let sceneLockTimer = null;
 
-function lockSceneTransition(duration = 380) {
+function lockSceneTransition(duration = 220) {
   isSceneTransitioning = true;
   lastTransitionAt = performance.now();
   wheelAccumulator = 0;
@@ -2474,8 +2475,8 @@ window.addEventListener("wheel", (event) => {
   const now = performance.now();
   const timeSinceTransition = now - lastTransitionAt;
 
-  // If transitioning or within the 380ms lockout window, dump all wheel inertia immediately
-  if (isSceneTransitioning || timeSinceTransition < 380) {
+  // If transitioning or within the 220ms lockout window, dump all wheel inertia immediately
+  if (isSceneTransitioning || timeSinceTransition < 220) {
     wheelAccumulator = 0;
     return;
   }
@@ -2487,18 +2488,18 @@ window.addEventListener("wheel", (event) => {
 
   wheelAccumulator += event.deltaY;
 
-  // Responsive step threshold: 40px guarantees immediate, snappy action without false firing
-  if (Math.abs(wheelAccumulator) >= 40) {
+  // Responsive step threshold: 28px guarantees immediate, snappy action without false firing
+  if (Math.abs(wheelAccumulator) >= 28) {
     const dir = wheelAccumulator > 0 ? 1 : -1;
     wheelAccumulator = 0;
     stepScene(dir);
   }
 
-  // When scrolling stops for 160ms, reset accumulator so subsequent motions start clean
+  // When scrolling stops for 120ms, reset accumulator so subsequent motions start clean
   window.clearTimeout(wheelQuietTimer);
   wheelQuietTimer = window.setTimeout(() => {
     wheelAccumulator = 0;
-  }, 160);
+  }, 120);
 }, { passive: true });
 
 let touchStartX = 0;
@@ -2567,9 +2568,12 @@ canvas.addEventListener("pointerdown", (event) => {
   canvas.setPointerCapture?.(event.pointerId);
 });
 
-canvas.addEventListener("pointermove", (event) => {
+window.addEventListener("pointermove", (event) => {
   pointerX = (event.clientX / Math.max(window.innerWidth, 1) - 0.5) * 2;
   pointerY = -(event.clientY / Math.max(window.innerHeight, 1) - 0.5) * 2;
+}, { passive: true });
+
+canvas.addEventListener("pointermove", (event) => {
   if (!dragStart || !activeWorld || reduceMotion) return;
   const dx = (event.clientX - dragStart.lastX) * 0.0025;
   const dy = (event.clientY - dragStart.lastY) * 0.0018;

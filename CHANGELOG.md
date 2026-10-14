@@ -2,6 +2,16 @@
 
 All notable changes to Shaunak Rane's Systems Portfolio will be documented in this file.
 
+## [3.3.0] - 2026-10-14
+
+### Input Responsiveness & Smooth Physics
+- **Wheel Latency Slashed to 220ms:** Reduced transition lockout window from 380ms down to 220ms.
+- **Micro-gesture Threshold:** Lowered wheel accumulation threshold to 28px for instantaneous mouse wheel and trackpad response.
+- **Zero-Allocation Springs:** Eliminated per-frame vector cloning in `springVector`, preventing garbage collection stutters.
+- **Global Parallax Tracking:** Attached `pointermove` to `window`, eliminating dead zones and jerky camera jumps when hovering over text panels or navigation bars.
+- **Direct Critical Damping:** Removed artificial camera velocity impulse, allowing critically damped springs (stiffness 88, damping 14.5) to settle smoothly in ~260ms.
+- **Visual Version Confirmation:** Added header badge and console telemetry identifying live version `v3.3.0`.
+
 ## [3.2.0] - 2026-10-13
 
 ### Performance & Latency Optimizations
