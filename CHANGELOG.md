@@ -2,6 +2,22 @@
 
 All notable changes to Shaunak Rane's Systems Portfolio will be documented in this file.
 
+## [3.4.0] - 2026-10-14
+
+### Performance Engineering Overhaul & Smoothness
+- **Asynchronous Scene Preparation Pipeline:** Implemented proactive background world construction and prewarming starting 250ms post-render. Prioritizes immediately adjacent scenes (`currentScene + 1`, `currentScene - 1`) and dynamically reprioritizes whenever active scene changes.
+- **Exact Lighting & Fog Shader Precompilation:** Solved the WebGL driver shader compilation hitch by precompiling shaders with matching hemisphere, directional, and local point lights plus `scene.fog`, eliminating the 1.2s cold navigation freeze.
+- **GPU Texture Pre-Initialization:** Added `renderer.initTexture` pre-uploads for dynamic canvas textures during idle time, preventing synchronous `texImage2D` texture upload freezes during active transitions.
+- **Optimized Canvas Resolution:** Reduced dynamic code canvas dimensions to 512x310 with 2x anisotropy, cutting texture memory by 75% while maintaining sharp typography.
+- **InstancedMesh Conversion (Compressor CBM):** Converted 182 individual rotor blades and 42 rotor sensors to `THREE.InstancedMesh`, reducing Scene 3 draw calls from **374 down to 161** (-57%).
+- **Zero-Allocation Spline Pre-Sampling:** Added `getCachedCurvePoint` to pre-sample CatmullRom splines into 120 points, eliminating thousands of `THREE.Vector3` garbage-collection allocations per frame across Aegis, Gridium, and TopoFlow packet loops.
+- **Shared Geometry Buffers:** Reused shared geometries across Gridium nodes/packets, Aegis evidence packets, and Profile modules.
+- **Unclipped Frame-Time Telemetry:** Separated raw frame delta measurement (`rawFrameDeltaMs`) from clamped animation physics delta (`dt`), allowing the adaptive quality controller and `window.__perfTelemetry.getSnapshot()` to record true unhidden frame drops, p95, and p99 frame times.
+- **Case-Study Hero Precompilation:** Added `renderer.compileAsync(scene, camera)` to `project-scenes.js` and `lab-controller.js`.
+- **HDR Composer Optimization:** Set `samples: 0` on HDR float render targets in `js/threeui/composer.js` and capped DPR at 1.25, avoiding costly multi-sample resolves on mobile and integrated GPUs.
+- **Reproducible Benchmark Infrastructure:** Built `scripts/lib/playwright_loader.mjs` and updated all 14 test scripts to resolve Playwright without hardcoded machine-specific absolute Windows paths.
+- **Asset Cache Invalidation:** Bumped version badge in `index.html` to `v3.4` and asset query strings to `?v=3.4`.
+
 ## [3.3.0] - 2026-10-14
 
 ### Input Responsiveness & Smooth Physics
