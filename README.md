@@ -3,7 +3,7 @@
 [![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
 [![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Build Version](https://img.shields.io/badge/Version-v4.4.0-brightgreen?style=flat-square)](CHANGELOG.md)
+[![Build Version](https://img.shields.io/badge/Version-v4.9.0-brightgreen?style=flat-square)](CHANGELOG.md)
 
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 
@@ -95,14 +95,14 @@ The portfolio itself is built without heavy UI frameworks or CSS utility bloat. 
 
 ### Core Architectural Patterns:
 
-1. Native document scrolling handles wheel, touch, vertical arrows and page keys. Six sections grow with their content; a passive reading-line observer selects the visible 3D scene. Large gestures can cover several sections, with no gesture lock or nested panel scroller.
+1. Native document scrolling handles wheel, touch, vertical arrows and page keys. Six sections grow with their content; a passive reading-line observer selects the visible 3D scene. A trackpad burst is bounded to one adjacent chapter; fresh input and reversals release it without waiting for model preparation. Panels have no nested scrollers.
 2. Scene preparation runs in a prioritized serial queue with small shader batches, explicit readiness and a hidden GPU upload render. CSS artwork and semantic content remain visible while graphics prepare.
 3. Lit standard materials, shared resources and instancing reduce work. Case studies use direct rendering with no bloom pass chain.
 4. A short camera dolly near each destination supports restrained automatic 3D. The decorative canvas renders inside each model's reserved viewport and never captures pointer or wheel input. Cached geometry bounds guide responsive camera fitting. Offscreen/hidden heroes pause and reduced-motion heroes render statically.
 5. Local WOFF2 fonts and dimensioned lazy evidence images improve initial delivery. Desktop and mobile case-study heroes give text and art separate space.
 6. `css/editorial.css` gives the introduction and four featured projects transparent model regions, preserving detailed implementation evidence and case-study links. Mobile content follows summary, model, then metrics and links. Case-study heroes keep plain metrics outside the model lane. The contact ending includes email copying with an accessible email-link fallback.
 
-[Architecture](docs/ARCHITECTURE.md), [v4.4 model-visibility verification](docs/MODEL-VISIBILITY-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. Final v4.4 validation is pending. The [v4.3 editorial report](docs/EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md) and `bc3b307` tables preserve older measurements; they do not establish v4.4 frame rates.
+[Architecture](docs/ARCHITECTURE.md), [model visibility and trackpad verification](docs/MODEL-VISIBILITY-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. Trackpad bursts are bounded to the adjacent chapter while ordinary reading movement stays native. The [v4.3 editorial report](docs/EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md) and `bc3b307` tables preserve older measurements; they do not establish current frame rates.
 
 ---
 

@@ -46,7 +46,7 @@ try {
         };
         const p=document.querySelector('.scene-panel.is-active'), style=getComputedStyle(p);
         const model=p.querySelector('[data-model-view]'), modelStyle=model && getComputedStyle(model);
-        const canvasStyle=getComputedStyle(document.querySelector('#observatory-canvas'));
+        const canvas=document.querySelector('#observatory-canvas'), canvasStyle=getComputedStyle(canvas);
         const copy=p.querySelector('.scene-copy');
         const narrative=[...p.querySelectorAll('.project-intro,.project-details')];
         if(!narrative.length) narrative.push(copy);
@@ -59,8 +59,9 @@ try {
           scrollbars:style.scrollbarWidth,border:style.borderWidth,rect:serialize(p),copy:serialize(copy),narrative:narrative.map(serialize),
           model:model ? {rect:serialize(model),viewport,projected:window.__observatory?.getProjectedModelBounds?.() || null,index:+model.dataset.modelView,
             background:modelStyle.backgroundColor,backgroundImage:modelStyle.backgroundImage,display:modelStyle.display,visibility:modelStyle.visibility,
-            hasCover:!!model.querySelector('img,video,iframe,button,input,a[href],canvas')} : null,
-          headerBottom:header.bottom,canvas:{pointerEvents:canvasStyle.pointerEvents,display:canvasStyle.display,visibility:canvasStyle.visibility,opacity:canvasStyle.opacity},
+            hasCover:!!model.querySelector('img,video,iframe,button,input,a[href],canvas:not(#observatory-canvas)')} : null,
+          headerBottom:header.bottom,canvas:{pointerEvents:canvasStyle.pointerEvents,display:canvasStyle.display,visibility:canvasStyle.visibility,opacity:canvasStyle.opacity,
+            position:canvasStyle.position,rect:serialize(canvas),parentModelIndex:canvas.parentElement?.hasAttribute('data-model-view') ? +canvas.parentElement.dataset.modelView : null},
           graphicsReady:document.body.dataset.graphicsReady,
           viewportOverflow:document.documentElement.scrollWidth>innerWidth};
       });
@@ -84,6 +85,9 @@ try {
           const model=result.model;
           assert.ok(model,'chapter reserves model space');
           assert.equal(model.index,i,'model space belongs to the selected chapter');
+          assert.equal(result.canvas.parentModelIndex,i,'shared canvas belongs to the selected model space');
+          assert.equal(result.canvas.position,'absolute','canvas moves with its model space in document flow');
+          for(const edge of ['left','right','top','bottom']) assert.ok(Math.abs(result.canvas.rect[edge]-model.rect[edge])<=1,`canvas ${edge} aligns with its model space`);
           assert.equal(model.hasCover,false,'model space has no screenshot, link, or control covering it');
           assert.equal(model.background,'rgba(0, 0, 0, 0)','model space is transparent');
           assert.equal(model.backgroundImage,'none','model space has no image or gradient cover');
@@ -99,7 +103,8 @@ try {
           const projected=model.projected;
           assert.ok(projected,'renderer reports fitted model bounds');
           assert.ok(projected.left>=area.left-2 && projected.right<=area.right+2 && projected.top>=area.top-2 && projected.bottom<=area.bottom+2,'complete projected model remains inside its viewport');
-          assert.ok(projected.width>=area.width*.1 && projected.height>=area.height*.1,'projected model remains large enough to read');
+          const occupancy=Math.max(projected.width/model.rect.width,projected.height/model.rect.height);
+          assert.ok(occupancy>=.7,`model fills at least 70% of its space along its dominant dimension (actual ${(occupancy*100).toFixed(1)}%)`);
           for(const narrative of result.narrative) assert.equal(intersects(area,narrative),false,'model viewport does not overlap narrative');
           if(viewport.width>820) assert.equal(intersects(area,result.copy),false,'desktop model has a clear column beside the copy');
         } else assert.equal(result.model,null,'profile has no redundant model frame');

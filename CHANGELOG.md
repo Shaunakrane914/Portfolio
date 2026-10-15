@@ -1,5 +1,35 @@
 # Changelog
 
+## v4.9.0 - 2026-10-15
+
+- Keep autonomous model animation running throughout scroll input. Use a lighter drawing cadence during movement instead of stopping playback or waiting for a resume timer.
+- Base the homepage drawing budget on actual document movement, so bounded trackpad momentum cannot hold the model still.
+- Give Aegis and Gridium a gentle automatic turn independent of pointer parallax.
+- Verify visible model changes before, during and after scrolling with the pointer away from the model, including native touch input. Preserve static reduced-motion and offscreen lifecycle behavior.
+
+## v4.8.0 - 2026-10-15
+
+- Split model factories and exact-vertex fitting into cooperative tasks. Replace temporary vertex objects and string-key deduplication with typed coordinates while retaining the large model framing.
+- Keep only the selected cached world in the rendered scene. Remove viewport/layout reads from the render loop and reuse cached chapter geometry during scrolling.
+- Retain the crisp model frame during active page movement, then resume animation automatically. Apply the same behavior to all seven case-study heroes.
+- Recognize fresh steady 6px trackpad input after a weak tail, cache native-scroll ancestry, and avoid repeated no-op boundary jumps. Preserve one-chapter gesture bounds.
+
+## v4.7.0 - 2026-10-15
+
+- Fit and center actual geometry instead of padded world boxes. Increase the hero model's visible width by approximately 55% in the 1768x1000 capture.
+- Place the shared canvas inside the active model region so native scrolling composites it with the narrative. Render only the region, reduce decorative updates during input, skip offscreen draws and defer background preparation while scrolling.
+- Recognize fresh single impulses and gentle ramps after momentum decay. Preserve one-chapter bounds and deliberate reversal behavior.
+- Move the footer into document flow and show the mobile hero model before the work index. Expand regression checks for canvas ownership, alignment and model occupancy.
+
+
+## v4.6.0 - 2026-10-15
+
+- Keep the enlarged model regions and tighten homepage camera framing without adding cover panels or controls.
+- Bound each continuous trackpad wheel burst to one adjacent chapter. Keep ordinary in-range movement native and allow immediate deliberate reversals, small fresh input and renewed swipes.
+- Normalize wheel modes, account for queued browser movement, and clamp before scene selection. Reset ownership for explicit navigation, keyboard, touch, resize and dialogs. Preserve reading through the final contact section.
+- Verify large-model framing across 30 homepage layouts and 14 case-study views with 14 resize roundtrips. See the [current verification report](docs/MODEL-VISIBILITY-VERIFICATION.md) for interaction and rendering evidence.
+
+
 
 ## v4.4.0 - 2026-10-14
 
@@ -7,7 +37,7 @@
 - Reserve transparent `.model-view` regions for the introduction and four featured projects. Render real WebGL geometry only inside its own scissored rectangle, following native document scrolling without covering text or capturing input.
 - Cache model geometry bounds, including instanced geometry, and fit cameras to the available responsive viewport. Improve model visibility through exposure, lighter fog, brighter TopoFlow material and gentle bounded Origin/TopoFlow motion.
 - Keep case-study metrics and direct CTAs in the desktop text lane, with plain borderless metrics and no art shade or decorative left border. Fit both case renderers on resize and remove Food/Sodexo's three illustrative in-world UI displays.
-- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups; final layout, case and performance runs are pending in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
+- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups. Subsequent layout, case and trackpad validation is recorded in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
 
 
 ## v4.3.0 - 2026-10-14

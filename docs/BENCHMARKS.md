@@ -1,6 +1,6 @@
 # Historical portfolio UX and rendering benchmarks - 14 October 2026
 
-Paired measurements compare original commit `c9a4d43` with the rendering overhaul in `bc3b307`. Every performance table below belongs to those snapshots. They do not measure current v4.4 model visibility; its focused performance run is pending, and no v4.4 FPS claim is made here.
+Paired measurements compare original commit `c9a4d43` with the rendering overhaul in `bc3b307`. Every performance table below belongs to those snapshots. They do not measure the current presentation. Current large-model and bounded-trackpad measurements are recorded in [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md).
 
 The archived [v4.1 UX verification](UX-VERIFICATION.md), [v4.2 native-scroll verification](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial-design verification](EDITORIAL-DESIGN-VERIFICATION.md) preserve earlier checks, captures and focused hardware samples. V4.4 retains native browsing, removes screenshot-preview frames and gives models clear render regions. Current verification status is recorded in [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md). Historical samples do not establish current frame rates.
 
@@ -48,7 +48,7 @@ No >50ms main-thread long task was recorded in the final six first-traversal win
 
 ## Verification and visual review
 
-The historical asserting suite covered browser wheel inertia, deterministic trackpad tails, continuous/large/small input, reversal, delta modes, native panel scrolling at its edge, rapid buttons, keyboard, touch, direct URLs, browser history, dialogs, focus restoration, no-WebGL content, reduced motion, offscreen pauses, readiness visibility and repeated GPU resource counts. The separate experimental lab was exercised across all prototypes and rapid switching. Current tests retain lifecycle checks and use trusted browser wheel/touch input for native movement, with model-region, work-index and contact checks. Final v4.4 results are pending in the model-visibility report linked above.
+The historical asserting suite covered browser wheel inertia, deterministic trackpad tails, continuous/large/small input, reversal, delta modes, native panel scrolling at its edge, rapid buttons, keyboard, touch, direct URLs, browser history, dialogs, focus restoration, no-WebGL content, reduced motion, offscreen pauses, readiness visibility and repeated GPU resource counts. The separate experimental lab was exercised across all prototypes and rapid switching. Current tests retain lifecycle checks and use trusted browser wheel/touch input for native movement, with model-region, work-index and contact checks. Current model and trackpad results are recorded in the model-visibility report linked above.
 
 All seven case-study routes (including the food/sodexo alias) were checked on mobile without horizontal overflow. The historical final benchmark capture had zero runtime/console errors or HTTP asset errors. Local asset/link checks passed. External project services were preserved; their availability is not guaranteed by this local audit.
 
@@ -72,7 +72,7 @@ node scripts/validate_links.mjs
 node scripts/check_asset_sizes.mjs
 ```
 
-To reproduce the tables, use a separate checkout or archive of `bc3b307` for the following historical commands. Running the audit against current v4.4 source produces a different experiment:
+To reproduce the tables, use a separate checkout or archive of `bc3b307` for the following historical commands. Running the audit against current v4.6 source produces a different experiment:
 
 ```powershell
 node scripts/test_wheel_gesture.mjs

@@ -1,0 +1,439 @@
+{
+  "date": "2026-10-15T03:58:43.364Z",
+  "browser": "155.0.8059.41",
+  "results": [
+    {
+      "rate": 1,
+      "duration": 7088.5,
+      "frames": {
+        "count": 975,
+        "p95": 7.199999999999818,
+        "p99": 20.800000000000182,
+        "max": 41.600000000000136
+      },
+      "longTasks": [],
+      "telemetry": {
+        "fps": 144,
+        "avgFrameMs": 6.941666666666666,
+        "p95FrameMs": 7.100000000000364,
+        "p99FrameMs": 7.400000000000546,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 160,
+        "textures": 11,
+        "renderedFrames": 619,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      },
+      "builds": [
+        28,
+        22.800000000745058,
+        10.400000000372529,
+        28.299999999813735,
+        9.099999999627471,
+        3.099999999627471
+      ],
+      "totals": {
+        "FireAnimationFrame": {
+          "count": 1878,
+          "ms": 705.6219999999987,
+          "max": 10.256
+        },
+        "FunctionCall": {
+          "count": 2185,
+          "ms": 697.1969999999986,
+          "max": 10.217
+        },
+        "UpdateLayoutTree": {
+          "count": 993,
+          "ms": 222.14400000000012,
+          "max": 1.946
+        },
+        "EventDispatch:wheel": {
+          "count": 120,
+          "ms": 24.279999999999983,
+          "max": 0.727
+        },
+        "EventDispatch:scroll": {
+          "count": 66,
+          "ms": 7.152,
+          "max": 1.521
+        },
+        "EventDispatch:scrollend": {
+          "count": 54,
+          "ms": 0.11300000000000003,
+          "max": 0.015
+        },
+        "EventDispatch:pointerout": {
+          "count": 6,
+          "ms": 0.042,
+          "max": 0.011
+        },
+        "EventDispatch:pointerover": {
+          "count": 6,
+          "ms": 0.011,
+          "max": 0.003
+        },
+        "EventDispatch:mouseout": {
+          "count": 6,
+          "ms": 0.006,
+          "max": 0.001
+        },
+        "EventDispatch:mouseover": {
+          "count": 5,
+          "ms": 0.047,
+          "max": 0.043
+        },
+        "Paint": {
+          "count": 753,
+          "ms": 40.99600000000009,
+          "max": 0.503
+        },
+        "Layout": {
+          "count": 32,
+          "ms": 9.777,
+          "max": 0.957
+        }
+      },
+      "metrics": {
+        "LayoutDuration": 0.010166000000000008,
+        "RecalcStyleDuration": 0.222052,
+        "DevToolsCommandDuration": 0.0002020000000000008,
+        "ScriptDuration": 0.546962,
+        "V8CompileDuration": 0,
+        "TaskDuration": 1.6414560000000002,
+        "TaskOtherDuration": 0.862074
+      },
+      "hotspots": [
+        [
+          "(idle) :0",
+          3158
+        ],
+        [
+          "(program) :0",
+          2701
+        ],
+        [
+          "getModelViewportRect observatory.js?v=4.7:130",
+          65
+        ],
+        [
+          "(anonymous) three.module.min.js:6",
+          34
+        ],
+        [
+          "at three.module.min.js:6",
+          21
+        ],
+        [
+          "updateMatrixWorld three.core.min.js:6",
+          21
+        ],
+        [
+          "(garbage collector) :0",
+          20
+        ],
+        [
+          "compose three.core.min.js:6",
+          20
+        ],
+        [
+          "frame :6",
+          18
+        ],
+        [
+          "syncSceneToScroll observatory.js?v=4.7:2676",
+          15
+        ],
+        [
+          "update three.module.min.js:6",
+          14
+        ],
+        [
+          "updateMatrix three.core.min.js:6",
+          13
+        ],
+        [
+          "requestAnimationFrame :0",
+          12
+        ],
+        [
+          "getProgramInfoLog :0",
+          11
+        ],
+        [
+          "Pa.renderBufferDirect three.module.min.js:6",
+          11
+        ],
+        [
+          "getParameters three.module.min.js:6",
+          10
+        ],
+        [
+          "(anonymous) observatory.js?v=4.7:2117",
+          10
+        ],
+        [
+          "clear :0",
+          10
+        ],
+        [
+          "getCameraTarget observatory.js?v=4.7:75",
+          9
+        ],
+        [
+          "Pa.setSize three.module.min.js:6",
+          8
+        ],
+        [
+          "(anonymous) three.core.min.js:6",
+          8
+        ],
+        [
+          "updateModelViewport observatory.js?v=4.7:140",
+          8
+        ],
+        [
+          "get three.module.min.js:6",
+          8
+        ],
+        [
+          "dt three.module.min.js:6",
+          8
+        ],
+        [
+          "render observatory.js?v=4.7:2376",
+          8
+        ]
+      ],
+      "errors": []
+    },
+    {
+      "rate": 4,
+      "duration": 8474.200000000186,
+      "frames": {
+        "count": 862,
+        "p95": 20.800000000000182,
+        "p99": 41.69999999999982,
+        "max": 187.5
+      },
+      "longTasks": [
+        {
+          "at": 1814.3999999994412,
+          "ms": 83
+        },
+        {
+          "at": 2629.199999999255,
+          "ms": 50
+        },
+        {
+          "at": 3472.899999999441,
+          "ms": 148
+        },
+        {
+          "at": 4346.199999999255,
+          "ms": 51
+        }
+      ],
+      "telemetry": {
+        "fps": 122,
+        "avgFrameMs": 8.21333333333335,
+        "p95FrameMs": 13.900000000001455,
+        "p99FrameMs": 14,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 160,
+        "textures": 11,
+        "renderedFrames": 535,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      },
+      "builds": [
+        90.29999999981374,
+        83.20000000018626,
+        49.60000000055879,
+        148.29999999981374,
+        50.5,
+        10.099999999627471
+      ],
+      "totals": {
+        "FireAnimationFrame": {
+          "count": 1659,
+          "ms": 2711.563000000006,
+          "max": 38.107
+        },
+        "FunctionCall": {
+          "count": 1944,
+          "ms": 2656.354999999998,
+          "max": 38.083
+        },
+        "UpdateLayoutTree": {
+          "count": 890,
+          "ms": 615.4180000000005,
+          "max": 7.031
+        },
+        "Paint": {
+          "count": 370,
+          "ms": 99.86400000000013,
+          "max": 3.652
+        },
+        "EventDispatch:wheel": {
+          "count": 120,
+          "ms": 82.442,
+          "max": 2.208
+        },
+        "EventDispatch:scroll": {
+          "count": 74,
+          "ms": 21.320999999999987,
+          "max": 1.212
+        },
+        "EventDispatch:scrollend": {
+          "count": 68,
+          "ms": 0.402,
+          "max": 0.161
+        },
+        "EventDispatch:pointerout": {
+          "count": 6,
+          "ms": 0.19400000000000003,
+          "max": 0.168
+        },
+        "EventDispatch:pointerover": {
+          "count": 6,
+          "ms": 0.009000000000000001,
+          "max": 0.003
+        },
+        "EventDispatch:mouseout": {
+          "count": 6,
+          "ms": 0.008,
+          "max": 0.003
+        },
+        "Layout": {
+          "count": 32,
+          "ms": 40.73100000000001,
+          "max": 5.403
+        },
+        "EventDispatch:mouseover": {
+          "count": 2,
+          "ms": 0.003,
+          "max": 0.002
+        }
+      },
+      "metrics": {
+        "LayoutDuration": 0.04301899999999992,
+        "RecalcStyleDuration": 0.616067,
+        "DevToolsCommandDuration": 0.0005840000000000289,
+        "ScriptDuration": 2.185185,
+        "V8CompileDuration": 0,
+        "TaskDuration": 5.957669,
+        "TaskOtherDuration": 3.1128139999999997
+      },
+      "hotspots": [
+        [
+          "(program) :0",
+          3797
+        ],
+        [
+          "(idle) :0",
+          1245
+        ],
+        [
+          "getModelViewportRect observatory.js?v=4.7:130",
+          236
+        ],
+        [
+          "(anonymous) three.module.min.js:6",
+          158
+        ],
+        [
+          "Pa.renderBufferDirect three.module.min.js:6",
+          57
+        ],
+        [
+          "updateMatrixWorld three.core.min.js:6",
+          56
+        ],
+        [
+          "requestAnimationFrame :0",
+          55
+        ],
+        [
+          "compose three.core.min.js:6",
+          50
+        ],
+        [
+          "(garbage collector) :0",
+          45
+        ],
+        [
+          "dt three.module.min.js:6",
+          44
+        ],
+        [
+          "setValue three.module.min.js:6",
+          41
+        ],
+        [
+          "at three.module.min.js:6",
+          40
+        ],
+        [
+          "bindVertexArray :0",
+          39
+        ],
+        [
+          "syncSceneToScroll observatory.js?v=4.7:2676",
+          37
+        ],
+        [
+          "(anonymous) observatory.js?v=4.7:2117",
+          35
+        ],
+        [
+          "update three.module.min.js:6",
+          33
+        ],
+        [
+          "uniformMatrix4fv :0",
+          29
+        ],
+        [
+          "getParameters three.module.min.js:6",
+          29
+        ],
+        [
+          "updateMatrix three.core.min.js:6",
+          28
+        ],
+        [
+          "render observatory.js?v=4.7:2376",
+          27
+        ],
+        [
+          "updateModelViewport observatory.js?v=4.7:140",
+          24
+        ],
+        [
+          "multiplyMatrices three.core.min.js:6",
+          24
+        ],
+        [
+          "get three.module.min.js:6",
+          23
+        ],
+        [
+          "lt three.module.min.js:6",
+          22
+        ],
+        [
+          "uniform3f :0",
+          21
+        ]
+      ],
+      "errors": []
+    }
+  ]
+}

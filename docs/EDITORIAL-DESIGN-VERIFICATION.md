@@ -1,6 +1,6 @@
 # Historical editorial portfolio verification (v4.3)
 
-This report records the v4.3 presentation before v4.4 removed its four screenshot-preview frames and reserved clear model regions. Its checks, captures and rendering samples are historical. See [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md) for current status; final v4.4 validation is pending.
+This report records the v4.3 presentation before v4.4 removed its four screenshot-preview frames and reserved clear model regions. Its checks, captures and rendering samples are historical. See [model-visibility verification](MODEL-VISIBILITY-VERIFICATION.md) for current status; current validation is recorded there.
 
 V4.3 removed the model explorer, manual orbit, pause/reset controls and configuration state. Automatic Three.js artwork remained decorative with `pointer-events: none`; browsing retained the native document scrolling introduced in v4.2.
 
@@ -50,7 +50,7 @@ The [original rendering tables](BENCHMARKS.md) and [v4.2 native-scroll capture](
 
 ## Reproduction
 
-Run these commands from the v4.3 source snapshot to reproduce this report. Current scripts validate v4.4 and write model-visibility artifacts instead.
+Run these commands from the v4.3 source snapshot to reproduce this report. Current scripts validate the bounded trackpad contract and write model-visibility artifacts instead.
 
 ```powershell
 node scripts/overhaul_interactions.mjs

@@ -1,0 +1,4875 @@
+{
+  "results": [
+    {
+      "file": "aegis",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 355.5625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 301.125,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 319.125,
+              "right": 664.625,
+              "bottom": 395.328125,
+              "width": 530.625,
+              "height": 76.203125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 423.328125,
+              "right": 664.625,
+              "bottom": 559.265625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 593.265625,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 669.265625,
+              "right": 664.625,
+              "bottom": 814.171875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 83,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 7.400000000000091,
+          "p99": 69.39999999999986
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1070.0625,
+          "width": 390,
+          "height": 1004.0625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 431.59375
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 692.3125,
+              "width": 342,
+              "height": 159.6875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 722.3125,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 152
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 874.3125,
+              "right": 374,
+              "bottom": 1017.0625,
+              "width": 342,
+              "height": 142.75
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 162,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 7.5,
+          "p99": 69.39999999999986
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 355.5625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 301.125,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 319.125,
+              "right": 664.625,
+              "bottom": 395.328125,
+              "width": 530.625,
+              "height": 76.203125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 423.328125,
+              "right": 664.625,
+              "bottom": 559.265625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 593.265625,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 669.265625,
+              "right": 664.625,
+              "bottom": 814.171875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 220,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 7.5,
+          "p99": 20.90000000000009
+        }
+      }
+    },
+    {
+      "file": "gridium",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 902.546875,
+          "width": 1440,
+          "height": 836.546875
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 901.546875,
+          "width": 748.796875,
+          "height": 835.546875,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 431.765625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 264.296875,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 282.296875,
+              "right": 664.625,
+              "bottom": 434.703125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 462.703125,
+              "right": 664.625,
+              "bottom": 598.640625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 632.640625,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 708.640625,
+              "right": 664.625,
+              "bottom": 853.546875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 80,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 14,
+          "p99": 89.89999999999998
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1004.875,
+          "width": 390,
+          "height": 938.875
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 354.78125
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 669.5,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 699.5,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 98
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 797.5,
+              "right": 374,
+              "bottom": 951.875,
+              "width": 342,
+              "height": 154.375
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 159,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 14,
+          "p99": 89.89999999999998
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 902.546875,
+          "width": 1440,
+          "height": 836.546875
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 901.546875,
+          "width": 748.796875,
+          "height": 835.546875,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 431.765625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 264.296875,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 282.296875,
+              "right": 664.625,
+              "bottom": 434.703125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 462.703125,
+              "right": 664.625,
+              "bottom": 598.640625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 632.640625,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 708.640625,
+              "right": 664.625,
+              "bottom": 853.546875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 212,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 14,
+          "p99": 34.90000000000009
+        }
+      }
+    },
+    {
+      "file": "compressor-cbm",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 1006.140625,
+          "width": 1440,
+          "height": 940.140625
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 1005.140625,
+          "width": 748.796875,
+          "height": 939.140625,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 612.234375,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 676.234375,
+              "right": 664.625,
+              "bottom": 821.140625,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 851.140625,
+              "right": 664.625,
+              "bottom": 957.140625,
+              "width": 530.625,
+              "height": 106
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 78,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 62.399999999999864
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1001.03125,
+          "width": 390,
+          "height": 935.03125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 641.65625,
+              "width": 342,
+              "height": 114.0625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 663.65625,
+              "right": 374,
+              "bottom": 818.03125,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 848.03125,
+              "right": 374,
+              "bottom": 948.03125,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 156,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 76.40000000000009
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 1006.140625,
+          "width": 1440,
+          "height": 940.140625
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 1005.140625,
+          "width": 748.796875,
+          "height": 939.140625,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 612.234375,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 676.234375,
+              "right": 664.625,
+              "bottom": 821.140625,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 851.140625,
+              "right": 664.625,
+              "bottom": 957.140625,
+              "width": 530.625,
+              "height": 106
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 197,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 20.90000000000009,
+          "p99": 76.40000000000009
+        }
+      }
+    },
+    {
+      "file": "topoflow",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 275.5,
+              "right": 664.625,
+              "bottom": 427.90625,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 455.90625,
+              "right": 664.625,
+              "bottom": 537.46875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 601.46875,
+              "right": 664.625,
+              "bottom": 746.375,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 776.375,
+              "right": 664.625,
+              "bottom": 822.375,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 88,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 7.100000000000023,
+          "p99": 27.799999999999955
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 934.203125,
+          "width": 390,
+          "height": 868.203125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 479.203125,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 497.203125,
+              "right": 374,
+              "bottom": 588.453125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 610.453125,
+              "right": 374,
+              "bottom": 753.203125,
+              "width": 342,
+              "height": 142.75
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 783.203125,
+              "right": 374,
+              "bottom": 881.203125,
+              "width": 342,
+              "height": 98
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 162,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 7.2999999999999545,
+          "p99": 27.799999999999955
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 275.5,
+              "right": 664.625,
+              "bottom": 427.90625,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 455.90625,
+              "right": 664.625,
+              "bottom": 537.46875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 601.46875,
+              "right": 664.625,
+              "bottom": 746.375,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 776.375,
+              "right": 664.625,
+              "bottom": 822.375,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 215,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 13.900000000000091,
+          "p99": 20.799999999999955
+        }
+      }
+    },
+    {
+      "file": "food",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 85,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.2000000000000455,
+          "p99": 48.69999999999999
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 159,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 13.800000000000182,
+          "p99": 48.69999999999999
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 215,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 13.800000000000182,
+          "p99": 16.67
+        }
+      }
+    },
+    {
+      "file": "yield",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 261.90625,
+              "right": 664.625,
+              "bottom": 414.3125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 442.3125,
+              "right": 664.625,
+              "bottom": 551.0625,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 615.0625,
+              "right": 664.625,
+              "bottom": 759.96875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 789.96875,
+              "right": 664.625,
+              "bottom": 835.96875,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 76,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 41.40000000000009
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1023.84375,
+          "width": 390,
+          "height": 957.84375
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 664.46875,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 686.46875,
+              "right": 374,
+              "bottom": 840.84375,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 870.84375,
+              "right": 374,
+              "bottom": 970.84375,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 150,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 41.40000000000009
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 261.90625,
+              "right": 664.625,
+              "bottom": 414.3125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 442.3125,
+              "right": 664.625,
+              "bottom": 551.0625,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 615.0625,
+              "right": 664.625,
+              "bottom": 759.96875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 789.96875,
+              "right": 664.625,
+              "bottom": 835.96875,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 198,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 41.40000000000009
+        }
+      }
+    },
+    {
+      "file": "sodexo",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 85,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.100000000000023,
+          "p99": 41.80000000000001
+        }
+      },
+      "alternate": {
+        "width": 390,
+        "height": 844
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 161,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.100000000000136,
+          "p99": 41.80000000000001
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 218,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.2999999999999545,
+          "p99": 27.799999999999955
+        }
+      }
+    },
+    {
+      "file": "aegis",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1070.0625,
+          "width": 390,
+          "height": 1004.0625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 431.59375
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 692.3125,
+              "width": 342,
+              "height": 159.6875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 722.3125,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 152
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 874.3125,
+              "right": 374,
+              "bottom": 1017.0625,
+              "width": 342,
+              "height": 142.75
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 84,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 7.100000000000136,
+          "p99": 48.60000000000002
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 355.5625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 283.703125,
+              "right": 664.625,
+              "bottom": 301.125,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 319.125,
+              "right": 664.625,
+              "bottom": 395.328125,
+              "width": 530.625,
+              "height": 76.203125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 423.328125,
+              "right": 664.625,
+              "bottom": 559.265625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 593.265625,
+              "right": 664.625,
+              "bottom": 639.265625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 669.265625,
+              "right": 664.625,
+              "bottom": 814.171875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 162,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 13.899999999999864,
+          "p99": 48.60000000000002
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1070.0625,
+          "width": 390,
+          "height": 1004.0625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 431.59375
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 692.3125,
+              "width": 342,
+              "height": 159.6875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 722.3125,
+              "right": 374,
+              "bottom": 874.3125,
+              "width": 342,
+              "height": 152
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 874.3125,
+              "right": 374,
+              "bottom": 1017.0625,
+              "width": 342,
+              "height": 142.75
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 220,
+          "dpr": 1,
+          "calls": 112,
+          "geometries": 103,
+          "textures": 1,
+          "p95": 13.899999999999864,
+          "p99": 41.700000000000045
+        }
+      }
+    },
+    {
+      "file": "gridium",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1004.875,
+          "width": 390,
+          "height": 938.875
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 354.78125
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 669.5,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 699.5,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 98
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 797.5,
+              "right": 374,
+              "bottom": 951.875,
+              "width": 342,
+              "height": 154.375
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 80,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 13.799999999999955,
+          "p99": 90.39999999999998
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 902.546875,
+          "width": 1440,
+          "height": 836.546875
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 901.546875,
+          "width": 748.796875,
+          "height": 835.546875,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 431.765625
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 264.296875,
+              "width": 530.625,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 282.296875,
+              "right": 664.625,
+              "bottom": 434.703125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 462.703125,
+              "right": 664.625,
+              "bottom": 598.640625,
+              "width": 530.625,
+              "height": 135.9375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 632.640625,
+              "right": 664.625,
+              "bottom": 678.640625,
+              "width": 530.625,
+              "height": 46
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 708.640625,
+              "right": 664.625,
+              "bottom": 853.546875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 154,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 14,
+          "p99": 48.799999999999955
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1004.875,
+          "width": 390,
+          "height": 938.875
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "case-hero-copy",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 354.78125
+            }
+          },
+          {
+            "selector": "case-eyebrow",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 460.140625,
+              "width": 342,
+              "height": 17.421875
+            }
+          },
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 478.140625,
+              "right": 374,
+              "bottom": 514.625,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 532.625,
+              "right": 374,
+              "bottom": 669.5,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 699.5,
+              "right": 374,
+              "bottom": 797.5,
+              "width": 342,
+              "height": 98
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 797.5,
+              "right": 374,
+              "bottom": 951.875,
+              "width": 342,
+              "height": 154.375
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 212,
+          "dpr": 1,
+          "calls": 201,
+          "geometries": 159,
+          "textures": 1,
+          "p95": 13.900000000000091,
+          "p99": 48.59999999999991
+        }
+      }
+    },
+    {
+      "file": "compressor-cbm",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1001.03125,
+          "width": 390,
+          "height": 935.03125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 641.65625,
+              "width": 342,
+              "height": 114.0625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 663.65625,
+              "right": 374,
+              "bottom": 818.03125,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 848.03125,
+              "right": 374,
+              "bottom": 948.03125,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 80,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 13.800000000000068,
+          "p99": 82.80000000000007
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 1006.140625,
+          "width": 1440,
+          "height": 940.140625
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 1005.140625,
+          "width": 748.796875,
+          "height": 939.140625,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 612.234375,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 676.234375,
+              "right": 664.625,
+              "bottom": 821.140625,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 851.140625,
+              "right": 664.625,
+              "bottom": 957.140625,
+              "width": 530.625,
+              "height": 106
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 136,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 20.799999999999955,
+          "p99": 62.5
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1001.03125,
+          "width": 390,
+          "height": 935.03125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 641.65625,
+              "width": 342,
+              "height": 114.0625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 663.65625,
+              "right": 374,
+              "bottom": 818.03125,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 848.03125,
+              "right": 374,
+              "bottom": 948.03125,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 193,
+          "dpr": 1,
+          "calls": 124,
+          "geometries": 123,
+          "textures": 1,
+          "p95": 16.67,
+          "p99": 62.5
+        }
+      }
+    },
+    {
+      "file": "topoflow",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 934.203125,
+          "width": 390,
+          "height": 868.203125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 479.203125,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 497.203125,
+              "right": 374,
+              "bottom": 588.453125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 610.453125,
+              "right": 374,
+              "bottom": 753.203125,
+              "width": 342,
+              "height": 142.75
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 783.203125,
+              "right": 374,
+              "bottom": 881.203125,
+              "width": 342,
+              "height": 98
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 86,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 7.800000000000068,
+          "p99": 48.599999999999966
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 275.5,
+              "right": 664.625,
+              "bottom": 427.90625,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 455.90625,
+              "right": 664.625,
+              "bottom": 537.46875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 601.46875,
+              "right": 664.625,
+              "bottom": 746.375,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 776.375,
+              "right": 664.625,
+              "bottom": 822.375,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 163,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 13.900000000000091,
+          "p99": 48.59999999999991
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 934.203125,
+          "width": 390,
+          "height": 868.203125
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 479.203125,
+              "width": 342,
+              "height": 36.484375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 497.203125,
+              "right": 374,
+              "bottom": 588.453125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 610.453125,
+              "right": 374,
+              "bottom": 753.203125,
+              "width": 342,
+              "height": 142.75
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 783.203125,
+              "right": 374,
+              "bottom": 881.203125,
+              "width": 342,
+              "height": 98
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 220,
+          "dpr": 1,
+          "calls": 31,
+          "geometries": 30,
+          "textures": 1,
+          "p95": 13.800000000000182,
+          "p99": 27.799999999999955
+        }
+      }
+    },
+    {
+      "file": "food",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 83,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.7000000000000455,
+          "p99": 62.5
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 164,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 13.900000000000091,
+          "p99": 55.5
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 222,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.7999999999999545,
+          "p99": 20.800000000000182
+        }
+      }
+    },
+    {
+      "file": "yield",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1023.84375,
+          "width": 390,
+          "height": 957.84375
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 664.46875,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 686.46875,
+              "right": 374,
+              "bottom": 840.84375,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 870.84375,
+              "right": 374,
+              "bottom": 970.84375,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 84,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 7.399999999999977,
+          "p99": 55.69999999999999
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 834
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 899,
+          "width": 748.796875,
+          "height": 833,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 261.90625,
+              "right": 664.625,
+              "bottom": 414.3125,
+              "width": 530.625,
+              "height": 152.40625
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 442.3125,
+              "right": 664.625,
+              "bottom": 551.0625,
+              "width": 530.625,
+              "height": 108.75
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 615.0625,
+              "right": 664.625,
+              "bottom": 759.96875,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 789.96875,
+              "right": 664.625,
+              "bottom": 835.96875,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 144,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 14,
+          "p99": 48.59999999999991
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 1023.84375,
+          "width": 390,
+          "height": 957.84375
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 509.59375,
+              "width": 342,
+              "height": 66.875
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 527.59375,
+              "right": 374,
+              "bottom": 664.46875,
+              "width": 342,
+              "height": 136.875
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 686.46875,
+              "right": 374,
+              "bottom": 840.84375,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 870.84375,
+              "right": 374,
+              "bottom": 970.84375,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 204,
+          "dpr": 1,
+          "calls": 28,
+          "geometries": 26,
+          "textures": 1,
+          "p95": 14,
+          "p99": 48.59999999999991
+        }
+      }
+    },
+    {
+      "file": "sodexo",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "initial": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 81,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 7.899999999999977,
+          "p99": 69.30000000000007
+        }
+      },
+      "alternate": {
+        "width": 1440,
+        "height": 900
+      },
+      "resized": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 1440,
+          "bottom": 918.953125,
+          "width": 1440,
+          "height": 852.953125
+        },
+        "canvas": {
+          "left": 691.1875,
+          "top": 66,
+          "right": 1439.984375,
+          "bottom": 917.953125,
+          "width": 748.796875,
+          "height": 851.953125,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 134,
+              "top": 246.875,
+              "right": 664.625,
+              "bottom": 475.484375,
+              "width": 530.625,
+              "height": 228.609375
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 134,
+              "top": 503.484375,
+              "right": 664.625,
+              "bottom": 585.046875,
+              "width": 530.625,
+              "height": 81.5625
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 134,
+              "top": 649.046875,
+              "right": 664.625,
+              "bottom": 793.953125,
+              "width": 530.625,
+              "height": 144.90625
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 134,
+              "top": 823.953125,
+              "right": 664.625,
+              "bottom": 869.953125,
+              "width": 530.625,
+              "height": 46
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 159,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 13.900000000000091,
+          "p99": 55.700000000000045
+        }
+      },
+      "restored": {
+        "hero": {
+          "left": 0,
+          "top": 66,
+          "right": 390,
+          "bottom": 975.15625,
+          "width": 390,
+          "height": 909.15625
+        },
+        "canvas": {
+          "left": 0,
+          "top": 104,
+          "right": 390,
+          "bottom": 354,
+          "width": 390,
+          "height": 250,
+          "pointerEvents": "none",
+          "opacity": "1",
+          "display": "block",
+          "visibility": "visible"
+        },
+        "narrative": [
+          {
+            "selector": "proj-hero-title",
+            "rect": {
+              "left": 32,
+              "top": 442.71875,
+              "right": 374,
+              "bottom": 506.53125,
+              "width": 342,
+              "height": 63.8125
+            }
+          },
+          {
+            "selector": "proj-hero-sub",
+            "rect": {
+              "left": 32,
+              "top": 524.53125,
+              "right": 374,
+              "bottom": 615.78125,
+              "width": 342,
+              "height": 91.25
+            }
+          },
+          {
+            "selector": "proj-hero-metrics",
+            "rect": {
+              "left": 32,
+              "top": 637.78125,
+              "right": 374,
+              "bottom": 792.15625,
+              "width": 342,
+              "height": 154.375
+            }
+          },
+          {
+            "selector": "proj-hero-cta",
+            "rect": {
+              "left": 32,
+              "top": 822.15625,
+              "right": 374,
+              "bottom": 922.15625,
+              "width": 342,
+              "height": 100
+            }
+          }
+        ],
+        "metrics": {
+          "background": "rgba(0, 0, 0, 0)",
+          "backgroundImage": "none",
+          "border": "0px",
+          "backdropFilter": "none"
+        },
+        "metricCards": [
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "border": "0px",
+            "background": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "previewFrames": 0,
+        "controlWidgets": 0,
+        "viewportOverflow": false,
+        "telemetry": {
+          "ready": true,
+          "running": true,
+          "rendered": 217,
+          "dpr": 1,
+          "calls": 76,
+          "geometries": 75,
+          "textures": 1,
+          "p95": 13.799999999999955,
+          "p99": 20.799999999999955
+        }
+      }
+    }
+  ],
+  "errors": []
+}

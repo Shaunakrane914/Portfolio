@@ -1,5 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
-import { disposeScene, compileInBatches } from "./graphics-runtime.js";
+import { disposeScene, compileInBatches } from "./graphics-runtime.js?v=4.9";
+import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js?v=4.9";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -32,12 +33,26 @@ const lookStart = new THREE.Vector3();
 let cameraTransitionAt = 0;
 let animationTime = 0;
 let renderedFrames = 0;
+let lastScrollAt = -Infinity;
+let lastDrawAt = -Infinity;
+let modelDirty = true;
 const modelViews = Array.from(document.querySelectorAll("[data-model-view]"));
 const modelLayouts = [];
+const viewport = { width: innerWidth, height: innerHeight, scroll: scrollY };
 let modelViewport = null;
 let headerBottom = 0;
 let footerHeight = 0;
 const modelAngles = [[.24, .16, 1], [.12, .32, 1], [.12, .5, 1], [.42, .28, 1], [.48, .25, 1]];
+const chapterWheel = new ChapterWheelGuard();
+let chapterStops = [], documentScrollMaximum = 0;
+function measureChapters() {
+  chapterStops = panels.map(panel => panel.offsetTop);
+  documentScrollMaximum = document.documentElement.scrollHeight - innerHeight;
+}
+const chapterSizeObserver = new ResizeObserver(measureChapters);
+panels.forEach(panel => chapterSizeObserver.observe(panel));
+document.fonts.ready.then(measureChapters);
+window.addEventListener("pagehide", event => { if (!event.persisted) chapterSizeObserver.disconnect(); });
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -60,24 +75,29 @@ const mobileCameraStates = [
 function getCameraTarget(sceneIndex) {
   const world = worlds[sceneIndex];
   const layout = modelLayouts[sceneIndex];
-  if (world?.userData.modelCorners && layout?.width && layout?.height) {
+  if (world?.userData.modelCoordinates && layout?.width && layout?.height) {
     const key = `${layout.width}:${layout.height}`;
     if (world.userData.cameraFit?.key !== key) {
       const direction = new THREE.Vector3(...modelAngles[sceneIndex]).normalize();
-      const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction).normalize();
-      const up = new THREE.Vector3().crossVectors(direction, right);
       const center = world.userData.modelCenter;
       const tan = Math.tan(THREE.MathUtils.degToRad(42) / 2);
       const aspect = layout.width / layout.height;
       let distance = 0;
-      world.userData.modelCorners.forEach(corner => {
-        const relative = corner.clone().applyMatrix4(world.userData.modelMatrix).sub(center);
-        const depth = relative.dot(direction);
-        distance = Math.max(distance, Math.abs(relative.dot(right)) / (tan * aspect * .84) + depth,
-          Math.abs(relative.dot(up)) / (tan * .84) + depth);
-      });
+      const coordinates = world.userData.modelCoordinates;
+      for (let i = 0; i < coordinates.length; i += 3) {
+        distance = Math.max(distance, Math.abs(coordinates[i]) / (tan * aspect * .9) + coordinates[i + 2],
+          Math.abs(coordinates[i + 1]) / (tan * .9) + coordinates[i + 2]);
+      }
       const position = center.clone().addScaledVector(direction, distance);
-      const state = { position: position.toArray(), look: center.toArray() };
+      let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+      for (let i = 0; i < coordinates.length; i += 3) {
+        const depth=distance-coordinates[i+2];
+        const x=coordinates[i]/(depth*tan*aspect),y=coordinates[i+1]/(depth*tan);
+        minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);
+      }
+      const zoom=1.76/Math.max(maxX-minX,maxY-minY);
+      const state = { position: position.toArray(), look: center.toArray(), zoom,
+        offset:[(minX+maxX)*zoom/2,(minY+maxY)*zoom/2] };
       world.userData.cameraFit = { key, state };
       // Keep the diagnostic camera presets consistent with the actual fit.
       cameraStates[sceneIndex] = state;
@@ -92,6 +112,9 @@ function getCameraTarget(sceneIndex) {
 }
 
 function measureModelViews() {
+  viewport.width = innerWidth;
+  viewport.height = innerHeight;
+  viewport.scroll = scrollY;
   headerBottom = document.querySelector(".observatory-header").getBoundingClientRect().bottom;
   const rail = document.querySelector(".scene-rail").getBoundingClientRect();
   footerHeight = window.innerWidth <= 820 ? rail.height : 0;
@@ -103,53 +126,53 @@ function measureModelViews() {
   });
 }
 
-function getModelViewportRect() {
+function getModelViewportRect(position = viewport.scroll) {
   const layout = modelLayouts[currentScene];
   if (!layout) return null;
   const left = Math.max(0, layout.left);
-  const right = Math.min(window.innerWidth, layout.left + layout.width);
-  const top = Math.max(headerBottom, layout.top - window.scrollY);
-  const bottom = Math.min(window.innerHeight - footerHeight, layout.top - window.scrollY + layout.height);
+  const right = Math.min(viewport.width, layout.left + layout.width);
+  const top = Math.max(headerBottom, layout.top - position);
+  const bottom = Math.min(viewport.height - footerHeight, layout.top - position + layout.height);
   return { left, top, right, bottom, width: Math.max(0, right - left), height: Math.max(0, bottom - top) };
 }
 
 function updateModelViewport() {
   modelViewport = getModelViewportRect();
   const layout = modelLayouts[currentScene];
-  if (layout && camera.aspect !== layout.width / layout.height) {
+  if (!layout) return;
+  const state = getCameraTarget(currentScene);
+  const projectionKey=layout && `${currentScene}:${layout.width}:${layout.height}:${state.zoom}:${state.offset}`;
+  if (layout && camera.userData.projectionKey !== projectionKey) {
     camera.aspect = layout.width / layout.height;
     camera.fov = 42;
-    camera.updateProjectionMatrix();
+    camera.zoom=state.zoom || 1;
+    const offset=state.offset || [0,0];
+    camera.setViewOffset(layout.width,layout.height,offset[0]*layout.width/2,-offset[1]*layout.height/2,layout.width,layout.height);
+    camera.userData.projectionKey=projectionKey;
   }
 }
 
 function drawModel(renderCamera = camera) {
-  // Clear once, then rasterize only the model's own transparent space. The
-  // viewport follows native document scroll; text never covers the model.
-  renderer.setScissorTest(false);
-  renderer.clear();
+  // The browser composites this canvas in document flow, alongside the copy.
+  // Scrolling no longer waits for a new WebGL frame to reposition the model.
   const layout = modelLayouts[currentScene];
-  if (!layout || !modelViewport?.width || !modelViewport.height) return;
-  renderer.setViewport(layout.left, window.innerHeight - (layout.top - window.scrollY + layout.height), layout.width, layout.height);
-  renderer.setScissor(modelViewport.left, window.innerHeight - modelViewport.bottom, modelViewport.width, modelViewport.height);
-  renderer.setScissorTest(true);
+  if (!layout) { renderer.clear(); return; }
   renderer.render(scene, renderCamera);
-  renderer.setScissorTest(false);
 }
 
 function getProjectedModelBounds() {
   const world = worlds[currentScene];
   const layout = modelLayouts[currentScene];
-  if (!world?.userData.modelCorners || !layout || !camera) return null;
+  if (!world?.userData.modelVertices || !layout || !camera) return null;
   world.updateWorldMatrix(true, false);
   camera.updateMatrixWorld();
-  const points = world.userData.modelCorners.map(corner => {
-    const p = corner.clone().applyMatrix4(world.matrixWorld).project(camera);
-    return { x: layout.left + (p.x + 1) * layout.width / 2,
-      y: layout.top - window.scrollY + (1 - p.y) * layout.height / 2 };
-  });
-  const left = Math.min(...points.map(p => p.x)), right = Math.max(...points.map(p => p.x));
-  const top = Math.min(...points.map(p => p.y)), bottom = Math.max(...points.map(p => p.y));
+  let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;
+  const vertices = world.userData.modelVertices, p = new THREE.Vector3();
+  for (let i = 0; i < vertices.length; i += 3) {
+    p.fromArray(vertices, i).applyMatrix4(world.matrixWorld).project(camera);
+    const x=layout.left+(p.x+1)*layout.width/2,y=layout.top-window.scrollY+(1-p.y)*layout.height/2;
+    left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
+  }
   return { left, top, right, bottom, width: right - left, height: bottom - top };
 }
 
@@ -414,7 +437,7 @@ function createAmbientField() {
   return group;
 }
 
-function createOriginWorld() {
+async function createOriginWorld() {
   const group = new THREE.Group();
   group.userData.spin = 0.0015;
 
@@ -441,6 +464,7 @@ function createOriginWorld() {
     }
   }
 
+  await yieldPreparation(0);
   const neighborOffsets = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
   for (let x = 0; x < grid; x += 1) {
     for (let y = 0; y < grid; y += 1) {
@@ -458,6 +482,7 @@ function createOriginWorld() {
   const points = pointsFromArray(latticePoints, palette.green, 0.07, 0.95);
   const lines = linesFromArray(latticeLines, palette.greenDim, 0.5);
   group.add(points, lines);
+  await yieldPreparation(0);
 
   const frames = [3.1, 4.2, 5.4];
   frames.forEach((size, index) => {
@@ -478,6 +503,7 @@ function createOriginWorld() {
   const traceGeometry = new THREE.BufferGeometry();
   traceGeometry.setAttribute("position", new THREE.Float32BufferAttribute(tracePositions, 3));
   group.add(new THREE.Line(traceGeometry, lineMaterial(palette.orange, 0.74)));
+  await yieldPreparation(0);
 
   const layers = [
     { y: -2.5, radius: 3.4, color: palette.orange, nodes: 9 },
@@ -486,7 +512,7 @@ function createOriginWorld() {
     { y: 2.55, radius: 3.1, color: palette.green, nodes: 8 }
   ];
   const verticals = [];
-  layers.forEach((layer, layerIndex) => {
+  for (const [layerIndex, layer] of layers.entries()) {
     const ringPoints = [];
     const nodeMaterial = meshMaterial(layer.color, {
       roughness: 0.28,
@@ -522,7 +548,8 @@ function createOriginWorld() {
       }
     }
     group.add(nodes);
-  });
+    await yieldPreparation(0);
+  }
   group.add(linesFromArray(verticals, palette.white, 0.11));
 
   const chamber = new THREE.Mesh(
@@ -541,8 +568,9 @@ function createOriginWorld() {
   );
   group.add(chamber);
   group.userData.chamber = chamber;
+  await yieldPreparation(0);
 
-  [-3.1, -1.55, 0, 1.55, 3.1].forEach((y, index) => {
+  for (const [index, y] of [-3.1, -1.55, 0, 1.55, 3.1].entries()) {
     const band = new THREE.Mesh(
       new THREE.TorusGeometry(3.3, index === 2 ? 0.045 : 0.025, 10, 128),
       physicalMaterial(index === 2 ? palette.blue : palette.green, {
@@ -559,7 +587,8 @@ function createOriginWorld() {
     group.userData.rings ??= [];
     group.userData.rings.push(band);
     group.add(band);
-  });
+    await yieldPreparation(0);
+  }
 
   const core = new THREE.Mesh(
     new THREE.CylinderGeometry(0.72, 0.92, 4.85, 8, 1),
@@ -600,7 +629,7 @@ function createOriginWorld() {
   return group;
 }
 
-function createCompressorWorld() {
+async function createCompressorWorld() {
   const group = new THREE.Group();
   group.position.set(15.7, -0.05, -0.35);
   group.rotation.set(-0.18, -0.08, 0);
@@ -631,8 +660,9 @@ function createCompressorWorld() {
   );
   casing.rotation.z = Math.PI / 2;
   group.add(casing);
+  await yieldPreparation(3);
 
-  [-4.55, 4.55].forEach((x, index) => {
+  for (const [index, x] of [-4.55, 4.55].entries()) {
     const flange = new THREE.Mesh(
       new THREE.TorusGeometry(index === 0 ? 1.82 : 1.98, 0.09, 12, 80),
       physicalMaterial(index === 0 ? palette.green : palette.orange, { roughness: 0.18, metalness: 0.82, clearcoat: 0.62 })
@@ -640,7 +670,8 @@ function createCompressorWorld() {
     flange.position.x = x;
     flange.rotation.y = Math.PI / 2;
     group.add(flange);
-  });
+    await yieldPreparation(3);
+  }
 
   const bladeShape = new THREE.Shape();
   bladeShape.moveTo(-0.07, 0);
@@ -656,6 +687,7 @@ function createCompressorWorld() {
     bevelThickness: 0.025
   });
   bladeGeometry.center();
+  await yieldPreparation(3);
 
   const stageCount = 7;
   for (let stage = 0; stage < stageCount; stage += 1) {
@@ -681,6 +713,7 @@ function createCompressorWorld() {
     );
     outerRing.rotation.x = Math.PI / 2;
     rotor.add(outerRing);
+    await yieldPreparation(3);
 
     const bladeMaterial = physicalMaterial(stage === 4 ? 0xc58a61 : 0xaeb9b3, {
       roughness: 0.22,
@@ -736,6 +769,7 @@ function createCompressorWorld() {
       stator.rotation.z = Math.PI / 2;
       group.add(stator);
     }
+    await yieldPreparation(3);
   }
 
   const inletCone = new THREE.Mesh(
@@ -760,6 +794,7 @@ function createCompressorWorld() {
   diffuser.position.x = 4.15;
   diffuser.rotation.z = Math.PI / 2;
   group.add(diffuser);
+  await yieldPreparation(3);
 
   [-2.7, 2.7].forEach((x) => {
     const bearing = new THREE.Group();
@@ -779,8 +814,9 @@ function createCompressorWorld() {
     bearing.position.x = x;
     group.add(bearing);
   });
+  await yieldPreparation(3);
 
-  [-3.72, -1.24, 1.24, 3.72].forEach((x, index) => {
+  for (const [index, x] of [-3.72, -1.24, 1.24, 3.72].entries()) {
     const instrumentRing = new THREE.Mesh(
       new THREE.TorusGeometry(2.18, 0.022, 6, 96),
       physicalMaterial(index === 2 ? palette.orange : palette.green, {
@@ -796,7 +832,8 @@ function createCompressorWorld() {
     instrumentRing.userData.speed = (index % 2 ? -1 : 1) * (0.12 + index * 0.02);
     group.userData.instrumentRings.push(instrumentRing);
     group.add(instrumentRing);
-  });
+    await yieldPreparation(3);
+  }
 
   const particleGeometry = new THREE.SphereGeometry(0.045, 8, 8);
   for (let i = 0; i < 38; i += 1) {
@@ -816,6 +853,7 @@ function createCompressorWorld() {
     group.userData.flowParticles.push(particle);
     group.add(particle);
   }
+  await yieldPreparation(3);
 
   const envelope = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.BoxGeometry(9.6, 4.4, 4.4)),
@@ -837,7 +875,7 @@ function createCompressorWorld() {
   return group;
 }
 
-function createTopoWorld() {
+async function createTopoWorld() {
   const group = new THREE.Group();
   group.position.set(9.6, 0.1, -16.25);
   group.scale.setScalar(0.72);
@@ -856,14 +894,16 @@ function createTopoWorld() {
   }
 
   const edgePositions = [];
-  vectors.forEach((a, index) => {
+  for (const [index, a] of vectors.entries()) {
     vectors.slice(index + 1).forEach((b) => {
       const distance = a.distanceTo(b);
       if (distance < 1.62 && random() > 0.28) {
         edgePositions.push(a.x, a.y, a.z, b.x, b.y, b.z);
       }
     });
-  });
+    if ((index + 1) % 16 === 0) await yieldPreparation(4);
+  }
+  await yieldPreparation(4);
 
   const poreGeometry = new THREE.IcosahedronGeometry(0.1, 2);
   const poreMaterial = physicalMaterial(0x9ab8d2, {
@@ -875,7 +915,7 @@ function createTopoWorld() {
   });
   const pores = new THREE.InstancedMesh(poreGeometry, poreMaterial, vectors.length);
   const poreMatrix = new THREE.Object3D();
-  vectors.forEach((position, index) => {
+  for (const [index, position] of vectors.entries()) {
     const scale = 0.7 + random() * 1.9;
     poreMatrix.position.copy(position);
     poreMatrix.scale.set(scale, scale * (0.75 + random() * 0.5), scale);
@@ -883,11 +923,13 @@ function createTopoWorld() {
     poreMatrix.updateMatrix();
     pores.setMatrixAt(index, poreMatrix.matrix);
     pores.setColorAt(index, new THREE.Color(index % 9 === 0 ? 0x58c8a1 : index % 4 === 0 ? 0x3b6d92 : 0x25445e));
-  });
+    if ((index + 1) % 16 === 0) await yieldPreparation(4);
+  }
   pores.instanceMatrix.needsUpdate = true;
   if (pores.instanceColor) pores.instanceColor.needsUpdate = true;
   group.add(pores);
   group.add(linesFromArray(edgePositions, palette.blueDim, 0.66));
+  await yieldPreparation(4);
 
   const shellSolid = new THREE.Mesh(
     new THREE.DodecahedronGeometry(4.6, 1),
@@ -908,6 +950,7 @@ function createTopoWorld() {
   );
   poreShell.scale.set(1.25, 0.92, 0.9);
   group.add(poreShell);
+  await yieldPreparation(4);
 
   const matrixGeometry = new THREE.IcosahedronGeometry(0.78, 1);
   const matrixMaterial = physicalMaterial(0x465657, {
@@ -934,10 +977,12 @@ function createTopoWorld() {
     matrixObject.rotation.set(random() * Math.PI, random() * Math.PI, random() * Math.PI);
     matrixObject.updateMatrix();
     matrixCells.setMatrixAt(index, matrixObject.matrix);
+    if ((index + 1) % 16 === 0) await yieldPreparation(4);
   }
   matrixCells.instanceMatrix.needsUpdate = true;
   group.add(matrixCells);
   group.userData.matrixCells = matrixCells;
+  await yieldPreparation(4);
 
   const curvePoints = [];
   for (let i = 0; i < 12; i += 1) {
@@ -960,8 +1005,9 @@ function createTopoWorld() {
     })
   );
   group.add(flowTube);
+  await yieldPreparation(4);
 
-  [-1, 1].forEach((direction, index) => {
+  for (const [index, direction] of [-1, 1].entries()) {
     const secondaryPoints = [];
     for (let point = 0; point < 10; point += 1) {
       const t = point / 9;
@@ -983,7 +1029,8 @@ function createTopoWorld() {
       })
     );
     group.add(secondaryTube);
-  });
+    await yieldPreparation(4);
+  }
 
   const tracerGeometry = new THREE.SphereGeometry(0.075, 10, 10);
   for (let i = 0; i < 16; i += 1) {
@@ -1002,6 +1049,7 @@ function createTopoWorld() {
     const tracerGlow = createGlowSprite(i % 4 === 0 ? palette.yellow : palette.green, 0.42, 0.36);
     tracer.add(tracerGlow);
     group.add(tracer);
+    if ((i + 1) % 8 === 0) await yieldPreparation(4);
   }
   addWorldLight(group, palette.blue, [-2.8, 2.5, 4], 28, 13);
   addWorldLight(group, palette.green, [3.1, -1.2, 3.2], 20, 11);
@@ -1460,7 +1508,7 @@ function createGridiumWorld() {
   return group;
 }
 
-function createAegisInvestigationWorld() {
+async function createAegisInvestigationWorld() {
   const group = new THREE.Group();
   group.position.set(-4.5, 0.1, -0.5);
   group.rotation.set(-0.16, -0.08, -0.035);
@@ -1497,6 +1545,7 @@ function createAegisInvestigationWorld() {
     floorLines.push(-5.1, -2.13, i, 5.1, -2.13, i);
   }
   group.add(linesFromArray(floorLines, palette.blueDim, 0.18));
+  await yieldPreparation(1);
 
   const claimTexture = createCodeTexture("incoming_claim.json", [
     { text: "claim_id: 7d9f...", accent: true },
@@ -1519,12 +1568,14 @@ function createAegisInvestigationWorld() {
   claimDossier.rotation.y = 0.08;
   group.add(claimDossier);
   group.userData.claimDossier = claimDossier;
+  await yieldPreparation(1);
 
   const intakeRail = addCurve(group, [
     new THREE.Vector3(-5.25, 0, 0),
     new THREE.Vector3(-4.6, 0.05, 0),
     new THREE.Vector3(-3.25, 0.05, 0)
   ], palette.blue, 0.018, 0.72);
+  await yieldPreparation(1);
 
   const agentDefinitions = [
     { title: "TREND", detail: "viral signals", color: palette.orange, position: [-1.95, 1.55, 0.15] },
@@ -1534,7 +1585,7 @@ function createAegisInvestigationWorld() {
   ];
   const evidenceCurves = [];
 
-  agentDefinitions.forEach((definition, index) => {
+  for (const [index, definition] of agentDefinitions.entries()) {
     const station = new THREE.Group();
     station.position.set(...definition.position);
     const housing = new THREE.Mesh(
@@ -1592,7 +1643,8 @@ function createAegisInvestigationWorld() {
     const mid = start.clone().lerp(end, 0.5);
     mid.z += index % 2 ? -0.42 : 0.42;
     evidenceCurves.push(addCurve(group, [start, mid, end], definition.color, 0.014, 0.62));
-  });
+    await yieldPreparation(1);
+  }
 
   const intakePacketGeometry = new THREE.BoxGeometry(0.15, 0.11, 0.05);
   for (let i = 0; i < 4; i += 1) {
@@ -1621,6 +1673,7 @@ function createAegisInvestigationWorld() {
       group.add(packet);
     }
   });
+  await yieldPreparation(1);
 
   const verdictGate = new THREE.Group();
   verdictGate.position.set(3.45, 0, 0);
@@ -1666,7 +1719,7 @@ function createAegisInvestigationWorld() {
   return group;
 }
 
-function createGridiumLivingNetworkWorld() {
+async function createGridiumLivingNetworkWorld() {
   const group = new THREE.Group();
   group.position.set(-2.0, 6.6, -9.65);
   group.rotation.set(0.42, -0.04, -0.04);
@@ -1696,6 +1749,7 @@ function createGridiumLivingNetworkWorld() {
   );
   deckEdge.position.y = -1.86;
   group.add(deckEdge);
+  await yieldPreparation(2);
 
   const coordinates = [
     [-3.9, -2.15], [-2.05, -3.15], [0, -3.55], [2.15, -3.05], [3.95, -1.95],
@@ -1712,8 +1766,9 @@ function createGridiumLivingNetworkWorld() {
   const batteryCellGeom = new THREE.BoxGeometry(0.36, 0.045, 0.025);
   const homeBodyGeom = new THREE.BoxGeometry(0.62, 0.62, 0.56);
   const homeRoofGeom = new THREE.ConeGeometry(0.5, 0.35, 4);
+  await yieldPreparation(2);
 
-  coordinates.forEach(([x, z], index) => {
+  for (const [index, [x, z]] of coordinates.entries()) {
     const node = new THREE.Group();
     node.position.set(x, -1.7, z);
     const padColor = nodeTypes[index] === "solar" ? palette.orange : nodeTypes[index] === "battery" ? palette.green : palette.blue;
@@ -1773,7 +1828,9 @@ function createGridiumLivingNetworkWorld() {
     const mid = start.clone().lerp(end, 0.5);
     mid.y += 0.35 + (index % 3) * 0.1;
     routes.push(addCurve(group, [start, mid, end], padColor, 0.012, 0.42));
-  });
+    if ((index + 1) % 2 === 0) await yieldPreparation(2);
+  }
+  await yieldPreparation(2);
 
   const pool = new THREE.Group();
   pool.position.set(0, -0.98, 0);
@@ -1802,6 +1859,7 @@ function createGridiumLivingNetworkWorld() {
   });
   group.userData.poolLiquid = poolLiquid;
   group.add(pool);
+  await yieldPreparation(2);
 
   const packetGeom = new THREE.SphereGeometry(0.052, 10, 10);
   routes.forEach((route, index) => {
@@ -1818,6 +1876,7 @@ function createGridiumLivingNetworkWorld() {
     group.userData.dataParticles.push(packet);
     group.add(packet);
   });
+  await yieldPreparation(2);
 
   const proofGate = new THREE.Group();
   proofGate.position.set(4.25, -0.8, 1.65);
@@ -1963,6 +2022,18 @@ const worldFactories = [
   createProfileWorld
 ];
 
+let mountedWorld = null;
+function mountCachedWorld(world) {
+  if (!scene) return;
+  // Detached worlds retain their GPU resources without participating in the
+  // renderer's recursive matrix updates on every frame.
+  worlds.forEach(cached => {
+    if (cached && cached !== world && cached.parent === scene) scene.remove(cached);
+  });
+  if (world && world.parent !== scene) scene.add(world);
+  mountedWorld = world || null;
+}
+
 // ── Performance Telemetry & Adaptive Quality System ───────────────────────────
 const perfMode = new URLSearchParams(window.location.search).has("perf") || window.location.hash.includes("perf");
 let perfHud = null;
@@ -1990,9 +2061,10 @@ function applyQualityTier(tier) {
   }
 }
 
-function recordFrameTime(frameDeltaMs) {
+function recordFrameTime(frameDeltaMs, adapt = true) {
   if (frameWindow.length >= 60) frameWindow.shift();
   frameWindow.push(frameDeltaMs);
+  if (!adapt) return;
 
   if (frameDeltaMs > 32) slowFrameTally++;
   else slowFrameTally = Math.max(0, slowFrameTally - 1);
@@ -2078,46 +2150,93 @@ window.__perfTelemetry = {
 
 const worldStatus = new Array(6).fill("unbuilt");
 const worldCompilePromises = new Array(6).fill(null);
+const worldBuildPromises = new Array(6).fill(null);
 
-function ensureWorld(index) {
+async function ensureWorld(index) {
   if (index < 0 || index >= worldFactories.length) return null;
-  if (!worlds[index]) {
+  if (worlds[index]) return worlds[index];
+  if (!worldBuildPromises[index]) worldBuildPromises[index] = (async () => {
     const t0 = performance.now();
     worldStatus[index] = "building";
-    const world = worldFactories[index]();
+    const world = await worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
-    if (index < 5) {
-      // Fit all actual geometry, including instance bounds, once per world.
-      // Cache local corners so projection checks also follow its gentle motion.
-      world.updateWorldMatrix(true, true);
-      const inverse = world.matrixWorld.clone().invert();
-      const bounds = new THREE.Box3();
-      world.traverse(object => {
-        if (!object.geometry) return;
-        if (object.isInstancedMesh) object.computeBoundingBox();
-        else if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
-        const box = (object.isInstancedMesh ? object.boundingBox : object.geometry.boundingBox)?.clone();
-        if (box) bounds.union(box.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld)));
-      });
-      const corners = [];
-      for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z));
-      world.userData.modelCorners = corners;
-      world.userData.modelMatrix = world.matrixWorld.clone();
-      world.userData.modelCenter = bounds.getCenter(new THREE.Vector3()).applyMatrix4(world.matrixWorld);
-    }
+    world.userData.baseRotation = world.rotation.clone();
     world.visible = false;
     worlds[index] = world;
     worldStatus[index] = "built";
-    if (scene) scene.add(world);
     world.userData.buildDuration = performance.now() - t0;
     if (perfMode) {
       console.log(`[PERF BUILD] World ${index} (${sceneNames[index]}) built in ${world.userData.buildDuration.toFixed(1)}ms`);
     }
-  }
-  return worlds[index];
+    return world;
+  })();
+  return worldBuildPromises[index];
 }
 
 const yieldTask = () => new Promise(resolve => setTimeout(resolve, 0));
+async function yieldPreparation(index) {
+  // Yield to input and paint, rather than a microtask. An obsolete prewarm also
+  // waits for a quiet moment so it cannot compete with an ongoing trackpad pan.
+  // A chain of scheduler continuations can still fill an entire frame. Resume
+  // after the next frame's callbacks so each construction section leaves a
+  // paint opportunity, including on slower CPUs and high-refresh displays.
+  await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
+  while (index !== currentScene && !document.hidden &&
+      performance.now() - Math.max(lastScrollAt, chapterWheel.lastAt) < 140) {
+    await new Promise(resolve => setTimeout(resolve, 60));
+  }
+}
+
+async function captureModelFit(world, index) {
+  if (index >= 5 || world.userData.modelVertices) return;
+  const started = performance.now();
+  world.updateWorldMatrix(true, true);
+  const inverse = world.matrixWorld.clone().invert(), objects = [];
+  let count = 0;
+  world.traverse(object => {
+    const attribute = object.geometry?.getAttribute("position");
+    if (!attribute) return;
+    objects.push({ object, attribute });
+    count += attribute.count * (object.isInstancedMesh ? object.count : 1);
+  });
+  // Flat coordinates avoid string-key deduplication and hundreds of thousands
+  // of temporary Vector3 allocations. Duplicate vertices do not change extrema.
+  const vertices = new Float32Array(count * 3), bounds = new THREE.Box3();
+  const point = new THREE.Vector3(), local = new THREE.Matrix4(), matrix = new THREE.Matrix4();
+  let offset = 0, budgetAt = performance.now();
+  for (const {object, attribute} of objects) {
+    local.multiplyMatrices(inverse, object.matrixWorld);
+    const instances = object.isInstancedMesh ? object.count : 1;
+    for (let instance = 0; instance < instances; instance++) {
+      if (object.isInstancedMesh) { object.getMatrixAt(instance, matrix); matrix.premultiply(local); }
+      else matrix.copy(local);
+      for (let i = 0; i < attribute.count; i++) {
+        point.fromBufferAttribute(attribute, i).applyMatrix4(matrix);
+        vertices[offset++] = point.x; vertices[offset++] = point.y; vertices[offset++] = point.z;
+        bounds.expandByPoint(point);
+        if ((i & 255) === 0 && performance.now() - budgetAt >= 3) {
+          await yieldPreparation(index); budgetAt = performance.now();
+        }
+      }
+    }
+  }
+  const center = bounds.getCenter(new THREE.Vector3()).applyMatrix4(world.matrixWorld);
+  const direction = new THREE.Vector3(...modelAngles[index]).normalize();
+  const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction).normalize();
+  const up = new THREE.Vector3().crossVectors(direction, right);
+  const coordinates = new Float32Array(vertices.length);
+  for (let i = 0; i < vertices.length; i += 3) {
+    point.fromArray(vertices, i).applyMatrix4(world.matrixWorld).sub(center);
+    coordinates[i] = point.dot(right); coordinates[i + 1] = point.dot(up); coordinates[i + 2] = point.dot(direction);
+    if (((i / 3) & 255) === 0 && performance.now() - budgetAt >= 3) {
+      await yieldPreparation(index); budgetAt = performance.now();
+    }
+  }
+  world.userData.modelVertices = vertices;
+  world.userData.modelCoordinates = coordinates;
+  world.userData.modelCenter = center;
+  world.userData.fitDuration = performance.now() - started;
+}
 const preparationQueue = [];
 let preparing = false;
 async function drainPreparationQueue() {
@@ -2125,6 +2244,10 @@ async function drainPreparationQueue() {
   preparing = true;
   while (preparationQueue.length && webglReady && !document.hidden) {
     const requested = preparationQueue.findIndex(job => job.index === currentScene);
+    if (requested < 0 && performance.now() - Math.max(lastScrollAt,chapterWheel.lastAt) < 200) {
+      setTimeout(drainPreparationQueue,220);
+      break;
+    }
     const job = preparationQueue.splice(requested >= 0 ? requested : 0, 1)[0];
     try { job.resolve(await job.execute()); }
     catch (error) {
@@ -2145,16 +2268,22 @@ function prepareWorldAsync(index) {
   // six-world cache reuses each world; preparation is serialized, never fanned out.
   const execute = async () => {
     await yieldTask();
-    const world = ensureWorld(index);
+    const world = await ensureWorld(index);
     world.visible = false;
-    await yieldTask();
+    await captureModelFit(world, index);
+    await yieldPreparation(index);
     worldStatus[index] = "compiling";
     await compileInBatches(renderer, scene, camera, world, () => {
       const visibilities = worlds.map(w => w?.visible || false);
+      const previousMount = mountedWorld;
+      mountCachedWorld(world);
       worlds.forEach((w, i) => { if (w) w.visible = i === index; });
-      return () => worlds.forEach((w, i) => { if (w) w.visible = visibilities[i]; });
-    });
-    await yieldTask();
+      return () => {
+        worlds.forEach((w, i) => { if (w) w.visible = visibilities[i]; });
+        mountCachedWorld(previousMount);
+      };
+    }, () => yieldPreparation(index));
+    await yieldPreparation(index);
     // Compilation does not upload buffers. Warm the actual output pipeline:
     // an offscreen target changes tone-mapping/color-space shader variants.
     // Restore and draw the active world in this same task, before browser paint.
@@ -2163,11 +2292,14 @@ function prepareWorldAsync(index) {
     warmCamera.position.fromArray(state.position);
     warmCamera.lookAt(new THREE.Vector3(...state.look));
     const visible = worlds.map(w => w?.visible || false);
+    const previousMount = mountedWorld;
     try {
+      mountCachedWorld(world);
       worlds.forEach((w, i) => { if (w) w.visible = i === index; });
       drawModel(warmCamera);
     } finally {
       worlds.forEach((w, i) => { if (w) w.visible = visible[i]; });
+      mountCachedWorld(previousMount);
       drawModel();
     }
     world.userData.ready = true;
@@ -2185,6 +2317,8 @@ function revealWorld(index) {
   if (!webglReady || index !== currentScene || !worlds[index]?.userData.ready) return;
   activeWorld = worlds[index];
   activeWorld.visible = true;
+  mountCachedWorld(activeWorld);
+  modelDirty = true;
   const state = getCameraTarget(index);
   cameraStart.fromArray(state.position);
   if (!reduceMotion) cameraStart.add(new THREE.Vector3(.2, .08, .35));
@@ -2221,7 +2355,7 @@ function initializeThree() {
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x050706, 1);
-    renderer.autoClear = false;
+    renderer.autoClear = true;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -2259,8 +2393,8 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.4.0",
-      buildDate: "2026-10-14",
+      version: "4.9.0",
+      buildDate: "2026-10-15",
       worlds,
       worldStatus,
       prepareWorldAsync,
@@ -2281,8 +2415,7 @@ function initializeThree() {
     window.addEventListener("resize", resizeRenderer, { passive: true });
     window.addEventListener("orientationchange", resizeRenderer, { passive: true });
     const modelObserver = new ResizeObserver(() => {
-      measureModelViews();
-      if (webglReady && reduceMotion) render(performance.now());
+      resizeRenderer();
     });
     modelViews.forEach(view => modelObserver.observe(view));
     document.fonts.ready.then(() => {
@@ -2305,6 +2438,10 @@ function initializeThree() {
       clearTimeout(prewarmTimer);
       modelObserver.disconnect();
       renderer.setAnimationLoop(null);
+      // The cache includes detached roots; collect them into the scene once
+      // so shared geometries, materials and textures are disposed together.
+      worlds.forEach(world => { if (world && world.parent !== scene) scene.add(world); });
+      mountedWorld = null;
       disposeScene(scene);
       renderer.dispose();
       webglReady = false;
@@ -2330,7 +2467,13 @@ function resizeRenderer() {
 
 function render(timeMs) {
   if (!webglReady) return;
+  // Keep autonomous motion throughout a swipe, with fewer decorative draws so
+  // document movement retains priority. A capped wheel tail cannot freeze it.
+  if (!reduceMotion && !modelDirty && timeMs - lastScrollAt < 100 && timeMs - lastDrawAt < 1000 / 30) return;
+  lastDrawAt = timeMs;
+  modelDirty = false;
   updateModelViewport();
+  if (!modelViewport?.width || !modelViewport.height) { lastFrameTime = 0; return; }
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
@@ -2381,6 +2524,9 @@ function render(timeMs) {
 
   // 1: Aegis
   else if (activeIdx === 1 && worlds[1]) {
+    const base = worlds[1].userData.baseRotation;
+    worlds[1].rotation.y = base.y + (reduceMotion ? 0 : Math.sin(time * .24) * .09);
+    worlds[1].rotation.x = base.x + (reduceMotion ? 0 : Math.sin(time * .19) * .035);
     if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.6 * dt;
     if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.36 * dt;
     if (worlds[1].userData.inspectionShell) {
@@ -2471,7 +2617,8 @@ function render(timeMs) {
     if (worlds[2].userData.poolLiquid) {
       worlds[2].userData.poolLiquid.scale.y = reduceMotion ? 1 : 0.82 + (Math.sin(time * 0.58) + 1) * 0.12;
     }
-    worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.18) * 0.018;
+    const base = worlds[2].userData.baseRotation;
+    worlds[2].rotation.y = base.y + (reduceMotion ? 0 : Math.sin(time * .2) * .08);
   }
 
   // 3: Compressor
@@ -2533,7 +2680,7 @@ function render(timeMs) {
   drawModel();
   renderedFrames++;
   if (!document.hidden && !reduceMotion) {
-    recordFrameTime(rawFrameDeltaMs);
+    recordFrameTime(rawFrameDeltaMs, timeMs - lastScrollAt >= 140);
   }
   updatePerfHud();
 }
@@ -2541,7 +2688,14 @@ function render(timeMs) {
 function setScene(index, options = {}) {
   if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
+  const view = modelViews[next];
+  if (view && canvas.parentElement !== view) {
+    view.append(canvas);
+    if (renderer) resizeRenderer();
+  }
+  modelDirty = true;
   if (!options.observed) {
+    chapterWheel.reset();
     // Explicit navigation jumps immediately. Ordinary browsing stays native.
     window.scrollTo({ top: panels[next].offsetTop, behavior: "instant" });
   }
@@ -2559,6 +2713,7 @@ function setScene(index, options = {}) {
   cameraTransitionAt = performance.now();
   currentScene = next;
   activeWorld = webglReady && worlds[currentScene]?.userData.ready ? worlds[currentScene] : null;
+  mountCachedWorld(activeWorld);
   document.body.dataset.graphicsReady = String(Boolean(activeWorld));
   if (webglReady && !activeWorld) prepareWorldAsync(currentScene);
   if (activeWorld?.userData.baseScale) {
@@ -2619,18 +2774,27 @@ let scrollFrame = 0;
 function syncSceneToScroll() {
   scrollFrame = 0;
   if (document.querySelector("dialog[open]")) return;
-  const readingLine = window.scrollY + window.innerHeight * 0.4;
-  const total = document.documentElement.scrollHeight - window.innerHeight;
-  if (readingProgress) readingProgress.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
+  const bounded = chapterWheel.constrain(viewport.scroll, performance.now());
+  if (Math.abs(bounded - viewport.scroll) > .5) {
+    window.scrollTo({ top: bounded, behavior: "instant" });
+    viewport.scroll = bounded;
+  }
+  const readingLine = viewport.scroll + viewport.height * 0.4;
+  const total = documentScrollMaximum;
+  if (readingProgress) readingProgress.style.transform = `scaleX(${total > 0 ? viewport.scroll / total : 0})`;
   let next = 0;
-  panels.forEach((panel, index) => { if (panel.offsetTop <= readingLine) next = index; });
+  chapterStops.forEach((top, index) => { if (top <= readingLine) next = index; });
   if (next !== currentScene) setScene(next, { observed: true });
   else if (reduceMotion && webglReady) render(performance.now());
 }
 window.addEventListener("scroll", () => {
+  lastScrollAt = performance.now();
+  viewport.scroll = scrollY;
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 window.addEventListener("resize", () => {
+  chapterWheel.reset();
+  measureChapters();
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 history.scrollRestoration = "manual";
@@ -2700,10 +2864,76 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// Vertical scrolling belongs to the browser: no wheel cancellation, cooldown,
-// or touch swipe threshold. Direction changes and gentle trackpad input always
-// move the document. Horizontal arrow keys remain explicit project shortcuts.
+// Keep normal reading movement; only clamp a wheel event that would carry the
+// same swipe past its one-chapter range. No scene construction runs here.
+let wheelTarget = null;
+let wheelTargetScrollable = false;
+let wheelAncestorSizes = new WeakMap();
+const wheelTargetObserver = new ResizeObserver(entries => {
+  for (const entry of entries) {
+    const previous = wheelAncestorSizes.get(entry.target);
+    const size = [entry.contentRect.width, entry.contentRect.height];
+    wheelAncestorSizes.set(entry.target, size);
+    if (previous && (previous[0] !== size[0] || previous[1] !== size[1])) {
+      invalidateWheelTarget();
+      break;
+    }
+  }
+});
+function invalidateWheelTarget() {
+  wheelTarget = null;
+  wheelTargetScrollable = false;
+  wheelAncestorSizes = new WeakMap();
+  wheelTargetObserver.disconnect();
+}
+function hasNativeWheelScroller(target) {
+  if (target === wheelTarget) return wheelTargetScrollable;
+  invalidateWheelTarget();
+  wheelTarget = target;
+  for (let element = target; element && element !== document.body; element = element.parentElement) {
+    wheelTargetObserver.observe(element);
+    if (element.scrollHeight > element.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(element).overflowY)) {
+      wheelTargetScrollable = true;
+      break;
+    }
+  }
+  return wheelTargetScrollable;
+}
+const wheelTargetMutations = new MutationObserver(records => {
+  // Progress and canvas updates do not change this target's scroll ancestry.
+  if (records.some(record => record.target !== readingProgress && record.target !== canvas)) invalidateWheelTarget();
+});
+wheelTargetMutations.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["class", "style", "open", "hidden"] });
+window.addEventListener("resize", invalidateWheelTarget, { passive: true });
+document.addEventListener("load", invalidateWheelTarget, { capture: true, passive: true });
+document.addEventListener("toggle", invalidateWheelTarget, { capture: true, passive: true });
+window.addEventListener("pagehide", event => {
+  if (!event.persisted) { wheelTargetObserver.disconnect(); wheelTargetMutations.disconnect(); }
+});
+window.addEventListener("wheel", event => {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey ||
+      Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY ||
+      document.querySelector("dialog[open]")) { chapterWheel.reset(); return; }
+  const target = event.target instanceof Element ? event.target : null;
+  if (hasNativeWheelScroller(target)) { chapterWheel.reset(); return; }
+  const position = scrollY;
+  const result = chapterWheel.feed(wheelPixels(event, viewport.height), performance.now(), position,
+    chapterStops, viewport.height, documentScrollMaximum);
+  if ((result.limited || result.reversed) && event.cancelable) {
+    event.preventDefault();
+    // An instant clamp also cancels any browser wheel animation still queued
+    // from the tail. Ordinary in-range input keeps its native browser action.
+    if (result.reversed || result.firstLimited || Math.abs(result.top - position) > .01) {
+      window.scrollTo({ top: result.top, behavior: "instant" });
+    }
+  }
+}, { passive: false });
+window.addEventListener("pointerdown", () => chapterWheel.reset(), { passive: true });
+window.addEventListener("touchstart", () => chapterWheel.reset(), { passive: true });
+
+// Touch panning, vertical keys and scrollbar navigation remain native.
 window.addEventListener("keydown", (event) => {
+  chapterWheel.reset();
   if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
   if (event.key === "ArrowRight") { event.preventDefault(); stepScene(1, { focus: true }); }
   if (event.key === "ArrowLeft") { event.preventDefault(); stepScene(-1, { focus: true }); }
@@ -2741,6 +2971,7 @@ window.addEventListener("hashchange", () => {
 let lastFocusedElement = null;
 
 function openDialog(dialog) {
+  chapterWheel.reset();
   if (!dialog) return;
   lastFocusedElement = document.activeElement;
   document.body.classList.add("dialog-open");
@@ -2755,6 +2986,7 @@ function openDialog(dialog) {
 }
 
 function closeDialog(dialog) {
+  chapterWheel.reset();
   if (!dialog?.open) return;
   dialog.close();
   document.body.classList.remove("dialog-open");
@@ -2795,5 +3027,6 @@ const evidenceMetadata = {
 });
 
 // Content and controls are usable before WebGL context creation or scene builds.
+measureChapters();
 setScene(currentScene, { force: true, skipHistory: true });
 requestAnimationFrame(() => requestAnimationFrame(initializeThree));

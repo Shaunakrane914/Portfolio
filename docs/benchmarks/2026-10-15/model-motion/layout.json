@@ -1,0 +1,3220 @@
+{
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": 0,
+        "narrativeTop": 197.625,
+        "headerBottom": 72
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1440,
+      "panelHeight": 1029,
+      "contentHeight": 1029,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 1028.625,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 1028.625
+      },
+      "copy": {
+        "top": 197.625,
+        "bottom": 691.359375,
+        "left": 115.1875,
+        "right": 655.546875,
+        "width": 540.359375,
+        "height": 493.734375
+      },
+      "narrative": [
+        {
+          "top": 197.625,
+          "bottom": 691.359375,
+          "left": 115.1875,
+          "right": 655.546875,
+          "width": 540.359375,
+          "height": 493.734375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 155,
+          "bottom": 749,
+          "left": 727.546875,
+          "right": 1324.8125,
+          "width": 597.265625,
+          "height": 594
+        },
+        "viewport": {
+          "left": 727.546875,
+          "top": 155,
+          "right": 1324.8125,
+          "bottom": 749,
+          "width": 597.265625,
+          "height": 594
+        },
+        "projected": {
+          "left": 763.343255902093,
+          "top": 238.5190035255041,
+          "right": 1289.3124315664215,
+          "bottom": 661.5760013965042,
+          "width": 525.9691756643285,
+          "height": 423.05699787100014
+        },
+        "index": 0,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 155,
+          "bottom": 749,
+          "left": 727.546875,
+          "right": 1324.8125,
+          "width": 597.265625,
+          "height": 594
+        },
+        "parentModelIndex": 0
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 193.9375,
+        "headerBottom": 72
+      },
+      "scene": 1,
+      "scrollY": 1029,
+      "panelWidth": 1440,
+      "panelHeight": 905,
+      "contentHeight": 905,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 904.625,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 905
+      },
+      "copy": {
+        "top": 193.9375,
+        "bottom": 740.3125,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875,
+        "height": 546.375
+      },
+      "narrative": [
+        {
+          "top": 193.9375,
+          "bottom": 472.03125,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 278.09375
+        },
+        {
+          "top": 500.03125,
+          "bottom": 740.3125,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 240.28125
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "viewport": {
+          "left": 699.109375,
+          "top": 154.625,
+          "right": 1324.8125,
+          "bottom": 794.625,
+          "width": 625.703125,
+          "height": 640
+        },
+        "projected": {
+          "left": 741.3012624055812,
+          "top": 332.9698751590864,
+          "right": 1297.1498774578763,
+          "bottom": 615.1238077415459,
+          "width": 555.8486150522951,
+          "height": 282.15393258245945
+        },
+        "index": 1,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "parentModelIndex": 1
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 182.140625,
+        "headerBottom": 72
+      },
+      "scene": 2,
+      "scrollY": 1934,
+      "panelWidth": 1440,
+      "panelHeight": 905,
+      "contentHeight": 905,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 904.625,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 905
+      },
+      "copy": {
+        "top": 182.140625,
+        "bottom": 752.09375,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875,
+        "height": 569.953125
+      },
+      "narrative": [
+        {
+          "top": 182.140625,
+          "bottom": 460.234375,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 278.09375
+        },
+        {
+          "top": 488.234375,
+          "bottom": 752.09375,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 263.859375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "viewport": {
+          "left": 699.109375,
+          "top": 154.625,
+          "right": 1324.8125,
+          "bottom": 794.625,
+          "width": 625.703125,
+          "height": 640
+        },
+        "projected": {
+          "left": 737.1604361084751,
+          "top": 243.28681826898134,
+          "right": 1291.843579721786,
+          "bottom": 707.6855336225536,
+          "width": 554.6831436133109,
+          "height": 464.3987153535723
+        },
+        "index": 2,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "parentModelIndex": 2
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 201.328125,
+        "headerBottom": 72
+      },
+      "scene": 3,
+      "scrollY": 2839,
+      "panelWidth": 1440,
+      "panelHeight": 905,
+      "contentHeight": 905,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 904.625,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 905
+      },
+      "copy": {
+        "top": 201.328125,
+        "bottom": 732.921875,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875,
+        "height": 531.59375
+      },
+      "narrative": [
+        {
+          "top": 201.328125,
+          "bottom": 479.421875,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 278.09375
+        },
+        {
+          "top": 507.421875,
+          "bottom": 732.921875,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 225.5
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "viewport": {
+          "left": 699.109375,
+          "top": 154.625,
+          "right": 1324.8125,
+          "bottom": 794.625,
+          "width": 625.703125,
+          "height": 640
+        },
+        "projected": {
+          "left": 727.745552252357,
+          "top": 287.0569615515582,
+          "right": 1274.7579298231453,
+          "bottom": 653.1531484499257,
+          "width": 547.0123775707883,
+          "height": 366.0961868983675
+        },
+        "index": 3,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "parentModelIndex": 3
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 192.21875,
+        "headerBottom": 72
+      },
+      "scene": 4,
+      "scrollY": 3744,
+      "panelWidth": 1440,
+      "panelHeight": 905,
+      "contentHeight": 905,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 904.625,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 905
+      },
+      "copy": {
+        "top": 192.21875,
+        "bottom": 742.03125,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875,
+        "height": 549.8125
+      },
+      "narrative": [
+        {
+          "top": 192.21875,
+          "bottom": 470.3125,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 278.09375
+        },
+        {
+          "top": 498.3125,
+          "bottom": 742.03125,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 243.71875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "viewport": {
+          "left": 699.109375,
+          "top": 154.625,
+          "right": 1324.8125,
+          "bottom": 794.625,
+          "width": 625.703125,
+          "height": 640
+        },
+        "projected": {
+          "left": 735.350018804699,
+          "top": 267.9318510531137,
+          "right": 1289.7675317735007,
+          "bottom": 682.616626754681,
+          "width": 554.4175129688017,
+          "height": 414.6847757015673
+        },
+        "index": 4,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 154.625,
+          "bottom": 794.625,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 139.625,
+        "headerBottom": 72
+      },
+      "scene": 5,
+      "scrollY": 4649,
+      "panelWidth": 1440,
+      "panelHeight": 1206,
+      "contentHeight": 1206,
+      "chapterHeights": [
+        1029,
+        905,
+        905,
+        905,
+        905,
+        1206
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 1205.5,
+        "left": 0,
+        "right": 1440,
+        "width": 1440,
+        "height": 1205.875
+      },
+      "copy": {
+        "top": 139.625,
+        "bottom": 765.96875,
+        "left": 115.1875,
+        "right": 627.109375,
+        "width": 511.921875,
+        "height": 626.34375
+      },
+      "narrative": [
+        {
+          "top": 139.625,
+          "bottom": 765.96875,
+          "left": 115.1875,
+          "right": 627.109375,
+          "width": 511.921875,
+          "height": 626.34375
+        }
+      ],
+      "model": null,
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": -750.375,
+          "bottom": -110.375,
+          "left": 699.109375,
+          "right": 1324.8125,
+          "width": 625.703125,
+          "height": 640
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": 0,
+        "narrativeTop": 156.96875,
+        "headerBottom": 72
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1280,
+      "panelHeight": 846,
+      "contentHeight": 846,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 845.8125,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 845.8125
+      },
+      "copy": {
+        "top": 156.96875,
+        "bottom": 563.203125,
+        "left": 102.390625,
+        "right": 582.71875,
+        "width": 480.328125,
+        "height": 406.234375
+      },
+      "narrative": [
+        {
+          "top": 156.96875,
+          "bottom": 563.203125,
+          "left": 102.390625,
+          "right": 582.71875,
+          "width": 480.328125,
+          "height": 406.234375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 130,
+          "bottom": 605.1875,
+          "left": 646.71875,
+          "right": 1177.609375,
+          "width": 530.890625,
+          "height": 475.1875
+        },
+        "viewport": {
+          "left": 646.71875,
+          "top": 130,
+          "right": 1177.609375,
+          "bottom": 605.1875,
+          "width": 530.890625,
+          "height": 475.1875
+        },
+        "projected": {
+          "left": 678.4827419708755,
+          "top": 177.70741095519864,
+          "right": 1145.7438409895067,
+          "bottom": 554.8478700542285,
+          "width": 467.26109901863117,
+          "height": 377.14045909902984
+        },
+        "index": 0,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 130,
+          "bottom": 605.1875,
+          "left": 646.71875,
+          "right": 1177.609375,
+          "width": 530.890625,
+          "height": 475.1875
+        },
+        "parentModelIndex": 0
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": -0.1875,
+        "narrativeTop": 114.8125,
+        "headerBottom": 72
+      },
+      "scene": 1,
+      "scrollY": 846,
+      "panelWidth": 1280,
+      "panelHeight": 725,
+      "contentHeight": 725,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.1875,
+        "bottom": 725.015625,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 725.203125
+      },
+      "copy": {
+        "top": 114.8125,
+        "bottom": 630.015625,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875,
+        "height": 515.203125
+      },
+      "narrative": [
+        {
+          "top": 114.8125,
+          "bottom": 366.734375,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 251.921875
+        },
+        {
+          "top": 389.734375,
+          "bottom": 630.015625,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 240.28125
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 129.8125,
+          "bottom": 589.8125,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "viewport": {
+          "left": 621.4375,
+          "top": 129.8125,
+          "right": 1177.609375,
+          "bottom": 589.8125,
+          "width": 556.171875,
+          "height": 460
+        },
+        "projected": {
+          "left": 658.3902990614121,
+          "top": 232.5835173784913,
+          "right": 1152.5988917584152,
+          "bottom": 485.2891072940412,
+          "width": 494.20859269700316,
+          "height": 252.70558991554987
+        },
+        "index": 1,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 129.8125,
+          "bottom": 589.8125,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "parentModelIndex": 1
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": 0.015625,
+        "narrativeTop": 115.015625,
+        "headerBottom": 72
+      },
+      "scene": 2,
+      "scrollY": 1571,
+      "panelWidth": 1280,
+      "panelHeight": 792,
+      "contentHeight": 792,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.015625,
+        "bottom": 791.90625,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 791.890625
+      },
+      "copy": {
+        "top": 115.015625,
+        "bottom": 696.90625,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875,
+        "height": 581.890625
+      },
+      "narrative": [
+        {
+          "top": 115.015625,
+          "bottom": 366.9375,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 251.921875
+        },
+        {
+          "top": 389.9375,
+          "bottom": 696.90625,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 306.96875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 130.015625,
+          "bottom": 590.015625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "viewport": {
+          "left": 621.4375,
+          "top": 130.015625,
+          "right": 1177.609375,
+          "bottom": 590.015625,
+          "width": 556.171875,
+          "height": 460
+        },
+        "projected": {
+          "left": 658.9542810972073,
+          "top": 157.46401535338214,
+          "right": 1144.6265684513364,
+          "bottom": 564.0854653803249,
+          "width": 485.67228735412914,
+          "height": 406.62145002694274
+        },
+        "index": 2,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 130.015625,
+          "bottom": 590.015625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "parentModelIndex": 2
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": -0.09375,
+        "narrativeTop": 119.6875,
+        "headerBottom": 72
+      },
+      "scene": 3,
+      "scrollY": 2363,
+      "panelWidth": 1280,
+      "panelHeight": 720,
+      "contentHeight": 720,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.09375,
+        "bottom": 719.90625,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 720
+      },
+      "copy": {
+        "top": 119.6875,
+        "bottom": 620.109375,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875,
+        "height": 500.421875
+      },
+      "narrative": [
+        {
+          "top": 119.6875,
+          "bottom": 371.609375,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 251.921875
+        },
+        {
+          "top": 394.609375,
+          "bottom": 620.109375,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 225.5
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 129.90625,
+          "bottom": 589.90625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "viewport": {
+          "left": 621.4375,
+          "top": 129.90625,
+          "right": 1177.609375,
+          "bottom": 589.90625,
+          "width": 556.171875,
+          "height": 460
+        },
+        "projected": {
+          "left": 645.0488345087944,
+          "top": 183.9922711429101,
+          "right": 1141.5360886322737,
+          "bottom": 524.7546398873938,
+          "width": 496.4872541234794,
+          "height": 340.76236874448364
+        },
+        "index": 3,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 129.90625,
+          "bottom": 589.90625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "parentModelIndex": 3
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": -0.09375,
+        "narrativeTop": 114.90625,
+        "headerBottom": 72
+      },
+      "scene": 4,
+      "scrollY": 3083,
+      "panelWidth": 1280,
+      "panelHeight": 729,
+      "contentHeight": 729,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.09375,
+        "bottom": 728.546875,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 728.640625
+      },
+      "copy": {
+        "top": 114.90625,
+        "bottom": 633.546875,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875,
+        "height": 518.640625
+      },
+      "narrative": [
+        {
+          "top": 114.90625,
+          "bottom": 366.828125,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 251.921875
+        },
+        {
+          "top": 389.828125,
+          "bottom": 633.546875,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 243.71875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 129.90625,
+          "bottom": 589.90625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "viewport": {
+          "left": 621.4375,
+          "top": 129.90625,
+          "right": 1177.609375,
+          "bottom": 589.90625,
+          "width": 556.171875,
+          "height": 460
+        },
+        "projected": {
+          "left": 651.7285996861077,
+          "top": 180.6241679532531,
+          "right": 1144.8001130928717,
+          "bottom": 540.3172028529525,
+          "width": 493.071513406764,
+          "height": 359.6930348996994
+        },
+        "index": 4,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 129.90625,
+          "bottom": 589.90625,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "navigation": {
+        "chapterTop": -0.453125,
+        "narrativeTop": 114.546875,
+        "headerBottom": 72
+      },
+      "scene": 5,
+      "scrollY": 3812,
+      "panelWidth": 1280,
+      "panelHeight": 1123,
+      "contentHeight": 1123,
+      "chapterHeights": [
+        846,
+        725,
+        792,
+        720,
+        729,
+        1123
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.453125,
+        "bottom": 1122.5625,
+        "left": 0,
+        "right": 1280,
+        "width": 1280,
+        "height": 1123.015625
+      },
+      "copy": {
+        "top": 114.546875,
+        "bottom": 715.90625,
+        "left": 102.390625,
+        "right": 557.4375,
+        "width": 455.046875,
+        "height": 601.359375
+      },
+      "narrative": [
+        {
+          "top": 114.546875,
+          "bottom": 715.90625,
+          "left": 102.390625,
+          "right": 557.4375,
+          "width": 455.046875,
+          "height": 601.359375
+        }
+      ],
+      "model": null,
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": -599.09375,
+          "bottom": -139.09375,
+          "left": 621.4375,
+          "right": 1177.609375,
+          "width": 556.171875,
+          "height": 460
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": 0,
+        "narrativeTop": 130.265625,
+        "headerBottom": 72
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 1024,
+      "panelHeight": 773,
+      "contentHeight": 773,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 772.625,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 772.625
+      },
+      "copy": {
+        "top": 130.265625,
+        "bottom": 510.71875,
+        "left": 81.90625,
+        "right": 471.484375,
+        "width": 389.578125,
+        "height": 380.453125
+      },
+      "narrative": [
+        {
+          "top": 130.265625,
+          "bottom": 510.71875,
+          "left": 81.90625,
+          "right": 471.484375,
+          "width": 389.578125,
+          "height": 380.453125
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 130,
+          "bottom": 526,
+          "left": 511.484375,
+          "right": 942.078125,
+          "width": 430.59375,
+          "height": 396
+        },
+        "viewport": {
+          "left": 511.484375,
+          "top": 130,
+          "right": 942.078125,
+          "bottom": 526,
+          "width": 430.59375,
+          "height": 396
+        },
+        "projected": {
+          "left": 537.2587414790275,
+          "top": 174.03353045006816,
+          "right": 916.2934442999235,
+          "bottom": 479.453315612077,
+          "width": 379.034702820896,
+          "height": 305.41978516200885
+        },
+        "index": 0,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 130,
+          "bottom": 526,
+          "left": 511.484375,
+          "right": 942.078125,
+          "width": 430.59375,
+          "height": 396
+        },
+        "parentModelIndex": 0
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": -0.375,
+        "narrativeTop": 114.625,
+        "headerBottom": 72
+      },
+      "scene": 1,
+      "scrollY": 773,
+      "panelWidth": 1024,
+      "panelHeight": 773,
+      "contentHeight": 773,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.375,
+        "bottom": 772.328125,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 772.703125
+      },
+      "copy": {
+        "top": 114.625,
+        "bottom": 677.328125,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125,
+        "height": 562.703125
+      },
+      "narrative": [
+        {
+          "top": 114.625,
+          "bottom": 343.90625,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 229.28125
+        },
+        {
+          "top": 366.90625,
+          "bottom": 677.328125,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 310.421875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 129.625,
+          "bottom": 469.625,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "viewport": {
+          "left": 490.984375,
+          "top": 129.625,
+          "right": 942.09375,
+          "bottom": 469.625,
+          "width": 451.109375,
+          "height": 340
+        },
+        "projected": {
+          "left": 520.7259583603164,
+          "top": 195.8424346876389,
+          "right": 921.5701542016025,
+          "bottom": 401.69619481663455,
+          "width": 400.844195841286,
+          "height": 205.85376012899565
+        },
+        "index": 1,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 129.625,
+          "bottom": 469.625,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "parentModelIndex": 1
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": 0.328125,
+        "narrativeTop": 115.328125,
+        "headerBottom": 72
+      },
+      "scene": 2,
+      "scrollY": 1545,
+      "panelWidth": 1024,
+      "panelHeight": 863,
+      "contentHeight": 863,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.328125,
+        "bottom": 862.9375,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 862.609375
+      },
+      "copy": {
+        "top": 115.328125,
+        "bottom": 767.9375,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125,
+        "height": 652.609375
+      },
+      "narrative": [
+        {
+          "top": 115.328125,
+          "bottom": 367.828125,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 252.5
+        },
+        {
+          "top": 390.828125,
+          "bottom": 767.9375,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 377.109375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 130.328125,
+          "bottom": 470.328125,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "viewport": {
+          "left": 490.984375,
+          "top": 130.328125,
+          "right": 942.09375,
+          "bottom": 470.328125,
+          "width": 451.109375,
+          "height": 340
+        },
+        "projected": {
+          "left": 538.6691826287737,
+          "top": 150.62101920875753,
+          "right": 897.6245425239551,
+          "bottom": 451.1442316713145,
+          "width": 358.95535989518146,
+          "height": 300.523212462557
+        },
+        "index": 2,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 130.328125,
+          "bottom": 470.328125,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "parentModelIndex": 2
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": -0.0625,
+        "narrativeTop": 114.9375,
+        "headerBottom": 72
+      },
+      "scene": 3,
+      "scrollY": 2408,
+      "panelWidth": 1024,
+      "panelHeight": 726,
+      "contentHeight": 726,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.0625,
+        "bottom": 726.078125,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 726.140625
+      },
+      "copy": {
+        "top": 114.9375,
+        "bottom": 631.078125,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125,
+        "height": 516.140625
+      },
+      "narrative": [
+        {
+          "top": 114.9375,
+          "bottom": 344.21875,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 229.28125
+        },
+        {
+          "top": 367.21875,
+          "bottom": 631.078125,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 263.859375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 129.9375,
+          "bottom": 469.9375,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "viewport": {
+          "left": 490.984375,
+          "top": 129.9375,
+          "right": 942.09375,
+          "bottom": 469.9375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "projected": {
+          "left": 509.4236353376747,
+          "top": 153.37561395292232,
+          "right": 919.8532707376992,
+          "bottom": 436.5551279142464,
+          "width": 410.4296354000245,
+          "height": 283.17951396132406
+        },
+        "index": 3,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 129.9375,
+          "bottom": 469.9375,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "parentModelIndex": 3
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": 0.078125,
+        "narrativeTop": 115.078125,
+        "headerBottom": 72
+      },
+      "scene": 4,
+      "scrollY": 3134,
+      "panelWidth": 1024,
+      "panelHeight": 726,
+      "contentHeight": 726,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.078125,
+        "bottom": 726.21875,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 726.140625
+      },
+      "copy": {
+        "top": 115.078125,
+        "bottom": 631.21875,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125,
+        "height": 516.140625
+      },
+      "narrative": [
+        {
+          "top": 115.078125,
+          "bottom": 344.359375,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 229.28125
+        },
+        {
+          "top": 367.359375,
+          "bottom": 631.21875,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 263.859375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 130.078125,
+          "bottom": 470.078125,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "viewport": {
+          "left": 490.984375,
+          "top": 130.078125,
+          "right": 942.09375,
+          "bottom": 470.078125,
+          "width": 451.109375,
+          "height": 340
+        },
+        "projected": {
+          "left": 514.8118869616181,
+          "top": 155.54748047647752,
+          "right": 914.854134793738,
+          "bottom": 444.2538957053422,
+          "width": 400.04224783211987,
+          "height": 288.70641522886467
+        },
+        "index": 4,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 130.078125,
+          "bottom": 470.078125,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 600
+      },
+      "navigation": {
+        "chapterTop": 0.21875,
+        "narrativeTop": 115.21875,
+        "headerBottom": 72
+      },
+      "scene": 5,
+      "scrollY": 3860,
+      "panelWidth": 1024,
+      "panelHeight": 1098,
+      "contentHeight": 1098,
+      "chapterHeights": [
+        773,
+        773,
+        863,
+        726,
+        726,
+        1098
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.21875,
+        "bottom": 1097.984375,
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "height": 1097.765625
+      },
+      "copy": {
+        "top": 115.21875,
+        "bottom": 743.546875,
+        "left": 81.90625,
+        "right": 450.984375,
+        "width": 369.078125,
+        "height": 628.328125
+      },
+      "narrative": [
+        {
+          "top": 115.21875,
+          "bottom": 743.546875,
+          "left": 81.90625,
+          "right": 450.984375,
+          "width": 369.078125,
+          "height": 628.328125
+        }
+      ],
+      "model": null,
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": -595.921875,
+          "bottom": -255.921875,
+          "left": 490.984375,
+          "right": 942.09375,
+          "width": 451.109375,
+          "height": 340
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": 0,
+        "narrativeTop": 160,
+        "headerBottom": 62
+      },
+      "scene": 0,
+      "scrollY": 468,
+      "panelWidth": 390,
+      "panelHeight": 1646,
+      "contentHeight": 1646,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -468,
+        "bottom": 1177.5625,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1645.5625
+      },
+      "copy": {
+        "top": -308,
+        "bottom": 228.65625,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 536.65625
+      },
+      "narrative": [
+        {
+          "top": -308,
+          "bottom": 228.65625,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 536.65625
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 284.65625,
+          "bottom": 622.25,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "viewport": {
+          "left": 23.390625,
+          "top": 284.65625,
+          "right": 366.609375,
+          "bottom": 622.25,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "projected": {
+          "left": 43.96758822381696,
+          "top": 330.5572304614129,
+          "right": 346.2484380522402,
+          "bottom": 574.0401302169964,
+          "width": 302.28084982842324,
+          "height": 243.4828997555835
+        },
+        "index": 0,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 284.65625,
+          "bottom": 622.25,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 0
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": -0.4375,
+        "narrativeTop": 111.5625,
+        "headerBottom": 62
+      },
+      "scene": 1,
+      "scrollY": 1771,
+      "panelWidth": 390,
+      "panelHeight": 1332,
+      "contentHeight": 1332,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -125.4375,
+        "bottom": 1206.9375,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1332.375
+      },
+      "copy": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "narrative": [
+        {
+          "top": -13.4375,
+          "bottom": 255.703125,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 269.140625
+        },
+        {
+          "top": 649.296875,
+          "bottom": 1096.9375,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 447.640625
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 283.703125,
+          "bottom": 621.296875,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "viewport": {
+          "left": 23.390625,
+          "top": 283.703125,
+          "right": 366.609375,
+          "bottom": 621.296875,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "projected": {
+          "left": 46.882371396328224,
+          "top": 375.30879542630083,
+          "right": 352.7104109776396,
+          "bottom": 529.1048726559072,
+          "width": 305.8280395813114,
+          "height": 153.7960772296064
+        },
+        "index": 1,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 283.703125,
+          "bottom": 621.296875,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 1
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": -0.0625,
+        "narrativeTop": 111.9375,
+        "headerBottom": 62
+      },
+      "scene": 2,
+      "scrollY": 3104,
+      "panelWidth": 390,
+      "panelHeight": 1392,
+      "contentHeight": 1392,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -126.0625,
+        "bottom": 1265.453125,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1391.515625
+      },
+      "copy": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "narrative": [
+        {
+          "top": -14.0625,
+          "bottom": 256.046875,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 270.109375
+        },
+        {
+          "top": 649.640625,
+          "bottom": 1155.453125,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 505.8125
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 284.046875,
+          "bottom": 621.640625,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "viewport": {
+          "left": 23.390625,
+          "top": 284.046875,
+          "right": 366.609375,
+          "bottom": 621.640625,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "projected": {
+          "left": 45.46343682467474,
+          "top": 325.86390997630957,
+          "right": 349.9868980297023,
+          "bottom": 580.9895720245543,
+          "width": 304.52346120502756,
+          "height": 255.1256620482447
+        },
+        "index": 2,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 284.046875,
+          "bottom": 621.640625,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 2
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": 0.453125,
+        "narrativeTop": 112.453125,
+        "headerBottom": 62
+      },
+      "scene": 3,
+      "scrollY": 4469,
+      "panelWidth": 390,
+      "panelHeight": 1263,
+      "contentHeight": 1263,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -99.546875,
+        "bottom": 1163.640625,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1263.1875
+      },
+      "copy": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "narrative": [
+        {
+          "top": 12.453125,
+          "bottom": 256.234375,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 243.78125
+        },
+        {
+          "top": 649.828125,
+          "bottom": 1053.640625,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 403.8125
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 284.234375,
+          "bottom": 621.828125,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "viewport": {
+          "left": 23.390625,
+          "top": 284.234375,
+          "right": 366.609375,
+          "bottom": 621.828125,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "projected": {
+          "left": 38.35855535801974,
+          "top": 349.01293069347764,
+          "right": 337.9441711224392,
+          "bottom": 550.9522552748847,
+          "width": 299.58561576441946,
+          "height": 201.93932458140705
+        },
+        "index": 3,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 284.234375,
+          "bottom": 621.828125,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 3
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": -0.359375,
+        "narrativeTop": 111.640625,
+        "headerBottom": 62
+      },
+      "scene": 4,
+      "scrollY": 5759,
+      "panelWidth": 390,
+      "panelHeight": 1275,
+      "contentHeight": 1275,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -126.359375,
+        "bottom": 1148.59375,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1274.953125
+      },
+      "copy": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "height": 0
+      },
+      "narrative": [
+        {
+          "top": -14.359375,
+          "bottom": 255.75,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 270.109375
+        },
+        {
+          "top": 649.34375,
+          "bottom": 1038.59375,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 389.25
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 283.75,
+          "bottom": 621.34375,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "viewport": {
+          "left": 23.390625,
+          "top": 283.75,
+          "right": 366.609375,
+          "bottom": 621.34375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "projected": {
+          "left": 43.24401455887627,
+          "top": 339.81083107994453,
+          "right": 347.32200482627434,
+          "bottom": 566.2476662195236,
+          "width": 304.07799026739804,
+          "height": 226.43683513957905
+        },
+        "index": 4,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 283.75,
+          "bottom": 621.34375,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "navigation": {
+        "chapterTop": -0.40625,
+        "narrativeTop": 111.59375,
+        "headerBottom": 62
+      },
+      "scene": 5,
+      "scrollY": 6908,
+      "panelWidth": 390,
+      "panelHeight": 1795,
+      "contentHeight": 1795,
+      "chapterHeights": [
+        1646,
+        1332,
+        1392,
+        1263,
+        1275,
+        1795
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.40625,
+        "bottom": 1794.921875,
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "height": 1795.328125
+      },
+      "copy": {
+        "top": 111.59375,
+        "bottom": 888.921875,
+        "left": 23.390625,
+        "right": 366.609375,
+        "width": 343.21875,
+        "height": 777.328125
+      },
+      "narrative": [
+        {
+          "top": 111.59375,
+          "bottom": 888.921875,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 777.328125
+        }
+      ],
+      "model": null,
+      "headerBottom": 62,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": -865.25,
+          "bottom": -527.65625,
+          "left": 23.390625,
+          "right": 366.609375,
+          "width": 343.21875,
+          "height": 337.59375
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": 0,
+        "narrativeTop": 105,
+        "headerBottom": 72
+      },
+      "scene": 0,
+      "scrollY": 0,
+      "panelWidth": 844,
+      "panelHeight": 753,
+      "contentHeight": 753,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0,
+        "bottom": 753.390625,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 753.390625
+      },
+      "copy": {
+        "top": 105,
+        "bottom": 506.765625,
+        "left": 67.515625,
+        "right": 410.25,
+        "width": 342.734375,
+        "height": 401.765625
+      },
+      "narrative": [
+        {
+          "top": 105,
+          "bottom": 506.765625,
+          "left": 67.515625,
+          "right": 410.25,
+          "width": 342.734375,
+          "height": 401.765625
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 105,
+          "bottom": 265,
+          "left": 450.25,
+          "right": 776.484375,
+          "width": 326.234375,
+          "height": 160
+        },
+        "viewport": {
+          "left": 450.25,
+          "top": 105,
+          "right": 776.484375,
+          "bottom": 265,
+          "width": 326.234375,
+          "height": 160
+        },
+        "projected": {
+          "left": 526.3855584156404,
+          "top": 114.31127702921964,
+          "right": 700.2747977517837,
+          "bottom": 254.90838297749195,
+          "width": 173.8892393361433,
+          "height": 140.59710594827231
+        },
+        "index": 0,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 105,
+          "bottom": 265,
+          "left": 450.25,
+          "right": 776.484375,
+          "width": 326.234375,
+          "height": 160
+        },
+        "parentModelIndex": 0
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": 0.390625,
+        "narrativeTop": 105.390625,
+        "headerBottom": 72
+      },
+      "scene": 1,
+      "scrollY": 753,
+      "panelWidth": 844,
+      "panelHeight": 847,
+      "contentHeight": 847,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.390625,
+        "bottom": 847.421875,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 847.03125
+      },
+      "copy": {
+        "top": 105.390625,
+        "bottom": 752.421875,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125,
+        "height": 647.03125
+      },
+      "narrative": [
+        {
+          "top": 105.390625,
+          "bottom": 383.25,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 277.859375
+        },
+        {
+          "top": 406.25,
+          "bottom": 752.421875,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 346.171875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 105.390625,
+          "bottom": 265.390625,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "viewport": {
+          "left": 408.546875,
+          "top": 105.390625,
+          "right": 776.484375,
+          "bottom": 265.390625,
+          "width": 367.9375,
+          "height": 160
+        },
+        "projected": {
+          "left": 468.1888812137037,
+          "top": 119.04714031825152,
+          "right": 722.2826181696821,
+          "bottom": 250.35869281344074,
+          "width": 254.0937369559784,
+          "height": 131.31155249518923
+        },
+        "index": 1,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 105.390625,
+          "bottom": 265.390625,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "parentModelIndex": 1
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": 0.421875,
+        "narrativeTop": 105.421875,
+        "headerBottom": 72
+      },
+      "scene": 2,
+      "scrollY": 1600,
+      "panelWidth": 844,
+      "panelHeight": 910,
+      "contentHeight": 910,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.421875,
+        "bottom": 910.03125,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 909.609375
+      },
+      "copy": {
+        "top": 105.421875,
+        "bottom": 815.03125,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125,
+        "height": 709.609375
+      },
+      "narrative": [
+        {
+          "top": 105.421875,
+          "bottom": 357.921875,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 252.5
+        },
+        {
+          "top": 380.921875,
+          "bottom": 815.03125,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 434.109375
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 105.421875,
+          "bottom": 265.421875,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "viewport": {
+          "left": 408.546875,
+          "top": 105.421875,
+          "right": 776.484375,
+          "bottom": 265.421875,
+          "width": 367.9375,
+          "height": 160
+        },
+        "projected": {
+          "left": 508.76564821758694,
+          "top": 114.97542495578072,
+          "right": 677.6721453487772,
+          "bottom": 256.3804834934755,
+          "width": 168.9064971311903,
+          "height": 141.40505853769474
+        },
+        "index": 2,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 105.421875,
+          "bottom": 265.421875,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "parentModelIndex": 2
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": 0.03125,
+        "narrativeTop": 105.03125,
+        "headerBottom": 72
+      },
+      "scene": 3,
+      "scrollY": 2510,
+      "panelWidth": 844,
+      "panelHeight": 730,
+      "contentHeight": 730,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.03125,
+        "bottom": 730.0625,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 730.03125
+      },
+      "copy": {
+        "top": 105.03125,
+        "bottom": 635.0625,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125,
+        "height": 530.03125
+      },
+      "narrative": [
+        {
+          "top": 105.03125,
+          "bottom": 334.3125,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 229.28125
+        },
+        {
+          "top": 357.3125,
+          "bottom": 635.0625,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 277.75
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 105.03125,
+          "bottom": 265.03125,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "viewport": {
+          "left": 408.546875,
+          "top": 105.03125,
+          "right": 776.484375,
+          "bottom": 265.03125,
+          "width": 367.9375,
+          "height": 160
+        },
+        "projected": {
+          "left": 492.61002672310065,
+          "top": 113.42967696515399,
+          "right": 692.1751877378986,
+          "bottom": 251.56349015989485,
+          "width": 199.56516101479792,
+          "height": 138.13381319474087
+        },
+        "index": 3,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 105.03125,
+          "bottom": 265.03125,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "parentModelIndex": 3
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": 0.0625,
+        "narrativeTop": 105.0625,
+        "headerBottom": 72
+      },
+      "scene": 4,
+      "scrollY": 3240,
+      "panelWidth": 844,
+      "panelHeight": 847,
+      "contentHeight": 847,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": 0.0625,
+        "bottom": 846.890625,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 846.828125
+      },
+      "copy": {
+        "top": 105.0625,
+        "bottom": 751.890625,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125,
+        "height": 646.828125
+      },
+      "narrative": [
+        {
+          "top": 105.0625,
+          "bottom": 382.921875,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 277.859375
+        },
+        {
+          "top": 405.921875,
+          "bottom": 751.890625,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 345.96875
+        }
+      ],
+      "model": {
+        "rect": {
+          "top": 105.0625,
+          "bottom": 265.0625,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "viewport": {
+          "left": 408.546875,
+          "top": 105.0625,
+          "right": 776.484375,
+          "bottom": 265.0625,
+          "width": 367.9375,
+          "height": 160
+        },
+        "projected": {
+          "left": 494.11025851470254,
+          "top": 114.88161497115408,
+          "right": 688.9723174053004,
+          "bottom": 254.75622020210895,
+          "width": 194.86205889059784,
+          "height": 139.87460523095487
+        },
+        "index": 4,
+        "background": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "display": "block",
+        "visibility": "visible",
+        "hasCover": false
+      },
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": 105.0625,
+          "bottom": 265.0625,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "navigation": {
+        "chapterTop": -0.109375,
+        "narrativeTop": 104.890625,
+        "headerBottom": 72
+      },
+      "scene": 5,
+      "scrollY": 4087,
+      "panelWidth": 844,
+      "panelHeight": 1201,
+      "contentHeight": 1201,
+      "chapterHeights": [
+        753,
+        847,
+        910,
+        730,
+        847,
+        1201
+      ],
+      "accessible": true,
+      "horizontalOverflow": false,
+      "verticalOverflow": false,
+      "overflowY": "visible",
+      "scrollbars": "none",
+      "border": "0px",
+      "rect": {
+        "top": -0.109375,
+        "bottom": 1201.296875,
+        "left": 0,
+        "right": 844,
+        "width": 844,
+        "height": 1201.40625
+      },
+      "copy": {
+        "top": 104.890625,
+        "bottom": 822.09375,
+        "left": 67.515625,
+        "right": 368.546875,
+        "width": 301.03125,
+        "height": 717.203125
+      },
+      "narrative": [
+        {
+          "top": 104.890625,
+          "bottom": 822.09375,
+          "left": 67.515625,
+          "right": 368.546875,
+          "width": 301.03125,
+          "height": 717.203125
+        }
+      ],
+      "model": null,
+      "headerBottom": 72,
+      "canvas": {
+        "pointerEvents": "none",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "position": "absolute",
+        "rect": {
+          "top": -741.9375,
+          "bottom": -581.9375,
+          "left": 408.546875,
+          "right": 776.484375,
+          "width": 367.9375,
+          "height": 160
+        },
+        "parentModelIndex": 4
+      },
+      "graphicsReady": "true",
+      "viewportOverflow": false
+    }
+  ],
+  "errors": []
+}

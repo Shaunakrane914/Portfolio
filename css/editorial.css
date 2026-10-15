@@ -12,7 +12,7 @@
 body:not([data-graphics-ready="true"]):not([data-current-scene="0"]) .canvas-fallback { opacity: .45; }
 .scene-stage .scene-panel { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(32px, 5vw, 90px); padding: 140px 8% 110px; }
 .scene-copy, .scene-panel-intro .scene-copy, .scene-panel-profile .scene-copy { width: 100%; }
-.scene-stage .scene-panel-intro { align-content: center; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); row-gap: 50px; }
+.scene-stage .scene-panel-intro { align-content: center; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); row-gap: 50px; }
 .scene-panel-intro .scene-copy { grid-column: 1; }
 .hero-eyebrow { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: .63rem; color: var(--muted); margin: 0 0 28px; text-transform: uppercase; }
 .availability-dot { display: block; flex: 0 0 6px; width: 6px; height: 6px; background: var(--folio-accent); border-radius: 50%; box-shadow: 0 0 14px rgba(197, 236, 162, .3); }
@@ -51,12 +51,14 @@ body:not([data-graphics-ready="true"]):not([data-current-scene="0"]) .canvas-fal
 .scene-stage .hero-work-index .systems-console-grid button b { color: var(--muted); font-weight: 400; font-size: 1rem; }
 .scene-stage .hero-work-index .systems-console-grid button:hover { background: rgba(44, 62, 47, .7); transform: translateY(-4px); }
 /* This transparent space belongs to the real WebGL model, with no cover UI. */
-.model-view { width: 100%; height: clamp(240px, calc(100svh - 260px), 680px); margin: 15px 0 0; min-width: 0; align-self: start; pointer-events: none; }
-.scene-panel-intro .model-view { height: clamp(340px, 60svh, 580px); grid-column: 2; grid-row: 1; align-self: start; }
+.model-view { position: relative; contain: layout paint; width: 100%; height: clamp(240px, calc(100svh - 260px), 680px); margin: 15px 0 0; min-width: 0; align-self: start; pointer-events: none; }
+.model-view #observatory-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene-panel-intro .model-view { height: clamp(340px, 66svh, 680px); grid-column: 2; grid-row: 1; align-self: start; }
 .scene-rail button { min-width: 38px; min-height: 44px; }
 .scene-flow { bottom: 75px; }
 .scene-flow button { background: rgba(10, 17, 12, .85); font-family: var(--sans); font-size: .7rem; }
 body[data-current-scene="5"] .scene-flow { display: none; }
+.observatory-footer { position: relative; inset: auto; }
 .scene-stage .scene-panel-profile { row-gap: 75px; }
 .scene-stage .scene-panel-profile h2 { font-size: clamp(3.4rem, 5vw, 5.3rem); }
 .scene-stage .trajectory { margin-top: 24px; }
@@ -120,6 +122,7 @@ body[data-current-scene="5"] .scene-flow { display: none; }
   .scene-stage .scene-panel:not(.scene-panel-intro):not(.scene-panel-profile) > .scene-copy { display: contents; }
   .project-intro { order: 0; }
   .model-view, .scene-panel-intro .model-view { order: 1; height: clamp(280px, 40svh, 380px); flex: 0 0 auto; margin: 0; }
+  .scene-panel-intro .hero-work-index { order: 2; }
   .project-details { order: 2; }
   .scene-stage .scene-status { margin-bottom: 20px; }
   .scene-stage .scene-footnote { font-size: .74rem; }

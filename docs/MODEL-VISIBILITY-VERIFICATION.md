@@ -1,44 +1,50 @@
-# Model visibility verification (v4.4)
+# Model framing and scroll verification (v4.7)
 
-Final verification is pending. The initial interaction run passed 63 groups and the first homepage audit passed 30 chapter/view checks. Model sizing and shared case-study changes followed those runs; the final interaction/layout reruns, case audit and performance capture must complete before these are treated as release results.
+The large-model presentation remains in v4.8. See the [subsequent scroll-performance verification](SCROLL-PERFORMANCE.md) for the current preparation/render scheduling and regression results. The measurements below describe v4.7.
 
-## Current presentation
+The previous presentation still left the visible 3D model small. At 1768x1000, the same projection probe measured a hero footprint of 423x353px before this change and 657x580px after: approximately 55% wider and 64% taller. Compare the [before capture](benchmarks/2026-10-15/scroll-feel/before-origin.png) and [after capture](benchmarks/2026-10-15/scroll-feel/after-origin.png).
 
-- The four browser-style screenshot previews are removed. The introduction and four featured projects reserve empty, transparent `.model-view` regions containing real WebGL artwork.
-- One fixed canvas follows native document scrolling and renders only inside the selected region's scissored rectangle. The region stays outside narrative, metrics and navigation; the canvas accepts no pointer or wheel input.
-- Geometry bounds, including instanced meshes, are cached when a world is built. Responsive camera fitting leaves room for the complete model. Homepage exposure is 1.2, fog density is 0.012 and TopoFlow's material is brighter. Origin and TopoFlow use gentle bounded motion.
-- Native browsing, direct project shortcuts, keyboard focus, browser history, case studies, evidence links and contact copying remain available. Reduced motion produces a static model; content remains accessible without WebGL.
-- All seven case-study heroes keep metrics and direct CTAs in the desktop text lane. Their metrics are plain and borderless, with no blur or art shade. Both renderers fit the camera on resize. Food and Sodexo no longer draw their three illustrative in-world UI displays.
+## What changed
 
-Ordinary screenshots and scientific figures remain in report evidence sections; they do not overlay the hero models. The [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md) describes the superseded image-preview presentation.
+- Fit actual vertices, including instance transforms, rather than a padded world box. Center the projected silhouette using a camera view offset and fill approximately 88% of its dominant region dimension. The hero also has more horizontal and vertical space. No screenshot frame or control panel covers the model.
+- Move the one shared WebGL canvas into the selected model region. It is an absolute child in document flow; the browser composites it with the text while scrolling. The old full-viewport canvas needed a JavaScript/WebGL redraw to follow every scroll position. The drawing buffer now covers only the model region.
+- Reduce decorative updates during active scrolling, skip offscreen draws and defer background scene preparation until input is quiet. Native page movement remains independent of that decorative update rate. Intentional throttling does not reduce resolution.
+- Recognize fresh impulses and gentle ramps after momentum decay. Compute the cap from actual scroll position, avoiding a jump ahead to the accumulated future wheel target. A pre-selection clamp catches queued compositor overshoot; explicit navigation and bypassed inputs release ownership.
+- Move the footer into document flow and put the mobile hero model before the work index.
 
-## Verification status
+## Verification
 
-| Check | Status | Output |
-|---|---|---|
-| Browser interactions | Initial 63 groups passed; final rerun pending after shared case changes | `.audit/overhaul/interactions.json` |
-| Homepage layout | Initial 30 checks passed; rerun pending after model-size adjustment | `.audit/model-visibility/after/layout.json` |
-| Case-study models | Pending: seven routes at two starting viewports, including resize roundtrips | `.audit/model-visibility/cases/cases.json` |
-| Focused scrolling performance | Pending; no current FPS or frame-time claim | `.audit/model-visibility/performance.json` |
+| Check | Result |
+|---|---|
+| Browser interactions | 77 groups passed, including strong swipes, impulse/ramp releases, reversals, bypasses, touch, history, dialogs, model ownership and GPU lifecycle |
+| Homepage layout | 30 passed across 1440x900, 1280x720, 1024x600, 390x844 and 844x390 |
+| Model composition |Shared canvas matches its selected region; projected geometry stays contained, clear of narrative, with at least 70% dominant-axis occupancy |
+| Gesture logic |Passed, including queued native movement and tiny fresh impulses |
+| Internal references | 149 checked across eight pages; zero broken links |
 
-The layout checks target five viewports: 1440 × 900, 1280 × 720, 1024 × 600, 390 × 844 and 844 × 390. They inspect model/narrative separation, projected geometry bounds, header/navigation clearance, document overflow, stable chapter heights and absence of screenshot/control overlays. Case checks also inspect readiness, plain metrics, responsive camera fitting and stable GPU resources across resize.
+See [interaction traces](benchmarks/2026-10-15/scroll-feel/interactions.json), [layout results](benchmarks/2026-10-15/scroll-feel/layout.json), [before framing trace](benchmarks/2026-10-15/scroll-feel/before-trace.json) and [after framing trace](benchmarks/2026-10-15/scroll-feel/after-trace.json). The full local capture set remains in `.audit/`. The seven case-study implementations are unchanged by v4.7; the current browser suite verifies their lifecycle and navigation. Their [14 layout views and resize roundtrips](benchmarks/2026-10-15/model-visibility/cases.json) belong to the preceding validation.
 
-Passing geometry and DOM checks still require visual review of the captured models. Physical trackpads, real iOS/Android devices and prolonged GPU-memory testing remain outside this local verification.
+## Browser scrolling sample
 
-## Research and design rationale
+Chrome 155.0.8059.41 on Intel UHD / ANGLE D3D11, 1440x900. Each window sends five separate swipes down and five up. Each swipe uses `[350,300,240, 180,140,100,70,45,25,14,7,3]` at 30ms intervals with 200ms between gestures. Every swipe must finish at exactly the adjacent chapter; both windows visited all six chapters and returned to the top.
 
-The primary sources directly verify the authors' stated goals and techniques. They do not establish this portfolio's performance or reveal uninspected camera implementations.
+| Window | Browser frame average | P95 | P99 | Maximum |
+|---|---:|---:|---:|---:|
+| First traversal | 136.8 FPS | 8.1ms | 14.8ms | 28.3ms |
+| Warm traversal | 139.0 FPS | 7.6ms | 14.1ms | 34.5ms |
 
-- [Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) describes explaining a complex AI product through clear, approachable presentation and subtle storytelling. This informed the decision to keep project summaries readable while giving the model a distinct visual role.
-- [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) describes readability on phones and integrated-graphics laptops, adaptive quality tiers, a fallback painted before WebGL and verification using actual full-page scrolling. Those constraints informed the validation approach; his reported scores and frame rates are not reused as ours.
+No main-thread task above 50ms was recorded within these windows. Across 240 trusted events, 180 tail events were intentionally bounded. Runtime errors: zero. See [raw data](benchmarks/2026-10-15/scroll-feel/performance.json). The [preceding v4.6 sample](benchmarks/2026-10-15/model-visibility/performance.json), using the same input sequence on this workstation, recorded P99 intervals of 34.7/20.9ms and maximum intervals of 62.5/55.4ms. These short sequential samples suggest improvement, rather than a controlled multi-run performance distribution.
 
-Dedicated model regions, uncluttered framing, restrained lighting and no game-style onboarding are this portfolio's design decisions. They are not claims that the referenced sites use the same scissor layout or camera settings.
+The table measures the browser's independent requestAnimationFrame intervals. Decorative WebGL updates intentionally run less frequently during scrolling; the browser can move the canvas texture without waiting for those redraws. Physical trackpad/display smoothness, real mobile hardware and long GPU-memory soaks remain unverified. Wheel events expose no standard gesture-end signal, so fresh-intent classification remains a tested timing/direction heuristic.
 
-## Reproduction
+## Research and reproduction
+
+[Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) emphasizes clarity and approachable presentation. [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) discusses laptop readability, adaptive graphics and measuring actual full-page scrolling. These informed design priorities; neither source establishes this site's performance or implies the same implementation.
 
 Run browser suites sequentially. The interaction suite starts its own server:
 
 ```powershell
+node scripts/test_chapter_wheel.mjs
 node scripts/overhaul_interactions.mjs
 node scripts/validate_links.mjs
 ```
@@ -47,10 +53,10 @@ With the local preview running at `http://127.0.0.1:8089/` or `PREVIEW_URL`:
 
 ```powershell
 node scripts/audit_scene_layout.mjs after
-node scripts/audit_case_models.mjs
-$env:SCROLL_AUDIT_DIR = '.audit/model-visibility'
+node scripts/audit_scroll_feel.mjs after
+$env:SCROLL_AUDIT_DIR = '.audit/scroll-feel/after'
 node scripts/audit_native_scroll.mjs
 Remove-Item Env:SCROLL_AUDIT_DIR
 ```
 
-Set `CHROME_PATH` when needed. The historical [rendering tables](BENCHMARKS.md), [v4.2 native-scroll sample](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial sample](EDITORIAL-DESIGN-VERIFICATION.md) belong to earlier presentations and do not establish v4.4 frame rates.
+Use `CHROME_PATH` when needed. The before capture used source commit `ad1ef69`; point `PREVIEW_URL` at that source when reproducing it. [Earlier rendering benchmarks](BENCHMARKS.md) and [editorial verification](EDITORIAL-DESIGN-VERIFICATION.md) remain historical.

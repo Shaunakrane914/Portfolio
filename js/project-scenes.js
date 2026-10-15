@@ -1,5 +1,5 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
-import { mountHero } from "./graphics-runtime.js";
+import { mountHero } from "./graphics-runtime.js?v=4.9";
 import { fitModelCamera } from "./model-framing.js";
 
 const canvas = document.querySelector(".project-hero-canvas[data-project-scene]");
