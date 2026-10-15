@@ -2,6 +2,12 @@ import assert from 'node:assert/strict';
 import { ChapterWheelGuard, wheelPixels } from '../js/chapter-wheel.js';
 
 const stops=[0,900,1800,2700,3600,4500];
+const queued=new ChapterWheelGuard();
+queued.feed(500,0,0,stops,900,5300);
+const stillMoving=queued.feed(500,16,80,stops,900,5300);
+assert.equal(stillMoving.limited,false,'queued native movement does not trigger an early jump to a predicted target');
+assert.equal(stillMoving.top,580);
+assert.equal(queued.constrain(980,300),900,'late compositor overshoot remains bounded');
 let guard=new ChapterWheelGuard(), position=0, now=0;
 function feed(delta, gap=16) {
   now+=gap;
@@ -21,6 +27,10 @@ assert.equal(position,900,'long continuous input cannot cascade through chapters
 for(const delta of [5,3,2,1]) feed(delta);
 feed(3);feed(8);feed(20);
 assert.ok(position>900,'fresh acceleration out of a decaying tail releases the bound');
+guard.reset();position=0;
+feed(5000,200);
+for(const delta of [4,3,2,1]) feed(delta);
+assert.ok(feed(8).top>900,'a small fresh impulse is not swallowed after the old tail');
 guard.reset();position=4500;
 feed(5000,200);
 assert.equal(position,5300,'last chapter allows reading its complete contact ending');

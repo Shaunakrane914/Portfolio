@@ -3,7 +3,7 @@
 [![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
 [![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Build Version](https://img.shields.io/badge/Version-v4.6.0-brightgreen?style=flat-square)](CHANGELOG.md)
+[![Build Version](https://img.shields.io/badge/Version-v4.7.0-brightgreen?style=flat-square)](CHANGELOG.md)
 
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 

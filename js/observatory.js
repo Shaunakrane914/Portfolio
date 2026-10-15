@@ -1,6 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
 import { disposeScene, compileInBatches } from "./graphics-runtime.js";
-import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js";
+import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js?v=4.7";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -33,8 +33,12 @@ const lookStart = new THREE.Vector3();
 let cameraTransitionAt = 0;
 let animationTime = 0;
 let renderedFrames = 0;
+let lastScrollAt = -Infinity;
+let lastDrawAt = -Infinity;
+let modelDirty = true;
 const modelViews = Array.from(document.querySelectorAll("[data-model-view]"));
 const modelLayouts = [];
+const fittingVertices = new WeakMap();
 let modelViewport = null;
 let headerBottom = 0;
 let footerHeight = 0;
@@ -88,7 +92,16 @@ function getCameraTarget(sceneIndex) {
           Math.abs(relative.dot(up)) / (tan * .9) + depth);
       });
       const position = center.clone().addScaledVector(direction, distance);
-      const state = { position: position.toArray(), look: center.toArray() };
+      let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+      for (const corner of world.userData.modelCorners) {
+        const relative=corner.clone().applyMatrix4(world.userData.modelMatrix).sub(center);
+        const depth=distance-relative.dot(direction);
+        const x=relative.dot(right)/(depth*tan*aspect),y=relative.dot(up)/(depth*tan);
+        minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);
+      }
+      const zoom=1.76/Math.max(maxX-minX,maxY-minY);
+      const state = { position: position.toArray(), look: center.toArray(), zoom,
+        offset:[(minX+maxX)*zoom/2,(minY+maxY)*zoom/2] };
       world.userData.cameraFit = { key, state };
       // Keep the diagnostic camera presets consistent with the actual fit.
       cameraStates[sceneIndex] = state;
@@ -127,25 +140,24 @@ function getModelViewportRect() {
 function updateModelViewport() {
   modelViewport = getModelViewportRect();
   const layout = modelLayouts[currentScene];
-  if (layout && camera.aspect !== layout.width / layout.height) {
+  const state = getCameraTarget(currentScene);
+  const projectionKey=layout && `${currentScene}:${layout.width}:${layout.height}:${state.zoom}:${state.offset}`;
+  if (layout && camera.userData.projectionKey !== projectionKey) {
     camera.aspect = layout.width / layout.height;
     camera.fov = 42;
-    camera.updateProjectionMatrix();
+    camera.zoom=state.zoom || 1;
+    const offset=state.offset || [0,0];
+    camera.setViewOffset(layout.width,layout.height,offset[0]*layout.width/2,-offset[1]*layout.height/2,layout.width,layout.height);
+    camera.userData.projectionKey=projectionKey;
   }
 }
 
 function drawModel(renderCamera = camera) {
-  // Clear once, then rasterize only the model's own transparent space. The
-  // viewport follows native document scroll; text never covers the model.
-  renderer.setScissorTest(false);
-  renderer.clear();
+  // The browser composites this canvas in document flow, alongside the copy.
+  // Scrolling no longer waits for a new WebGL frame to reposition the model.
   const layout = modelLayouts[currentScene];
-  if (!layout || !modelViewport?.width || !modelViewport.height) return;
-  renderer.setViewport(layout.left, window.innerHeight - (layout.top - window.scrollY + layout.height), layout.width, layout.height);
-  renderer.setScissor(modelViewport.left, window.innerHeight - modelViewport.bottom, modelViewport.width, modelViewport.height);
-  renderer.setScissorTest(true);
+  if (!layout) { renderer.clear(); return; }
   renderer.render(scene, renderCamera);
-  renderer.setScissorTest(false);
 }
 
 function getProjectedModelBounds() {
@@ -154,13 +166,12 @@ function getProjectedModelBounds() {
   if (!world?.userData.modelCorners || !layout || !camera) return null;
   world.updateWorldMatrix(true, false);
   camera.updateMatrixWorld();
-  const points = world.userData.modelCorners.map(corner => {
+  let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;
+  for (const corner of world.userData.modelCorners) {
     const p = corner.clone().applyMatrix4(world.matrixWorld).project(camera);
-    return { x: layout.left + (p.x + 1) * layout.width / 2,
-      y: layout.top - window.scrollY + (1 - p.y) * layout.height / 2 };
-  });
-  const left = Math.min(...points.map(p => p.x)), right = Math.max(...points.map(p => p.x));
-  const top = Math.min(...points.map(p => p.y)), bottom = Math.max(...points.map(p => p.y));
+    const x=layout.left+(p.x+1)*layout.width/2,y=layout.top-window.scrollY+(1-p.y)*layout.height/2;
+    left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
+  }
   return { left, top, right, bottom, width: right - left, height: bottom - top };
 }
 
@@ -2001,9 +2012,10 @@ function applyQualityTier(tier) {
   }
 }
 
-function recordFrameTime(frameDeltaMs) {
+function recordFrameTime(frameDeltaMs, adapt = true) {
   if (frameWindow.length >= 60) frameWindow.shift();
   frameWindow.push(frameDeltaMs);
+  if (!adapt) return;
 
   if (frameDeltaMs > 32) slowFrameTally++;
   else slowFrameTally = Math.max(0, slowFrameTally - 1);
@@ -2098,20 +2110,38 @@ function ensureWorld(index) {
     const world = worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
     if (index < 5) {
-      // Fit all actual geometry, including instance bounds, once per world.
-      // Cache local corners so projection checks also follow its gentle motion.
+      // Fit actual vertices and instances without empty bounding-box corners.
       world.updateWorldMatrix(true, true);
       const inverse = world.matrixWorld.clone().invert();
-      const bounds = new THREE.Box3();
+      const bounds = new THREE.Box3(), corners = [];
       world.traverse(object => {
         if (!object.geometry) return;
-        if (object.isInstancedMesh) object.computeBoundingBox();
-        else if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
-        const box = (object.isInstancedMesh ? object.boundingBox : object.geometry.boundingBox)?.clone();
-        if (box) bounds.union(box.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld)));
+        let vertices = fittingVertices.get(object.geometry);
+        if (!vertices) {
+          const attribute = object.geometry.getAttribute("position");
+          const unique = new Map();
+          for (let i=0;i<attribute.count;i++) {
+            const x=attribute.getX(i), y=attribute.getY(i), z=attribute.getZ(i);
+            const key=`${x}:${y}:${z}`;
+            if (!unique.has(key)) unique.set(key, new THREE.Vector3(x,y,z));
+          }
+          vertices = Array.from(unique.values());
+          fittingVertices.set(object.geometry, vertices);
+        }
+        const local = new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld);
+        const collect = transform => {
+          for (const vertex of vertices) {
+            const point = vertex.clone().applyMatrix4(transform);
+            corners.push(point); bounds.expandByPoint(point);
+          }
+        };
+        if (object.isInstancedMesh) {
+          for (let i=0;i<object.count;i++) {
+            const instance = new THREE.Matrix4(); object.getMatrixAt(i,instance);
+            collect(instance.premultiply(local));
+          }
+        } else collect(local);
       });
-      const corners = [];
-      for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) corners.push(new THREE.Vector3(x, y, z));
       world.userData.modelCorners = corners;
       world.userData.modelMatrix = world.matrixWorld.clone();
       world.userData.modelCenter = bounds.getCenter(new THREE.Vector3()).applyMatrix4(world.matrixWorld);
@@ -2136,6 +2166,10 @@ async function drainPreparationQueue() {
   preparing = true;
   while (preparationQueue.length && webglReady && !document.hidden) {
     const requested = preparationQueue.findIndex(job => job.index === currentScene);
+    if (requested < 0 && performance.now() - Math.max(lastScrollAt,chapterWheel.lastAt) < 200) {
+      setTimeout(drainPreparationQueue,220);
+      break;
+    }
     const job = preparationQueue.splice(requested >= 0 ? requested : 0, 1)[0];
     try { job.resolve(await job.execute()); }
     catch (error) {
@@ -2196,6 +2230,7 @@ function revealWorld(index) {
   if (!webglReady || index !== currentScene || !worlds[index]?.userData.ready) return;
   activeWorld = worlds[index];
   activeWorld.visible = true;
+  modelDirty = true;
   const state = getCameraTarget(index);
   cameraStart.fromArray(state.position);
   if (!reduceMotion) cameraStart.add(new THREE.Vector3(.2, .08, .35));
@@ -2232,7 +2267,7 @@ function initializeThree() {
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x050706, 1);
-    renderer.autoClear = false;
+    renderer.autoClear = true;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.0 : 1.15));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -2270,7 +2305,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.6.0",
+      version: "4.7.0",
       buildDate: "2026-10-15",
       worlds,
       worldStatus,
@@ -2292,8 +2327,7 @@ function initializeThree() {
     window.addEventListener("resize", resizeRenderer, { passive: true });
     window.addEventListener("orientationchange", resizeRenderer, { passive: true });
     const modelObserver = new ResizeObserver(() => {
-      measureModelViews();
-      if (webglReady && reduceMotion) render(performance.now());
+      resizeRenderer();
     });
     modelViews.forEach(view => modelObserver.observe(view));
     document.fonts.ready.then(() => {
@@ -2341,7 +2375,12 @@ function resizeRenderer() {
 
 function render(timeMs) {
   if (!webglReady) return;
+  // During a scroll, prioritize native compositing over decorative animation.
+  if (!reduceMotion && !modelDirty && timeMs - lastScrollAt < 140 && timeMs - lastDrawAt < 28) return;
+  lastDrawAt = timeMs;
+  modelDirty = false;
   updateModelViewport();
+  if (!modelViewport?.width || !modelViewport.height) { lastFrameTime = 0; return; }
   const rawFrameDeltaMs = lastFrameTime ? Math.max(0, timeMs - lastFrameTime) : 16.67;
   const dt = Math.min(rawFrameDeltaMs / 1000, 0.034);
   lastFrameTime = timeMs;
@@ -2544,7 +2583,7 @@ function render(timeMs) {
   drawModel();
   renderedFrames++;
   if (!document.hidden && !reduceMotion) {
-    recordFrameTime(rawFrameDeltaMs);
+    recordFrameTime(rawFrameDeltaMs, timeMs - lastScrollAt >= 140);
   }
   updatePerfHud();
 }
@@ -2552,6 +2591,12 @@ function render(timeMs) {
 function setScene(index, options = {}) {
   if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
+  const view = modelViews[next];
+  if (view && canvas.parentElement !== view) {
+    view.append(canvas);
+    if (renderer) resizeRenderer();
+  }
+  modelDirty = true;
   if (!options.observed) {
     chapterWheel.reset();
     // Explicit navigation jumps immediately. Ordinary browsing stays native.
@@ -2642,6 +2687,7 @@ function syncSceneToScroll() {
   else if (reduceMotion && webglReady) render(performance.now());
 }
 window.addEventListener("scroll", () => {
+  lastScrollAt = performance.now();
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 window.addEventListener("resize", () => {

@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-15T03:42:21.268Z",
+  "browser": "155.0.8059.41",
+  "gpu": "ANGLE (Intel, Intel(R) UHD Graphics (0x0000A78B) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "gesture": [
+    350,
+    300,
+    240,
+    180,
+    140,
+    100,
+    70,
+    45,
+    25,
+    14,
+    7,
+    3
+  ],
+  "gestureIntervalMs": 30,
+  "gestureQuietMs": 200,
+  "windows": [
+    {
+      "traversal": "first",
+      "frames": 1241,
+      "fps": 136.84431065092008,
+      "p95": 8.099999999999454,
+      "p99": 14.800000000000182,
+      "max": 28.300000000000182,
+      "longTasks": [],
+      "wheelEvents": 120,
+      "cancelledWheelEvents": 90,
+      "visitedScenes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finalScrollY": 0,
+      "telemetry": {
+        "fps": 144,
+        "avgFrameMs": 6.963333333333321,
+        "p95FrameMs": 7.5,
+        "p99FrameMs": 8.100000000000364,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 160,
+        "textures": 11,
+        "renderedFrames": 971,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      }
+    },
+    {
+      "traversal": "warm",
+      "frames": 1245,
+      "fps": 138.99898402349027,
+      "p95": 7.600000000000364,
+      "p99": 14.099999999998545,
+      "max": 34.5,
+      "longTasks": [],
+      "wheelEvents": 120,
+      "cancelledWheelEvents": 90,
+      "visitedScenes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "finalScrollY": 0,
+      "telemetry": {
+        "fps": 144,
+        "avgFrameMs": 6.941666666666666,
+        "p95FrameMs": 8,
+        "p99FrameMs": 8.799999999999272,
+        "qualityTier": "high",
+        "dpr": 1,
+        "calls": 38,
+        "triangles": 23396,
+        "geometries": 160,
+        "textures": 11,
+        "renderedFrames": 1904,
+        "animationRunning": true,
+        "activeScene": "ORIGIN"
+      }
+    }
+  ],
+  "cameraErrorAfter350ms": 0.16186032692447788,
+  "errors": []
+}

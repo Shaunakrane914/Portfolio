@@ -1,47 +1,45 @@
-# Model visibility and trackpad verification (v4.6)
+# Model framing and scroll verification (v4.7)
 
-Verified locally on 15 October 2026 against the enlarged-model presentation. Four screenshot/browser preview frames and all explorer controls remain removed. Real geometry occupies a clear model region beside the copy on desktop and a separate band on phones. Homepage framing fills more of that region; the larger regions and case-study camera scale from v4.5 are retained.
+The previous presentation still left the visible 3D model small. At 1768x1000, the same projection probe measured a hero footprint of 423x353px before this change and 657x580px after: approximately 55% wider and 64% taller. Compare the [before capture](benchmarks/2026-10-15/scroll-feel/before-origin.png) and [after capture](benchmarks/2026-10-15/scroll-feel/after-origin.png).
 
-## Navigation behavior
+## What changed
 
-A continuous trackpad wheel burst can reach one adjacent chapter. Its bounds stay fixed even after the visible chapter changes. Ordinary in-range movement keeps its browser default; only overshooting momentum and immediate deliberate reversals are intercepted. Expected-target tracking accounts for queued browser scrolling, and a scroll-time clamp runs before selecting a scene. A 160ms quiet gap, meaningful reversal or renewed acceleration after a decayed tail begins fresh intent. Small movements have no minimum-travel threshold or graphics-animation lock.
+- Fit actual vertices, including instance transforms, rather than a padded world box. Center the projected silhouette using a camera view offset and fill approximately 88% of its dominant region dimension. The hero also has more horizontal and vertical space. No screenshot frame or control panel covers the model.
+- Move the one shared WebGL canvas into the selected model region. It is an absolute child in document flow; the browser composites it with the text while scrolling. The old full-viewport canvas needed a JavaScript/WebGL redraw to follow every scroll position. The drawing buffer now covers only the model region.
+- Reduce decorative updates during active scrolling, skip offscreen draws and defer background scene preparation until input is quiet. Native page movement remains independent of that decorative update rate. Intentional throttling does not reduce resolution.
+- Recognize fresh impulses and gentle ramps after momentum decay. Compute the cap from actual scroll position, avoiding a jump ahead to the accumulated future wheel target. A pre-selection clamp catches queued compositor overshoot; explicit navigation and bypassed inputs release ownership.
+- Move the footer into document flow and put the mobile hero model before the work index.
 
-Bypassed input modes release prior vertical ownership, so a diagonal gesture is not pulled back by an earlier cap. Touch panning, vertical keyboard reading, scrollbars, horizontal gestures, pinch zoom, dialogs and nested native scrollers retain their normal behavior. Explicit project jumps and browser history remain independent. The final profile can scroll through its entire contact ending.
-
-## Validation
+## Verification
 
 | Check | Result |
 |---|---|
-| Gesture logic | Pass: large bursts, continuous momentum, tiny fresh input, reversals, renewed acceleration, final content, wheel modes |
-| Homepage layouts | 30 passed: six chapters at 1440x900, 1280x720, 1024x600, 390x844 and 844x390 |
-| Case-study heroes | 14 views and 14 portrait/desktop resize roundtrips passed across all seven routes |
-| Internal links | 149 references across eight pages, zero broken links |
-| Full browser interactions | 75 groups passed, including trusted wheel traces, bypass ownership, touch, history, dialogs, reduced motion and GPU lifecycle |
+| Browser interactions | 77 groups passed, including strong swipes, impulse/ramp releases, reversals, bypasses, touch, history, dialogs, model ownership and GPU lifecycle |
+| Homepage layout | 30 passed across 1440x900, 1280x720, 1024x600, 390x844 and 844x390 |
+| Model composition |Shared canvas matches its selected region; projected geometry stays contained, clear of narrative, with at least 70% dominant-axis occupancy |
+| Gesture logic |Passed, including queued native movement and tiny fresh impulses |
+| Internal references | 149 checked across eight pages; zero broken links |
 
-The homepage audit checks complete projected geometry bounds, model/text separation, ready canvas visibility, clear header/navigation space, no cover panels, stable chapter heights and no nested or horizontal overflow. Case checks cover plain metrics, clear model/copy lanes, readiness and stable geometry/texture resources after resize. Selected captures and raw JSON are archived in [the verification artifacts](benchmarks/2026-10-15/model-visibility/).
+See [interaction traces](benchmarks/2026-10-15/scroll-feel/interactions.json), [layout results](benchmarks/2026-10-15/scroll-feel/layout.json), [before framing trace](benchmarks/2026-10-15/scroll-feel/before-trace.json) and [after framing trace](benchmarks/2026-10-15/scroll-feel/after-trace.json). The full local capture set remains in `.audit/`. The seven case-study implementations are unchanged by v4.7; the current browser suite verifies their lifecycle and navigation. Their [14 layout views and resize roundtrips](benchmarks/2026-10-15/model-visibility/cases.json) belong to the preceding validation.
 
-## Focused scrolling sample
+## Browser scrolling sample
 
-Chrome 155.0.8059.41, Intel UHD / ANGLE D3D11, 1440x900. Each traversal uses five separate swipes down and five up; each swipe sends `[350,300,240,180,140,100,70,45,25,14,7,3]` CSS-pixel deltas at 30ms intervals, followed by 200ms quiet. Every swipe must end at exactly its adjacent chapter. Each traversal visited all six chapters and returned to scroll position zero.
+Chrome 155.0.8059.41 on Intel UHD / ANGLE D3D11, 1440x900. Each window sends five separate swipes down and five up. Each swipe uses `[350,300,240, 180,140,100,70,45,25,14,7,3]` at 30ms intervals with 200ms between gestures. Every swipe must finish at exactly the adjacent chapter; both windows visited all six chapters and returned to the top.
 
-| Window | Browser frame average | P95 | P99 | Maximum interval |
+| Window | Browser frame average | P95 | P99 | Maximum |
 |---|---:|---:|---:|---:|
-| First traversal | 113.2 FPS | 14.2ms | 34.7ms | 62.5ms |
-| Warm traversal | 122.2 FPS | 14.0ms | 20.9ms | 55.4ms |
+| First traversal | 136.8 FPS | 8.1ms | 14.8ms | 28.3ms |
+| Warm traversal | 139.0 FPS | 7.6ms | 14.1ms | 34.5ms |
 
-Across the 240 trusted wheel events, 180 overshooting tail events were intentionally bounded. No main-thread long task above 50ms was recorded in the sampled windows. The ready compressor camera was within 0.162 world units of its target after 350ms, including bounded pointer offset. Runtime errors: zero. See [raw performance data](benchmarks/2026-10-15/model-visibility/performance.json).
+No main-thread task above 50ms was recorded within these windows. Across 240 trusted events, 180 tail events were intentionally bounded. Runtime errors: zero. See [raw data](benchmarks/2026-10-15/scroll-feel/performance.json). The [preceding v4.6 sample](benchmarks/2026-10-15/model-visibility/performance.json), using the same input sequence on this workstation, recorded P99 intervals of 34.7/20.9ms and maximum intervals of 62.5/55.4ms. These short sequential samples suggest improvement, rather than a controlled multi-run performance distribution.
 
-These are short sequential headless browser samples on one workstation. Larger frame intervals remain in the results. The input sequence differs from earlier unrestricted scrolling samples, so the numbers are not a controlled speed comparison or a guarantee about physical trackpad/display smoothness. Physical laptops, real mobile devices and prolonged GPU-memory tests remain unverified. Wheel events expose no standard gesture-end signal; the boundary heuristic is covered with trusted browser event sequences.
+The table measures the browser's independent requestAnimationFrame intervals. Decorative WebGL updates intentionally run less frequently during scrolling; the browser can move the canvas texture without waiting for those redraws. Physical trackpad/display smoothness, real mobile hardware and long GPU-memory soaks remain unverified. Wheel events expose no standard gesture-end signal, so fresh-intent classification remains a tested timing/direction heuristic.
 
-## Presentation and research
+## Research and reproduction
 
-The camera fits cached geometry bounds, including instances, to an uncluttered render region. Exposure is 1.2 and fog density is 0.012. TopoFlow has brighter surfaces; Origin and TopoFlow oscillate gently instead of continuously turning away. Reduced motion preserves a static model. Content remains usable without WebGL. All seven case studies keep their metrics and CTAs outside the model lane, remove art-dimming overlays and refit the camera on resize. Food and Sodexo omit the three illustrative UI displays. Ordinary report evidence screenshots remain in the report body.
+[Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) emphasizes clarity and approachable presentation. [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) discusses laptop readability, adaptive graphics and measuring actual full-page scrolling. These informed design priorities; neither source establishes this site's performance or implies the same implementation.
 
-[Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) describes clarity, approachability and subtle storytelling. [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) describes readability on ordinary laptops, adaptive quality, a fallback before WebGL and verification using real full-page scrolling. These informed the design priorities; dedicated model regions and the gesture guard are this portfolio's implementation decisions. Neither source establishes this portfolio's performance or uses this exact layout by implication.
-
-## Reproduction
-
-Run browser suites sequentially:
+Run browser suites sequentially. The interaction suite starts its own server:
 
 ```powershell
 node scripts/test_chapter_wheel.mjs
@@ -49,14 +47,14 @@ node scripts/overhaul_interactions.mjs
 node scripts/validate_links.mjs
 ```
 
-With the local preview running at `http://127.0.0.1:8089/` (or `PREVIEW_URL`):
+With the local preview running at `http://127.0.0.1:8089/` or `PREVIEW_URL`:
 
 ```powershell
 node scripts/audit_scene_layout.mjs after
-node scripts/audit_case_models.mjs
-$env:SCROLL_AUDIT_DIR = '.audit/model-visibility'
+node scripts/audit_scroll_feel.mjs after
+$env:SCROLL_AUDIT_DIR = '.audit/scroll-feel/after'
 node scripts/audit_native_scroll.mjs
 Remove-Item Env:SCROLL_AUDIT_DIR
 ```
 
-Use `CHROME_PATH` when needed. Full local captures live in `.audit/model-visibility/`; the interaction suite starts its own server. The [historical benchmark tables](BENCHMARKS.md), [v4.2 native-scroll report](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md) describe older snapshots.
+Use `CHROME_PATH` when needed. The before capture used source commit `ad1ef69`; point `PREVIEW_URL` at that source when reproducing it. [Earlier rendering benchmarks](BENCHMARKS.md) and [editorial verification](EDITORIAL-DESIGN-VERIFICATION.md) remain historical.

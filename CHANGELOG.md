@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.7.0 - 2026-10-15
+
+- Fit and center actual geometry instead of padded world boxes. Increase the hero model's visible width by approximately 55% in the 1768x1000 capture.
+- Place the shared canvas inside the active model region so native scrolling composites it with the narrative. Render only the region, reduce decorative updates during input, skip offscreen draws and defer background preparation while scrolling.
+- Recognize fresh single impulses and gentle ramps after momentum decay. Preserve one-chapter bounds and deliberate reversal behavior.
+- Move the footer into document flow and show the mobile hero model before the work index. Expand regression checks for canvas ownership, alignment and model occupancy.
+
+
 ## v4.6.0 - 2026-10-15
 
 - Keep the enlarged model regions and tighten homepage camera framing without adding cover panels or controls.

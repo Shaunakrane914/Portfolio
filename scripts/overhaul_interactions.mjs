@@ -205,8 +205,24 @@ try {
   checks.push('renewed acceleration after several weak tail samples begins another responsive swipe');
 
   await jump(page,0);
+  await beginWheelTrace(page,'one fresh impulse after the weak tail');
+  await wheel(page,[...heavyBurst,30,28,24,18]);
+  const impulse=await endWheelTrace(page,'one fresh impulse after the weak tail');
+  const freshAegisAnchor=await page.locator('[data-scene-panel="1"]').evaluate(panel=>panel.offsetTop);
+  assert.ok(await page.evaluate(()=>scrollY)>freshAegisAnchor+65,'a fresh impulse followed by normal decay moves instead of being swallowed');
+  assert.ok(impulse.samples.every(sample=>sample.scene>=0 && sample.scene<=2),'fresh impulse never skips beyond its next allowed chapter');
+  checks.push('a fresh single impulse followed by decay stays responsive before the old inertia is quiet');
+  await jump(page,0);
+  await beginWheelTrace(page,'a gently rising fresh swipe after the weak tail');
+  await wheel(page,[...heavyBurst,5,6,7,8,10,12,14,16]);
+  const gentleRamp=await endWheelTrace(page,'a gently rising fresh swipe after the weak tail');
+  assert.ok(await page.evaluate(()=>scrollY)>freshAegisAnchor+35,'cumulative gentle growth moves without requiring exponential acceleration');
+  assert.ok(gentleRamp.samples.every(sample=>sample.scene>=0 && sample.scene<=2),'gentle renewed input stays within one adjacent chapter');
+  checks.push('a gently rising fresh swipe moves without a quiet-period lock');
+
+  await jump(page,0);
   await beginWheelTrace(page,'tail jitter followed by deliberate reversal');
-  await sendWheel(page,[...heavyBurst,-1,2,-2,1,600]);
+  await sendWheel(page,[...heavyBurst,-1,2,-2,1,4]);
   const aegisAnchor=await page.locator('[data-scene-panel="1"]').evaluate(panel=>panel.offsetTop);
   assert.ok(Math.abs(await page.evaluate(()=>scrollY)-aegisAnchor)<=2,'tiny sign oscillations do not release the chapter cap');
   await page.mouse.wheel(0,-140);
@@ -505,7 +521,9 @@ try {
       const canvas=document.querySelector('#observatory-canvas'), canvasStyle=getComputedStyle(canvas);
       return {
         background:style.backgroundColor,backgroundImage:style.backgroundImage,
-        hasCover:!!view.querySelector('img,video,iframe,button,input,a[href],canvas'),
+        hasCover:!!view.querySelector('img,video,iframe,button,input,a[href],canvas:not(#observatory-canvas)'),
+        ownsSharedCanvas:canvas.parentElement===view,
+        sharedCanvasCount:document.querySelectorAll('#observatory-canvas').length,
         display:style.display,visibility:style.visibility,
         rect:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom,width:rect.width,height:rect.height},
         viewport:window.__observatory.getModelViewportRect(),
@@ -514,6 +532,8 @@ try {
       };
     });
     assert.equal(surface.hasCover,false,'model space contains no image frame or interaction controls');
+    assert.equal(surface.ownsSharedCanvas,true,'selected model space directly owns the shared rendering canvas');
+    assert.equal(surface.sharedCanvasCount,1,'model changes reuse exactly one shared canvas');
     assert.equal(surface.background,'rgba(0, 0, 0, 0)','model space is transparent');
     assert.equal(surface.backgroundImage,'none','model space has no image or gradient cover');
     assert.notEqual(surface.display,'none','model space is rendered');
