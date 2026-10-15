@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.6.0 - 2026-10-15
+
+- Keep the enlarged model regions and tighten homepage camera framing without adding cover panels or controls.
+- Bound each continuous trackpad wheel burst to one adjacent chapter. Keep ordinary in-range movement native and allow immediate deliberate reversals, small fresh input and renewed swipes.
+- Normalize wheel modes, account for queued browser movement, and clamp before scene selection. Reset ownership for explicit navigation, keyboard, touch, resize and dialogs. Preserve reading through the final contact section.
+- Verify large-model framing across 30 homepage layouts and 14 case-study views with 14 resize roundtrips. See the [current verification report](docs/MODEL-VISIBILITY-VERIFICATION.md) for interaction and rendering evidence.
+
+
 
 ## v4.4.0 - 2026-10-14
 
@@ -7,7 +15,7 @@
 - Reserve transparent `.model-view` regions for the introduction and four featured projects. Render real WebGL geometry only inside its own scissored rectangle, following native document scrolling without covering text or capturing input.
 - Cache model geometry bounds, including instanced geometry, and fit cameras to the available responsive viewport. Improve model visibility through exposure, lighter fog, brighter TopoFlow material and gentle bounded Origin/TopoFlow motion.
 - Keep case-study metrics and direct CTAs in the desktop text lane, with plain borderless metrics and no art shade or decorative left border. Fit both case renderers on resize and remove Food/Sodexo's three illustrative in-world UI displays.
-- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups; final layout, case and performance runs are pending in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
+- Retain native browsing, keyboard focus, history, the curated work index and accessible contact copying. Initial interaction verification passed 63 groups. Subsequent layout, case and trackpad validation is recorded in the [model-visibility report](docs/MODEL-VISIBILITY-VERIFICATION.md).
 
 
 ## v4.3.0 - 2026-10-14

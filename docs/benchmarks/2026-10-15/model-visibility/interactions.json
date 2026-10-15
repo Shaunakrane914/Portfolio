@@ -1,0 +1,1585 @@
+{
+  "checks": [
+    "native document begins at the introduction",
+    "explicit navigation from the initial empty URL",
+    "browser Back restores the initial empty-hash homepage",
+    "all six scenes stay in accessible document flow",
+    "short wheel movement produces visible native document scrolling",
+    "steady successive wheel ticks continue scrolling within a chapter",
+    "small steady follow-up deltas remain responsive",
+    "rapid direction reversal immediately changes document scrolling",
+    "one strong decaying trackpad burst reaches Aegis without transient skipped chapters",
+    "one continuous high-volume wheel stream stays at the adjacent chapter",
+    "ordinary acceleration ripples do not unlock a second chapter",
+    "one strong upward trackpad burst stops at Aegis without passing to Origin",
+    "a fresh trackpad burst advances immediately after a short quiet interval",
+    "renewed acceleration after several weak tail samples begins another responsive swipe",
+    "tiny tail jitter stays bounded while deliberate direction reversal responds immediately",
+    "explicit scene jumps clear a just-capped wheel burst",
+    "keyboard browsing clears the recent wheel cap",
+    "bounded wheel scrolling still reaches the final profile contact section",
+    "native scrolling selects the visible Aegis scene",
+    "passive scene selection updates the URL without flooding history",
+    "native scrolling over Aegis text has no nested scroll trap",
+    "in-range wheel events preserve native defaults across delta modes",
+    "rapid scene buttons reach the final requested section",
+    "browser back restores the selected section",
+    "browser forward restores the selected section",
+    "visible next-project control scrolls to its section",
+    "visible previous-project control scrolls to its section",
+    "keyboard scene control selects its section",
+    "keyboard scene navigation keeps the case-study action in focus order",
+    "vertical arrows and page keys keep native scrolling",
+    "keyboard right selects the next section",
+    "keyboard left selects the previous section",
+    "keyboard Home returns to the introduction",
+    "keyboard End selects the profile",
+    "dialog scrolling keeps the underlying scene selected",
+    "dialog Escape and focus restoration",
+    "archive opens and closes",
+    "trusted wheel input stays native within a chapter while overshooting momentum is bounded",
+    "nested scrolling, horizontal wheel input and pinch-style zoom retain native defaults",
+    "bypassed wheel modes release stale vertical ownership after a capped burst",
+    "curated work index takes readers directly to Gridium",
+    "curated work index provides four working project shortcuts",
+    "aegis.html case study returns to the portfolio",
+    "gridium.html case study returns to the portfolio",
+    "compressor-cbm.html case study returns to the portfolio",
+    "topoflow.html case study returns to the portfolio",
+    "screenshot frames are absent while all four primary case-study actions work",
+    "engineering practice and contact ending expose real professional links",
+    "contact email copies successfully through the browser clipboard",
+    "clipboard rejection gives an accessible email-link fallback",
+    "direct scene URL scrolls to Gridium without WebGL",
+    "slow touch swipes retain native document panning",
+    "successive touch swipes continue browsing",
+    "touch direction reversal scrolls back naturally",
+    "native touch movement remains uncancelled",
+    "aegis returns to the homepage",
+    "gridium returns to the homepage",
+    "compressor-cbm returns to the homepage",
+    "topoflow returns to the homepage",
+    "food returns to the homepage",
+    "yield returns to the homepage",
+    "sodexo returns to the homepage",
+    "all case studies remain readable without WebGL, no mobile overflow",
+    "native document scrolling selects Aegis with active WebGL",
+    "automatic 3D remains decorative without model-control widgets or pointer capture",
+    "automatic 3D preserves native in-range scrolling",
+    "all five model spaces stay transparent, visible, and free of screenshot frames or controls",
+    "all worlds ready, repeated traversal GPU resources stable",
+    "ready WebGL is revealed above the fallback",
+    "context loss preserves content",
+    "navigation continues after context loss",
+    "all seven hero renderers stop offscreen",
+    "homepage automatic models remain uncovered and static for reduced motion",
+    "reduced motion renders a static hero",
+    "lab prototypes and rapid tab changes compile before disposal"
+  ],
+  "errors": [],
+  "wheelTraces": [
+    {
+      "label": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 600,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 975,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "end",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        }
+      ],
+      "events": [
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        },
+        {
+          "delta": 3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong decaying trackpad burst reaches Aegis without transient skipped chapters"
+        }
+      ]
+    },
+    {
+      "label": "one continuous high-volume wheel stream stays at the adjacent chapter",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 420,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 840,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 840,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "end",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        }
+      ],
+      "events": [
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one continuous high-volume wheel stream stays at the adjacent chapter"
+        }
+      ]
+    },
+    {
+      "label": "ordinary acceleration ripples do not unlock a second chapter",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 300,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 720,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 720,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "end",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        }
+      ],
+      "events": [
+        {
+          "delta": 300,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 380,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 480,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 400,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 500,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 520,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 440,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        },
+        {
+          "delta": 540,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "ordinary acceleration ripples do not unlock a second chapter"
+        }
+      ]
+    },
+    {
+      "label": "one strong upward trackpad burst stops at Aegis without passing to Origin",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 2,
+          "scrollY": 1880,
+          "hash": "#gridium"
+        },
+        {
+          "source": "scroll",
+          "scene": 2,
+          "scrollY": 1280,
+          "hash": "#gridium"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 1280,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "end",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        }
+      ],
+      "events": [
+        {
+          "delta": -600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        },
+        {
+          "delta": -3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "one strong upward trackpad burst stops at Aegis without passing to Origin"
+        }
+      ]
+    },
+    {
+      "label": "two separated deliberate bursts",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 600,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 975,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1575,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scene",
+          "scene": 2,
+          "scrollY": 1575,
+          "hash": "#gridium"
+        },
+        {
+          "source": "scroll",
+          "scene": 2,
+          "scrollY": 1880,
+          "hash": "#gridium"
+        },
+        {
+          "source": "end",
+          "scene": 2,
+          "scrollY": 1880,
+          "hash": "#gridium"
+        }
+      ],
+      "events": [
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        },
+        {
+          "delta": 3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "two separated deliberate bursts"
+        }
+      ]
+    },
+    {
+      "label": "renewed acceleration after the decaying tail",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 600,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 975,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 985,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1005,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1050,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1140,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1320,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 1680,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scene",
+          "scene": 2,
+          "scrollY": 1680,
+          "hash": "#gridium"
+        },
+        {
+          "source": "scroll",
+          "scene": 2,
+          "scrollY": 1880,
+          "hash": "#gridium"
+        },
+        {
+          "source": "end",
+          "scene": 2,
+          "scrollY": 1880,
+          "hash": "#gridium"
+        }
+      ],
+      "events": [
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 5,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 10,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 180,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 360,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 420,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 100,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 40,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        },
+        {
+          "delta": 2,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "renewed acceleration after the decaying tail"
+        }
+      ]
+    },
+    {
+      "label": "tail jitter followed by deliberate reversal",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 0,
+          "scrollY": 0,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 600,
+          "hash": "#origin"
+        },
+        {
+          "source": "scroll",
+          "scene": 0,
+          "scrollY": 975,
+          "hash": "#origin"
+        },
+        {
+          "source": "scene",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 974,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 973,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 974,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 975,
+          "hash": "#aegis"
+        },
+        {
+          "source": "scroll",
+          "scene": 1,
+          "scrollY": 835,
+          "hash": "#aegis"
+        },
+        {
+          "source": "end",
+          "scene": 1,
+          "scrollY": 835,
+          "hash": "#aegis"
+        }
+      ],
+      "events": [
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 700,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 650,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 550,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 450,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 350,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 250,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 160,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 90,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 45,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 20,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 8,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 3,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": -1,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 2,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": -2,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 1,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": 600,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        },
+        {
+          "delta": -140,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "tail jitter followed by deliberate reversal"
+        }
+      ]
+    },
+    {
+      "label": "profile contact remains reachable",
+      "samples": [
+        {
+          "source": "start",
+          "scene": 5,
+          "scrollY": 4595,
+          "hash": "#profile"
+        },
+        {
+          "source": "scroll",
+          "scene": 5,
+          "scrollY": 4902,
+          "hash": "#profile"
+        },
+        {
+          "source": "end",
+          "scene": 5,
+          "scrollY": 4902,
+          "hash": "#profile"
+        }
+      ],
+      "events": [
+        {
+          "delta": 10000,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": true,
+          "phase": "profile contact remains reachable"
+        }
+      ]
+    },
+    {
+      "label": "nested content, horizontal input and pinch-style zoom stay native",
+      "events": [
+        {
+          "delta": 80,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false
+        },
+        {
+          "delta": 80,
+          "deltaX": 0,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false
+        },
+        {
+          "delta": 120,
+          "deltaX": 8000,
+          "ctrl": false,
+          "trusted": true,
+          "prevented": false
+        },
+        {
+          "delta": -50,
+          "deltaX": 0,
+          "ctrl": true,
+          "trusted": true,
+          "prevented": false
+        }
+      ]
+    }
+  ],
+  "resourceCounts": {
+    "first": {
+      "fps": 99,
+      "avgFrameMs": 10.069999999999997,
+      "p95FrameMs": 21,
+      "p99FrameMs": 21,
+      "qualityTier": "high",
+      "dpr": 1,
+      "calls": 44,
+      "triangles": 26364,
+      "geometries": 173,
+      "textures": 11,
+      "renderedFrames": 624,
+      "animationRunning": true,
+      "activeScene": "PROFILE"
+    },
+    "second": {
+      "fps": 118,
+      "avgFrameMs": 8.444999999999997,
+      "p95FrameMs": 20.599999999999454,
+      "p99FrameMs": 21.199999999999818,
+      "qualityTier": "high",
+      "dpr": 1,
+      "calls": 44,
+      "triangles": 26364,
+      "geometries": 173,
+      "textures": 11,
+      "renderedFrames": 717,
+      "animationRunning": true,
+      "activeScene": "PROFILE"
+    }
+  }
+}

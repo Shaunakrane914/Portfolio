@@ -1,49 +1,55 @@
-# Model visibility verification (v4.4)
+# Model visibility and trackpad verification (v4.6)
 
-Final verification is pending. The initial interaction run passed 63 groups and the first homepage audit passed 30 chapter/view checks. Model sizing and shared case-study changes followed those runs; the final interaction/layout reruns, case audit and performance capture must complete before these are treated as release results.
+Verified locally on 15 October 2026 against the enlarged-model presentation. Four screenshot/browser preview frames and all explorer controls remain removed. Real geometry occupies a clear model region beside the copy on desktop and a separate band on phones. Homepage framing fills more of that region; the larger regions and case-study camera scale from v4.5 are retained.
 
-## Current presentation
+## Navigation behavior
 
-- The four browser-style screenshot previews are removed. The introduction and four featured projects reserve empty, transparent `.model-view` regions containing real WebGL artwork.
-- One fixed canvas follows native document scrolling and renders only inside the selected region's scissored rectangle. The region stays outside narrative, metrics and navigation; the canvas accepts no pointer or wheel input.
-- Geometry bounds, including instanced meshes, are cached when a world is built. Responsive camera fitting leaves room for the complete model. Homepage exposure is 1.2, fog density is 0.012 and TopoFlow's material is brighter. Origin and TopoFlow use gentle bounded motion.
-- Native browsing, direct project shortcuts, keyboard focus, browser history, case studies, evidence links and contact copying remain available. Reduced motion produces a static model; content remains accessible without WebGL.
-- All seven case-study heroes keep metrics and direct CTAs in the desktop text lane. Their metrics are plain and borderless, with no blur or art shade. Both renderers fit the camera on resize. Food and Sodexo no longer draw their three illustrative in-world UI displays.
+A continuous trackpad wheel burst can reach one adjacent chapter. Its bounds stay fixed even after the visible chapter changes. Ordinary in-range movement keeps its browser default; only overshooting momentum and immediate deliberate reversals are intercepted. Expected-target tracking accounts for queued browser scrolling, and a scroll-time clamp runs before selecting a scene. A 160ms quiet gap, meaningful reversal or renewed acceleration after a decayed tail begins fresh intent. Small movements have no minimum-travel threshold or graphics-animation lock.
 
-Ordinary screenshots and scientific figures remain in report evidence sections; they do not overlay the hero models. The [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md) describes the superseded image-preview presentation.
+Bypassed input modes release prior vertical ownership, so a diagonal gesture is not pulled back by an earlier cap. Touch panning, vertical keyboard reading, scrollbars, horizontal gestures, pinch zoom, dialogs and nested native scrollers retain their normal behavior. Explicit project jumps and browser history remain independent. The final profile can scroll through its entire contact ending.
 
-## Verification status
+## Validation
 
-| Check | Status | Output |
-|---|---|---|
-| Browser interactions | Initial 63 groups passed; final rerun pending after shared case changes | `.audit/overhaul/interactions.json` |
-| Homepage layout | Initial 30 checks passed; rerun pending after model-size adjustment | `.audit/model-visibility/after/layout.json` |
-| Case-study models | Pending: seven routes at two starting viewports, including resize roundtrips | `.audit/model-visibility/cases/cases.json` |
-| Focused scrolling performance | Pending; no current FPS or frame-time claim | `.audit/model-visibility/performance.json` |
+| Check | Result |
+|---|---|
+| Gesture logic | Pass: large bursts, continuous momentum, tiny fresh input, reversals, renewed acceleration, final content, wheel modes |
+| Homepage layouts | 30 passed: six chapters at 1440x900, 1280x720, 1024x600, 390x844 and 844x390 |
+| Case-study heroes | 14 views and 14 portrait/desktop resize roundtrips passed across all seven routes |
+| Internal links | 149 references across eight pages, zero broken links |
+| Full browser interactions | 75 groups passed, including trusted wheel traces, bypass ownership, touch, history, dialogs, reduced motion and GPU lifecycle |
 
-The layout checks target five viewports: 1440 × 900, 1280 × 720, 1024 × 600, 390 × 844 and 844 × 390. They inspect model/narrative separation, projected geometry bounds, header/navigation clearance, document overflow, stable chapter heights and absence of screenshot/control overlays. Case checks also inspect readiness, plain metrics, responsive camera fitting and stable GPU resources across resize.
+The homepage audit checks complete projected geometry bounds, model/text separation, ready canvas visibility, clear header/navigation space, no cover panels, stable chapter heights and no nested or horizontal overflow. Case checks cover plain metrics, clear model/copy lanes, readiness and stable geometry/texture resources after resize. Selected captures and raw JSON are archived in [the verification artifacts](benchmarks/2026-10-15/model-visibility/).
 
-Passing geometry and DOM checks still require visual review of the captured models. Physical trackpads, real iOS/Android devices and prolonged GPU-memory testing remain outside this local verification.
+## Focused scrolling sample
 
-## Research and design rationale
+Chrome 155.0.8059.41, Intel UHD / ANGLE D3D11, 1440x900. Each traversal uses five separate swipes down and five up; each swipe sends `[350,300,240,180,140,100,70,45,25,14,7,3]` CSS-pixel deltas at 30ms intervals, followed by 200ms quiet. Every swipe must end at exactly its adjacent chapter. Each traversal visited all six chapters and returned to scroll position zero.
 
-The primary sources directly verify the authors' stated goals and techniques. They do not establish this portfolio's performance or reveal uninspected camera implementations.
+| Window | Browser frame average | P95 | P99 | Maximum interval |
+|---|---:|---:|---:|---:|
+| First traversal | 113.2 FPS | 14.2ms | 34.7ms | 62.5ms |
+| Warm traversal | 122.2 FPS | 14.0ms | 20.9ms | 55.4ms |
 
-- [Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) describes explaining a complex AI product through clear, approachable presentation and subtle storytelling. This informed the decision to keep project summaries readable while giving the model a distinct visual role.
-- [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) describes readability on phones and integrated-graphics laptops, adaptive quality tiers, a fallback painted before WebGL and verification using actual full-page scrolling. Those constraints informed the validation approach; his reported scores and frame rates are not reused as ours.
+Across the 240 trusted wheel events, 180 overshooting tail events were intentionally bounded. No main-thread long task above 50ms was recorded in the sampled windows. The ready compressor camera was within 0.162 world units of its target after 350ms, including bounded pointer offset. Runtime errors: zero. See [raw performance data](benchmarks/2026-10-15/model-visibility/performance.json).
 
-Dedicated model regions, uncluttered framing, restrained lighting and no game-style onboarding are this portfolio's design decisions. They are not claims that the referenced sites use the same scissor layout or camera settings.
+These are short sequential headless browser samples on one workstation. Larger frame intervals remain in the results. The input sequence differs from earlier unrestricted scrolling samples, so the numbers are not a controlled speed comparison or a guarantee about physical trackpad/display smoothness. Physical laptops, real mobile devices and prolonged GPU-memory tests remain unverified. Wheel events expose no standard gesture-end signal; the boundary heuristic is covered with trusted browser event sequences.
+
+## Presentation and research
+
+The camera fits cached geometry bounds, including instances, to an uncluttered render region. Exposure is 1.2 and fog density is 0.012. TopoFlow has brighter surfaces; Origin and TopoFlow oscillate gently instead of continuously turning away. Reduced motion preserves a static model. Content remains usable without WebGL. All seven case studies keep their metrics and CTAs outside the model lane, remove art-dimming overlays and refit the camera on resize. Food and Sodexo omit the three illustrative UI displays. Ordinary report evidence screenshots remain in the report body.
+
+[Lusion's Devin AI case study](https://lusion.co/projects/devin_ai/) describes clarity, approachability and subtle storytelling. [Marco Ayuste's portfolio case study](https://marcoayuste.com/projects/personal-site) describes readability on ordinary laptops, adaptive quality, a fallback before WebGL and verification using real full-page scrolling. These informed the design priorities; dedicated model regions and the gesture guard are this portfolio's implementation decisions. Neither source establishes this portfolio's performance or uses this exact layout by implication.
 
 ## Reproduction
 
-Run browser suites sequentially. The interaction suite starts its own server:
+Run browser suites sequentially:
 
 ```powershell
+node scripts/test_chapter_wheel.mjs
 node scripts/overhaul_interactions.mjs
 node scripts/validate_links.mjs
 ```
 
-With the local preview running at `http://127.0.0.1:8089/` or `PREVIEW_URL`:
+With the local preview running at `http://127.0.0.1:8089/` (or `PREVIEW_URL`):
 
 ```powershell
 node scripts/audit_scene_layout.mjs after
@@ -53,4 +59,4 @@ node scripts/audit_native_scroll.mjs
 Remove-Item Env:SCROLL_AUDIT_DIR
 ```
 
-Set `CHROME_PATH` when needed. The historical [rendering tables](BENCHMARKS.md), [v4.2 native-scroll sample](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial sample](EDITORIAL-DESIGN-VERIFICATION.md) belong to earlier presentations and do not establish v4.4 frame rates.
+Use `CHROME_PATH` when needed. Full local captures live in `.audit/model-visibility/`; the interaction suite starts its own server. The [historical benchmark tables](BENCHMARKS.md), [v4.2 native-scroll report](NATIVE-SCROLL-VERIFICATION.md) and [v4.3 editorial report](EDITORIAL-DESIGN-VERIFICATION.md) describe older snapshots.

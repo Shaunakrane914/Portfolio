@@ -19,7 +19,7 @@ const { chromium } = await getPlaywright();
 const options = { headless:true, executablePath:process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe' };
 const browser = await chromium.launch({...options,args:['--enable-webgl','--ignore-gpu-blocklist']});
 const noGL = await chromium.launch({...options,args:['--disable-webgl']});
-const errors = [], checks = [];
+const errors = [], checks = [], wheelTraces = [];
 const base = 'http://127.0.0.1:8092';
 const scene = page => page.evaluate(() => +document.body.dataset.currentScene);
 async function settleScroll(page) {
@@ -46,14 +46,62 @@ async function jump(page,index) {
   await settleScroll(page);
   await page.waitForFunction(index => +document.body.dataset.currentScene === index,index);
 }
-async function wheel(page,values,interval = 16) {
+async function sendWheel(page,values,interval = 16) {
   // Trusted browser input invokes native scrolling; dispatchEvent(WheelEvent)
   // only exercises listeners and cannot verify the document's default action.
   for (const deltaY of values) {
     await page.mouse.wheel(0,deltaY);
     if (interval) await page.waitForTimeout(interval);
   }
+}
+async function wheel(page,values,interval = 16) {
+  await sendWheel(page,values,interval);
   await settleScroll(page);
+}
+async function beginWheelTrace(page,label) {
+  await page.evaluate(label=>{
+    window.__wheelPhase=label;
+    window.__chapterTrace=[];
+    window.__chapterTraceActive=true;
+    window.__traceWheelStart=window.__nativeWheelEvents.length;
+    const record=source=>{
+      if(window.__chapterTraceActive) window.__chapterTrace.push({source,scene:+document.body.dataset.currentScene,scrollY,hash:location.hash});
+    };
+    record('start');
+    window.__chapterTraceObserver=new MutationObserver(()=>record('scene'));
+    window.__chapterTraceObserver.observe(document.body,{attributes:true,attributeFilter:['data-current-scene']});
+    if(!window.__chapterScrollRecorder) {
+      window.__chapterScrollRecorder=()=>{
+        if(window.__chapterTraceActive) window.__chapterTrace.push({source:'scroll',scene:+document.body.dataset.currentScene,scrollY,hash:location.hash});
+      };
+      window.addEventListener('scroll',window.__chapterScrollRecorder,{passive:true});
+    }
+  },label);
+}
+async function endWheelTrace(page,label) {
+  const trace=await page.evaluate(()=>{
+    window.__chapterTrace.push({source:'end',scene:+document.body.dataset.currentScene,scrollY,hash:location.hash});
+    window.__chapterTraceActive=false;
+    window.__chapterTraceObserver.disconnect();
+    return {samples:window.__chapterTrace,events:window.__nativeWheelEvents.slice(window.__traceWheelStart)};
+  });
+  wheelTraces.push({label,...trace});
+  return trace;
+}
+async function boundedWheel(page,{start,expected,values,label,interval=16}) {
+  await jump(page,start);
+  await page.mouse.move(1350,400);
+  const anchor=await page.locator(`[data-scene-panel="${expected}"]`).evaluate(panel=>panel.offsetTop);
+  await beginWheelTrace(page,label);
+  await wheel(page,values,interval);
+  const trace=await endWheelTrace(page,label);
+  assert.equal(await scene(page),expected,`${label} reaches its adjacent chapter`);
+  assert.ok(Math.abs(await page.evaluate(()=>scrollY)-anchor)<=2,`${label} stops at the adjacent chapter anchor`);
+  assert.ok(trace.samples.every(sample=>sample.scene>=Math.min(start,expected) && sample.scene<=Math.max(start,expected)),`${label} never selects a chapter beyond its allowed range`);
+  assert.ok(trace.events.every(event=>event.trusted),`${label} uses trusted browser wheel input`);
+  assert.ok(trace.events.some(event=>event.prevented),`${label} intercepts overshooting momentum`);
+  checks.push(label);
+  return trace;
 }
 async function swipe(session,page,{x = 190,fromY = 620,toY = 240,steps = 14,interval = 50} = {}) {
   // DevTools dispatches touch input through Chromium's native input pipeline.
@@ -93,7 +141,8 @@ try {
   checks.push('all six scenes stay in accessible document flow');
   await page.evaluate(() => {
     window.__nativeWheelEvents = [];
-    window.addEventListener('wheel',event=>window.__nativeWheelEvents.push({delta:event.deltaY,prevented:event.defaultPrevented}),{passive:true});
+    window.addEventListener('wheel',event=>window.__nativeWheelEvents.push({delta:event.deltaY,deltaX:event.deltaX,ctrl:event.ctrlKey,trusted:event.isTrusted,prevented:event.defaultPrevented,phase:window.__wheelPhase || 'general'}),{passive:true});
+    window.__wheelPhase='short';
   });
   await page.mouse.move(1350,400);
   const shortStart = await page.evaluate(()=>scrollY);
@@ -101,11 +150,14 @@ try {
   const shortEnd = await page.evaluate(()=>scrollY);
   assert.ok(shortEnd > shortStart + 150,'short trackpad-like movement visibly scrolls instead of disappearing');
   checks.push('short wheel movement produces visible native document scrolling');
-  const steadyStart = shortEnd;
-  await wheel(page,Array(8).fill(120),100);
-  assert.ok(await page.evaluate(()=>scrollY) > steadyStart + 700,'successive wheel ticks keep moving without a gesture lock');
-  checks.push('steady successive wheel ticks continue scrolling');
   await jump(page,0);
+  await page.evaluate(()=>{window.__wheelPhase='steady';});
+  const steadyStart = await page.evaluate(()=>scrollY);
+  await wheel(page,Array(8).fill(80),100);
+  assert.ok(await page.evaluate(()=>scrollY) > steadyStart + 500,'successive in-range wheel ticks keep moving without a gesture lock');
+  checks.push('steady successive wheel ticks continue scrolling within a chapter');
+  await jump(page,0);
+  await page.evaluate(()=>{window.__wheelPhase='gentle';});
   await page.mouse.move(1350,400);
   await wheel(page,[100]);
   await page.waitForTimeout(100);
@@ -114,6 +166,7 @@ try {
   assert.ok(await page.evaluate(()=>scrollY) > gentleStart + 60,'gentle constant follow-up input remains responsive');
   checks.push('small steady follow-up deltas remain responsive');
   await jump(page,0);
+  await page.evaluate(()=>{window.__wheelPhase='reversal';});
   await page.mouse.move(1350,400);
   await page.mouse.wheel(0,450);
   await page.waitForTimeout(60);
@@ -124,7 +177,74 @@ try {
   assert.ok(await page.evaluate(()=>scrollY) < reversalStart - 100,'rapid upward reversal responds without waiting for silence');
   checks.push('rapid direction reversal immediately changes document scrolling');
 
+  const heavyBurst=[600,700,650,550,450,350,250,160,90,45,20,8,3];
+  await boundedWheel(page,{start:0,expected:1,values:heavyBurst,label:'one strong decaying trackpad burst reaches Aegis without transient skipped chapters'});
+  await boundedWheel(page,{start:0,expected:1,values:Array(20).fill(420),label:'one continuous high-volume wheel stream stays at the adjacent chapter'});
+  await boundedWheel(page,{start:0,expected:1,values:[300,420,350,450,380,480,400,500,420,520,440,540],label:'ordinary acceleration ripples do not unlock a second chapter'});
+  await boundedWheel(page,{start:2,expected:1,values:heavyBurst.map(value=>-value),label:'one strong upward trackpad burst stops at Aegis without passing to Origin'});
+
   await jump(page,0);
+  await beginWheelTrace(page,'two separated deliberate bursts');
+  await sendWheel(page,heavyBurst);
+  await page.waitForTimeout(180);
+  await wheel(page,heavyBurst);
+  const separated=await endWheelTrace(page,'two separated deliberate bursts');
+  const gridiumAnchor=await page.locator('[data-scene-panel="2"]').evaluate(panel=>panel.offsetTop);
+  assert.equal(await scene(page),2,'a fresh burst after quiet advances to Gridium');
+  assert.ok(Math.abs(await page.evaluate(()=>scrollY)-gridiumAnchor)<=2,'the second burst stops at its adjacent chapter');
+  assert.ok(separated.samples.every(sample=>sample.scene>=0 && sample.scene<=2),'separated bursts never select a chapter beyond Gridium');
+  checks.push('a fresh trackpad burst advances immediately after a short quiet interval');
+
+  await jump(page,0);
+  await beginWheelTrace(page,'renewed acceleration after the decaying tail');
+  await wheel(page,[...heavyBurst,5,10,20,45,90,180,360,420,250,100,40,8,2]);
+  const renewed=await endWheelTrace(page,'renewed acceleration after the decaying tail');
+  assert.equal(await scene(page),2,'renewed deliberate acceleration can continue without waiting for a cooldown');
+  assert.ok(Math.abs(await page.evaluate(()=>scrollY)-gridiumAnchor)<=2,'renewed input remains limited to its own adjacent chapter');
+  assert.ok(renewed.samples.every(sample=>sample.scene>=0 && sample.scene<=2),'renewed input never transiently selects a third chapter');
+  checks.push('renewed acceleration after several weak tail samples begins another responsive swipe');
+
+  await jump(page,0);
+  await beginWheelTrace(page,'tail jitter followed by deliberate reversal');
+  await sendWheel(page,[...heavyBurst,-1,2,-2,1,600]);
+  const aegisAnchor=await page.locator('[data-scene-panel="1"]').evaluate(panel=>panel.offsetTop);
+  assert.ok(Math.abs(await page.evaluate(()=>scrollY)-aegisAnchor)<=2,'tiny sign oscillations do not release the chapter cap');
+  await page.mouse.wheel(0,-140);
+  await settleScroll(page);
+  const jitter=await endWheelTrace(page,'tail jitter followed by deliberate reversal');
+  assert.ok(await page.evaluate(()=>scrollY)<aegisAnchor-100,'a deliberate reverse responds while the old burst is still active');
+  assert.ok(jitter.samples.every(sample=>sample.scene>=0 && sample.scene<=1),'tail jitter and reversal never select a farther project');
+  checks.push('tiny tail jitter stays bounded while deliberate direction reversal responds immediately');
+
+  await jump(page,0);
+  await sendWheel(page,[10000]);
+  await page.evaluate(()=>document.querySelector('.scene-rail [data-scene-jump="4"]').click());
+  const explicitTarget=await page.locator('[data-scene-panel="4"]').evaluate(panel=>panel.offsetTop);
+  await page.evaluate(()=>{window.__wheelPhase='explicit-reset';});
+  await wheel(page,[40]);
+  assert.ok(await page.evaluate(()=>scrollY)>explicitTarget+20,'explicit navigation clears the previous wheel range before fresh small input');
+  assert.equal(await scene(page),4,'stale wheel state cannot snap an explicit jump back to an old chapter');
+  checks.push('explicit scene jumps clear a just-capped wheel burst');
+  await page.evaluate(()=>{window.__wheelPhase='keyboard-reset';});
+  await jump(page,0);
+  await sendWheel(page,[10000]);
+  await page.keyboard.press('PageDown');
+  await settleScroll(page);
+  assert.ok(await page.evaluate(()=>scrollY)>aegisAnchor+300,'native PageDown is not restrained by a recent wheel cap');
+  checks.push('keyboard browsing clears the recent wheel cap');
+
+  await jump(page,5);
+  await beginWheelTrace(page,'profile contact remains reachable');
+  await wheel(page,[10000]);
+  const profileTrace=await endWheelTrace(page,'profile contact remains reachable');
+  const profileEnd=await page.evaluate(()=>({y:scrollY,maximum:document.documentElement.scrollHeight-innerHeight,contact:document.querySelector('.contact-finale').getBoundingClientRect().top}));
+  assert.ok(Math.abs(profileEnd.y-profileEnd.maximum)<=2,'last chapter permits scrolling to the actual document end');
+  assert.ok(profileEnd.contact<900,'the contact ending comes into view');
+  assert.ok(profileTrace.samples.every(sample=>sample.scene===5),'scrolling through the last chapter keeps Profile selected');
+  checks.push('bounded wheel scrolling still reaches the final profile contact section');
+
+  await jump(page,0);
+  await page.evaluate(()=>{window.__wheelPhase='general';});
   const passiveHistory = await page.evaluate(()=>history.length);
   const aegisDistance = await page.locator('[data-scene-panel="1"]').evaluate(p=>p.getBoundingClientRect().top + 40);
   await page.mouse.move(1350,400);
@@ -142,13 +262,13 @@ try {
   const uncancelled = await page.evaluate(() => {
     const target=document.querySelector('[data-scene-panel="1"] .scene-lead');
     return [0,1,2].map(deltaMode=>{
-      const event=new WheelEvent('wheel',{deltaY:12,deltaMode,bubbles:true,cancelable:true});
+      const event=new WheelEvent('wheel',{deltaY:deltaMode===2 ? .02 : 1,deltaMode,bubbles:true,cancelable:true});
       target.dispatchEvent(event);
       return event.defaultPrevented;
     });
   });
-  assert.deepEqual(uncancelled,[false,false,false],'pixel, line and page wheel events remain native');
-  checks.push('wheel events are not cancelled in any delta mode');
+  assert.deepEqual(uncancelled,[false,false,false],'small in-range pixel, line and page wheel events keep their native default available');
+  checks.push('in-range wheel events preserve native defaults across delta modes');
 
   await page.evaluate(() => { document.querySelector('.scene-rail [data-scene-jump="0"]').click(); document.querySelector('.scene-rail [data-scene-jump="4"]').click(); document.querySelector('.scene-rail [data-scene-jump="2"]').click(); });
   await expectScene(page,2,'rapid scene buttons reach the final requested section');
@@ -192,9 +312,11 @@ try {
   await page.locator('[data-scene-panel="1"] [data-open-evidence]').click();
   assert.equal(await page.locator('#evidence-dialog').evaluate(d=>d.open),true);
   const dialogScrollStart = await page.evaluate(()=>scrollY);
+  const dialogWheelStart=await page.evaluate(()=>window.__nativeWheelEvents.length);
   await page.locator('#evidence-dialog').hover();
   await wheel(page,[120,120]);
   assert.equal(await page.evaluate(()=>scrollY),dialogScrollStart,'modal scrolling does not move the underlying document');
+  assert.ok((await page.evaluate(start=>window.__nativeWheelEvents.slice(start),dialogWheelStart)).every(event=>!event.prevented),'dialog wheel input keeps its native scrolling default');
   await expectScene(page,1,'dialog scrolling keeps the underlying scene selected');
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#evidence-dialog').evaluate(d=>d.open),false);
@@ -203,9 +325,57 @@ try {
   await page.locator('[data-open-archive]').first().click();
   await page.locator('#archive-dialog [data-close-archive]').click(); checks.push('archive opens and closes');
   const nativeWheelEvents = await page.evaluate(()=>window.__nativeWheelEvents);
-  assert.ok(nativeWheelEvents.length >= 30,'trusted browser wheel events were observed');
-  assert.ok(nativeWheelEvents.every(event=>!event.prevented),'trusted wheel events are never cancelled');
-  checks.push('trusted wheel input remains uncancelled throughout browsing');
+  const trustedWheelEvents=nativeWheelEvents.filter(event=>event.trusted);
+  assert.ok(trustedWheelEvents.length >= 100,'trusted browser wheel events were observed');
+  assert.ok(trustedWheelEvents.some(event=>event.prevented),'overshooting momentum is selectively intercepted');
+  assert.ok(trustedWheelEvents.some(event=>!event.prevented),'ordinary wheel movement retains its native default');
+  const inRange=trustedWheelEvents.filter(event=>['short','steady','gentle','explicit-reset'].includes(event.phase));
+  assert.ok(inRange.length>=40,'small and in-range input was exercised');
+  assert.ok(inRange.every(event=>!event.prevented),'small and in-range wheel input is not cancelled');
+  checks.push('trusted wheel input stays native within a chapter while overshooting momentum is bounded');
+
+  // Keep modifier/zoom checks in a separate page so browser zoom cannot affect
+  // the dimensions or history used by the remaining portfolio assertions.
+  const bypass=await noGL.newPage({viewport:{width:1440,height:900}});
+  bypass.on('pageerror',error=>errors.push(String(error)));
+  await bypass.goto(base);
+  await bypass.waitForFunction(()=>document.body.dataset.currentScene!==undefined);
+  await bypass.evaluate(()=>{
+    window.__bypassWheels=[];
+    window.addEventListener('wheel',event=>window.__bypassWheels.push({delta:event.deltaY,deltaX:event.deltaX,ctrl:event.ctrlKey,trusted:event.isTrusted,prevented:event.defaultPrevented}),{passive:true});
+    const scroller=document.createElement('div');
+    scroller.id='native-scroll-probe';
+    scroller.style.cssText='position:fixed;left:900px;top:200px;width:200px;height:140px;overflow:auto;overscroll-behavior:contain;z-index:100000';
+    scroller.innerHTML='<div style="height:1200px">Native scroll regression probe</div>';
+    document.body.append(scroller);
+  });
+  await bypass.mouse.move(950,250);
+  await wheel(bypass,[80,80]);
+  assert.ok(await bypass.locator('#native-scroll-probe').evaluate(scroller=>scroller.scrollTop)>100,'nested content retains trusted native scrolling');
+  assert.ok(await bypass.evaluate(()=>scrollY)<1,'contained nested scrolling does not move the outer document');
+  await bypass.locator('#native-scroll-probe').evaluate(scroller=>scroller.remove());
+  await bypass.mouse.move(1350,400);
+  await bypass.mouse.wheel(8000,120);
+  await settleScroll(bypass);
+  await bypass.keyboard.down('Control');
+  await bypass.mouse.wheel(0,-50);
+  await bypass.keyboard.up('Control');
+  await bypass.waitForFunction(()=>window.__bypassWheels.some(event=>event.ctrl));
+  const bypassWheels=await bypass.evaluate(()=>window.__bypassWheels);
+  assert.ok(bypassWheels.every(event=>event.trusted && !event.prevented),'nested, horizontal-dominant and pinch-style modifier wheel events retain native defaults');
+  assert.ok(bypassWheels.some(event=>event.deltaX>Math.abs(event.delta)),'horizontal-dominant wheel input was exercised');
+  assert.ok(bypassWheels.some(event=>event.ctrl),'pinch-style ctrl-wheel input was exercised');
+  wheelTraces.push({label:'nested content, horizontal input and pinch-style zoom stay native',events:bypassWheels});
+  checks.push('nested scrolling, horizontal wheel input and pinch-style zoom retain native defaults');
+  await bypass.keyboard.press('Control+0');
+  await jump(bypass,0);
+  await sendWheel(bypass,[10000]);
+  const cappedBeforeDiagonal=await bypass.evaluate(()=>scrollY);
+  await bypass.mouse.wheel(1000,80);
+  await settleScroll(bypass);
+  assert.ok(await bypass.evaluate(()=>scrollY)>cappedBeforeDiagonal+40,'a horizontal-dominant gesture releases the previous vertical cap before native diagonal movement');
+  checks.push('bypassed wheel modes release stale vertical ownership after a capped burst');
+  await bypass.close();
 
   assert.equal(await page.locator('.model-tools, [data-model-explore], [data-model-point], [data-model-reset], [data-motion-toggle]').count(),0,'homepage has no model control widgets');
   const workIndex = page.locator('.hero-work-index');
@@ -323,8 +493,8 @@ try {
     const event=new WheelEvent('wheel',{deltaY:12,bubbles:true,cancelable:true});
     canvas.dispatchEvent(event); return event.defaultPrevented;
   });
-  assert.equal(decorativePrevented,false,'decorative 3D never cancels wheel navigation');
-  checks.push('automatic 3D preserves uncancelled native scrolling');
+  assert.equal(decorativePrevented,false,'decorative 3D preserves native in-range wheel input');
+  checks.push('automatic 3D preserves native in-range scrolling');
   for(let index=0;index<5;index++) {
     await jump(graphics,index);
     await graphics.waitForFunction(index=>window.__observatory.worldStatus[index]==='ready' && document.body.dataset.graphicsReady==='true',index,{timeout:30000});
@@ -415,6 +585,6 @@ try {
   checks.push('lab prototypes and rapid tab changes compile before disposal');
   assert.deepEqual(errors,[],'runtime and console errors');
   await fs.mkdir('.audit/overhaul',{recursive:true});
-  await fs.writeFile('.audit/overhaul/interactions.json',JSON.stringify({checks,errors,resourceCounts:{first,second}},null,2));
+  await fs.writeFile('.audit/overhaul/interactions.json',JSON.stringify({checks,errors,wheelTraces,resourceCounts:{first,second}},null,2));
   console.log(`PASS: ${checks.length} interaction groups`,checks);
 } finally { await browser.close(); await noGL.close(); server.close(); }

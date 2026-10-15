@@ -1,5 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
 import { disposeScene, compileInBatches } from "./graphics-runtime.js";
+import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,6 +39,16 @@ let modelViewport = null;
 let headerBottom = 0;
 let footerHeight = 0;
 const modelAngles = [[.24, .16, 1], [.12, .32, 1], [.12, .5, 1], [.42, .28, 1], [.48, .25, 1]];
+const chapterWheel = new ChapterWheelGuard();
+let chapterStops = [], documentScrollMaximum = 0;
+function measureChapters() {
+  chapterStops = panels.map(panel => panel.offsetTop);
+  documentScrollMaximum = document.documentElement.scrollHeight - innerHeight;
+}
+const chapterSizeObserver = new ResizeObserver(measureChapters);
+panels.forEach(panel => chapterSizeObserver.observe(panel));
+document.fonts.ready.then(measureChapters);
+window.addEventListener("pagehide", event => { if (!event.persisted) chapterSizeObserver.disconnect(); });
 
 const cameraStates = [
   { position: [0, 1.8, 12], look: [1.6, 0.2, 0] },
@@ -73,8 +84,8 @@ function getCameraTarget(sceneIndex) {
       world.userData.modelCorners.forEach(corner => {
         const relative = corner.clone().applyMatrix4(world.userData.modelMatrix).sub(center);
         const depth = relative.dot(direction);
-        distance = Math.max(distance, Math.abs(relative.dot(right)) / (tan * aspect * .84) + depth,
-          Math.abs(relative.dot(up)) / (tan * .84) + depth);
+        distance = Math.max(distance, Math.abs(relative.dot(right)) / (tan * aspect * .9) + depth,
+          Math.abs(relative.dot(up)) / (tan * .9) + depth);
       });
       const position = center.clone().addScaledVector(direction, distance);
       const state = { position: position.toArray(), look: center.toArray() };
@@ -2259,8 +2270,8 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.4.0",
-      buildDate: "2026-10-14",
+      version: "4.6.0",
+      buildDate: "2026-10-15",
       worlds,
       worldStatus,
       prepareWorldAsync,
@@ -2542,6 +2553,7 @@ function setScene(index, options = {}) {
   if (!Number.isFinite(Number(index))) return;
   const next = Math.max(0, Math.min(sceneNames.length - 1, Number(index)));
   if (!options.observed) {
+    chapterWheel.reset();
     // Explicit navigation jumps immediately. Ordinary browsing stays native.
     window.scrollTo({ top: panels[next].offsetTop, behavior: "instant" });
   }
@@ -2619,6 +2631,8 @@ let scrollFrame = 0;
 function syncSceneToScroll() {
   scrollFrame = 0;
   if (document.querySelector("dialog[open]")) return;
+  const bounded = chapterWheel.constrain(scrollY, performance.now());
+  if (Math.abs(bounded - scrollY) > .5) window.scrollTo({ top: bounded, behavior: "instant" });
   const readingLine = window.scrollY + window.innerHeight * 0.4;
   const total = document.documentElement.scrollHeight - window.innerHeight;
   if (readingProgress) readingProgress.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
@@ -2631,6 +2645,8 @@ window.addEventListener("scroll", () => {
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 window.addEventListener("resize", () => {
+  chapterWheel.reset();
+  measureChapters();
   if (!scrollFrame) scrollFrame = requestAnimationFrame(syncSceneToScroll);
 }, { passive: true });
 history.scrollRestoration = "manual";
@@ -2700,10 +2716,32 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// Vertical scrolling belongs to the browser: no wheel cancellation, cooldown,
-// or touch swipe threshold. Direction changes and gentle trackpad input always
-// move the document. Horizontal arrow keys remain explicit project shortcuts.
+// Keep normal reading movement; only clamp a wheel event that would carry the
+// same swipe past its one-chapter range. No scene construction runs here.
+window.addEventListener("wheel", event => {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey ||
+      Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY ||
+      document.querySelector("dialog[open]")) { chapterWheel.reset(); return; }
+  let element = event.target instanceof Element ? event.target : null;
+  while (element && element !== document.body) {
+    if (element.scrollHeight > element.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(element).overflowY)) { chapterWheel.reset(); return; }
+    element = element.parentElement;
+  }
+  const result = chapterWheel.feed(wheelPixels(event, innerHeight), performance.now(), scrollY,
+    chapterStops, innerHeight, documentScrollMaximum);
+  if ((result.limited || result.reversed) && event.cancelable) {
+    event.preventDefault();
+    // An instant clamp also cancels any browser wheel animation still queued
+    // from the tail. Ordinary in-range input keeps its native browser action.
+    window.scrollTo({ top: result.top, behavior: "instant" });
+  }
+}, { passive: false });
+window.addEventListener("pointerdown", () => chapterWheel.reset(), { passive: true });
+window.addEventListener("touchstart", () => chapterWheel.reset(), { passive: true });
+
+// Touch panning, vertical keys and scrollbar navigation remain native.
 window.addEventListener("keydown", (event) => {
+  chapterWheel.reset();
   if (document.querySelector("dialog[open]") || event.repeat || event.target.closest?.("input, textarea, select, [contenteditable='true']")) return;
   if (event.key === "ArrowRight") { event.preventDefault(); stepScene(1, { focus: true }); }
   if (event.key === "ArrowLeft") { event.preventDefault(); stepScene(-1, { focus: true }); }
@@ -2741,6 +2779,7 @@ window.addEventListener("hashchange", () => {
 let lastFocusedElement = null;
 
 function openDialog(dialog) {
+  chapterWheel.reset();
   if (!dialog) return;
   lastFocusedElement = document.activeElement;
   document.body.classList.add("dialog-open");
@@ -2755,6 +2794,7 @@ function openDialog(dialog) {
 }
 
 function closeDialog(dialog) {
+  chapterWheel.reset();
   if (!dialog?.open) return;
   dialog.close();
   document.body.classList.remove("dialog-open");
@@ -2795,5 +2835,6 @@ const evidenceMetadata = {
 });
 
 // Content and controls are usable before WebGL context creation or scene builds.
+measureChapters();
 setScene(currentScene, { force: true, skipHistory: true });
 requestAnimationFrame(() => requestAnimationFrame(initializeThree));

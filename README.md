@@ -3,7 +3,7 @@
 [![Live Production](https://img.shields.io/badge/Production-shaunakrane.is--a.dev-47e6a5?style=flat-square&logo=cloudflare)](https://shaunakrane.is-a.dev)
 [![Engine](https://img.shields.io/badge/Engine-Three.js%20WebGL-7596ff?style=flat-square&logo=three.js)](https://threejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Build Version](https://img.shields.io/badge/Version-v4.4.0-brightgreen?style=flat-square)](CHANGELOG.md)
+[![Build Version](https://img.shields.io/badge/Version-v4.6.0-brightgreen?style=flat-square)](CHANGELOG.md)
 
 Evidence-led portfolio and systems engineering showcase spanning industrial ML, scientific computing, multi-agent LLM orchestration, continuous-control reinforcement learning, geometric deep learning, and high-performance client-side WebGL engineering.
 
@@ -102,7 +102,7 @@ The portfolio itself is built without heavy UI frameworks or CSS utility bloat. 
 5. Local WOFF2 fonts and dimensioned lazy evidence images improve initial delivery. Desktop and mobile case-study heroes give text and art separate space.
 6. `css/editorial.css` gives the introduction and four featured projects transparent model regions, preserving detailed implementation evidence and case-study links. Mobile content follows summary, model, then metrics and links. Case-study heroes keep plain metrics outside the model lane. The contact ending includes email copying with an accessible email-link fallback.
 
-[Architecture](docs/ARCHITECTURE.md), [v4.4 model-visibility verification](docs/MODEL-VISIBILITY-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. Final v4.4 validation is pending. The [v4.3 editorial report](docs/EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md) and `bc3b307` tables preserve older measurements; they do not establish v4.4 frame rates.
+[Architecture](docs/ARCHITECTURE.md), [model visibility and trackpad verification](docs/MODEL-VISIBILITY-VERIFICATION.md), [historical benchmark evidence and limitations](docs/BENCHMARKS.md). Run `node scripts/overhaul_interactions.mjs` for the current regression suite; it starts its own local server. Trackpad bursts are bounded to the adjacent chapter while ordinary reading movement stays native. The [v4.3 editorial report](docs/EDITORIAL-DESIGN-VERIFICATION.md), [v4.2 native-scroll report](docs/NATIVE-SCROLL-VERIFICATION.md) and `bc3b307` tables preserve older measurements; they do not establish current frame rates.
 
 ---
 
