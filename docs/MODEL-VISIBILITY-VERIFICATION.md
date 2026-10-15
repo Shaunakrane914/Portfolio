@@ -1,5 +1,7 @@
 # Model framing and scroll verification (v4.7)
 
+The large-model presentation remains in v4.8. See the [subsequent scroll-performance verification](SCROLL-PERFORMANCE.md) for the current preparation/render scheduling and regression results. The measurements below describe v4.7.
+
 The previous presentation still left the visible 3D model small. At 1768x1000, the same projection probe measured a hero footprint of 423x353px before this change and 657x580px after: approximately 55% wider and 64% taller. Compare the [before capture](benchmarks/2026-10-15/scroll-feel/before-origin.png) and [after capture](benchmarks/2026-10-15/scroll-feel/after-origin.png).
 
 ## What changed

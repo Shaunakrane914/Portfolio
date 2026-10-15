@@ -25,7 +25,7 @@ export class ChapterWheelGuard {
     // Accept a fresh impulse or cumulative gentle growth after a weak tail.
     // Ordinary ripples and tiny sign oscillations keep their original bounds.
     const afterTail = this.limited && !quiet && !reversed && direction === this.direction && this.tailSamples >= 3;
-    const impulse = afterTail && magnitude >= Math.max(8, this.lastMagnitude * 3);
+    const impulse = afterTail && magnitude >= Math.max(5, this.lastMagnitude * 3);
     if (afterTail) {
       if (magnitude > this.lastMagnitude) {
         if (!this.rising) this.riseStart = this.lastMagnitude;
@@ -56,8 +56,9 @@ export class ChapterWheelGuard {
     const requested = position + delta;
     const top = Math.max(this.minimum, Math.min(this.maximum, requested));
     const limited = Math.abs(top - requested) > .01;
+    const firstLimited = limited && !this.limited;
     this.limited ||= limited;
-    return { top, limited, reversed };
+    return { top, limited, firstLimited, reversed };
   }
 }
 

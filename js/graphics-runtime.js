@@ -1,5 +1,5 @@
 // Shared readiness, viewport, motion and GPU lifecycle for case-study graphics.
-export async function compileInBatches(renderer, scene, camera, root = scene, configure = () => () => {}) {
+export async function compileInBatches(renderer, scene, camera, root = scene, configure = () => () => {}, yieldControl = () => new Promise(resolve => setTimeout(resolve, 0))) {
   const objects = [], seen = new Set();
   root.traverse(node => {
     if (!node.material) return;
@@ -9,7 +9,7 @@ export async function compileInBatches(renderer, scene, camera, root = scene, co
     seen.add(key); objects.push(node);
   });
   for (let offset = 0; offset < objects.length; offset += 4) {
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await yieldControl();
     const batch = new scene.constructor();
     objects.slice(offset, offset + 4).forEach(object => batch.add(object.clone(false)));
     const restore = configure();
@@ -41,6 +41,7 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   const events = new AbortController();
   const frames = [];
   let ready = false, visible = false, last = 0, running = false, rendered = 0;
+  let scrolling = false, resumeTimer = null, animationTime = 0;
   let slow = 0, disposed = false;
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, matchMedia('(pointer: coarse)').matches ? 1 : 1.15));
   function frame(now) {
@@ -52,7 +53,8 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
     const blend = 1 - Math.exp(-10 * dt);
     pointer.x += (target.x - pointer.x) * blend;
     pointer.y += (target.y - pointer.y) * blend;
-    update(reduced.matches ? 0 : now / 1000, pointer, reduced.matches ? 0 : dt);
+    if (!reduced.matches) animationTime += dt;
+    update(reduced.matches ? 0 : animationTime, pointer, reduced.matches ? 0 : dt);
     renderer.render(scene, camera);
     rendered++;
     slow = raw > 30 ? slow + 1 : Math.max(0, slow - 1);
@@ -62,7 +64,7 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
     }
   }
   function sync() {
-    const shouldRun = ready && visible && !document.hidden && !reduced.matches && !disposed;
+    const shouldRun = ready && visible && !scrolling && !document.hidden && !reduced.matches && !disposed;
     if (shouldRun === running) return;
     running = shouldRun; last = 0;
     renderer.setAnimationLoop(shouldRun ? frame : null);
@@ -71,6 +73,13 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   observer.observe(hero);
   const sizeObserver = new ResizeObserver(() => { resize(); if (ready && reduced.matches && visible) frame(performance.now()); });
   sizeObserver.observe(canvas);
+  window.addEventListener('scroll', () => {
+    if (!ready || !visible || reduced.matches) return;
+    scrolling = true;
+    sync();
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => { scrolling = false; sync(); }, 100);
+  }, { passive: true, signal: events.signal });
   window.addEventListener('pointermove', event => {
     if (!visible || reduced.matches || event.pointerType === 'touch') return;
     target.x = event.clientX / innerWidth * 2 - 1;
@@ -82,7 +91,7 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   canvas.addEventListener('webglcontextrestored', () => location.reload(), { signal: events.signal });
   window.addEventListener('pagehide', event => {
     if (event.persisted) return;
-    disposed = true; sync(); observer.disconnect(); sizeObserver.disconnect(); events.abort();
+    disposed = true; clearTimeout(resumeTimer); sync(); observer.disconnect(); sizeObserver.disconnect(); events.abort();
     disposeScene(scene); renderer.dispose();
   }, { signal: events.signal });
   window.__heroTelemetry = () => {

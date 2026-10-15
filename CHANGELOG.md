@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.8.0 - 2026-10-15
+
+- Split model factories and exact-vertex fitting into cooperative tasks. Replace temporary vertex objects and string-key deduplication with typed coordinates while retaining the large model framing.
+- Keep only the selected cached world in the rendered scene. Remove viewport/layout reads from the render loop and reuse cached chapter geometry during scrolling.
+- Retain the crisp model frame during active page movement, then resume animation automatically. Apply the same behavior to all seven case-study heroes.
+- Recognize fresh steady 6px trackpad input after a weak tail, cache native-scroll ancestry, and avoid repeated no-op boundary jumps. Preserve one-chapter gesture bounds.
+
 ## v4.7.0 - 2026-10-15
 
 - Fit and center actual geometry instead of padded world boxes. Increase the hero model's visible width by approximately 55% in the 1768x1000 capture.

@@ -8,6 +8,11 @@ const stillMoving=queued.feed(500,16,80,stops,900,5300);
 assert.equal(stillMoving.limited,false,'queued native movement does not trigger an early jump to a predicted target');
 assert.equal(stillMoving.top,580);
 assert.equal(queued.constrain(980,300),900,'late compositor overshoot remains bounded');
+const clamped=new ChapterWheelGuard();
+assert.equal(clamped.feed(1200,0,0,stops,900,5300).firstLimited,true,'the first cap can cancel queued native scrolling');
+assert.equal(clamped.feed(120,16,900,stops,900,5300).firstLimited,false,'later momentum at the same cap does not require another instant scroll');
+assert.equal(clamped.feed(120,200,900,stops,900,5300).limited,false,'a new gesture restores ordinary native scrolling');
+assert.equal(clamped.feed(1200,216,1020,stops,900,5300).firstLimited,true,'the next gesture still cancels its first queued overshoot');
 let guard=new ChapterWheelGuard(), position=0, now=0;
 function feed(delta, gap=16) {
   now+=gap;
@@ -31,6 +36,20 @@ guard.reset();position=0;
 feed(5000,200);
 for(const delta of [4,3,2,1]) feed(delta);
 assert.ok(feed(8).top>900,'a small fresh impulse is not swallowed after the old tail');
+
+guard.reset();position=0;
+feed(5000,200);
+for(const delta of [4,3,2,1]) feed(delta);
+for(let i=0;i<12;i++) feed(6);
+assert.equal(position,972,'a fresh steady 6px gesture moves immediately after a weak tail');
+for(let i=0;i<300;i++) feed(6);
+assert.equal(position,1800,'the gentle fresh gesture still stops at its next adjacent chapter');
+
+guard.reset();position=0;
+feed(5000,200);
+for(const delta of [4,3,2,1,-1,2,-2,1,4]) feed(delta);
+assert.equal(guard.maximum,900,'tiny alternating tail jitter cannot open the next chapter range');
+assert.ok(position<=900,'tiny tail jitter remains inside the original chapter cap');
 guard.reset();position=4500;
 feed(5000,200);
 assert.equal(position,5300,'last chapter allows reading its complete contact ending');

@@ -221,6 +221,14 @@ try {
   checks.push('a gently rising fresh swipe moves without a quiet-period lock');
 
   await jump(page,0);
+  await beginWheelTrace(page,'a fresh steady 6px swipe after the weak tail');
+  await wheel(page,[...heavyBurst,2,1,1,...Array(20).fill(6)]);
+  const gentleSteady=await endWheelTrace(page,'a fresh steady 6px swipe after the weak tail');
+  assert.ok(await page.evaluate(()=>scrollY)>freshAegisAnchor+60,'steady 6px input moves after the old weak tail without needing silence');
+  assert.ok(gentleSteady.samples.every(sample=>sample.scene>=0 && sample.scene<=2),'the gentle fresh swipe cannot skip its adjacent chapter');
+  checks.push('fresh steady 6px input immediately leaves a completed swipe');
+
+  await jump(page,0);
   await beginWheelTrace(page,'tail jitter followed by deliberate reversal');
   await sendWheel(page,[...heavyBurst,-1,2,-2,1,4]);
   const aegisAnchor=await page.locator('[data-scene-panel="1"]').evaluate(panel=>panel.offsetTop);
@@ -369,6 +377,22 @@ try {
   await wheel(bypass,[80,80]);
   assert.ok(await bypass.locator('#native-scroll-probe').evaluate(scroller=>scroller.scrollTop)>100,'nested content retains trusted native scrolling');
   assert.ok(await bypass.evaluate(()=>scrollY)<1,'contained nested scrolling does not move the outer document');
+  await bypass.locator('#native-scroll-probe').evaluate(scroller=>{
+    scroller.firstElementChild.style.height='60px';
+    scroller.style.overscrollBehavior='auto';
+    scroller.scrollTop=0;
+  });
+  await wheel(bypass,[12]);
+  assert.ok(await bypass.evaluate(()=>scrollY)>5,'a cached target stops bypassing chapter handling when its native scroller becomes empty');
+  await bypass.locator('#native-scroll-probe').evaluate(scroller=>{
+    scroller.firstElementChild.style.height='1200px';
+    scroller.style.overscrollBehavior='contain';
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+  await wheel(bypass,[80,80]);
+  assert.ok(await bypass.locator('#native-scroll-probe').evaluate(scroller=>scroller.scrollTop)>100,'the same cached target resumes native scrolling after its content grows');
+  assert.ok(await bypass.evaluate(()=>scrollY)<1,'a resized nested scroller does not leak wheel movement to the document');
+  checks.push('cached wheel ancestry updates when nested content shrinks or grows');
   await bypass.locator('#native-scroll-probe').evaluate(scroller=>scroller.remove());
   await bypass.mouse.move(1350,400);
   await bypass.mouse.wheel(8000,120);
@@ -558,6 +582,19 @@ try {
   assert.equal(second.geometries,first.geometries,'warm traversal geometry cache stable');
   assert.equal(second.textures,first.textures,'warm traversal texture cache stable');
   checks.push('all worlds ready, repeated traversal GPU resources stable');
+  const mounted = await graphics.evaluate(() => window.__observatory.worlds.map(world => Boolean(world.parent)));
+  assert.deepEqual(mounted, [false,false,false,false,false,true], 'inactive worlds remain cached outside the rendered scene graph');
+  checks.push('only the selected world participates in renderer traversal');
+  await jump(graphics,0);
+  await graphics.waitForTimeout(350);
+  const drawStart = await graphics.evaluate(() => window.__perfTelemetry.getSnapshot().renderedFrames);
+  await sendWheel(graphics,Array(12).fill(5));
+  const duringSwipe = await graphics.evaluate(() => ({draws:window.__perfTelemetry.getSnapshot().renderedFrames,y:scrollY}));
+  assert.ok(duringSwipe.y>40, 'native scrolling continues while decorative animation rests');
+  assert.ok(duringSwipe.draws-drawStart<=3, 'decorative redraws do not compete with the active swipe');
+  await graphics.waitForTimeout(200);
+  assert.ok(await graphics.evaluate(() => window.__perfTelemetry.getSnapshot().renderedFrames)>duringSwipe.draws+1, 'animation resumes automatically after scrolling settles');
+  checks.push('active swipes retain the model frame and native movement; animation resumes when quiet');
   assert.equal(await graphics.evaluate(()=>getComputedStyle(document.querySelector('.canvas-fallback')).opacity), '0', 'fallback cannot cover ready WebGL');
   checks.push('ready WebGL is revealed above the fallback');
   await graphics.evaluate(()=>document.querySelector('[data-scene-jump="3"]').click());
@@ -571,6 +608,16 @@ try {
   for (const file of ['aegis','gridium','compressor-cbm','topoflow','food','yield','sodexo']) {
     await graphics.goto(`${base}/${file}.html`);
     await graphics.waitForFunction(()=>window.__heroTelemetry?.().ready,null,{timeout:30000});
+    if (file === 'aegis' || file === 'compressor-cbm') {
+      await graphics.waitForFunction(()=>window.__heroTelemetry().running);
+      await graphics.evaluate(()=>scrollBy(0,25));
+      await graphics.waitForFunction(()=>!window.__heroTelemetry().running);
+      const resting = await graphics.evaluate(()=>window.__heroTelemetry().rendered);
+      await graphics.waitForTimeout(35);
+      assert.equal(await graphics.evaluate(()=>window.__heroTelemetry().rendered),resting,`${file} holds the hero frame during document movement`);
+      await graphics.waitForFunction(()=>window.__heroTelemetry().running);
+      checks.push(`${file} gives scrolling priority and resumes its model automatically`);
+    }
     await graphics.evaluate(()=>scrollTo(0,document.body.scrollHeight)); await graphics.waitForTimeout(300);
     assert.equal(await graphics.evaluate(()=>window.__heroTelemetry().running),false,`${file} offscreen loop stops`);
     const before=await graphics.evaluate(()=>window.__heroTelemetry().rendered);
