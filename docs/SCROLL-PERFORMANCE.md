@@ -1,5 +1,7 @@
 # Scroll performance verification (v4.8)
 
+v4.9 retains the preparation and scene-cache changes but replaces the full scroll-time animation pause with continuous motion at a lighter drawing cadence. The measurements below describe v4.8; current motion checks are recorded in [autonomous motion verification](MODEL-MOTION.md).
+
 The remaining freezes came partly from synchronous geometry construction and vertex fitting, even though the browser's average frame rate looked healthy. With 4× CPU slowdown, the preceding build recorded four long tasks during a traversal, including a 148ms model build.
 
 ## Changes

@@ -1,6 +1,6 @@
 import * as THREE from "../assets/vendor/three.module.min.js";
-import { disposeScene, compileInBatches } from "./graphics-runtime.js?v=4.8";
-import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js?v=4.8";
+import { disposeScene, compileInBatches } from "./graphics-runtime.js?v=4.9";
+import { ChapterWheelGuard, wheelPixels } from "./chapter-wheel.js?v=4.9";
 
 const canvas = document.getElementById("observatory-canvas");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -34,6 +34,7 @@ let cameraTransitionAt = 0;
 let animationTime = 0;
 let renderedFrames = 0;
 let lastScrollAt = -Infinity;
+let lastDrawAt = -Infinity;
 let modelDirty = true;
 const modelViews = Array.from(document.querySelectorAll("[data-model-view]"));
 const modelLayouts = [];
@@ -2159,6 +2160,7 @@ async function ensureWorld(index) {
     worldStatus[index] = "building";
     const world = await worldFactories[index]();
     world.userData.baseScale = world.scale.clone();
+    world.userData.baseRotation = world.rotation.clone();
     world.visible = false;
     worlds[index] = world;
     worldStatus[index] = "built";
@@ -2391,7 +2393,7 @@ function initializeThree() {
     scene.add(accent);
 
     window.__observatory = {
-      version: "4.8.0",
+      version: "4.9.0",
       buildDate: "2026-10-15",
       worlds,
       worldStatus,
@@ -2465,13 +2467,10 @@ function resizeRenderer() {
 
 function render(timeMs) {
   if (!webglReady) return;
-  // Retain the last crisp model frame while the browser moves the document.
-  // A newly selected model draws once; decorative updates resume after input
-  // settles, without a competing 30fps animation during the actual swipe.
-  if (!reduceMotion && !modelDirty && timeMs - Math.max(lastScrollAt, chapterWheel.lastAt) < 100) {
-    lastFrameTime = 0;
-    return;
-  }
+  // Keep autonomous motion throughout a swipe, with fewer decorative draws so
+  // document movement retains priority. A capped wheel tail cannot freeze it.
+  if (!reduceMotion && !modelDirty && timeMs - lastScrollAt < 100 && timeMs - lastDrawAt < 1000 / 30) return;
+  lastDrawAt = timeMs;
   modelDirty = false;
   updateModelViewport();
   if (!modelViewport?.width || !modelViewport.height) { lastFrameTime = 0; return; }
@@ -2525,6 +2524,9 @@ function render(timeMs) {
 
   // 1: Aegis
   else if (activeIdx === 1 && worlds[1]) {
+    const base = worlds[1].userData.baseRotation;
+    worlds[1].rotation.y = base.y + (reduceMotion ? 0 : Math.sin(time * .24) * .09);
+    worlds[1].rotation.x = base.x + (reduceMotion ? 0 : Math.sin(time * .19) * .035);
     if (worlds[1].userData.coreMesh) worlds[1].userData.coreMesh.rotation.y += reduceMotion ? 0 : 0.6 * dt;
     if (worlds[1].userData.coreBox) worlds[1].userData.coreBox.rotation.y -= reduceMotion ? 0 : 0.36 * dt;
     if (worlds[1].userData.inspectionShell) {
@@ -2615,7 +2617,8 @@ function render(timeMs) {
     if (worlds[2].userData.poolLiquid) {
       worlds[2].userData.poolLiquid.scale.y = reduceMotion ? 1 : 0.82 + (Math.sin(time * 0.58) + 1) * 0.12;
     }
-    worlds[2].rotation.y = reduceMotion ? 0 : Math.sin(time * 0.18) * 0.018;
+    const base = worlds[2].userData.baseRotation;
+    worlds[2].rotation.y = base.y + (reduceMotion ? 0 : Math.sin(time * .2) * .08);
   }
 
   // 3: Compressor

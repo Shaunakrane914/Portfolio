@@ -591,10 +591,19 @@ try {
   await sendWheel(graphics,Array(12).fill(5));
   const duringSwipe = await graphics.evaluate(() => ({draws:window.__perfTelemetry.getSnapshot().renderedFrames,y:scrollY}));
   assert.ok(duringSwipe.y>40, 'native scrolling continues while decorative animation rests');
-  assert.ok(duringSwipe.draws-drawStart<=3, 'decorative redraws do not compete with the active swipe');
+  assert.ok(duringSwipe.draws-drawStart>=5, 'autonomous animation continues during the active swipe without a hover');
   await graphics.waitForTimeout(200);
   assert.ok(await graphics.evaluate(() => window.__perfTelemetry.getSnapshot().renderedFrames)>duringSwipe.draws+1, 'animation resumes automatically after scrolling settles');
-  checks.push('active swipes retain the model frame and native movement; animation resumes when quiet');
+  checks.push('autonomous model animation continues during and after native swipes without a hover');
+  await jump(graphics,0);
+  await graphics.mouse.move(10,10);
+  await sendWheel(graphics,[10000]);
+  await graphics.waitForFunction(()=>+document.body.dataset.currentScene===1 && document.body.dataset.graphicsReady==='true');
+  const tailStart = await graphics.evaluate(()=>window.__perfTelemetry.getSnapshot().renderedFrames);
+  await sendWheel(graphics,[100,60,35,20,12,7,3,...Array(24).fill(3)]);
+  assert.equal(await graphics.evaluate(()=>+document.body.dataset.currentScene),1,'bounded momentum retains its adjacent chapter');
+  assert.ok(await graphics.evaluate(()=>window.__perfTelemetry.getSnapshot().renderedFrames)>tailStart+10,'bounded wheel momentum cannot freeze automatic model animation');
+  checks.push('capped trackpad momentum keeps Aegis animated with the pointer parked in the header');
   assert.equal(await graphics.evaluate(()=>getComputedStyle(document.querySelector('.canvas-fallback')).opacity), '0', 'fallback cannot cover ready WebGL');
   checks.push('ready WebGL is revealed above the fallback');
   await graphics.evaluate(()=>document.querySelector('[data-scene-jump="3"]').click());
@@ -611,12 +620,11 @@ try {
     if (file === 'aegis' || file === 'compressor-cbm') {
       await graphics.waitForFunction(()=>window.__heroTelemetry().running);
       await graphics.evaluate(()=>scrollBy(0,25));
-      await graphics.waitForFunction(()=>!window.__heroTelemetry().running);
-      const resting = await graphics.evaluate(()=>window.__heroTelemetry().rendered);
-      await graphics.waitForTimeout(35);
-      assert.equal(await graphics.evaluate(()=>window.__heroTelemetry().rendered),resting,`${file} holds the hero frame during document movement`);
-      await graphics.waitForFunction(()=>window.__heroTelemetry().running);
-      checks.push(`${file} gives scrolling priority and resumes its model automatically`);
+      const moving = await graphics.evaluate(()=>window.__heroTelemetry().rendered);
+      await sendWheel(graphics,Array(12).fill(3));
+      assert.equal(await graphics.evaluate(()=>window.__heroTelemetry().running),true,`${file} keeps animation playback independent of scrolling`);
+      assert.ok(await graphics.evaluate(()=>window.__heroTelemetry().rendered)>moving+5,`${file} keeps animating during scrolling without hover`);
+      checks.push(`${file} keeps autonomous animation running during scrolling`);
     }
     await graphics.evaluate(()=>scrollTo(0,document.body.scrollHeight)); await graphics.waitForTimeout(300);
     assert.equal(await graphics.evaluate(()=>window.__heroTelemetry().running),false,`${file} offscreen loop stops`);

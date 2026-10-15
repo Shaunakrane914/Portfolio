@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-15T14:07:48.971Z",
+  "browser": "155.0.8059.41",
+  "scope": "homepage",
+  "results": [
+    {
+      "label": "desktop homepage 0 idle",
+      "frames": 105,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 0 during scroll",
+      "frames": 29,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 0 after scroll",
+      "frames": 108,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 1 idle",
+      "frames": 102,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 1 during scroll",
+      "frames": 28,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 1 after scroll",
+      "frames": 104,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 2 idle",
+      "frames": 104,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 2 during scroll",
+      "frames": 29,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 2 after scroll",
+      "frames": 104,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 3 idle",
+      "frames": 105,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 3 during scroll",
+      "frames": 30,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 3 after scroll",
+      "frames": 107,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 4 idle",
+      "frames": 107,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 4 during scroll",
+      "frames": 29,
+      "visibleChange": true
+    },
+    {
+      "label": "desktop homepage 4 after scroll",
+      "frames": 110,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 0 idle",
+      "frames": 105,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 0 during scroll",
+      "frames": 43,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 0 after scroll",
+      "frames": 110,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 1 idle",
+      "frames": 106,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 1 during scroll",
+      "frames": 47,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 1 after scroll",
+      "frames": 106,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 2 idle",
+      "frames": 105,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 2 during scroll",
+      "frames": 51,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 2 after scroll",
+      "frames": 104,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 3 idle",
+      "frames": 108,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 3 during scroll",
+      "frames": 56,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 3 after scroll",
+      "frames": 110,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 4 idle",
+      "frames": 105,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 4 during scroll",
+      "frames": 52,
+      "visibleChange": true
+    },
+    {
+      "label": "touch homepage 4 after scroll",
+      "frames": 104,
+      "visibleChange": true
+    }
+  ],
+  "errors": []
+}

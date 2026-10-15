@@ -41,10 +41,13 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   const events = new AbortController();
   const frames = [];
   let ready = false, visible = false, last = 0, running = false, rendered = 0;
-  let scrolling = false, resumeTimer = null, animationTime = 0;
+  let lastScrollAt = -Infinity, lastDrawAt = -Infinity, animationTime = 0;
   let slow = 0, disposed = false;
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, matchMedia('(pointer: coarse)').matches ? 1 : 1.15));
   function frame(now) {
+    // Input may reduce the drawing cadence, but never owns animation playback.
+    if (!reduced.matches && now - lastScrollAt < 100 && now - lastDrawAt < 1000 / 30) return;
+    lastDrawAt = now;
     const raw = last ? now - last : 16.67;
     const dt = Math.min(raw / 1000, .05);
     last = now;
@@ -57,16 +60,16 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
     update(reduced.matches ? 0 : animationTime, pointer, reduced.matches ? 0 : dt);
     renderer.render(scene, camera);
     rendered++;
-    slow = raw > 30 ? slow + 1 : Math.max(0, slow - 1);
+    if (now - lastScrollAt >= 140) slow = raw > 30 ? slow + 1 : Math.max(0, slow - 1);
     if (slow >= 12 && renderer.getPixelRatio() > .65) {
       renderer.setPixelRatio(Math.max(.65, renderer.getPixelRatio() - .2));
       resize(); slow = 0;
     }
   }
   function sync() {
-    const shouldRun = ready && visible && !scrolling && !document.hidden && !reduced.matches && !disposed;
+    const shouldRun = ready && visible && !document.hidden && !reduced.matches && !disposed;
     if (shouldRun === running) return;
-    running = shouldRun; last = 0;
+    running = shouldRun; last = 0; lastDrawAt = -Infinity;
     renderer.setAnimationLoop(shouldRun ? frame : null);
   }
   const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, { threshold: .02 });
@@ -74,11 +77,7 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   const sizeObserver = new ResizeObserver(() => { resize(); if (ready && reduced.matches && visible) frame(performance.now()); });
   sizeObserver.observe(canvas);
   window.addEventListener('scroll', () => {
-    if (!ready || !visible || reduced.matches) return;
-    scrolling = true;
-    sync();
-    clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(() => { scrolling = false; sync(); }, 100);
+    lastScrollAt = performance.now();
   }, { passive: true, signal: events.signal });
   window.addEventListener('pointermove', event => {
     if (!visible || reduced.matches || event.pointerType === 'touch') return;
@@ -91,7 +90,7 @@ export function mountHero({ canvas, renderer, scene, camera, update, resize }) {
   canvas.addEventListener('webglcontextrestored', () => location.reload(), { signal: events.signal });
   window.addEventListener('pagehide', event => {
     if (event.persisted) return;
-    disposed = true; clearTimeout(resumeTimer); sync(); observer.disconnect(); sizeObserver.disconnect(); events.abort();
+    disposed = true; sync(); observer.disconnect(); sizeObserver.disconnect(); events.abort();
     disposeScene(scene); renderer.dispose();
   }, { signal: events.signal });
   window.__heroTelemetry = () => {

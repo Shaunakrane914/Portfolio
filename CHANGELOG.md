@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.9.0 - 2026-10-15
+
+- Keep autonomous model animation running throughout scroll input. Use a lighter drawing cadence during movement instead of stopping playback or waiting for a resume timer.
+- Base the homepage drawing budget on actual document movement, so bounded trackpad momentum cannot hold the model still.
+- Give Aegis and Gridium a gentle automatic turn independent of pointer parallax.
+- Verify visible model changes before, during and after scrolling with the pointer away from the model, including native touch input. Preserve static reduced-motion and offscreen lifecycle behavior.
+
 ## v4.8.0 - 2026-10-15
 
 - Split model factories and exact-vertex fitting into cooperative tasks. Replace temporary vertex objects and string-key deduplication with typed coordinates while retaining the large model framing.
